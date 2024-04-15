@@ -14,27 +14,27 @@
   <tr>
     <td align="center">
       <a href="https://github.com/trindadea">
-        <img style="width: 150px;" src="https://github.com/trindadea.png">
+        <img style="width: 150px; border-radius: 50%" src="https://github.com/trindadea.png">
       </a>
       <br>
-      <span>Arthur Carneiro Trindade</span>
+      <span style="font-size: 20px; font-weight: 400"on>Arthur Carneiro Trindade</span>
       <p>180098080</p>
     </td>
     <td align="center">
       <a 
         href="https://github.com/EhOBruno">
-        <img style="width: 150px;" src="https://github.com/EhOBruno.png"\>
+        <img style="width: 150px; border-radius: 50%" src="https://github.com/EhOBruno.png"\>
       </a>
       <br>
-      <span>Bruno Ricardo de Menezes</span>
+      <span style="font-size: 20px; font-weight: 400">Bruno Ricardo de Menezes</span>
       <p>221007680</p>
     </td>
     <td align="center">
       <a href="https://github.com/EhOMiguel">
-        <img style="width: 150px;" src="https://github.com/EhOMiguel.png"\>
+        <img style="width: 150px; border-radius: 50%" src="https://github.com/EhOMiguel.png"\>
       </a>
       <br>
-      <span>Miguel Moreira da Silva de Oliveira</span>
+      <span style="font-size: 20px; font-weight: 400">Miguel Moreira da Silva de Oliveira</span>
       <p>202023968</p>
     </td>
   </tr>
