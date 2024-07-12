@@ -1,14 +1,16 @@
 site_name: SISTEMAS DE BANCO DE DADOS 1
 docs_dir: gitpages/docs
 
-
-
 theme:
   name: material
   language: pt-BR
   font: 
     text: Roboto
-
+  logo: assets/logo.png
+  favicon: assets/favicon.ico
+  palette:
+    primary: 'green'
+    accent: 'brown'
 
 nav: 
   - Página inicial: index.md
@@ -18,3 +20,9 @@ nav:
     - Dicionário de Dados: modulo_1/dicDados.md
   # - Módulo 2 - SQL:
   # - Módulo 3 - Transactions, Triggers e Stored Procedures:
+
+extra_css:
+  - css/custom.css
+
+extra_javascript:
+  - js/custom.js

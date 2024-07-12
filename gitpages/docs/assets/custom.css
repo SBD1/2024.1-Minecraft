@@ -1,11 +1,11 @@
 body {
     background-color: #3C3C3C;
-    background-image: url('../assets/minecraft_background.png');
+    /* background-image: url('../assets/minecraft_background.png'); */
     color: #FFFFFF;
 }
 
 .md-nav__link {
-    color: #228B22 !important; /* Verde estilo Minecraft */
+    color: #228B22 !important;
 }
 
 .md-header {
