@@ -1,0 +1,10 @@
+site_name: SISTEMAS DE BANCO DE DADOS 1
+docs_dir: gitpages/docs
+
+
+
+theme:
+  name: material
+  language: pt-BR
+  font: 
+    text: Roboto
