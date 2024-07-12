@@ -8,3 +8,13 @@ theme:
   language: pt-BR
   font: 
     text: Roboto
+
+
+nav: 
+  - Página inicial: index.md
+  - Módulo 1 - Modelagem:
+    - Diagrama Entidade-Relacionamento: modulo_1/der.md
+    - Modelo Relacional: modulo_1/modeloRelacional.md
+    - Dicionário de Dados: modulo_1/dicDados.md
+  # - Módulo 2 - SQL:
+  # - Módulo 3 - Transactions, Triggers e Stored Procedures:
