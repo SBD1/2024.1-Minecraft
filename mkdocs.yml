@@ -32,7 +32,7 @@ theme:
 
 nav: 
   - Início: index.md
-  - Apresentações: apresentacao.md
+  - Apresentações: apresentacoes.md
   - Módulo 1 - Modelagem:
     - Diagrama Entidade-Relacionamento: modulo_1/der.md
     - Modelo Relacional: modulo_1/modeloRelacional.md
