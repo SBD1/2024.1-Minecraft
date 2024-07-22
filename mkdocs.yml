@@ -19,7 +19,7 @@ theme:
       primary: green
       accent: amber
       toggle:
-        icon: material/brightness-7
+        icon: custom-favicon
         name: Modo Escuro
 
     # Palette toggle for dark mode
@@ -45,3 +45,7 @@ extra_css:
 
 extra_javascript:
   - js/custom.js
+
+icons:
+  - name: custom-favicon
+    src: .icons/favicon.svg

@@ -1,7 +1,7 @@
 # 2024.1 - Minecraft
 
 <div style="text-align:center">
-    <img src= "assets/images/minecraft.jpg" alt="Ícone do Minecraft" width="700" style="border-radius: 1rem;"/>
+    <img src= "assets/images/minecraft.jpg" alt="Ícone do Minecraft" style="border-radius: 12px;"/>
 </div>
 
 Este repositório contém a recriação do jogo Minecraft no estilo MUD (Multi-User Dungeon), desenvolvida como parte da disciplina de Sistemas de Bancos de Dados 1, na Universidade de Brasília. 
