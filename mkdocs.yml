@@ -19,7 +19,7 @@ theme:
       primary: green
       accent: amber
       toggle:
-        icon: custom-favicon
+        icon: material/brightness-7
         name: Modo Escuro
 
     # Palette toggle for dark mode
@@ -27,7 +27,7 @@ theme:
       primary: green
       accent: amber
       toggle:
-        icon: material/brightness-4
+        icon: material/brightness-3
         name: Modo Claro
 
 nav: 
