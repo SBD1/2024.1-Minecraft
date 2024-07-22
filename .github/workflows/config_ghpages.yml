@@ -21,5 +21,11 @@ jobs:
       - name: Install MkDocs and Material theme
         run: pip install mkdocs-material 
 
+      - name: Build MkDocs site
+        run: mkdocs build
+
+      - name: Copy favicon
+        run: cp img/favicon.svg site/assets/images/favicon.svg
+
       - name: Deploy to GitHub Pages
         run: mkdocs gh-deploy --force
