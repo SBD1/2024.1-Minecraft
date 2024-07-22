@@ -7,4 +7,4 @@ Autores - [Arthur Carneiro Trindade](https://github.com/trindadea), [Bruno Ricar
 ## Histórico de Versão
 | Versão | Data       | Descrição                                      | Autor                                               | Revisão                                               |
 | :----: | :--------: | ---------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
-| `1.0`  | 20/07/2024 | [Versão incial do DER](./versoes_antigas/teste.png) | [Arthur Carneiro Trindade](https://github.com/trindadea) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno)<br>[Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
+| `1.0`  | 20/07/2024 | [Versão incial do DER](./versoes_antigas/versao_1.0.png) | [Arthur Carneiro Trindade](https://github.com/trindadea) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno)<br>[Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
