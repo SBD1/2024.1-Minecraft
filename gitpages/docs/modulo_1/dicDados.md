@@ -1,12 +1,6 @@
 # Dicionário de dados
 
-## Histórico de versões
-
-| Versão | Data       | Descrição                                        | Autor                                                 | Revisão                                                 |
-| :----: | :--------: | :----------------------------------------------: | :---------------------------------------------------: | :-----------------------------------------------------: |
-| `1.0`  | 22/07/2024 | Criação do Dicionário de Dados | [Bruno Ricardo de Menezes](https://github.com/EhOBruno) | [Arthur Carneiro Trindade](https://github.com/trindadea), [Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
-
-### Entidade: Mapa
+## Entidade: Mapa
 
 - Descrição:
 - Observação:
@@ -16,7 +10,7 @@
 | Nome | Nome identificador do mapa | varchar | 35 | PK |
 | Tempo | Nome identificador do mapa | --- | --- | --- |
 
-### Entidade: Chunk
+## Entidade: Chunk
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Mapa.
@@ -30,7 +24,7 @@
 | Chunk_L | Chunk localizado no leste do mapa | --- | --- | FK|
 | Chunk_O | Chunk localizado no oeste do mapa | --- | --- | FK|
 
-### Entidade: Item
+## Entidade: Item
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -41,7 +35,7 @@
 | Tipo_item |  | --- | --- | FK |
 | Nome |  | --- | --- | --- |
 
-### Entidade: Alimento
+## Entidade: Alimento
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -51,7 +45,7 @@
 | Item | ID identificador do item | int | --- | PK |
 | Pontos_fome | --- | --- | --- | FK |
 
-### Entidade: Craftavel
+## Entidade: Craftavel
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -61,7 +55,7 @@
 | Item | ID identificador do item | int | --- | FK |
 | Tipo_craftavel | --- | --- | --- | FK |
 
-### Entidade: Funcional
+## Entidade: Funcional
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -71,7 +65,7 @@
 | Craftavel | ID identificador do item | int | --- | FK |
 | Funcao | --- | --- | --- | FK |
 
-### Entidade: Duravel
+## Entidade: Duravel
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -82,7 +76,7 @@
 | Tipo_duravel | --- | --- | --- | FK |
 | Durabilidade | --- | --- | --- | FK |
 
-### Entidade: Armadura
+## Entidade: Armadura
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -92,7 +86,7 @@
 | Duravel | ID identificador do item | int | --- | FK |
 | Pts_armadura | --- | --- | --- | FK |
 
-### Entidade: Ferramenta
+## Entidade: Ferramenta
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -103,7 +97,7 @@
 | Fonte | --- | --- | --- | FK |
 | Pontos_dano | --- | --- | --- | --- |
 
-### Entidade: Estrutura
+## Entidade: Estrutura
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -114,7 +108,7 @@
 | Item |  | --- | --- | FK |
 | Nome |  | --- | --- | --- |
 
-### Entidade: Fonte
+## Entidade: Fonte
 
 - Descrição:
 - Observação:
@@ -125,7 +119,7 @@
 | Item |  | --- | --- | FK |
 | Nome |  | --- | --- | --- |
 
-### Entidade: Bioma
+## Entidade: Bioma
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -138,7 +132,7 @@
 | Fonte | Chunk localizado no sul do mapa | --- | --- | FK|
 | Nome | Nome do bioma | varchar | 35 | --- |
 
-### Entidade: Inventario
+## Entidade: Inventario
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -148,7 +142,7 @@
 | ID_Inventario | Nome identificador do mapa | int | --- | PK |
 | Item | Nome identificador do mapa | int | --- | FK |
 
-### Entidade: Jogador
+## Entidade: Jogador
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -164,7 +158,7 @@
 | Nivel | Nome do bioma | varchar | 35 | --- |
 | Experiencia | Nome do bioma | varchar | 35 | --- |
 
-### Entidade: Mob
+## Entidade: Mob
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -177,7 +171,7 @@
 | Nome_mob |  | --- | --- | ---|
 | Tipo_mob |  | --- | --- | --- |
 
-### Entidade: Agressivo
+## Entidade: Agressivo
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -187,7 +181,7 @@
 | Mob | --- | --- | --- | FK |
 | Impulsivo | --- | --- | --- |  |
 
-### Entidade: Pacífico
+## Entidade: Pacífico
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -197,7 +191,7 @@
 | Mob | --- | --- | --- | FK |
 | Tipo_Pacifico | --- | --- | --- |  |
 
-### Entidade: NPC
+## Entidade: NPC
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
@@ -206,7 +200,7 @@
 | :---: | :---: | :---: | :---: | :---: |
 | Pacifico | --- | --- | --- | FK |
 
-### Entidade: Missão
+## Entidade: Missão
 
 - Descrição:
 - Observação: Essa tabela possui chave estrangeira das entidades Chunk, Estrutura e Fonte.
