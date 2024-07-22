@@ -5,7 +5,8 @@ Autores - [Arthur Carneiro Trindade](https://github.com/trindadea), [Bruno Ricar
 </center>
 
 ## Histórico de Versão
+
 | Versão | Data       | Descrição                                      | Autor                                               | Revisão                                               |
 | :----: | :--------: | ---------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
-| `1.0`  | 20/07/2024 | [Versão incial do DER](./versoes_antigas/versao_1.0.png) | [Arthur Carneiro Trindade](https://github.com/trindadea) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno)<br>[Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
-| `1.1`  | 21/07/2024 | [Atualização da versão incial do DER](./versoes_antigas/versao_1.1.png) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno) | [Arthur Carneiro Trindade](https://github.com/trindadea)<br>[Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
+| `1.0`  | 20/07/2024 | [Versão incial do DER](./versoes_antigas/versao_1.0.png) | [Arthur Carneiro Trindade](https://github.com/trindadea) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno), [Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
+| `1.1`  | 21/07/2024 | [Atualização da versão 1.0 do DER](./versoes_antigas/versao_1.1.png) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno) | [Arthur Carneiro Trindade](https://github.com/trindadea), [Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
