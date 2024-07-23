@@ -6,6 +6,8 @@ Autores - [Arthur Carneiro Trindade](https://github.com/trindadea), [Bruno Ricar
 
 ## Histórico de Versão
 
-| Versão | Data       | Descrição                                      | Autor                                               | Revisão                                               |
-| :----: | :--------: | ---------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
-| `1.0`  | 22/07/2024 | [Versão incial do DER](./versoes_antigas/versao_1.0_MREL.png) | [Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno), [Arthur Carneiro Trindade](https://github.com/trindadea) |
+## Histórico de versões
+
+| Versão | Data       | Descrição                                        | Autor                                                 | Revisão                                                 |
+| :----: | :--------: | :----------------------------------------------: | :---------------------------------------------------: | :-----------------------------------------------------: |
+| `1.0`  | 22/07/2024 | Criação do Dicionário de Dados | [Bruno Ricardo de Menezes](https://github.com/EhOBruno)<br>[Arthur Carneiro Trindade](https://github.com/trindadea)| [Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
