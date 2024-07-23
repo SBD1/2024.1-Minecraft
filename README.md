@@ -57,6 +57,7 @@ A jornada culmina na busca pelo Ender Dragon, o chefe final do jogo, localizado 
     - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_1/der/" target="_blank">Diagrama Entidade-Relacionamento</a>
     - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_1/modeloRelacional/" target="_blank">Modelo Relacional</a>
     - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_1/dicDados/" target="_blank">Dicionário de Dados</a>
+    - <a href="https://www.youtube.com/watch?v=a7Gq16dQrgY" target="_blank">Apresentação do Módulo 1</a>
  
 <!-- # ![Ícone do Minecraft](link_para_ícone_do_minecraft) Como Rodar o Jogo
 
