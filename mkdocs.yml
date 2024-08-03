@@ -10,8 +10,8 @@ theme:
   language: pt-BR
   font: 
     text: Roboto
-  logo: assets/images/favicon.svg
-  favicon: assets/images/favicon.svg
+  logo: assets/icons/favicon.svg
+  favicon: assets/icons/favicon.svg
   palette:
 
     # Palette toggle for light mode
@@ -40,12 +40,8 @@ nav:
   # - Módulo 2 - SQL:
   # - Módulo 3 - Transactions, Triggers e Stored Procedures:
 
-extra_css:
-  - css/custom.css
+# extra_css:
+#   - css/custom.css
 
-extra_javascript:
-  - js/custom.js
-
-icons:
-  - name: custom-favicon
-    src: .icons/favicon.svg
+# extra_javascript:
+#   - js/custom.js
