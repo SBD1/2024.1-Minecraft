@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Obtém a URL base do site
+    var baseURL = window.location.origin + '/2024.1-Minecraft';
+
     // Seleciona todos os elementos com a classe especificada
     var labels = document.querySelectorAll('.md-header__button.md-icon');
 
@@ -14,10 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Define a fonte da imagem com base no valor do title
         switch (title) {
             case 'Modo Escuro':
-                img.src = 'assets/icons/sol.png'; // Substitua pelo caminho da imagem para "Modo Escuro"
+                img.src = baseURL + '/assets/icons/sol.png'; // Caminho absoluto a partir da URL base
                 break;
             case 'Modo Claro':
-                img.src = 'assets/icons/lua.png'; // Substitua pelo caminho da imagem para "Outro Título"
+                img.src = baseURL + '/assets/icons/lua.png'; // Caminho absoluto a partir da URL base
                 break;
         }
 
