@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Define a fonte da imagem com base no valor do title
         switch (title) {
             case 'Modo Escuro':
-                img.src = '../../assets/icons/sol.png'; // Substitua pelo caminho da imagem para "Modo Escuro"
+                img.src = '/assets/icons/sol.png'; // Substitua pelo caminho da imagem para "Modo Escuro"
                 break;
             case 'Modo Claro':
-                img.src = '../../assets/icons/lua.png'; // Substitua pelo caminho da imagem para "Outro Título"
+                img.src = '/assets/icons/lua.png'; // Substitua pelo caminho da imagem para "Outro Título"
                 break;
         }
 
