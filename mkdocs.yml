@@ -24,8 +24,8 @@ theme:
 
     # Palette toggle for dark mode
     - scheme: slate
-      primary: green
-      accent: amber
+      primary: black
+      accent: light-green
       toggle:
         icon: material/brightness-3
         name: Modo Claro
@@ -40,8 +40,8 @@ nav:
   # - Módulo 2 - SQL:
   # - Módulo 3 - Transactions, Triggers e Stored Procedures:
 
-# extra_css:
-#   - css/custom.css
+extra_css:
+  - css/custom.css
 
-# extra_javascript:
-#   - js/custom.js
+extra_javascript:
+  - js/custom.js
