@@ -1,0 +1,1767 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../modeloRelacional/">
+      
+      
+      
+      <link rel="icon" href="../../assets/icons/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+    
+    
+      
+        <title>Dicionário de Dados - Minecraft</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dicionario-de-dados" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Minecraft" class="md-header__button md-logo" aria-label="Minecraft" data-md-component="logo">
+      
+  <img src="../../assets/icons/favicon.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Minecraft
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Dicionário de Dados
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="Modo Escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo Escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="light-green"  aria-label="Modo Claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo Claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 2c-1.05 0-2.05.16-3 .46 4.06 1.27 7 5.04 7 9.54 0 4.5-2.94 8.27-7 9.54.95.3 1.95.46 3 .46a10 10 0 0 0 10-10A10 10 0 0 0 9 2Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SBD1/2024.1-Minecraft" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    2024.1-Minecraft
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Minecraft" class="md-nav__button md-logo" aria-label="Minecraft" data-md-component="logo">
+      
+  <img src="../../assets/icons/favicon.svg" alt="logo">
+
+    </a>
+    Minecraft
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SBD1/2024.1-Minecraft" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    2024.1-Minecraft
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apresentacoes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Apresentações
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Módulo 1 - Modelagem
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Módulo 1 - Modelagem
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../der/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Diagrama Entidade-Relacionamento
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modeloRelacional/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modelo Relacional
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Dicionário de Dados
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Dicionário de Dados
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introdução
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dicionario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dicionário
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dicionário">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mapa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapa
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chunk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chunk
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#item" class="md-nav__link">
+    <span class="md-ellipsis">
+      Item
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alimento
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#craftavel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Craftável
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#funcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Funcional
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#duravel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durável
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armadura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Armadura
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrutura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estrutura
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fonte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ferramenta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ferramenta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bioma" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bioma
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inventario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inventário
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jogador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jogador
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mob" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mob
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agressivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agressivo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pacifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pacífico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#npc" class="md-nav__link">
+    <span class="md-ellipsis">
+      NPC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missão
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historico-de-versoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Histórico de versões
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introdução
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dicionario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dicionário
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dicionário">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mapa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapa
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chunk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chunk
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#item" class="md-nav__link">
+    <span class="md-ellipsis">
+      Item
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alimento
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#craftavel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Craftável
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#funcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Funcional
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#duravel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durável
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armadura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Armadura
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrutura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estrutura
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fonte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ferramenta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ferramenta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bioma" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bioma
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inventario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inventário
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jogador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jogador
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mob" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mob
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agressivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agressivo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pacifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pacífico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#npc" class="md-nav__link">
+    <span class="md-ellipsis">
+      NPC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missão
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historico-de-versoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Histórico de versões
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="dicionario-de-dados">Dicionário de dados</h1>
+<h2 id="introducao">Introdução</h2>
+<p>O Dicionário de Dados é uma descrição detalhada dos elementos que compõem o banco de dados, fornecendo informações sobre cada atributo e suas características. Ele serve como uma referência centralizada para desenvolvedores, administradores e usuários, garantindo uma compreensão clara dos dados armazenados e de como devem ser utilizados.</p>
+<p>O dicionário de dados desse projeto inclui as seguintes colunas:</p>
+<ul>
+<li><strong>Nome:</strong> O nome do atributo no banco de dados.</li>
+<li><strong>Descrição:</strong> Uma descrição detalhada do que o atributo ou entidade representa e sua função no contexto do jogo.</li>
+<li><strong>Tipo de Dado:</strong> O tipo de dado que o atributo armazenará, como inteiro, texto, data, etc.</li>
+<li><strong>Tamanho:</strong> O comprimento máximo ou a capacidade do dado.</li>
+<li><strong>Restrições de Domínio:</strong> As regras e restrições que limitam os valores que o atributo pode assumir, como valores possíveis, valores obrigatórios, ou restrições de unicidade.</li>
+</ul>
+<p>A seguir, apresentamos o dicionário de dados completo.</p>
+<h2 id="dicionario">Dicionário</h2>
+<h3 id="mapa"><a href="#mapa">Mapa</a></h3>
+<p>A entidade <a href="#mapa">Mapa</a> descreve o mapa completo do jogo. O mapa do jogo é único e possui Nome e Tempo representando o ciclo dia e noite.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Nome</td>
+<td style="text-align: center;">Nome identificador do mapa.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Tempo</td>
+<td style="text-align: center;">Indica o ciclo dia e noite.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="chunk"><a href="#chunk">Chunk</a></h3>
+<p>A entidade <a href="#chunk">Chunk</a> descreve cada bloco que compõe o mapa. Para abstrair, associe o mapa a uma matriz e cada instância de Chunk a uma célula. Cada instância de Chunk pode ser identificada pelas suas coordenadas X e Y e cada um possui um acesso para o Norte, Sul, Leste e Oeste.</p>
+<ul>
+<li><strong>Observação</strong>: Essa tabela possui chave estrangeira da entidade <a href="#mapa">Mapa</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Coord_X</td>
+<td style="text-align: center;">Coordenada X da Chunk dentro do Mapa.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Coord_Y</td>
+<td style="text-align: center;">Coordenada Y da Chunk dentro do Mapa.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Mapa</td>
+<td style="text-align: center;">Nome identificador do mapa.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Chunk_N</td>
+<td style="text-align: center;">Chunk acessada pelo norte da chunk atual.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Chunk_S</td>
+<td style="text-align: center;">Chunk acessada pelo sul da chunk atual.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Chunk_L</td>
+<td style="text-align: center;">Chunk acessada pelo leste da chunk atual.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Chunk_O</td>
+<td style="text-align: center;">Chunk acessada pelo oeste da chunk atual.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="item"><a href="#item">Item</a></h3>
+<p>A entidade <a href="#item">Item</a> descreve todos os itens disponíveis no jogo. Todos os itens podem ser identificados pelo seu ID. Cada item pode ser especializado em <a href="#material">Material</a>, <a href="#craftavel">Craftável</a> e <a href="#alimento">Alimento</a>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ID_Item</td>
+<td style="text-align: center;">ID identificador do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Tipo_item</td>
+<td style="text-align: center;">Identifica a especialização do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Nome</td>
+<td style="text-align: center;">Nome do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="alimento"><a href="#alimento">Alimento</a></h3>
+<p>A entidade <a href="#alimento">Alimento</a> descreve os itens consumíveis do jogo. Itens consumíveis fornecem pontos de fome ao jogador ao serem consumidos e são obtidos através de <a href="#mob">Mobs</a> e <a href="#fonte">Fontes</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Item</td>
+<td style="text-align: center;">ID identificador do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Pontos_fome</td>
+<td style="text-align: center;">Indica quantos pontos de fome do jogador o alimento preenche.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="craftavel"><a href="#craftavel">Craftável</a></h3>
+<p>A entidade <a href="#craftavel">Craftável</a> descreve os itens que podem ser fabricados dentro do jogo. Os itens Craftáveis possuem Receita e são podem ser especializados em <a href="#funcional">Funcional</a> ou <a href="#duravel">Durável</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Item</td>
+<td style="text-align: center;">ID identificador do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK, FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Tipo_craftavel</td>
+<td style="text-align: center;">Identifica a especialização do item em durável ou funcional.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Receita</td>
+<td style="text-align: center;">Descreve a receita para fabricar o item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="funcional"><a href="#funcional">Funcional</a></h3>
+<p>A entidade <a href="#funcional">Funcional</a> representa os itens que possuem uma funcionalidade específica. Cada item funcional possui uma função distinta e única.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#craftavel">Craftável</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Craftavel</td>
+<td style="text-align: center;">ID identificador do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Funcao</td>
+<td style="text-align: center;">Descreve a função do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+</tbody>
+</table>
+<h3 id="duravel"><a href="#duravel">Durável</a></h3>
+<p>A entidade <a href="#duravel">Durável</a> representa os itens que possuem durabilidade. Os itens duráveis são gastos com o uso e podem quebrar caso não sejam reforjados. Os itens duráveis podem ser especializados em <a href="#armadura">Armadura</a> ou <a href="#ferramenta">Ferramenta</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#craftavel">Craftável</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Craftavel</td>
+<td style="text-align: center;">ID identificador do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK, FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Tipo_duravel</td>
+<td style="text-align: center;">Identifica a especialização do item em ferramenta ou armadura.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Durabilidade</td>
+<td style="text-align: center;">Indica a durabilidade do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="armadura"><a href="#armadura">Armadura</a></h3>
+<p>A entidade <a href="#armadura">Armadura</a> modela os itens de vestimenta do jogo. Armaduras possuem pontos de armadura, que bloqueiam pontos de dano de <a href="#ferramenta">Ferramentas</a> e <a href="#mob">Mobs</a> e aumentam a resistência do <a href="#jogador">Jogador</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#duravel">Durável</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Duravel</td>
+<td style="text-align: center;">ID identificador da armadura.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Pts_armadura</td>
+<td style="text-align: center;">Indica a capacidade de proteção da armadura.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="estrutura"><a href="#estrutura">Estrutura</a></h3>
+<p>A entidade <a href="#estrutura">Estrutura</a> descreve as diversas estruturas pré-geradas no mapa do jogo. Cada <a href="#bioma">Bioma</a> pode conter uma estrutura que pode ser explorada pelo <a href="#jogador">Jogador</a> para obter recompensas.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ID_Estrutura</td>
+<td style="text-align: center;">ID identificador da estrutura.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Item</td>
+<td style="text-align: center;">Identifica o item que a estrutura fornece.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Nome</td>
+<td style="text-align: center;">Nome da estrutura.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fonte"><a href="#fonte">Fonte</a></h3>
+<p>A entidade <a href="#fonte">Fonte</a> descreve as fontes naturais de recursos dentro do jogo. Cada <a href="#bioma">Bioma</a> possui diferentes fontes, que podem ser mineradas pelo <a href="#jogador">Jogador</a> utilizando <a href="#ferramenta">Ferramenta</a>, para obter <a href="#item">Item</a> específicos. </p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ID_Fonte</td>
+<td style="text-align: center;">ID identificador da fonte.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Item</td>
+<td style="text-align: center;">Identifica o item que a fonte fornece.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Nome</td>
+<td style="text-align: center;">Nome da fonte.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ferramenta"><a href="#ferramenta">Ferramenta</a></h3>
+<p>A entidade <a href="#ferramenta">Ferramenta</a> descreve um dos tipos de itens mais importantes do jogo. As ferramentas englobam desde Armas até demais itens. Ferramentas causam pontos de dano ao serem utilizadas contra <a href="#mob">Mobs</a> e <a href="#jogador">Jogadores</a> e podem ser utilizadas para minerar <a href="#fonte">Fonte</a>, fornecendo <a href="#item">Item</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#duravel">Durável</a> e possui chave estrangeira da entidade <a href="#fonte">Fonte</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Duravel</td>
+<td style="text-align: center;">ID identificador do item.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK, FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Fonte</td>
+<td style="text-align: center;">Representa a fonte que a ferramenta é capaz de minerar.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p>| FK |
+| Pontos_dano | Indica o dano que a ferramenta causa em um mob. | --- | --- | --- |</p>
+<h3 id="bioma"><a href="#bioma">Bioma</a></h3>
+<p>A entidade <a href="#bioma">Bioma</a> descreve os biomas do jogo. Cada instância de Bioma pode ser localizada pelo ID do Bioma ou pela coordenada X e Y da <a href="#chunk">Chunk</a> da qual a instância faz parte. O Bioma define as características de cada célula do <a href="#mapa">Mapa</a> e é uma das entidades mais complexas por relacionar uma grande quantidade de entidades.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira das entidades <a href="#chunk">Chunk</a>, <a href="#estrutura">Estrutura</a> e <a href="#fonte">Fonte</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ID_Bioma</td>
+<td style="text-align: center;">ID identificador do bioma</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">ChunkX</td>
+<td style="text-align: center;">Identifica a coordenada X do chunk que o bioma está localizado.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">ChunkY</td>
+<td style="text-align: center;">Identifica a coordenada Y do chunk que o bioma está localizado.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Estrutura</td>
+<td style="text-align: center;">Identifica a estrutura disponível no chunk.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Fonte</td>
+<td style="text-align: center;">Identifica a fonte disponível na fonte.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Nome</td>
+<td style="text-align: center;">Nome do bioma</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="inventario"><a href="#inventario">Inventário</a></h3>
+<p>A entidade <a href="#inventario">Inventário</a> descreve o inventário do <a href="#jogador">Jogador</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira da entidade <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ID_Inventario</td>
+<td style="text-align: center;">ID identificador do inventário</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Item</td>
+<td style="text-align: center;">Identifica o item armazenado no inventário.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+</tbody>
+</table>
+<h3 id="jogador"><a href="#jogador">Jogador</a></h3>
+<p>A entidade <a href="#jogador">Jogador</a> representa o jogador, o personagem principal do jogo. Cada instância de Jogador possui um ID e diversos atributos que o caracterizam.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira das entidades <a href="#bioma">Bioma</a> e <a href="#inventario">Inventário</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ID_Jogador</td>
+<td style="text-align: center;">ID identificador do jogador.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Bioma</td>
+<td style="text-align: center;">Nome do bioma em que o jogador está em determinado instante.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Inventario</td>
+<td style="text-align: center;">Inventário único do jogador.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Nome</td>
+<td style="text-align: center;">Nome do jogador.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Fome</td>
+<td style="text-align: center;">Quantidade de fome que o jogador está em determinado instante.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Vida</td>
+<td style="text-align: center;">Quantidade de pontos de vida que o jogador está em determinado instante.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Nivel</td>
+<td style="text-align: center;">Nível que o jogador está em determinado instante.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Experiencia</td>
+<td style="text-align: center;">Quantidade de experiência que um jogador tem em determinado instante. Essa experiência poderá ser utilizada para melhorar as ferramentas.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mob"><a href="#mob">Mob</a></h3>
+<p>A entidade <a href="#mob">Mob</a> descreve as demais entidades vivas no jogo como inimigos e NPCs. A entidade Mob pode ser especializada em <a href="#agressivo">Agressivo</a> ou <a href="#pacifico">Pacífico</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira da entidade <a href="#bioma">Bioma</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ID_Mob</td>
+<td style="text-align: center;">ID identificador do mob.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Bioma</td>
+<td style="text-align: center;">Nome do bioma que o mob está em determinado instante.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Vida</td>
+<td style="text-align: center;">Quantidade de pontos de vida que o mob está em determinado instante.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Nome_mob</td>
+<td style="text-align: center;">Nome do mob.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">Tipo_mob</td>
+<td style="text-align: center;">Identifica a especialização do mob.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agressivo"><a href="#agressivo">Agressivo</a></h3>
+<p>A entidade <a href="#agressivo">Agressivo</a> modela os mobs de comportamento agressivo ou neutro. Mobs agressivos possuem pontos de dano que removem Vida do <a href="#jogador">Jogador</a> quando os atacam, além disso, eles podem ser impulsivos, sempre atacando o jogador, ou não, atacando somente se forem atacados. </p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#mob">Mob</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Mob</td>
+<td style="text-align: center;">ID identificador do mob.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK, FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Impulsivo</td>
+<td style="text-align: center;">Declara se o mob é impulsivo ou não, ou seja, se ele ataca ao chegar próximo dele.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">Pts_dano</td>
+<td style="text-align: center;">Declara a quantidade de dano que o mob causa.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pacifico"><a href="#pacifico">Pacífico</a></h3>
+<p>A entidade <a href="#pacifico">Pacífico</a> modela os mobs de comportamento pacífico. Mobs pacíficos nunca atacam o <a href="#jogador">Jogador</a> e podem ser especializados em <a href="#npc">NPC</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#mob">Mob</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Mob</td>
+<td style="text-align: center;">ID identificador do mob.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Tipo_Pacifico</td>
+<td style="text-align: center;">Identifica a especialização do mob pacífico.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="npc"><a href="#npc">NPC</a></h3>
+<p>A entidade <a href="#npc">NPC</a> modela os mobs pacíficos conhecidos como Aldeões. Aldeões são os únicos mobs do jogo que podem oferecer <a href="#missao">Missão</a>, atuando como guia do jogador no jogo.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#pacifico">Pacífico</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Pacifico</td>
+<td style="text-align: center;">ID identificador do mob.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+</tbody>
+</table>
+<h3 id="missao"><a href="#missao">Missão</a></h3>
+<p>A entidade <a href="#missao">Missão</a> representa as diferentes missões fornecidas pelos Aldeões. As missões têm como objetivo guiar o jogador dentro do jogo, sendo de critério do jogador segui-las ou não. Cada instância de Missão fornece uma recompensa quando concluída.</p>
+<ul>
+<li><strong>Observação</strong>: Essa tabela possui chave estrangeira da entidade <a href="#npc">NPC</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">ID_Missao</td>
+<td style="text-align: center;">ID identificador da missão.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PK</td>
+</tr>
+<tr>
+<td style="text-align: center;">NPC</td>
+<td style="text-align: center;">ID identificador do mob.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FK</td>
+</tr>
+<tr>
+<td style="text-align: center;">Nome_Missao</td>
+<td style="text-align: center;">Nome da missão fornecida pelo NPC ao jogador.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">Descricao</td>
+<td style="text-align: center;">Descrição da missão fornecida pelo NPC ao jogador.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">Objetivo</td>
+<td style="text-align: center;">Objetivo da missão fornecida pelo NPC ao jogador.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">Recompensa</td>
+<td style="text-align: center;">Recompensa da missão fornecida pelo NPC destinada ao jogador quando concluída.</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h2 id="historico-de-versoes">Histórico de versões</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Versão</th>
+<th style="text-align: center;">Data</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Autor</th>
+<th style="text-align: center;">Revisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>1.0</code></td>
+<td style="text-align: center;">22/07/2024</td>
+<td style="text-align: center;">Criação do Dicionário de Dados</td>
+<td style="text-align: center;"><a href="https://github.com/EhOBruno">Bruno Ricardo de Menezes</a></td>
+<td style="text-align: center;"><a href="https://github.com/trindadea">Arthur Carneiro Trindade</a><br><a href="https://github.com/EhOMiguel">Miguel Moreira da Silva de Oliveira</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>1.1</code></td>
+<td style="text-align: center;">22/07/2024</td>
+<td style="text-align: center;">Primeira versão do Dicionário de Dados finalizada</td>
+<td style="text-align: center;"><a href="https://github.com/EhOBruno">Bruno Ricardo de Menezes</a><br><a href="https://github.com/trindadea">Arthur Carneiro Trindade</a></td>
+<td style="text-align: center;"><a href="https://github.com/EhOMiguel">Miguel Moreira da Silva de Oliveira</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../js/custom.js"></script>
+      
+    
+  </body>
+</html>

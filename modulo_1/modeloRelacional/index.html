@@ -1,0 +1,624 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../der/">
+      
+      
+        <link rel="next" href="../dicDados/">
+      
+      
+      <link rel="icon" href="../../assets/icons/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+    
+    
+      
+        <title>Modelo Relacional - Minecraft</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#modelo-relacional" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Minecraft" class="md-header__button md-logo" aria-label="Minecraft" data-md-component="logo">
+      
+  <img src="../../assets/icons/favicon.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Minecraft
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Modelo Relacional
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="Modo Escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo Escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="light-green"  aria-label="Modo Claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo Claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 2c-1.05 0-2.05.16-3 .46 4.06 1.27 7 5.04 7 9.54 0 4.5-2.94 8.27-7 9.54.95.3 1.95.46 3 .46a10 10 0 0 0 10-10A10 10 0 0 0 9 2Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SBD1/2024.1-Minecraft" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    2024.1-Minecraft
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Minecraft" class="md-nav__button md-logo" aria-label="Minecraft" data-md-component="logo">
+      
+  <img src="../../assets/icons/favicon.svg" alt="logo">
+
+    </a>
+    Minecraft
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SBD1/2024.1-Minecraft" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    2024.1-Minecraft
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apresentacoes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Apresentações
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Módulo 1 - Modelagem
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Módulo 1 - Modelagem
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../der/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Diagrama Entidade-Relacionamento
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Modelo Relacional
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Modelo Relacional
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introdução
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historico-de-versoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Histórico de versões
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dicDados/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dicionário de Dados
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introdução
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historico-de-versoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Histórico de versões
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="modelo-relacional">Modelo Relacional</h1>
+<h2 id="introducao">Introdução</h2>
+<p>O Modelo Relacional é a <strong>representação lógica</strong> de um banco de dados, derivada do modelo conceitual representado pelo <a href="../der/">Diagrama Entidade-Relacionamento</a>. Este modelo organiza os dados em tabelas, também conhecidas como relações, onde cada tabela é composta por linhas (tuplas) e colunas (atributos).</p>
+<p>O principal objetivo do modelo relacional é transformar os conceitos abstratos do modelo conceitual em uma estrutura que possa ser implementada e gerenciada dentro de um sistema de gerenciamento de banco de dados (SGBD). Neste modelo, as chaves primárias <strong>(PK)</strong> e estrangeiras <strong>(FK)</strong> são definidas para garantir a integridade dos dados, facilitando consultas e manipulações eficientes.</p>
+<p>A seguir, apresentamos o modelo relacional desenvolvido, detalhando as tabelas, seus atributos e as relações entre elas.</p>
+<h2 id="modelo">Modelo</h2>
+<iframe frameborder="0" style="width:100%;height:500px;" src="https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=MREL%20MUD%20Minecraft.drawio#R%3Cmxfile%3E%3Cdiagram%20name%3D%22P%C3%A1gina-1%22%20id%3D%22P6k-22iAcBL9SirBGd_h%22%3E7V1bk5s4E%2F01fpwtIy6Gx7lkdmc3l9kkm81%2BL1OMzXhIsPFgPJf8%2Bk%2FYCGwLY2QDkumuSlUMAxhLR326j7qlnn45ef09cmePH8KRF%2FRIf%2FTa0696hBia3af%2FJWfeVmcs3XBWZ8aRP1qd0%2FITX%2FxfXnoyvXG88EfefOPCOAyD2J9tnhyG06k3jDfOuVEUvmxe9hAGm986c8ced%2BLL0A34s%2F%2F6o%2FhxddYmg%2Fz8H54%2FfmTfrFnp75u47OL0l8wf3VH4snZKf9fTL6MwjFefJq%2BXXpC0HmuX1X3XO%2F6avVjkTeMqN3y6fXr6ZzqZj8%2F%2BPv%2F8%2FcfT9eJpeGY46ds9u8Ei%2Fckf3JmbvnL8xtqBvv0s%2BRi798mpi3nsRnHaXXqfnqAdELv%2B1IvoCW15HATubO4vL1%2BdefSD0Xv3LVzE7EHs6OLBf%2FVGn1e9lVxLO%2B49fVhymDz8gT78S%2FoyyZ%2FdwB9P6ech%2Fe3JN15E3py%2By3t3HqdXPMaTIP3IN1Tads9eFHuva6fShvvdCydeHL3RS9hfTSNtpxTHrFNfckxkWH9cwwNrXjeF4Th7dN5T9EPaWUIdp3EdV95pnxPwXTyGkf8r6aogbdr1jlwev%2FiTwJ1SVLujrVMX4XIYLzvED4LLMAiT3p6GU4%2Fr8OSiURTOvrrR2IvTE7PQn8bLljAv6D%2FaNpf938yeSd%2F1kh5r%2BTH9l1wexZfhdB5HFFjJMzzavy9e0scXcThLHxp4D%2Bz5Udrwyef7MI7DyU4I7BkN%2B5GRAkGvCAS9OSAQDgi3f%2B2EAm2D2HeDz9RWutNxsOq4pel0844r6N3C9s7aeLvxt8drSBv0IVhav0d%2FNPLo2L14efRj78vMHSYXvVD62Ddq94yD%2FV221ke6YBelD8ubTfhpbkAt1dSN6ShaTEdzrt%2Bz9zwGCjoHhY%2F0qZLBwIz16tqLOe1yfzp%2Bv7rT2kKLqQxaXncPcLNW9FR6XCvwGSClVKKUfqOUYsmnFLs6ENqxId7IZ89rmk8Glfur%2B3zicDj46k1moeqEogY8ukwgZ%2Fcfb%2BfO159vX%2F9%2B%2FvfX4NOvl0v9TNMNDi%2BXj4vpz3IWgRdN2tph0SQxajD5O7rORO4%2FIpzcMx6UDCd3vLPFAaGb4eSecQCK%2Fne0BR8PXIZhNLr7rroD0EhEeTRg4DkEBoqUKrBKmxHlDiBAESn3jANkFc3gRcoVq%2FyHrHIIYACyCh9mIqu0zyqOfFbhg9ZrSKxSvcu6zyp82Fqax9AdSqE2IvzpsdcceQ%2FuIoibQRE8qtEFZkJAU03xlFhdVKNVVUgb1MX4uRDJxqWJObE9owCJRmMS%2FPYcx91H1blGDYDA4xCTRwxyiAQOMaVziCkgh3aNQ7JRgByimbwauuKQL4A5RAAgADmEF02RQyRwiC2fQwTEz85xiF65w7rPIbz2ueKQ95A5pDpAAHIIL5Eih7TPIVlpo0QOEUj07xyHWJU7rPscwqvbKw75BJlDqgMEHofYvPd54YcTrBfeRETeYYJ5vdnJ%2Bo0%2BFgxXpH8RY2GfYIY3mILhPeMAHQCtoGD45uqu3KIr4gG0mIyHRcNlFhALh1SgFfkp3jYvL1z3iBWkw3e6AQnraZGse3Nx7w5%2FjqMEnWfDVTeeJ1809RMTs2wwdiX9NE7%2B%2F4s9k77l6rGr83AIzMYSpbwtCkqUSitO4bGXAFzAsZehoSaqAntJTyU3NN6QIHs1YI7yEYfsZWi8%2FvqOjtNFvIgw%2FjoIMgAZDDNDVGAw%2BRnqhsZr80hhjdgjTEPJ26KgBI%2F2BMw1B4%2BGCzj60hys5a0%2FKeUA%2BpKfHO8ICMldS0pxsJI3bwtekjmFRWzVQAc4AiF9Hi77Y2igWSkGmyVKrf5ZVd0ti25qN%2FtZNiQ6APXFr%2FmgOJ20FKIV5SfVHr3egg9f8xGHzgY1bBzobq7uUIQ9CjXgnBCjj8uEqEBi0pNgjD6%2FSgigFanycYDUYhQ4tjexN0FKOQQt4CiFYGZKRUoREEYPoBTpmSmkIDNFsg1pTRclmCyy1ha8jwlbFxVBB0D%2B4D3RUvcDpiSqa3Z6D9PBFJBECe85IvUfG01m4%2BGEJFGCkmg7kmg24tDPIMzYbEqiGLoeChh4roeOleb1h67i%2FCVdDSU6b0ok25D2Qle9ui%2FaeUrR%2BRz1r%2F4svPNPgFTUgAg8EiGof6pAIvL1TwJY%2FySof%2BZtgfrn4eiAxx8Gr39eRu5D7D57QTmR9KCJoMTZWq2M9OWLoKbAfiug%2BV%2FEYhgnKIKyMLZZEfQaRVCzOjg672xYvISFCuihaIHnfAwEhC%2FQ5CUSvIqTl3wFdCCwOkPXgtdsECCfkAFf5rxUQPeHJIowixo4gcckuPGPEkwiXwYFvO8PwX1%2F1tqCXyaBvrFHuwIwheC%2BP2WxLB%2BMnAf%2BhDZpWE4lPWhCqG6w%2FhEVQp3G7L6F86D166DZkDglHbRoHhR10PrJxMJJ17wt%2BElX1EEPRQtA1wMn8eqPXsXJSwEdVKCkpWvRq4XzajkO%2BHm1WzrQw%2FndA%2BxcHgGQwKORQcEis4vp0A%2BnLubybKGCbIWwZ1VX9mwuhB1gCFt%2FCDuovq2LMiHsAEPYdkLYAYaweVsUbHJ8KrOuLcaxApAB6IBgHFt%2FHCvOYPLjWBtwHDvAODbHAR%2FHJhGJu3tGTRFGUQMf8BikYJvcq0WExSgFxSjGgQFsg8UoBXvbIv8fG8EKbEyqTARbsN8sRrBNkImNEWzeFhjB1gwZgP4HRrD1R7DiDCY%2FgnUAR7A2RrA5DvgIdlmRsi8qUYRX1EAJPB5xCPKIAjwivx7FAVzZmA0C5BFSsIFrQiH3fuCP3BHklB4BlADkkYKUHi%2BK3KQsBfdt3JJEB0zZZJKoocACPQX7tKIncKwm6pygJuqgJtqOJuqgJpq3Ba%2BJnkjk2qIiKgAYcB6ITgT2m0f%2Baoy%2FpCuieuFKw8hftZujfMQhf%2BkFqxpf055QPl5uj71E4AKOvYiD83n167Di7CVdh9WZEgBSh8X5vBwHOysrR%2B4UclqqAEjA0Yje54Og82jijmgoXU4nPWgirK6xSIWJsDqpaPwbq6zU%2B6jB1h7D5mPidDRYvY8abDsxrMAO4t13OVCDrRUwAN0PjGJrj2IP4C%2F5GqwGN4rNBwFSiq4VRLHx%2FM7dF5MowitqoAQej2iEg025mg4zhiXGVgxbVb5sLo1I13CB%2B%2FpD2Gw8nFAIqxUtcF97CHuLIayGq%2BnnbcHrnzdXdzgTezBi4PkeBfvSIoG1T2DyY1hSJGagBttAYohdGRydJzD2nbhAew1ogUdeGgqw9Quw4uQlP42I8HZEsg1pT4DVUIDNccALsB9Br8wugg54%2FKHzVsIbjT1G7dT0PobjZJn2d%2FnZi6W%2F6zFeyK95Hy5BkXTODy%2BO31I%2BcRdxuNl1tMeit%2B%2FrB%2F8lD%2FvNZIdXr8yILI8yvqGUde1O%2FCA58YcXPHuxP3SZO7L6Nmq8V8cMsCPvwV0sHe5tF5dHUDp45uEiGnol7aYZqdgVM2Kjh59un57%2BmU7m47O%2Fzz9%2F%2F%2FF0vXganhlsnY6kWUvBF3mBG%2FvP3sab1E8Uuo49fkiPszUe1nt8BzZU6%2FEB9nizPa6bsnr8y%2FRmcTkn7u%2FB0%2FTTz%2F99%2B9M9H58RfkrmQ3hfHhf0wM2lZRzM8kGrz6bZYsTPvpFsr4yqF4heg9Y9g2IMCWxXDDqwLIZj%2BbhUclav%2BJX5%2BZVkBq57SmX5IAAVWBY3BZ%2BpfnN1V0YrikSWjSiVx6IFYKCJQqUCfCJ%2Fko25QOuZXp0klD3DABSj7IACL1Ve%2BOFE%2BSTRFue%2BBODSZUoptn5FJVPIKFWnvmpilDZnvopfWSB953QnvspHACgyKW4K3r385o%2BUpxIlsAGOOQq2I0bmaJ05tKrl941Rh8i%2Bxh2jDoG9G7tOHQWbGicZE3cT9bUtJfABjj5snBpRgT6qbivYGH0UbAkJhT5snBjJmoJ3Ipb78JzA1IgS%2BOgyfezQPXkz0WY%2BTr93mvk4mRi6Px9HtZw70wHc496rH39f%2B7z2EvQof4fkgL3CESgpyswsna5VBSQGn7V1Sy32gz%2FcvfojzNQtzWFmO9tielDRGSxbyu%2F0MrfKRwDGJzUWtBpK527teOeCPZoAzbUbIIOUHW3BRyknEKC0ONMuABZ4EQt7D2SUGqtMxRlFfvaWyafsSLYh7VWZZoMA6UQ3CYeDpei1N2BRhFjUgAk8IrF4Ijkf02hx7j9jkLtVn6SzeBKD3CIkCTARaJdExHZZ1W2XMkGuxVMRpCDXqm5YOu%2BVWGJ1r4r4Ii0GuQJgAeiboGxaf5Arzijyg1wLRF7HnkGAdKJbBSWvk9kiKA1WFCEVNSACkEQgr7XCZvrZdH7DM%2F3Mmzm5mX6LL1n6eHtZ7myA0z%2F4Sf5B1YIBS8yOnKb%2BgfX0Degf1ZeaVUb%2FYICEqn9gQX0OhYLNl05kQqZNEQRr6ksgZEr1XzMXVar%2Fetb%2Frd%2FfTFd1dL3UjU0Obr3Ipx2wdMeOdW2rpjpneSuq%2BLYFxVEf%2FPncxem9LffWIoe6t0QD4N%2BKFFehf1uR%2BgTKcpTxbwvqq7q5AuGecYD%2BrW7zldrJGoTl9ALPwRWADDgH1%2BhjKqsKvCJ9ls%2Fo88EyIN0kHwfIK0afcFAo0%2BPBMYoIWMAxim7j%2FpH1542IM4r8LbhsgSmZruWN2LilY9YWDu9iLheUOo1ARQ2QwKMRh%2FdHkUbap5FWVyXcgQTeHQXDI051Ib37PMKns19582HkD0GziABEALIIJrErwSJtLk64AwmAs9gdzGLP24KfP%2Ft0%2F8OLYSexCyAEIIngzhpKkIgtn0RAbK6xZxQgiegOL23SNw4ns9CbzmHssnE0SMDxiNGXu9V4vyczmZRHUNXsz2y6bX%2F2J8sTVST70%2BhXCD9bgEDdecEMUXlicA4rR7f3AGt5VGNyMLM5e%2BFBmJZZHzzSW28Tb2vNpmlba9UYbEd09ozVu6a35Sg7jyL3be2y1Ivb%2BUWawa38mu5QfF31DicdXbtu0DVy5A2GYW%2BNpNXPrNe4agwvnR1ZxLLaHVlG3646srTaDe8ucG3B12AbMdc8soi9nY%2BulQ8s7gZWibbzBmdw5A1GyiYND6zuUZa%2BObD0QcuMRSqPq%2FYYy9zG1paDXNe4GtibX6RZe8bV9g0sn2D3MDGPvMHQtTbGFeRNEI4gJU2vOHh0dqUq0QAbUtjjgj1uVXZDmjGXwkZue61KTd9j5LjFLQ2z17wJysr08vD0z3DsjmhX7pKwYFYnEsPa7B9SVYvOCggbMCeE673yboM6LSGS2i2ADVVKAg3CJ8YAKgnMxwFOTBiEFxxvru56xArSqYDpBiisp0W4HEvea3yWGtVzekVmVxPWTf626p3kT9Mw7an8bvppnPyfccfq2%2BgvWH3h6q%2BSAalS%2FYgAYuHNkhCsdFeB1uRXJBI%2BU%2Bd6ryW7d4c%2Fx8uY6Wy46sbEaPlTPzExhVbrLzXtVZsEijX1eVvwuT4XfjhRfk6%2FTfbCevqSxsHqRxXYS3r1o0H4FCFkr0bMEZZaZm3BvnM9%2FJs%2B0wZ0I1%2F59OY2KQwrL0tAhDUztac7H0Bh8isvs6wlgOnO%2BShAWjF0PhJPKvhVJxQ10AGQQLBeRgkCkV50aehw62XyUYAEYugFwTBwAsFCmd2NY%2FBhLBKIBAKRXnBpGHA3WM9HARKIYRAOB9%2F8kfKzMmqgAyCB8BlRSCDtE0iWjyuRQATEzM4RiF65w7pPILyU%2BdF%2F9gLIDFIdHgAZhJc8kUEkMIghn0EE1MzOMYhVucO6zyC8lvnudeZFvjcd%2BqAjkeogAcgjcqs85W6A%2FWMxmbFjNxqyM%2BlzjqwKZGmIe6sCNbZCqvSqwO3CZHNfVeDWDYM2igJNXnKrkEMEtC5wsLWHoNE3q%2FkrTmP%2BislLZei5HpuBagp7rvLLAk3YZYHZOEDf1TALywIxNfQ42MDzZgeY2aMCt8ivzRvwwTCk3QIHmNuTtwWf23MTexOklEPQApBSLA4pp7e8HI%2BE6jJG1bXgMs9EleWsGONIkraKlsi0jIMWn617scFXP%2F6%2B9nlNe6NH%2BYslB%2By9jkDQQPb6t6JCmN53tlSTFEo7l5TlbkgTSptVwmwpS8ru0m41Y5962wa2D8cpMZ1Tw6m%2BtfQkMcoFW%2B4Gth5PwzjlgzCJOB045LRxalVebrB%2BnB7JyJA3GGCsy6i1WdYldmWUMLunDEoMueaCX4C5b2oKmIyWATSQCKDD6DBL58w2Gyhnw%2B3r6Zk22NBUiQ1PZpVdvV8Zj8z0KWPQpEgIu2iPOActJ3%2FSMShxJILnsGQMZ9uYaW0s%2Bm4PABun0nQgGikdt6dC1XSg9paFp4dRmKzWlEMocmePH8KRl1zxfw%3D%3D%3C%2Fdiagram%3E%3C%2Fmxfile%3E"></iframe>
+
+<p>Autores: <a href="https://github.com/trindadea">Arthur Carneiro Trindade</a>, <a href="https://github.com/EhOBruno">Bruno Ricardo de Menezes</a> e <a href="https://github.com/EhOMiguel">Miguel Moreira da Silva de Oliveira</a>, 2024.</p>
+<h2 id="historico-de-versoes">Histórico de versões</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Versão</th>
+<th style="text-align: center;">Data</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Autor</th>
+<th style="text-align: center;">Revisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>1.0</code></td>
+<td style="text-align: center;">22/07/2024</td>
+<td style="text-align: center;"><a href="../versoes/MREL/versao_1.0.png">Criação do Dicionário de Dados</a></td>
+<td style="text-align: center;"><a href="https://github.com/EhOBruno">Bruno Ricardo de Menezes</a><br><a href="https://github.com/trindadea">Arthur Carneiro Trindade</a></td>
+<td style="text-align: center;"><a href="https://github.com/EhOMiguel">Miguel Moreira da Silva de Oliveira</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>1.1</code></td>
+<td style="text-align: center;">22/07/2024</td>
+<td style="text-align: center;"><a href="../versoes/MREL/versao_1.1.png">Adição da versão 1.1 do MREL</a></td>
+<td style="text-align: center;"><a href="https://github.com/EhOBruno">Bruno Ricardo de Menezes</a></td>
+<td style="text-align: center;"><a href="https://github.com/EhOMiguel">Miguel Moreira da Silva de Oliveira</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../js/custom.js"></script>
+      
+    
+  </body>
+</html>
