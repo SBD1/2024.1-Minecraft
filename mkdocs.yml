@@ -37,7 +37,11 @@ nav:
     - Diagrama Entidade-Relacionamento: modulo_1/der.md
     - Modelo Relacional: modulo_1/modeloRelacional.md
     - Dicionário de Dados: modulo_1/dicDados.md
-  # - Módulo 2 - SQL:
+  - Módulo 2 - SQL:
+    - Álgebra Relacional: modulo_2/algebra_relacional.md
+    - DDL: modulo_2/ddl.md
+    - DML: modulo_2/dml.md
+    - DQL: modulo_2/dql.md
   # - Módulo 3 - Transactions, Triggers e Stored Procedures:
 
 extra_css:
