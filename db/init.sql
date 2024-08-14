@@ -1,11 +1,34 @@
--- criar tabelas colocar dados e etc
-
-
-
 -- Tabela Item
 CREATE TABLE Item (
     nome VARCHAR(50) PRIMARY KEY,
     tipo_item VARCHAR(50)
+);
+
+-- Tabela Mob
+CREATE TABLE Mob (
+    nome VARCHAR(50) PRIMARY KEY,
+    vida_max INT,
+    tipo_mob VARCHAR(50),
+    probabilidade DECIMAL
+);
+
+-- Tabela Agressivo
+CREATE TABLE Agressivo (
+    nome_mob VARCHAR(50) PRIMARY KEY,
+    impulso INT,
+    pts_dano INT,
+    probabilidade DECIMAL,
+    vida_max INT,
+    FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
+);
+
+-- Tabela Pacifco
+CREATE TABLE Pacifco (
+    nome_mob VARCHAR(50) PRIMARY KEY,
+    probabilidade DECIMAL,
+    vida_max INT,
+    tipo_pacifco VARCHAR(50),
+    FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
 );
 
 -- Tabela Craftavel
@@ -119,33 +142,6 @@ CREATE TABLE NPC (
     nome_pacifco VARCHAR(50),
     id_missao INT,
     FOREIGN KEY (id_missao) REFERENCES Missao(id_missao)
-);
-
--- Tabela Agressivo
-CREATE TABLE Agressivo (
-    nome_mob VARCHAR(50) PRIMARY KEY,
-    impulso INT,
-    pts_dano INT,
-    probabilidade DECIMAL,
-    vida_max INT,
-    FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
-);
-
--- Tabela Pacifco
-CREATE TABLE Pacifco (
-    nome_mob VARCHAR(50) PRIMARY KEY,
-    probabilidade DECIMAL,
-    vida_max INT,
-    tipo_pacifco VARCHAR(50),
-    FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
-);
-
--- Tabela Mob
-CREATE TABLE Mob (
-    nome VARCHAR(50) PRIMARY KEY,
-    vida_max INT,
-    tipo_mob VARCHAR(50),
-    probabilidade DECIMAL
 );
 
 -- Tabela Instancia_Mob
