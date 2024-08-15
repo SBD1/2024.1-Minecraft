@@ -14,7 +14,7 @@ O dicionário de dados desse projeto inclui as seguintes colunas:
 
 A seguir, apresentamos o dicionário de dados completo.
 
-## Dicionário
+## Entidades
 
 ### [Mapa](#mapa)
 
@@ -22,8 +22,8 @@ A entidade [Mapa](#mapa) descreve o mapa completo do jogo. O mapa do jogo é ún
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Nome | Nome identificador do mapa. | --- | --- | PK |
-| Tempo | Indica o ciclo dia e noite. | --- | --- | --- |
+| nome |  | --- | --- |  |
+| hora |  | --- | --- | --- |
 
 ### [Chunk](#chunk)
 
@@ -33,13 +33,19 @@ A entidade [Chunk](#chunk) descreve cada bloco que compõe o mapa. Para abstrair
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Coord_X | Coordenada X da Chunk dentro do Mapa. | --- | --- | PK |
-| Coord_Y | Coordenada Y da Chunk dentro do Mapa. | --- | --- | PK |
-| Mapa | Nome identificador do mapa. | --- | --- | FK |
-| Chunk_N | Chunk acessada pelo norte da chunk atual. | --- | --- | --- |
-| Chunk_S | Chunk acessada pelo sul da chunk atual. | --- | --- | --- |
-| Chunk_L | Chunk acessada pelo leste da chunk atual. | --- | --- | --- |
-| Chunk_O | Chunk acessada pelo oeste da chunk atual. | --- | --- | --- |
+| numero |  | --- | --- |  |
+| nome_bioma |  | --- | --- |  |
+| nome_mapa |  | --- | --- |  |
+
+### Construível
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| nome |  | --- | --- |  |
+| receita |  | --- | --- |  |
+| funcao |  | --- | --- |  |
+
+### 
 
 ### [Item](#item)
 
@@ -47,7 +53,7 @@ A entidade [Item](#item) descreve todos os itens disponíveis no jogo. Todos os 
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| ID_Item | ID identificador do item. | --- | --- | PK |
+| nome | ID identificador do item. | --- | --- | PK |
 | Tipo_item | Identifica a especialização do item. | --- | --- | --- |
 | Nome | Nome do item. | --- | --- | --- |
 
@@ -246,6 +252,16 @@ A entidade [Missão](#missao) representa as diferentes missões fornecidas pelos
 | Descricao | Descrição da missão fornecida pelo NPC ao jogador. | --- | --- |  |
 | Objetivo | Objetivo da missão fornecida pelo NPC ao jogador. | --- | --- |  |
 | Recompensa | Recompensa da missão fornecida pelo NPC destinada ao jogador quando concluída. | --- | --- | --- |
+
+## Instâncias
+
+### Instância Construível
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| id_inst_construivel |  | --- | --- |  |
+| nome_construivel |  | --- | --- |  |
+| numero_chunk |  | --- | --- |  |
 
 ## Histórico de versões
 
