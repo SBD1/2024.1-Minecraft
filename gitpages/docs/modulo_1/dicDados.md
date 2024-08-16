@@ -14,254 +14,304 @@ O dicionário de dados desse projeto inclui as seguintes colunas:
 
 A seguir, apresentamos o dicionário de dados completo.
 
-## Entidades
+## Tabelas Entidade
 
 ### [Mapa](#mapa)
 
-A entidade [Mapa](#mapa) descreve o mapa completo do jogo. O mapa do jogo é único e possui Nome e Tempo representando o ciclo dia e noite.
+A entidade [Mapa](#mapa) descreve o mundo do MUD. Essa entidade é identificada pelo seu nome, além disso, ela possui um atributo hora, representando o ciclo de dia e noite dentro do jogo. 
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| nome |  | --- | --- |  |
-| hora |  | --- | --- | --- |
+| nome | Nome único que identifica o mapa. | VARCHAR | 30 | PRIMARY KEY |
+| hora | Representa o ciclo de dia e noite no jogo. | ENUM('dia', 'tarde', 'noite') | --- | NOT NULL |
 
 ### [Chunk](#chunk)
 
-A entidade [Chunk](#chunk) descreve cada bloco que compõe o mapa. Para abstrair, associe o mapa a uma matriz e cada instância de Chunk a uma célula. Cada instância de Chunk pode ser identificada pelas suas coordenadas X e Y e cada um possui um acesso para o Norte, Sul, Leste e Oeste.
+A entidade [Chunk](#chunk) representa os blocos que compõem o [mapa](#mapa). O mapa é estruturado como uma matriz, onde cada chunk corresponde a uma célula. Chunks são identificados por um número sequencial, que varia de 0 até o tamanho total do mapa, numerados da esquerda superior para a direita inferior. Além disso, cada chunk está associado a um [bioma](#bioma) específico e possui um identificador que o vincula ao nome do [mapa](#mapa) ao qual pertence. A entidade Chunk é uma das entidades centrais do jogo pois serve como ponto de interseção entre várias outras entidades, estabelecendo conexões importantes dentro da estrutura do jogo.
 
-- **Observação**: Essa tabela possui chave estrangeira da entidade [Mapa](#mapa).
-
-| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
-| :---: | :---: | :---: | :---: | :---: |
-| numero |  | --- | --- |  |
-| nome_bioma |  | --- | --- |  |
-| nome_mapa |  | --- | --- |  |
-
-### Construível
+- **Observação**: Essa tabela possui chave estrangeira para a entidade [Mapa](#mapa) e [Bioma](#bioma).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| nome |  | --- | --- |  |
-| receita |  | --- | --- |  |
-| funcao |  | --- | --- |  |
+| numero | Número sequencial que identifica o chunk. | SERIAL | --- | PRIMARY KEY |
+| nome_bioma | Nome do bioma ao qual o chunk pertence. | VARCHAR | 10 | FOREIGN KEY, NOT NULL |
+| nome_mapa | Nome do mapa ao qual o chunk pertence. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
 
-### 
+### [Construível](#construivel)
+
+A entidade [Construível](#construivel) descreve estruturas construíveis pelo [jogador](#jogador). Essas estruturas são identificadas por um nome específico, possuem uma receita de construção própria e desempenham uma funcionalidade particular dentro do jogo.
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| nome | Nome único que identifica o construível. | VARCHAR | 10 | PRIMARY KEY |
+| receita | Receita da construção. | TEXT | --- | NOT NULL |
+| funcao | Descreve a função da construção. | TEXT | --- | NOT NULL |
+
 
 ### [Item](#item)
 
-A entidade [Item](#item) descreve todos os itens disponíveis no jogo. Todos os itens podem ser identificados pelo seu ID. Cada item pode ser especializado em [Material](#material), [Craftável](#craftavel) e [Alimento](#alimento).
+A entidade [Item](#item) descreve todos os itens disponíveis no jogo. Todos os itens podem ser identificados pelo seu nome único, e cada item pode ser especializado em [Material](#material), [Craftável](#craftavel) e [Alimento](#alimento).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| nome | ID identificador do item. | --- | --- | PK |
-| Tipo_item | Identifica a especialização do item. | --- | --- | --- |
-| Nome | Nome do item. | --- | --- | --- |
+| nome | Nome único que identifica o item. | VARCHAR | 30 | PRIMARY KEY |
+| tipo_item | Tipo de especialização do item | ENUM | ENUM('material', 'craftavel', 'alimento') | NOT NULL |
 
 ### [Alimento](#alimento)
 
-A entidade [Alimento](#alimento) descreve os itens consumíveis do jogo. Itens consumíveis fornecem pontos de fome ao jogador ao serem consumidos e são obtidos através de [Mobs](#mob) e [Fontes](#fonte).
+A entidade [Alimento](#alimento) refere-se aos itens consumíveis do jogo, que restauram pontos de fome do [jogador](#jogador) ao serem ingeridos. Esses itens podem ser obtidos por meio de drops de [mobs](#mob) ou pela exploração de [fontes](#fonte).
 
 - **Observação**: Essa entidade é uma especialização da entidade [Item](#item).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Item | ID identificador do item. | --- | --- | FK |
-| Pontos_fome | Indica quantos pontos de fome do jogador o alimento preenche. | --- | --- | --- |
+| nome_item | Nome do item que é um alimento. | VARCHAR | 30 | PRIMARY KEY, FOREIGN KEY |
+| pts_fome | Indica quantos pontos de fome do jogador o alimento restaura. | DECIMAL | 2,1 | NOT NULL |
 
 ### [Craftável](#craftavel)
 
-A entidade [Craftável](#craftavel) descreve os itens que podem ser fabricados dentro do jogo. Os itens Craftáveis possuem Receita e são podem ser especializados em [Funcional](#funcional) ou [Durável](#duravel).
+A entidade [Craftável](#craftavel) descreve os itens que podem ser fabricados pelo [jogador](#jogador) dentro do jogo. Esses itens possuem receitas específicas de fabricação e podem ser especializados em [Funcional](#funcional), [Ferramenta Durável](#ferramenta-duravel) e [Armadura Durável](#armadura-duravel).
 
 - **Observação**: Essa entidade é uma especialização da entidade [Item](#item).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Item | ID identificador do item. | --- | --- | PK, FK |
-| Tipo_craftavel | Identifica a especialização do item em durável ou funcional. | --- | --- | --- |
-| Receita | Descreve a receita para fabricar o item. | --- | --- | --- |
+| nome_item | Nome do item que é craftável. | VARCHAR | 30 | PRIMARY KEY, FOREIGN KEY |
+| tipo_craftavel | Tipo de especialização do item craftavel. | ENUM('funcional', 'ferramenta', 'armadura') | --- | NOT NULL |
+| receita | Receita para fabricar o item. | TEXT | --- | NOT NULL |
 
 ### [Funcional](#funcional)
 
-A entidade [Funcional](#funcional) representa os itens que possuem uma funcionalidade específica. Cada item funcional possui uma função distinta e única.
+A entidade [Funcional](#funcional) representa os itens que desempenham uma funcionalidade específica. Cada item funcional possui uma função distinta e única.
 
 - **Observação**: Essa entidade é uma especialização da entidade [Craftável](#craftavel).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Craftavel | ID identificador do item. | --- | --- | FK |
-| Funcao | Descreve a função do item. | --- | --- | FK |
+| nome_item | Nome do item que é funcional. | VARCHAR | 30 | PRIMARY KEY, FOREIGN KEY |
+| funcao | Descreve a função específica do item. | TEXT | --- | NOT NULL |
+| receita | Receita para fabricar o item. | TEXT | --- | NOT NULL |
 
-### [Durável](#duravel)
+### [Ferramenta Durável](#ferramenta-duravel)
 
-A entidade [Durável](#duravel) representa os itens que possuem durabilidade. Os itens duráveis são gastos com o uso e podem quebrar caso não sejam reforjados. Os itens duráveis podem ser especializados em [Armadura](#armadura) ou [Ferramenta](#ferramenta).
+A entidade [Ferramenta](#ferramenta-duravel) representa os itens que os [jogadores](#jogador) utilizam para executar diversas ações, como minerar [recursos](#fonte) e atacar [mobs](#mob). As ferramentas têm uma durabilidade limitada e causam uma quantidade específica de dano quando usadas contra mobs.
 
 - **Observação**: Essa entidade é uma especialização da entidade [Craftável](#craftavel).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Craftavel | ID identificador do item. | --- | --- | PK, FK |
-| Tipo_duravel | Identifica a especialização do item em ferramenta ou armadura. | --- | --- | --- |
-| Durabilidade | Indica a durabilidade do item. | --- | --- | --- |
+| nome_item | Nome do item que é uma ferramenta. | VARCHAR | 30 | PRIMARY KEY, FOREIGN KEY |
+| durabilidade_total | Durabilidade total da ferramenta. | INT | --- | NOT NULL |
+| pts_dano | Pontos de dano que a ferramenta causa em mobs. | DECIMAL | 2,1 | NOT NULL |
+| receita | Receita para fabricar o item. | TEXT | --- | NOT NULL |
 
-### [Armadura](#armadura)
+### [Armadura Durável](#armadura-duravel)
 
-A entidade [Armadura](#armadura) modela os itens de vestimenta do jogo. Armaduras possuem pontos de armadura, que bloqueiam pontos de dano de [Ferramentas](#ferramenta) e [Mobs](#mob) e aumentam a resistência do [Jogador](#jogador).
+A entidade [Armadura](#armadura-duravel) representa os itens que os [jogadores](#jogador) podem equipar para aumentar sua resistência a danos causados por [ferramentas](#ferramenta-duravel) e [mobs](#mob). Assim como as ferramentas, as armaduras possuem durabilidade limitada e oferecem uma quantidade definida de pontos de armadura.
 
-- **Observação**: Essa entidade é uma especialização da entidade [Durável](#duravel).
+- **Observação**: Essa entidade é uma especialização da entidade [Craftável](#craftavel).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Duravel | ID identificador da armadura. | --- | --- | FK |
-| Pts_armadura | Indica a capacidade de proteção da armadura. | --- | --- | --- |
+| nome_item | Nome do item que é uma armadura durável. | VARCHAR | 30 | PRIMARY KEY, FOREIGN KEY |
+| pts_armadura | Pontos de armadura que o item fornece ao jogador | DECIMAL | 2,1 | NOT NULL |
+| durabilidade_total | Durabilidade total da armadura. | INT | --- | NOT NULL |
+| receita | Receita para fabricar o item. | TEXT | --- | NOT NULL |
+
 
 ### [Estrutura](#estrutura)
 
-A entidade [Estrutura](#estrutura) descreve as diversas estruturas pré-geradas no mapa do jogo. Cada [Bioma](#bioma) pode conter uma estrutura que pode ser explorada pelo [Jogador](#jogador) para obter recompensas.
+A entidade [Estrutura](#estrutura) descreve as estruturas pré-geradas no [mapa](#mapa) do jogo. Cada [chunk](#chunk) pode abrigar uma dessas estruturas de acordo com a sua probabilidade, que podem ser exploradas pelo jogador em busca de recompensas.
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| ID_Estrutura | ID identificador da estrutura. | --- | --- | PK |
-| Item | Identifica o item que a estrutura fornece. | --- | --- | FK |
-| Nome | Nome da estrutura. | --- | --- | --- |
+| nome | Nome único que identifica a estrutura. | VARCHAR | 30 | PRIMARY KEY |
+| probabilidade | Probabilidade de a estrutura ser gerada em um chunk. | DECIMAL | 3,2 | NOT NULL |
 
 ### [Fonte](#fonte)
 
-A entidade [Fonte](#fonte) descreve as fontes naturais de recursos dentro do jogo. Cada [Bioma](#bioma) possui diferentes fontes, que podem ser mineradas pelo [Jogador](#jogador) utilizando [Ferramenta](#ferramenta), para obter [Item](#item) específicos. 
+A entidade [Fonte](#fonte) descreve as fontes naturais de recursos dentro do jogo. Cada fonte fornece uma quantidade máxima de [itens](#item) específicos que podem ser minerados pelo [jogador](#jogador) utilizando [ferramentas](#ferramenta-duravel). 
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| ID_Fonte | ID identificador da fonte. | --- | --- | PK |
-| Item | Identifica o item que a fonte fornece. | --- | --- | FK |
-| Nome | Nome da fonte. | --- | --- | --- |
-
-### [Ferramenta](#ferramenta)
-
-A entidade [Ferramenta](#ferramenta) descreve um dos tipos de itens mais importantes do jogo. As ferramentas englobam desde Armas até demais itens. Ferramentas causam pontos de dano ao serem utilizadas contra [Mobs](#mob) e [Jogadores](#jogador) e podem ser utilizadas para minerar [Fonte](#fonte), fornecendo [Item](#item).
-
-- **Observação**: Essa entidade é uma especialização da entidade [Durável](#duravel) e possui chave estrangeira da entidade [Fonte](#fonte).
-
-| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
-| :---: | :---: | :---: | :---: | :---: |
-| Duravel | ID identificador do item. | --- | --- | PK, FK |
-| Fonte | Representa a fonte que a ferramenta é capaz de minerar. | --- | ---
-
- | FK |
-| Pontos_dano | Indica o dano que a ferramenta causa em um mob. | --- | --- | --- |
+| nome | Nome único que identifica a fonte. | VARCHAR | 30 | PRIMARY KEY |
+| qtd_max | Quantidade máxima de itens que a fonte pode fornecer. | INT | --- | NOT NULL |
 
 ### [Bioma](#bioma)
 
-A entidade [Bioma](#bioma) descreve os biomas do jogo. Cada instância de Bioma pode ser localizada pelo ID do Bioma ou pela coordenada X e Y da [Chunk](#chunk) da qual a instância faz parte. O Bioma define as características de cada célula do [Mapa](#mapa) e é uma das entidades mais complexas por relacionar uma grande quantidade de entidades.
-
-- **Observação**: Essa entidade possui chave estrangeira das entidades [Chunk](#chunk), [Estrutura](#estrutura) e [Fonte](#fonte).
+A entidade [Bioma](#bioma) descreve os diferentes biomas presentes no jogo, identificados por um nome único. O bioma determina as características específicas de cada [chunk](#chunk) no [mapa](#mapa).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| ID_Bioma | ID identificador do bioma | --- | --- | PK |
-| ChunkX | Identifica a coordenada X do chunk que o bioma está localizado. | --- | --- | FK |
-| ChunkY | Identifica a coordenada Y do chunk que o bioma está localizado. | --- | --- | FK |
-| Estrutura | Identifica a estrutura disponível no chunk. | --- | --- | FK |
-| Fonte | Identifica a fonte disponível na fonte. | --- | --- | FK |
-| Nome | Nome do bioma | --- | --- | --- |
+| nome | Nome único que identifica o bioma. | VARCHAR | 30 | PRIMARY KEY |
 
 ### [Inventário](#inventario)
 
-A entidade [Inventário](#inventario) descreve o inventário do [Jogador](#jogador).
+A entidade [Inventário](#inventario) representa o inventário do [jogador](#jogador). A tabela Inventário atua como uma tabela intermediária que resulta da relação entre jogador e item. Sendo uma entidade fraca, o inventário é identificado exclusivamente pelo ID do jogador que possui os itens nele contidos.
 
-- **Observação**: Essa entidade possui chave estrangeira da entidade [Item](#item).
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Jogador](#jogador) e [Item](#item).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| ID_Inventario | ID identificador do inventário | --- | --- | PK |
-| Item | Identifica o item armazenado no inventário. | --- | --- | FK |
+| id_inventario | Identificador referenciando o jogador que possui o item. | INT | --- | FOREIGN KEY |
+| id_inst_item | Identificador da instância de item possuido pelo jogador. | INT | --- | FOREIGN KEY, UNIQUE |
 
 ### [Jogador](#jogador)
 
-A entidade [Jogador](#jogador) representa o jogador, o personagem principal do jogo. Cada instância de Jogador possui um ID e diversos atributos que o caracterizam.
+A entidade [Jogador](#jogador) representa o personagem principal do jogo. Cada instância de Jogador possui um identificador único, além de diversos atributos que o caracterizam. O jogador conta com quatro atributos específicos para equipar itens de [armadura](#armadura-duravel). Além disso, o jogador possui chaves estrangeiras que indicam o [chunk](#chunk) em que ele se encontra no momento e a [missão](#missao) que está realizando.
 
-- **Observação**: Essa entidade possui chave estrangeira das entidades [Bioma](#bioma) e [Inventário](#inventario).
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Chunk](#chunk), [Missão](#missao) e [Armadura](#armadura-duravel).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| ID_Jogador | ID identificador do jogador. | --- | --- | PK |
-| Bioma | Nome do bioma em que o jogador está em determinado instante. | --- | --- | FK |
-| Inventario | Inventário único do jogador. | --- | --- | FK |
-| Nome | Nome do jogador. | --- | --- | --- |
-| Fome | Quantidade de fome que o jogador está em determinado instante. | --- | --- | --- |
-| Vida | Quantidade de pontos de vida que o jogador está em determinado instante. | --- | --- | --- |
-| Nivel | Nível que o jogador está em determinado instante. | --- | --- | --- |
-| Experiencia | Quantidade de experiência que um jogador tem em determinado instante. Essa experiência poderá ser utilizada para melhorar as ferramentas. | --- | --- | --- |
+| id_jogador | Identificador único do jogador. | SERIAL | --- | PRIMARY KEY |
+| nome | Nome do jogador. | VARCHAR | 10 | NOT NULL |
+| fome | Quantidade de pontos de fome que o jogador possui em determinado instante. | DECIMAL | 2,1 | NOT NULL |
+| vida | Quantidade de pontos de vida que o jogador possui em determinado instante. | DECIMAL | 2,1 | NOT NULL |
+| nivel | Nível que o jogador está em determinado instante. | INT | --- | NOT NULL |
+| exp | Quantidade de experiência que um jogador tem em determinado instante. Essa experiência poderá ser utilizada para reparar as ferramentas. | DECIMAL | 2,1 | NOT NULL |
+| cabeca | Identificador da armadura equipada na cabeça. | VARCHAR | 30 | FOREIGN KEY |
+| peito | Identificador da armadura equipada no peito. | VARCHAR | 30 | FOREIGN KEY |
+| pernas | Identificador da armadura equipada na cabeça. | VARCHAR | 30 | FOREIGN KEY |
+| pe | Identificador da armadura equipada nos pés. | VARCHAR | 30 | FOREIGN KEY |
+| numero_chunk | Identificador do chunk onde o jogador está localizado. | INT | --- | FOREIGN KEY, NOT NULL |
+| missao | Identificador da missão atual do jogador. | INT | --- | FOREIGN KEY |
+
+### [Missão](#missao)
+
+A entidade [Missão](#missao) armazena a lista de missões disponíveis no jogo, que auxiliam o [jogador](#jogador) na exploração do mundo. Cada missão é identificada por um ID único e segue uma sequência específica de missões. As missões incluem uma descrição, um objetivo, e oferecem experiência e recompensas para o jogador. As missões sequenciais são desbloqueadas e apresentadas ao jogador por meio de uma interface ao interagir com um [NPC](#npc), embora o NPC atue apenas como uma interface, sem qualquer relação direta com a missão em si.
+
+- **Observação**: Essa entidade possui chave estrangeira para a entidade [Item](#item).
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| id_missao | Identificador único da missão. | SERIAL | --- | PRIMARY KEY |
+| nome | Nome da missão. | VARCHAR | 30 | NOT NULL |
+| descricao | Descrição detalhada da missão. | TEXT | --- | NOT NULL |
+| objetivo | Objetivo que deve ser cumprido pelo jogador para completar a missão. | TEXT | --- | NOT NULL |
+| exp | Quantidade de experiência oferecida pela conclusão da missão. | DECIMAL | 2,1 | NOT NULL |
+| recompensa | Recompensa fornecida ao completar a missão. | TEXT | --- | NOT NULL |
+| nome_item | Identificador do item fornecido como recompensa. | VARCHAR | 30 | FOREIGN KEY |
 
 ### [Mob](#mob)
 
-A entidade [Mob](#mob) descreve as demais entidades vivas no jogo como inimigos e NPCs. A entidade Mob pode ser especializada em [Agressivo](#agressivo) ou [Pacífico](#pacifico).
-
-- **Observação**: Essa entidade possui chave estrangeira da entidade [Bioma](#bioma).
+A entidade [Mob](#mob) representa todas as entidades vivas no jogo, como inimigos e NPCs. Cada mob possui um nome único, uma vida máxima e uma probabilidade de spawn. Além disso, os mobs podem ser especializados como [Agressivos](#agressivo) ou [Pacíficos](#pacifico), dependendo de seu comportamento no jogo.
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| ID_Mob | ID identificador do mob. | --- | --- | PK |
-| Bioma | Nome do bioma que o mob está em determinado instante. | --- | --- | FK |
-| Vida | Quantidade de pontos de vida que o mob está em determinado instante. | --- | --- | --- |
-| Nome_mob | Nome do mob. | --- | --- | --- |
-| Tipo_mob | Identifica a especialização do mob. | --- | --- | --- |
+| nome | Nome único que identifica o mob. | VARCHAR | 10 | PRIMARY KEY |
+| vida_max | Vida máxima que o mob pode ter. | DECIMAL | 2,1 | NOT NULL |
+| probabilidade | Probabilidade de spawn do mob. | DECIMAL | 3,2 | NOT NULL |
+| tipo_mob | Tipo de especialização do mob. | ENUM('agressivo', 'pacifico') | --- | NOT NULL |
+
+
 
 ### [Agressivo](#agressivo)
 
-A entidade [Agressivo](#agressivo) modela os mobs de comportamento agressivo ou neutro. Mobs agressivos possuem pontos de dano que removem Vida do [Jogador](#jogador) quando os atacam, além disso, eles podem ser impulsivos, sempre atacando o jogador, ou não, atacando somente se forem atacados. 
+A entidade [Agressivo](#agressivo) modela os mobs com comportamento agressivo ou neutro. Mobs agressivos possuem pontos de dano que reduzem a vida do [jogador](#jogador) quando o atacam. Esses mobs podem ser impulsivos, atacando o jogador sempre que o encontram, ou podem adotar um comportamento reativo, atacando apenas se forem provocados.
 
 - **Observação**: Essa entidade é uma especialização da entidade [Mob](#mob).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Mob | ID identificador do mob. | --- | --- | PK, FK |
-| Impulsivo | Declara se o mob é impulsivo ou não, ou seja, se ele ataca ao chegar próximo dele. | --- | --- |  |
-| Pts_dano | Declara a quantidade de dano que o mob causa. | --- | --- |  |
+| nome_mob | Nome do mob que é agressivo. | VARCHAR | 10 | PRIMARY KEY, FOREIGN KEY |
+| impulsivo | Determina o comportamento impulsivo do mob. | BOOLEAN | --- | NOT NULL |
+| pts_dano | Declara a quantidade de dano que o mob causa ao jogador. | DECIMAL | 2,1 | NOT NULL |
+| vida_max | Vida máxima que o mob pode ter. | DECIMAL | 2,1 | NOT NULL |
+| probabilidade | Probabilidade de spawn do mob. | DECIMAL | 3,2 | NOT NULL |
 
 ### [Pacífico](#pacifico)
 
-A entidade [Pacífico](#pacifico) modela os mobs de comportamento pacífico. Mobs pacíficos nunca atacam o [Jogador](#jogador) e podem ser especializados em [NPC](#npc).
+A entidade [Pacífico](#pacifico) modela os mobs com comportamento pacífico. Mobs pacíficos nunca atacam o [jogador](#jogador) e podem ser especializados como [NPC](#npc).
 
 - **Observação**: Essa entidade é uma especialização da entidade [Mob](#mob).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Mob | ID identificador do mob. | --- | --- | FK |
-| Tipo_Pacifico | Identifica a especialização do mob pacífico. | --- | --- |  |
+| nome_mob | Nome do mob que é pacífico. | VARCHAR | 10 | NOT NULL |
+| vida_max | Vida máxima do mob pacífico. | DECIMAL | 2,1 | NOT NULL |
+| probabilidade | Probabilidade de spawn do mob. | DECIMAL | 3,2 | NOT NULL |
+| tipo_pacifico | Tipo de especialização do mob pacífico | ENUM('NPC', 'outro') | --- | NOT NULL |
 
 ### [NPC](#npc)
 
-A entidade [NPC](#npc) modela os mobs pacíficos conhecidos como Aldeões. Aldeões são os únicos mobs do jogo que podem oferecer [Missão](#missao), atuando como guia do jogador no jogo.
+A entidade [NPC](#npc) modela os mobs pacíficos conhecidos como Aldeões. Os Aldeões são os únicos mobs no jogo que podem oferecer [missões](#missao), auxiliando o jogador a progredir no fluxo do jogo.
 
 - **Observação**: Essa entidade é uma especialização da entidade [Pacífico](#pacifico).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| Pacifico | ID identificador do mob. | --- | --- | FK |
+| nome_pacifico | Nome do mob pacífico que é um NPC. | VARCHAR | 10 | PRIMARY KEY, FOREIGN KEY |
+| nome_proprio | Nome próprio do NPC (específico para cada instância). | VARCHAR | 10 | NOT |
 
-### [Missão](#missao)
+## Tabelas Instância
 
-A entidade [Missão](#missao) representa as diferentes missões fornecidas pelos Aldeões. As missões têm como objetivo guiar o jogador dentro do jogo, sendo de critério do jogador segui-las ou não. Cada instância de Missão fornece uma recompensa quando concluída.
+### [Instância Construível](#instancia-construivel)
 
-- **Observação**: Essa tabela possui chave estrangeira da entidade [NPC](#npc).
+A entidade [Instância Construível](#instancia-construivel) representa as diferentes ocorrências da entidade [Construível](#construivel) dentro do [mapa](#mapa). Cada instância é identificada por um ID único, permitindo distinguir entre as diversas construções presentes no jogo.
 
-| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
-| :---: | :---: | :---: | :---: | :---: |
-| ID_Missao | ID identificador da missão. | --- | --- | PK |
-| NPC | ID identificador do mob. | --- | --- | FK |
-| Nome_Missao | Nome da missão fornecida pelo NPC ao jogador. | --- | --- |  |
-| Descricao | Descrição da missão fornecida pelo NPC ao jogador. | --- | --- |  |
-| Objetivo | Objetivo da missão fornecida pelo NPC ao jogador. | --- | --- |  |
-| Recompensa | Recompensa da missão fornecida pelo NPC destinada ao jogador quando concluída. | --- | --- | --- |
-
-## Instâncias
-
-### Instância Construível
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Construível](#construivel) e [Chunk](#chunk).
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
 | id_inst_construivel |  | --- | --- |  |
 | nome_construivel |  | --- | --- |  |
 | numero_chunk |  | --- | --- |  |
+
+### [Instância Item](#instancia-item)
+
+A entidade [Instância Item](#instancia-item) representa as ocorrências específicas de itens no jogo. Cada instância possui um identificador único e uma durabilidade atual. As instâncias de item podem estar armazenadas no [inventário](#inventario) de um [jogador](#jogador) ou situadas no chão de algum [chunk](#chunk).
+
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Item](#item) e [Inventário](#inventario).
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| id_inst_item |  | --- | --- |  |
+| nome_item |  | --- | --- |  |
+| id_inventario |  | --- | --- |  |
+| durabilidade_atual |  | --- | --- |  |
+
+### [Instância Estrutura](#instancia-estrutura)
+
+A entidade [Instância Estrutura](#instancia-estrutura) representa as ocorrências de estruturas pré-geradas no jogo. Cada instância possui um identificador único e o nome da [estrutura](#estrutura) que representa, além de estar vinculada ao [bioma](#bioma) e ao [chunk](#chunk) em que está localizada.
+
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Estrutura](#estrutura), [Bioma](#bioma) e [Chunk](#chunk).
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| id_inst_estrutura | ID identificador da estrutura. | --- | --- |  |
+| nome_estrutura |  | --- | --- |  |
+| id_bioma |  | --- | --- |  |
+| numero_chunk |  | --- | --- |  |
+
+### [Instância Fonte](#instancia-fonte)
+
+A entidade [Instância Fonte](#instancia-fonte) representa as ocorrências de fontes naturais de recursos no jogo. Cada instância possui um identificador único, o nome da [fonte](#fonte) que representa e a quantidade atual de recursos disponíveis. Além disso, cada instância está vinculada a um [chunk](#chunk) específico onde a fonte está localizada e ao [material](#item) que ela fornece.
+
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Fonte](#fonte), [Item](#item) e [Chunk](#chunk).
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| id_inst_fonte | ID identificador da fonte. | --- | --- |  |
+| nome_fonte |  | --- | --- |  |
+| qtd_atual |  | --- | --- |  |
+| numero_chunk |  | --- | --- |  |
+| nome_item_drop |  | --- | --- |  |
+
+### [Instância Mob](#instancia-mob)
+
+A entidade [Instância Mob](#instancia-mob) representa as ocorrências de mobs no jogo. Cada instância possui um identificador único, o nome do [mob](#mob) que representa e a vida atual do mob. As instâncias de mob também estão associadas a um [chunk](#chunk) específico e, opcionalmente, a uma [estrutura](#estrutura) em que o mob pode estar presente.
+
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Mob](#mob), [Chunk](#chunk) e [Estrutura](#estrutura).
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| id_inst_mob | ID identificador do mob. | --- | --- |  |
+| nome_mob |  | --- | --- | --- |
+| vida_atual |  | --- | --- | --- |
+| numero_chunk |  | --- | --- | --- |
+| id_estrutura |  | --- | --- | --- |
+
 
 ## Histórico de versões
 
