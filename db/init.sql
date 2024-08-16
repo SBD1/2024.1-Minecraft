@@ -1,234 +1,262 @@
--- Tabela Item
-CREATE TABLE Item (
-    nome VARCHAR(50) PRIMARY KEY,
-    tipo_item VARCHAR(50)
-);
+-- Criando tipos ENUM
 
--- Tabela Mob
-CREATE TABLE Mob (
-    nome VARCHAR(50) PRIMARY KEY,
-    vida_max INT,
-    tipo_mob VARCHAR(50),
-    probabilidade DECIMAL
-);
+-- Tipo ENUM para o ciclo de dia
+CREATE TYPE ciclo_dia AS ENUM ('dia', 'tarde', 'noite');
 
--- Tabela Agressivo
-CREATE TABLE Agressivo (
-    nome_mob VARCHAR(50) PRIMARY KEY,
-    impulso INT,
-    pts_dano INT,
-    probabilidade DECIMAL,
-    vida_max INT,
-    FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
-);
+-- Tipo ENUM para o tipo de item
+CREATE TYPE tipo_item AS ENUM ('material', 'craftavel', 'alimento');
 
--- Tabela Pacifco
-CREATE TABLE Pacifco (
-    nome_mob VARCHAR(50) PRIMARY KEY,
-    probabilidade DECIMAL,
-    vida_max INT,
-    tipo_pacifco VARCHAR(50),
-    FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
-);
+-- Tipo ENUM para o tipo de item craftável
+CREATE TYPE tipo_craftavel AS ENUM ('funcional', 'ferramenta', 'armadura');
 
--- Tabela Craftavel
-CREATE TABLE Craftavel (
-    nome_item VARCHAR(50) PRIMARY KEY,
-    tipo_craftavel VARCHAR(50),
-    receita TEXT,
-    FOREIGN KEY (nome_item) REFERENCES Item(nome)
-);
+-- Tipo ENUM para o tipo de mob
+CREATE TYPE tipo_mob AS ENUM ('agressivo', 'pacifico');
 
--- Tabela Duravel_Armadura
-CREATE TABLE Duravel_Armadura (
-    nome VARCHAR(50) PRIMARY KEY,
-    durabilidade_total INT,
-    pts_armadura INT,
-    receita TEXT,
-    FOREIGN KEY (nome) REFERENCES Item(nome)
-);
+-- Tipo ENUM para o tipo de mob pacífico
+CREATE TYPE tipo_pacifico AS ENUM ('NPC', 'outro');
 
--- Tabela Duravel_Ferramenta
-CREATE TABLE Duravel_Ferramenta (
-    nome VARCHAR(50) PRIMARY KEY,
-    durabilidade_total INT,
-    pts_dano INT,
-    receita TEXT,
-    FOREIGN KEY (nome) REFERENCES Item(nome)
-);
-
--- Tabela Funcional
-CREATE TABLE Funcional (
-    nome VARCHAR(50) PRIMARY KEY,
-    funcao VARCHAR(50),
-    receita TEXT,
-    FOREIGN KEY (nome) REFERENCES Item(nome)
-);
-
--- Tabela Alimento
-CREATE TABLE Alimento (
-    nome_item VARCHAR(50) PRIMARY KEY,
-    pts_fome INT,
-    FOREIGN KEY (nome_item) REFERENCES Item(nome)
-);
+-- Tabelas Entidade
 
 -- Tabela Mapa
 CREATE TABLE Mapa (
-    nome VARCHAR(50) PRIMARY KEY,
-    hora VARCHAR(50)
+    nome VARCHAR(30) PRIMARY KEY,
+    hora ciclo_dia NOT NULL
 );
 
 -- Tabela Bioma
 CREATE TABLE Bioma (
-    nome VARCHAR(50) PRIMARY KEY
+    nome VARCHAR(30) PRIMARY KEY
 );
 
 -- Tabela Chunk
 CREATE TABLE Chunk (
-    numero INT PRIMARY KEY,
-    nome_mapa VARCHAR(50),
-    nome_bioma VARCHAR(50),
-    FOREIGN KEY (nome_mapa) REFERENCES Mapa(nome),
-    FOREIGN KEY (nome_bioma) REFERENCES Bioma(nome)
+    numero SERIAL PRIMARY KEY,
+    nome_bioma VARCHAR(10) NOT NULL,
+    nome_mapa VARCHAR(30) NOT NULL,
+    FOREIGN KEY (nome_bioma) REFERENCES Bioma(nome),
+    FOREIGN KEY (nome_mapa) REFERENCES Mapa(nome)
+);
+
+-- Tabela Construível
+CREATE TABLE Construivel (
+    nome VARCHAR(10) PRIMARY KEY,
+    receita TEXT NOT NULL,
+    funcao TEXT NOT NULL
+);
+
+-- Tabela Item
+CREATE TABLE Item (
+    nome VARCHAR(30) PRIMARY KEY,
+    tipo_item tipo_item NOT NULL
+);
+
+-- Tabela Instância Item
+CREATE TABLE InstanciaItem (
+    id_inst_item SERIAL PRIMARY KEY,
+    nome_item VARCHAR(30) NOT NULL,
+    durabilidade_atual INT NOT NULL,
+    FOREIGN KEY (nome_item) REFERENCES Item(nome)
+);
+
+-- Tabela Alimento
+CREATE TABLE Alimento (
+    nome_item VARCHAR(30) PRIMARY KEY,
+    pts_fome DECIMAL(2,1) NOT NULL,
+    FOREIGN KEY (nome_item) REFERENCES Item(nome)
+);
+
+-- Tabela Craftável
+CREATE TABLE Craftavel (
+    nome_item VARCHAR(30) PRIMARY KEY,
+    tipo_craftavel tipo_craftavel NOT NULL,
+    receita TEXT NOT NULL,
+    FOREIGN KEY (nome_item) REFERENCES Item(nome)
+);
+
+-- Tabela Funcional
+CREATE TABLE Funcional (
+    nome_item VARCHAR(30) PRIMARY KEY,
+    funcao TEXT NOT NULL,
+    receita TEXT NOT NULL,
+    FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
+);
+
+-- Tabela Ferramenta Durável
+CREATE TABLE FerramentaDuravel (
+    nome_item VARCHAR(30) PRIMARY KEY,
+    durabilidade_total INT NOT NULL,
+    pts_dano DECIMAL(2,1) NOT NULL,
+    receita TEXT NOT NULL,
+    FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
+);
+
+-- Tabela Armadura Durável
+CREATE TABLE ArmaduraDuravel (
+    nome_item VARCHAR(30) PRIMARY KEY,
+    pts_armadura DECIMAL(2,1) NOT NULL,
+    durabilidade_total INT NOT NULL,
+    receita TEXT NOT NULL,
+    FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
+);
+
+-- Tabela Estrutura
+CREATE TABLE Estrutura (
+    nome VARCHAR(30) PRIMARY KEY,
+    probabilidade DECIMAL(3,2) NOT NULL
+);
+
+-- Tabela Fonte
+CREATE TABLE Fonte (
+    nome VARCHAR(30) PRIMARY KEY,
+    qtd_max INT NOT NULL
+);
+
+-- Tabela Missão
+CREATE TABLE Missao (
+    id_missao SERIAL PRIMARY KEY,
+    nome VARCHAR(30) NOT NULL,
+    descricao TEXT NOT NULL,
+    objetivo TEXT NOT NULL,
+    exp DECIMAL(2,1) NOT NULL,
+    recompensa TEXT NOT NULL,
+    nome_item VARCHAR(30),
+    FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
 
 -- Tabela Jogador
 CREATE TABLE Jogador (
     id_jogador SERIAL PRIMARY KEY,
-    nome VARCHAR(50),
-    fome INT,
-    vida INT,
-    nivel INT,
-    cabeca VARCHAR(50),
-    peitoral VARCHAR(50),
-    calca VARCHAR(50),
-    botas VARCHAR(50),
-    pe VARCHAR(50),
-    numero_chunk INT,
+    nome VARCHAR(10) NOT NULL,
+    fome DECIMAL(2,1) NOT NULL,
+    vida DECIMAL(2,1) NOT NULL,
+    nivel INT NOT NULL,
+    exp DECIMAL(2,1) NOT NULL,
+    cabeca VARCHAR(30),
+    peito VARCHAR(30),
+    pernas VARCHAR(30),
+    pe VARCHAR(30),
+    numero_chunk INT NOT NULL,
     missao INT,
-    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
+    FOREIGN KEY (cabeca) REFERENCES ArmaduraDuravel(nome_item),
+    FOREIGN KEY (peito) REFERENCES ArmaduraDuravel(nome_item),
+    FOREIGN KEY (pernas) REFERENCES ArmaduraDuravel(nome_item),
+    FOREIGN KEY (pe) REFERENCES ArmaduraDuravel(nome_item),
+    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero),
+    FOREIGN KEY (missao) REFERENCES Missao(id_missao)
 );
 
--- Tabela Inventario
+-- Tabela Inventário
 CREATE TABLE Inventario (
-    id_inventario SERIAL PRIMARY KEY,
-    id_jogador INT,
-    FOREIGN KEY (id_jogador) REFERENCES Jogador(id_jogador)
+    id_inventario INT NOT NULL,
+    id_inst_item INT UNIQUE NOT NULL,
+    FOREIGN KEY (id_inventario) REFERENCES Jogador(id_jogador),
+    FOREIGN KEY (id_inst_item) REFERENCES InstanciaItem(id_inst_item)
 );
 
--- Tabela Instancia_Item
-CREATE TABLE Instancia_Item (
-    id_inst_item SERIAL PRIMARY KEY,
-    nome_item VARCHAR(50),
-    durabilidade_atual INT,
-    id_inventario INT,
-    FOREIGN KEY (nome_item) REFERENCES Item(nome),
-    FOREIGN KEY (id_inventario) REFERENCES Inventario(id_inventario)
+-- Tabela Mob
+CREATE TABLE Mob (
+    nome VARCHAR(10) PRIMARY KEY,
+    vida_max DECIMAL(2,1) NOT NULL,
+    probabilidade DECIMAL(3,2) NOT NULL,
+    tipo_mob tipo_mob NOT NULL
 );
 
--- Tabela Missao
-CREATE TABLE Missao (
-    id_missao SERIAL PRIMARY KEY,
-    nome VARCHAR(50),
-    descricao TEXT,
-    objetivo TEXT,
-    exp INT,
-    recompensa VARCHAR(50),
-    FOREIGN KEY (recompensa) REFERENCES Item(nome)
+-- Tabela Agressivo
+CREATE TABLE Agressivo (
+    nome_mob VARCHAR(10) PRIMARY KEY,
+    impulsivo BOOLEAN NOT NULL,
+    pts_dano DECIMAL(2,1) NOT NULL,
+    vida_max DECIMAL(2,1) NOT NULL,
+    probabilidade DECIMAL(3,2) NOT NULL,
+    FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
+);
+
+-- Tabela Pacífico
+CREATE TABLE Pacifico (
+    nome_mob VARCHAR(10) PRIMARY KEY,
+    vida_max DECIMAL(2,1) NOT NULL,
+    probabilidade DECIMAL(3,2) NOT NULL,
+    tipo_pacifico tipo_pacifico NOT NULL,
+    FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
 );
 
 -- Tabela NPC
 CREATE TABLE NPC (
-    nome_pacifco VARCHAR(50),
-    id_missao INT,
-    FOREIGN KEY (id_missao) REFERENCES Missao(id_missao)
+    nome_pacifico VARCHAR(10) PRIMARY KEY,
+    nome_proprio VARCHAR(10) NOT NULL,
+    FOREIGN KEY (nome_pacifico) REFERENCES Pacifico(nome_mob)
 );
 
--- Tabela Instancia_Mob
-CREATE TABLE Instancia_Mob (
-    id_inst_mob SERIAL PRIMARY KEY,
-    nome_mob VARCHAR(50),
-    vida_atual INT,
-    numero_chunk INT,
-    FOREIGN KEY (nome_mob) REFERENCES Mob(nome),
+-- Tabelas Instância
+
+-- Tabela Instância Construível
+CREATE TABLE InstanciaConstruivel (
+    id_inst_construivel SERIAL PRIMARY KEY,
+    nome_construivel VARCHAR(30) NOT NULL,
+    numero_chunk INT NOT NULL,
+    FOREIGN KEY (nome_construivel) REFERENCES Construivel(nome),
     FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
 );
 
--- Tabela Estrutura
-CREATE TABLE Estrutura (
-    nome VARCHAR(50) PRIMARY KEY,
-    probabilidade DECIMAL
-);
-
--- Tabela Instancia_Estrutura
-CREATE TABLE Instancia_Estrutura (
+-- Tabela Instância Estrutura
+CREATE TABLE InstanciaEstrutura (
     id_inst_estrutura SERIAL PRIMARY KEY,
-    nome_estrutura VARCHAR(50),
-    id_bioma INT,
-    numero_chunk INT,
+    nome_estrutura VARCHAR(30) NOT NULL,
+    id_bioma VARCHAR(10) NOT NULL,
+    numero_chunk INT NOT NULL,
     FOREIGN KEY (nome_estrutura) REFERENCES Estrutura(nome),
-    FOREIGN KEY (id_bioma) REFERENCES Bioma(nome)
+    FOREIGN KEY (id_bioma) REFERENCES Bioma(nome),
+    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
 );
 
--- Tabela Estrutura_Fornece_Item
-CREATE TABLE Estrutura_Fornece_Item (
-    id_inst_estrutura INT,
-    nome_estrutura VARCHAR(50),
-    nome_item VARCHAR(50),
-    probabilidade DECIMAL,
-    PRIMARY KEY (id_inst_estrutura, nome_estrutura, nome_item),
-    FOREIGN KEY (id_inst_estrutura) REFERENCES Instancia_Estrutura(id_inst_estrutura),
-    FOREIGN KEY (nome_estrutura) REFERENCES Estrutura(nome),
-    FOREIGN KEY (nome_item) REFERENCES Item(nome)
-);
-
--- Tabela Fonte
-CREATE TABLE Fonte (
-    nome VARCHAR(50) PRIMARY KEY,
-    qtd_max INT
-);
-
--- Tabela Instancia_Fonte
-CREATE TABLE Instancia_Fonte (
+-- Tabela Instância Fonte
+CREATE TABLE InstanciaFonte (
     id_inst_fonte SERIAL PRIMARY KEY,
-    nome_fonte VARCHAR(50),
-    qtd_atual INT,
-    numero_chunk INT,
+    nome_fonte VARCHAR(30) NOT NULL,
+    qtd_atual INT NOT NULL,
+    numero_chunk INT NOT NULL,
+    nome_item_drop VARCHAR(30) NOT NULL,
     FOREIGN KEY (nome_fonte) REFERENCES Fonte(nome),
-    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
+    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero),
+    FOREIGN KEY (nome_item_drop) REFERENCES Item(nome)
 );
 
--- Tabela Ferramenta_Mineira_usarFonte
-CREATE TABLE Ferramenta_Mineira_usarFonte (
-    nome_ferramenta VARCHAR(50),
-    id_fonte INT,
-    PRIMARY KEY (nome_ferramenta, id_fonte),
-    FOREIGN KEY (nome_ferramenta) REFERENCES Duravel_Ferramenta(nome),
-    FOREIGN KEY (id_fonte) REFERENCES Fonte(nome)
+-- Tabela Instância Mob
+CREATE TABLE InstanciaMob (
+    id_inst_mob SERIAL PRIMARY KEY,
+    nome_mob VARCHAR(10) NOT NULL,
+    vida_atual DECIMAL(2,1) NOT NULL,
+    numero_chunk INT NOT NULL,
+    id_estrutura INT,
+    FOREIGN KEY (nome_mob) REFERENCES Mob(nome),
+    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero),
+    FOREIGN KEY (id_estrutura) REFERENCES InstanciaEstrutura(id_inst_estrutura)
 );
 
--- Tabela Mob_Dropa_Item
-CREATE TABLE Mob_Dropa_Item (
-    id_inst_mob INT,
-    nome_item VARCHAR(50),
-    probabilidade DECIMAL,
-    PRIMARY KEY (id_inst_mob, nome_item),
-    FOREIGN KEY (id_inst_mob) REFERENCES Instancia_Mob(id_inst_mob),
+-- Tabelas Intermediárias
+
+-- Tabela Mob Dropa Item
+CREATE TABLE MobDropaItem (
+    nome_mob VARCHAR(10) NOT NULL,
+    nome_item VARCHAR(30) NOT NULL,
+    probabilidade DECIMAL(3,2) NOT NULL,
+    FOREIGN KEY (nome_mob) REFERENCES Mob(nome),
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
 
--- Tabela Construtivel
-CREATE TABLE Construtivel (
-    nome VARCHAR(50) PRIMARY KEY,
-    receita TEXT,
-    funcao VARCHAR(50)
+-- Tabela Estrutura Fornece Item
+CREATE TABLE EstruturaForneceItem (
+    nome_estrutura VARCHAR(30) NOT NULL,
+    nome_item VARCHAR(30) NOT NULL,
+    probabilidade DECIMAL(3,2) NOT NULL,
+    FOREIGN KEY (nome_estrutura) REFERENCES Estrutura(nome),
+    FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
 
--- Tabela Instancia_Construtivel
-CREATE TABLE Instancia_Construtivel (
-    id_inst_construtivel SERIAL PRIMARY KEY,
-    nome_construtivel VARCHAR(50),
-    numero_chunk INT,
-    FOREIGN KEY (nome_construtivel) REFERENCES Construtivel(nome),
-    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
+-- Tabela Ferramenta Minera Instância de Fonte
+CREATE TABLE FerramentaMineraInstFonte (
+    nome_ferramenta VARCHAR(30) NOT NULL,
+    nome_fonte VARCHAR(30) NOT NULL,
+    FOREIGN KEY (nome_ferramenta) REFERENCES FerramentaDuravel(nome_item),
+    FOREIGN KEY (nome_fonte) REFERENCES Fonte(nome)
 );
