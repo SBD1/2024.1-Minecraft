@@ -74,9 +74,9 @@ VALUES  (1, 'Lenhador Novato', 'Colete madeira de uma árvore para obter recurso
 
 -- tabela Jogador
 INSERT INTO Jogador (id_jogador, nome, fome, vida, nivel, cabeca, peitoral, calca, botas, pe, numero_chunk, missao)
-VALUES  (1,'ehomiguel', 20, 20, 5, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1, 0);
-        (2,'ehobruno', 19, 18, 4, 'Capacete de Ouro', 'Peitoral de Ouro', 'Calças de Ouro', 'Botas de Ouro', 2, 1);
-        (3,'ehoarthur', 1, 1, 0, null, null, 'Calças de Couro', null, 55, 4);
+VALUES  (1,'EhOMiguel', 20, 20, 5, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1, 0);
+        (2,'EhOBruno', 19, 18, 4, 'Capacete de Ouro', 'Peitoral de Ouro', 'Calças de Ouro', 'Botas de Ouro', 2, 1);
+        (3,'EhOArthur', 1, 1, 0, null, null, 'Calças de Couro', null, 55, 4);
         (4,'lionKing', 0, 5, 4, null, null, null, null, 10, 0);
 
 -- tabela Instancia_Item
@@ -109,4 +109,97 @@ VALUES (1, 1),
         (11, 4),
         (12, 5),
 
+-- tabela Mob
+INSERT INTO Mob (nome, vida_max, tipo_mob, probabilidade)
+VALUES  ('Crepper', 20, 'Agressivo', ),
+        ('Zumbi', 25, 'Agressivo', ),
+        ('Lobo', 8, 'Agressivo', ),
+        ('Galinha', 5, 'Pacifico', ),
+        ('NPC', 20, 'Pacifico', ),
+        ('NPC', 20, 'Pacifico', );
+
+-- tabela Agressivo
+INSERT INTO Agressivo (nome_mob, impulsivo, pts_dano, probabilidade, vida_max)
+VALUES  ('Crepper', true, 10, , 20),
+        ('Zumbi', true, 3, ,25),
+        ('Lobo', false, 4, ,8);
+
+
+-- tabela Pacifico
+INSERT INTO Pacifico (nome_mob, tipo_Pacifico, vida_max, probabilidade)
+VALUES  ('Galinha', null, 10, 20, ),
+        ('NPC', 'NPC', 3, 20, ),
+        ('NPC', 'NPC', 3, 20, );
+
+-- tabela NPC
+INSERT INTO NPC (nome_mob, nome_proprio)
+VALUES  ('NPC', 'Cleitin'),
+        ('NPC', 'Josefa');
+
+-- tabela Instancia_Mob
+INSERT INTO Instancia_Mob (id_inst_mob, nome_mob, vida_atual, numero_chunk, id_estrutura)
+VALUES  (1, 'Crepper', , , ),
+        (2, 'Zumbi', , , ),
+        (3, 'Lobo', , , ),
+        (4, 'Galinha', , , ),
+        (5, 'NPC', , , );
+
+-- tabela Mob_Dropa_Item
+INSERT INTO Mob_Dropa_Item (id_inst_mob, nome_item, probabilidade)
+VALUES  (1, 'xp', 100),
+        (1, 'polvora', 100),
+        (2, 'Carne Podre', 50),
+        (2, 'Barra de Ferro', 1),
+        (4, 'Pena', 50),
+        (4, 'Frango', 100),
+        (4, 'xp', 100),
+        (4, 'ovo', 100);
+
+-- tabela Estrutura
+INSERT INTO Estrutura (nome, probabilidade)
+VALUES  ('Templo do deserto', 10),
+        ('Templo da selva', 15),
+        ('Vila', 20),
+        ('Fortaleza do Nether', 10),
+        ('Fortaleza', 10);
+
+-- tabela Instancia_Estrutura
+INSERT INTO Instancia_Estrutura (id_inst_estrutura, nome_estrutura, id_bioma, numero_chunk)
+VALUES  (1, 'Templo do deserto', 'Deserto', 1),
+        (2, 'Templo da selva', 'Floresta', 10),
+        (3, 'Vila', 'Planície', 40),
+        (4, 'Fortaleza do Nether', 'Nether', 200),
+        (5, 'Fortaleza', 'Caverna', 150);
+
+-- tabela Estrutura_Fornece_Item
+INSERT INTO Estrutura_Fornece_Item (id_inst_estrutura, nome_item, probabilidade)
+VALUES  (1, 'Barra de ouro', 18),
+        (2, 'Barra de ferro', 37),
+        (2, 'Diamante', 13);
+        (4, 'Pó de blaze', 50);
+
+
+-- tabela Fonte
+INSERT INTO Fonte (nome, qtd_max)
+VALUES  ('Madeira', 30),
+        ('Areia', 256),
+        ('Terra', 256),
+        ('Pedra', 300),
+        ('Ferro', 10);
+
+-- tabela Ferramenta_Mineira_usarFonte
+INSERT INTO Instancia_Fonte (id_inst_fonte, nome_fonte, qtd_atual, numero_chunk)
+VALUES  (1, 'Areia', 200, 1),
+        (2, 'Madeira', 15, 10),
+        (3, 'Terra', 256, 10),
+        (4, 'Pedra', 150, 150);
+        (5, 'Ferro', 2, 150);
+
+-- tabela Ferramenta_Mineira_usarFonte
+INSERT INTO Fonte (nome_ferramenta, id_fonte)
+VALUES  ('Machado', 2),
+        ('Pa', 1),
+        ('Pa', 3),
+        ('Picareta', 4),
+        ('Picareta', 5);
 
