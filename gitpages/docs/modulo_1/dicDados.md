@@ -254,9 +254,9 @@ A entidade [Instância Construível](#instancia-construivel) representa as difer
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| id_inst_construivel |  | --- | --- |  |
-| nome_construivel |  | --- | --- |  |
-| numero_chunk |  | --- | --- |  |
+| id_inst_construivel | Identificador único da instância de construível. | SERIAL | --- | PRIMARY KEY |
+| nome_construivel | Nome do construível associado a esta instância. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
+| numero_chunk | 	Número do chunk onde esta instância está localizada. | INT | --- | FOREIGN KEY, NOT NULL |
 
 ### [Instância Item](#instancia-item)
 
@@ -266,10 +266,10 @@ A entidade [Instância Item](#instancia-item) representa as ocorrências especí
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| id_inst_item |  | --- | --- |  |
-| nome_item |  | --- | --- |  |
-| id_inventario |  | --- | --- |  |
-| durabilidade_atual |  | --- | --- |  |
+| id_inst_item | Identificador único da instância de item. | SERIAL | --- | PRIMARY KEY |
+| nome_item | Nome do item associado a esta instância. | VARCHAR | 30 | FOREIGN KEY |
+| id_inventario | Identificador do inventário ao qual este item pertence. | INT | --- | FOREIGN KEY |
+| durabilidade_atual | Durabilidade atual do item. | INT | --- | NOT NULL |
 
 ### [Instância Estrutura](#instancia-estrutura)
 
@@ -279,10 +279,10 @@ A entidade [Instância Estrutura](#instancia-estrutura) representa as ocorrênci
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| id_inst_estrutura | ID identificador da estrutura. | --- | --- |  |
-| nome_estrutura |  | --- | --- |  |
-| id_bioma |  | --- | --- |  |
-| numero_chunk |  | --- | --- |  |
+| id_inst_estrutura | Identificador único da instância da estrutura. | SERIAL | --- | PRIMARY KEY |
+| nome_estrutura | Nome da estrutura associada a esta instância. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
+| id_bioma | Identificador do bioma onde a estrutura está localizada. | VARCHAR | 10 | FOREIGN KEY, NOT NULL |
+| numero_chunk | Número do chunk onde a estrutura está localizada. | INT | --- | FOREIGN KEY, NOT NULL |
 
 ### [Instância Fonte](#instancia-fonte)
 
@@ -292,11 +292,11 @@ A entidade [Instância Fonte](#instancia-fonte) representa as ocorrências de fo
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| id_inst_fonte | ID identificador da fonte. | --- | --- |  |
-| nome_fonte |  | --- | --- |  |
-| qtd_atual |  | --- | --- |  |
-| numero_chunk |  | --- | --- |  |
-| nome_item_drop |  | --- | --- |  |
+| id_inst_fonte | Identificador único da instância da fonte. | SERIAL | --- | PRIMARY KEY |
+| nome_fonte | Nome da fonte associada a esta instância. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
+| qtd_atual | Quantidade atual de recursos disponíveis na fonte. | INT | --- | NOT NULL |
+| numero_chunk | Número do chunk onde a fonte está localizada. | INT | --- | FOREIGN KEY, NOT NULL |
+| nome_item_drop | Nome do item que pode ser extraído desta fonte. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
 
 ### [Instância Mob](#instancia-mob)
 
@@ -306,12 +306,50 @@ A entidade [Instância Mob](#instancia-mob) representa as ocorrências de mobs n
 
 | Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
 | :---: | :---: | :---: | :---: | :---: |
-| id_inst_mob | ID identificador do mob. | --- | --- |  |
-| nome_mob |  | --- | --- | --- |
-| vida_atual |  | --- | --- | --- |
-| numero_chunk |  | --- | --- | --- |
-| id_estrutura |  | --- | --- | --- |
+| id_inst_mob | Identificador único da instância do mob. | SERIAL | --- | PRIMARY KEY |
+| nome_mob | Nome do mob associado a esta instância. | VARCHAR | 10 | FOREIGN KEY, NOT NULL |
+| vida_atual | Vida atual do mob nesta instância. | DECIMAL | 2,1 | FOREIGN KEY, NOT NULL |
+| numero_chunk | Número do chunk onde o mob está localizado. | INT | --- | FOREIGN KEY, NOT NULL |
+| id_estrutura | Identificador da intância de estrutura onde o mob pode estar, se aplicável. | INT | --- | FOREIGN KEY |
 
+
+
+## Tabelas Intermediárias
+
+### [Mob Dropa Item](#mob-dropa-item)
+
+A tabela [Mob Dropa Item](#mob-dropa-item) modela os itens que podem ser dropados por cada [mob](#mob). Cada [item](#item) possui uma probabilidade de ser dropado pelo mob quando ele é abatido.
+
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Mob](#mob) e [Item](#item).
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| nome_mob | Nome úncio do mob que pode dropar o item. | VARCHAR | 10 | FOREIGN KEY, NOT NULL |
+| nome_item | Nome do item que pode ser dropado pelo mob. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
+| probabilidade | Probabilidade de o item ser dropado pelo mob. | DECIMAL | 3,2 | NOT NULL |
+
+### [Estrutura Fornece Item](#estrutura-fornece-item)
+
+A tabela [Estrutura Fornece Item](#estrutura-fornece-item) modela os itens que podem ser obtidos explorando cada [estrutura](#estrutura). Cada [item](#item) possui uma probabilidade de ser encontrado dentro de uma estrutura explorada.
+
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Estrutura](#estrutura) e [Item](#item).
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| nome_estrutura | Nome úncio da estrutura que fornece o item. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
+| nome_item | Nome do item obtido pela estrutura. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
+| probabilidade | Probabilidade de o item ser encontrado dentro da estrutura. | DECIMAL | 3,2 | NOT NULL |
+
+### [Ferramenta Minera Instância de Fonte](#ferramenta-mienera-inst-fonte)
+
+A tabela [Ferramenta Minera Instância de Fonte](#ferramenta-mienera-inst-fonte) define quais ferramentas são capazes de minerar cada [fonte](#fonte). Cada fonte pode ser minerada por uma ou mais ferramentas diferentes, dependendo da sua finalidade.
+
+- **Observação**: Essa entidade possui chave estrangeira para as entidades [Ferramenta](#ferramenta-duravel) e [Fonte](#fonte).
+
+| Nome | Descrição | Tipo de Dado | Tamanho | Restrições de domínio |
+| :---: | :---: | :---: | :---: | :---: |
+| nome_ferramenta | Nome da ferramenta utilizada para minerar a fonte. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
+| nome_fonte | Nome único da fonte que está sendo minerada. | VARCHAR | 30 | FOREIGN KEY, NOT NULL |
 
 ## Histórico de versões
 
