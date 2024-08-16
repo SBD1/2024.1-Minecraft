@@ -268,7 +268,6 @@ A entidade [Instância Item](#instancia-item) representa as ocorrências especí
 | :---: | :---: | :---: | :---: | :---: |
 | id_inst_item | Identificador único da instância de item. | SERIAL | --- | PRIMARY KEY |
 | nome_item | Nome do item associado a esta instância. | VARCHAR | 30 | FOREIGN KEY |
-| id_inventario | Identificador do inventário ao qual este item pertence. | INT | --- | FOREIGN KEY |
 | durabilidade_atual | Durabilidade atual do item. | INT | --- | NOT NULL |
 
 ### [Instância Estrutura](#instancia-estrutura)
