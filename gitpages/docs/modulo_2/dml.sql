@@ -12,11 +12,11 @@ VALUES  ('Deserto'),
 
 -- tabela Chunk
 INSERT INTO Chunk (numero, nome_mapa, nome_bioma)
-VALUES  ('1', 'O incrivel mundo BD4', 'Deserto'),
-        ('10', 'O incrivel mundo BD4', 'Floresta'),
-        ('22', 'O incrivel mundo BD4', 'Montanhas'),
-        ('55', 'O incrivel mundo BD4', 'Caverna'),
-        ('7', 'O incrivel mundo BD4', 'Deserto');
+VALUES  (1, 'O incrivel mundo BD4', 'Deserto'),
+        (10, 'O incrivel mundo BD4', 'Floresta'),
+        (22, 'O incrivel mundo BD4', 'Montanhas'),
+        (55, 'O incrivel mundo BD4', 'Caverna'),
+        (7, 'O incrivel mundo BD4', 'Deserto');
 
 -- tabela Item
 INSERT INTO Item (nome, tipo_item)
@@ -66,17 +66,17 @@ VALUES  ('1', 'Casa', '10'),
 
 -- tabela Missao
 INSERT INTO Missao (id_missao, nome, descricao, objetivo, exp, recompensa)
-VALUES  (1, 'Lenhador Novato', 'Colete madeira de uma árvore para obter recursos básicos.', 'Coletar madeira', 10, '4 tabua');
-        (2, 'Artesão Iniciante', 'Crie uma mesa de trabalho para começar a fabricar itens.', 'Criar uma mesa de trabalho', 15, '2 gravetos');
-        (3, 'Explorador Iniciante', 'Abra seu inventário para começar a explorar seus itens.', 'Abrir o inventário', 20, '5 pao');
-        (4, 'Minerador Iniciante', 'Crie uma picareta de madeira para minerar seus primeiros blocos.', 'Criar uma picareta de madeira', 25, '1 picareta de madeira');
+VALUES  (1, 'Lenhador Novato', 'Colete madeira de uma árvore para obter recursos básicos.', 'Coletar madeira', 10, '4 tabua'),
+        (2, 'Artesão Iniciante', 'Crie uma mesa de trabalho para começar a fabricar itens.', 'Criar uma mesa de trabalho', 15, '2 gravetos'),
+        (3, 'Explorador Iniciante', 'Abra seu inventário para começar a explorar seus itens.', 'Abrir o inventário', 20, '5 pao'),
+        (4, 'Minerador Iniciante', 'Crie uma picareta de madeira para minerar seus primeiros blocos.', 'Criar uma picareta de madeira', 25, '1 picareta de madeira'),
         (5, 'Ferreiro Iniciante', 'Crie um forno para fundir minérios e cozinhar alimentos.', 'Criar um forno', 30, '5 carvao');
 
 -- tabela Jogador
-INSERT INTO Jogador (id_jogador, nome, fome, vida, nivel, cabeca, peitoral, calca, botas, pe, numero_chunk, missao)
-VALUES  (1,'EhOMiguel', 20, 20, 5, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1, 0);
-        (2,'EhOBruno', 19, 18, 4, 'Capacete de Ouro', 'Peitoral de Ouro', 'Calças de Ouro', 'Botas de Ouro', 2, 1);
-        (3,'EhOArthur', 1, 1, 0, null, null, 'Calças de Couro', null, 55, 4);
+INSERT INTO Jogador (id_jogador, nome, fome, vida, nivel, cabeca, peitoral, calca, pe, numero_chunk, missao)
+VALUES  (1,'EhOMiguel', 20, 20, 5, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1, 0),
+        (2,'EhOBruno', 19, 18, 4, 'Capacete de Ouro', 'Peitoral de Ouro', 'Calças de Ouro', 'Botas de Ouro', 2, 1),
+        (3,'EhOArthur', 1, 1, 0, null, null, 'Calças de Couro', null, 55, 4),
         (4,'lionKing', 0, 5, 4, null, null, null, null, 10, 0);
 
 -- tabela Instancia_Item
@@ -92,7 +92,7 @@ VALUES  (1, 'Pedregulho', null, 1),
         (9, 'Pedregulho', null, 3),
         (10, 'Capacete de ferro', 100, 4),
         (11, 'Picareta de diamante', 1000, 4),
-        (12, 'Picareta de diamante', 200, 5),
+        (12, 'Picareta de diamante', 200, 5);
 
 -- tabela Inventario
 INSERT INTO Inventario (id_inst_item, id_inventario)
@@ -107,16 +107,16 @@ VALUES (1, 1),
         (9, 3),
         (10, 4),
         (11, 4),
-        (12, 5),
+        (12, 5);
 
 -- tabela Mob
 INSERT INTO Mob (nome, vida_max, tipo_mob, probabilidade)
-VALUES  ('Crepper', 20, 'Agressivo', ),
-        ('Zumbi', 25, 'Agressivo', ),
-        ('Lobo', 8, 'Agressivo', ),
-        ('Galinha', 5, 'Pacifico', ),
-        ('NPC', 20, 'Pacifico', ),
-        ('NPC', 20, 'Pacifico', );
+VALUES  ('Crepper', 20, 'Agressivo', 100),
+        ('Zumbi', 25, 'Agressivo', 100),
+        ('Lobo', 8, 'Agressivo', 100),
+        ('Galinha', 5, 'Pacifico', 100),
+        ('NPC', 20, 'Pacifico', 100),
+        ('NPC', 20, 'Pacifico', 100);
 
 -- tabela Agressivo
 INSERT INTO Agressivo (nome_mob, impulsivo, pts_dano, probabilidade, vida_max)
@@ -127,9 +127,9 @@ VALUES  ('Crepper', true, 10, , 20),
 
 -- tabela Pacifico
 INSERT INTO Pacifico (nome_mob, tipo_Pacifico, vida_max, probabilidade)
-VALUES  ('Galinha', null, 10, 20, ),
-        ('NPC', 'NPC', 3, 20, ),
-        ('NPC', 'NPC', 3, 20, );
+VALUES  ('Galinha', null, 10, 20, 100),
+        ('NPC', 'NPC', 3, 20, 100),
+        ('NPC', 'NPC', 3, 20, 100);
 
 -- tabela NPC
 INSERT INTO NPC (nome_mob, nome_proprio)
@@ -138,11 +138,11 @@ VALUES  ('NPC', 'Cleitin'),
 
 -- tabela Instancia_Mob
 INSERT INTO Instancia_Mob (id_inst_mob, nome_mob, vida_atual, numero_chunk, id_estrutura)
-VALUES  (1, 'Crepper', , , ),
-        (2, 'Zumbi', , , ),
-        (3, 'Lobo', , , ),
-        (4, 'Galinha', , , ),
-        (5, 'NPC', , , );
+VALUES  (1, 'Crepper', 20, 55, null),
+        (2, 'Zumbi', 15, 10, 2),
+        (3, 'Lobo', 8, 22, null),
+        (4, 'Galinha', 5, 40, null),
+        (5, 'NPC', 20, 40, 3);
 
 -- tabela Mob_Dropa_Item
 INSERT INTO Mob_Dropa_Item (id_inst_mob, nome_item, probabilidade)
@@ -175,7 +175,7 @@ VALUES  (1, 'Templo do deserto', 'Deserto', 1),
 INSERT INTO Estrutura_Fornece_Item (id_inst_estrutura, nome_item, probabilidade)
 VALUES  (1, 'Barra de ouro', 18),
         (2, 'Barra de ferro', 37),
-        (2, 'Diamante', 13);
+        (2, 'Diamante', 13),
         (4, 'Pó de blaze', 50);
 
 
@@ -192,7 +192,7 @@ INSERT INTO Instancia_Fonte (id_inst_fonte, nome_fonte, qtd_atual, numero_chunk)
 VALUES  (1, 'Areia', 200, 1),
         (2, 'Madeira', 15, 10),
         (3, 'Terra', 256, 10),
-        (4, 'Pedra', 150, 150);
+        (4, 'Pedra', 150, 150),
         (5, 'Ferro', 2, 150);
 
 -- tabela Ferramenta_Mineira_usarFonte
