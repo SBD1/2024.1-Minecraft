@@ -51,7 +51,7 @@ A jornada culmina na busca pelo Ender Dragon, o chefe final do jogo, localizado 
 
 ### 1. Instale o Docker
 
-Primeiro, é necessário instalar o Docker. Você pode fazer isso acessando o seguinte link: [Instalar Docker](https://www.docker.com/get-started).
+Primeiro, é necessário instalar o Docker(27.0.3). Você pode fazer isso acessando o seguinte link: [Instalar Docker](https://www.docker.com/get-started).
 
 ### 2. Clone o Repositório
 
