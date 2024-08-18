@@ -134,7 +134,7 @@ CREATE TABLE Jogador (
     cabeca VARCHAR(30),
     peito VARCHAR(30),
     pernas VARCHAR(30),
-    pe VARCHAR(30),
+    pes VARCHAR(30),
     numero_chunk INT NOT NULL,
     missao INT,
     FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero),
