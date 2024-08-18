@@ -39,7 +39,7 @@ CREATE TABLE Chunk (
 
 -- Tabela Construível
 CREATE TABLE Construivel (
-    nome VARCHAR(10) PRIMARY KEY,
+    nome VARCHAR(30) PRIMARY KEY,
     receita TEXT NOT NULL,
     funcao TEXT NOT NULL
 );
@@ -54,14 +54,14 @@ CREATE TABLE Item (
 CREATE TABLE InstanciaItem (
     id_inst_item SERIAL PRIMARY KEY,
     nome_item VARCHAR(30) NOT NULL,
-    durabilidade_atual INT NOT NULL,
+    durabilidade_atual INT,
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
 
 -- Tabela Alimento
 CREATE TABLE Alimento (
     nome_item VARCHAR(30) PRIMARY KEY,
-    pts_fome DECIMAL(2,1) NOT NULL,
+    pts_fome DECIMAL NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
 
@@ -102,7 +102,7 @@ CREATE TABLE ArmaduraDuravel (
 -- Tabela Estrutura
 CREATE TABLE Estrutura (
     nome VARCHAR(30) PRIMARY KEY,
-    probabilidade DECIMAL(3,2) NOT NULL
+    probabilidade DECIMAL(5,2) NOT NULL
 );
 
 -- Tabela Fonte
@@ -117,7 +117,7 @@ CREATE TABLE Missao (
     nome VARCHAR(30) NOT NULL,
     descricao TEXT NOT NULL,
     objetivo TEXT NOT NULL,
-    exp DECIMAL(2,1) NOT NULL,
+    exp DECIMAL(4,2) NOT NULL,
     recompensa TEXT NOT NULL,
     nome_item VARCHAR(30),
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
@@ -127,28 +127,24 @@ CREATE TABLE Missao (
 CREATE TABLE Jogador (
     id_jogador SERIAL PRIMARY KEY,
     nome VARCHAR(10) NOT NULL,
-    fome DECIMAL(2,1) NOT NULL,
-    vida DECIMAL(2,1) NOT NULL,
+    fome DECIMAL NOT NULL,
+    vida DECIMAL NOT NULL,
     nivel INT NOT NULL,
-    exp DECIMAL(2,1) NOT NULL,
+    exp DECIMAL NOT NULL,
     cabeca VARCHAR(30),
     peito VARCHAR(30),
     pernas VARCHAR(30),
     pe VARCHAR(30),
     numero_chunk INT NOT NULL,
     missao INT,
-    FOREIGN KEY (cabeca) REFERENCES ArmaduraDuravel(nome_item),
-    FOREIGN KEY (peito) REFERENCES ArmaduraDuravel(nome_item),
-    FOREIGN KEY (pernas) REFERENCES ArmaduraDuravel(nome_item),
-    FOREIGN KEY (pe) REFERENCES ArmaduraDuravel(nome_item),
     FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero),
     FOREIGN KEY (missao) REFERENCES Missao(id_missao)
 );
 
 -- Tabela Inventário
 CREATE TABLE Inventario (
-    id_inventario INT NOT NULL,
     id_inst_item INT UNIQUE NOT NULL,
+    id_inventario INT NOT NULL,
     FOREIGN KEY (id_inventario) REFERENCES Jogador(id_jogador),
     FOREIGN KEY (id_inst_item) REFERENCES InstanciaItem(id_inst_item)
 );
@@ -156,8 +152,8 @@ CREATE TABLE Inventario (
 -- Tabela Mob
 CREATE TABLE Mob (
     nome VARCHAR(10) PRIMARY KEY,
-    vida_max DECIMAL(2,1) NOT NULL,
-    probabilidade DECIMAL(3,2) NOT NULL,
+    vida_max DECIMAL(4,2) NOT NULL,
+    probabilidade DECIMAL(5,2) NOT NULL,
     tipo_mob tipo_mob NOT NULL
 );
 
@@ -165,24 +161,24 @@ CREATE TABLE Mob (
 CREATE TABLE Agressivo (
     nome_mob VARCHAR(10) PRIMARY KEY,
     impulsivo BOOLEAN NOT NULL,
-    pts_dano DECIMAL(2,1) NOT NULL,
-    vida_max DECIMAL(2,1) NOT NULL,
-    probabilidade DECIMAL(3,2) NOT NULL,
+    pts_dano DECIMAL(4,2) NOT NULL,
+    vida_max DECIMAL(4,2) NOT NULL,
+    probabilidade DECIMAL(5,2) NOT NULL,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
 );
 
 -- Tabela Pacífico
 CREATE TABLE Pacifico (
     nome_mob VARCHAR(10) PRIMARY KEY,
-    vida_max DECIMAL(2,1) NOT NULL,
-    probabilidade DECIMAL(3,2) NOT NULL,
+    vida_max DECIMAL(4,2) NOT NULL,
+    probabilidade DECIMAL(5,2) NOT NULL,
     tipo_pacifico tipo_pacifico NOT NULL,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
 );
 
 -- Tabela NPC
 CREATE TABLE NPC (
-    nome_pacifico VARCHAR(10) PRIMARY KEY,
+    nome_pacifico VARCHAR(10),
     nome_proprio VARCHAR(10) NOT NULL,
     FOREIGN KEY (nome_pacifico) REFERENCES Pacifico(nome_mob)
 );
@@ -215,17 +211,15 @@ CREATE TABLE InstanciaFonte (
     nome_fonte VARCHAR(30) NOT NULL,
     qtd_atual INT NOT NULL,
     numero_chunk INT NOT NULL,
-    nome_item_drop VARCHAR(30) NOT NULL,
     FOREIGN KEY (nome_fonte) REFERENCES Fonte(nome),
-    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero),
-    FOREIGN KEY (nome_item_drop) REFERENCES Item(nome)
+    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
 );
 
 -- Tabela Instância Mob
 CREATE TABLE InstanciaMob (
     id_inst_mob SERIAL PRIMARY KEY,
     nome_mob VARCHAR(10) NOT NULL,
-    vida_atual DECIMAL(2,1) NOT NULL,
+    vida_atual DECIMAL(4,2) NOT NULL,
     numero_chunk INT NOT NULL,
     id_estrutura INT,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome),
@@ -239,7 +233,7 @@ CREATE TABLE InstanciaMob (
 CREATE TABLE MobDropaItem (
     nome_mob VARCHAR(10) NOT NULL,
     nome_item VARCHAR(30) NOT NULL,
-    probabilidade DECIMAL(3,2) NOT NULL,
+    probabilidade DECIMAL(5,2) NOT NULL,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome),
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
@@ -248,7 +242,7 @@ CREATE TABLE MobDropaItem (
 CREATE TABLE EstruturaForneceItem (
     nome_estrutura VARCHAR(30) NOT NULL,
     nome_item VARCHAR(30) NOT NULL,
-    probabilidade DECIMAL(3,2) NOT NULL,
+    probabilidade DECIMAL(5,2) NOT NULL,
     FOREIGN KEY (nome_estrutura) REFERENCES Estrutura(nome),
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
