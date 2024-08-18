@@ -270,14 +270,21 @@ VALUES  ('Deserto'),
         ('Planície'),
         ('Caverna');
 
--- Tabela Chunk
-INSERT INTO Chunk (numero, nome_mapa, nome_bioma)
-VALUES  (1, 'O incrivel mundo BD4', 'Deserto'),
-        (10, 'O incrivel mundo BD4', 'Floresta'),
-        (22, 'O incrivel mundo BD4', 'Montanhas'),
-        (55, 'O incrivel mundo BD4', 'Caverna'),
-        (7, 'O incrivel mundo BD4', 'Deserto'),
-        (40, 'O incrivel mundo BD4', 'Planície');
+-- Inserindo Chunks para um mapa 100x100
+DO
+$$
+DECLARE
+    i INTEGER := 1;
+    biomas TEXT[] := ARRAY['Deserto', 'Floresta', 'Montanhas', 'Planície', 'Caverna'];
+BEGIN
+    WHILE i < 10000 LOOP
+        INSERT INTO Chunk (numero, nome_mapa, nome_bioma)
+        VALUES (i, 'O incrivel mundo BD4', biomas[1 + floor(random() * array_length(biomas, 1))::int]);
+
+        i := i + 1;
+    END LOOP;
+END
+$$;
 
 -- Tabela Item
 INSERT INTO Item (nome, tipo_item)
