@@ -61,7 +61,7 @@ CREATE TABLE InstanciaItem (
 -- Tabela Alimento
 CREATE TABLE Alimento (
     nome_item VARCHAR(30) PRIMARY KEY,
-    pts_fome DECIMAL NOT NULL,
+    pts_fome INT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
 
@@ -85,7 +85,7 @@ CREATE TABLE Funcional (
 CREATE TABLE FerramentaDuravel (
     nome_item VARCHAR(30) PRIMARY KEY,
     durabilidade_total INT NOT NULL,
-    pts_dano DECIMAL(2,1) NOT NULL,
+    pts_dano INT NOT NULL,
     receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
@@ -93,7 +93,7 @@ CREATE TABLE FerramentaDuravel (
 -- Tabela Armadura Durável
 CREATE TABLE ArmaduraDuravel (
     nome_item VARCHAR(30) PRIMARY KEY,
-    pts_armadura DECIMAL(2,1) NOT NULL,
+    pts_armadura INT NOT NULL,
     durabilidade_total INT NOT NULL,
     receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
@@ -117,7 +117,7 @@ CREATE TABLE Missao (
     nome VARCHAR(30) NOT NULL,
     descricao TEXT NOT NULL,
     objetivo TEXT NOT NULL,
-    exp DECIMAL(4,2) NOT NULL,
+    exp INT NOT NULL,
     recompensa TEXT NOT NULL,
     nome_item VARCHAR(30),
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
@@ -127,10 +127,10 @@ CREATE TABLE Missao (
 CREATE TABLE Jogador (
     id_jogador SERIAL PRIMARY KEY,
     nome VARCHAR(10) NOT NULL,
-    fome DECIMAL NOT NULL,
-    vida DECIMAL NOT NULL,
+    fome INT NOT NULL,
+    vida INT NOT NULL,
     nivel INT NOT NULL,
-    exp DECIMAL NOT NULL,
+    exp INT NOT NULL,
     cabeca VARCHAR(30),
     peito VARCHAR(30),
     pernas VARCHAR(30),
@@ -152,7 +152,7 @@ CREATE TABLE Inventario (
 -- Tabela Mob
 CREATE TABLE Mob (
     nome VARCHAR(10) PRIMARY KEY,
-    vida_max DECIMAL(4,2) NOT NULL,
+    vida_max INT NOT NULL,
     probabilidade DECIMAL(5,2) NOT NULL,
     tipo_mob tipo_mob NOT NULL
 );
@@ -161,8 +161,8 @@ CREATE TABLE Mob (
 CREATE TABLE Agressivo (
     nome_mob VARCHAR(10) PRIMARY KEY,
     impulsivo BOOLEAN NOT NULL,
-    pts_dano DECIMAL(4,2) NOT NULL,
-    vida_max DECIMAL(4,2) NOT NULL,
+    pts_dano INT NOT NULL,
+    vida_max INT NOT NULL,
     probabilidade DECIMAL(5,2) NOT NULL,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
 );
@@ -170,7 +170,7 @@ CREATE TABLE Agressivo (
 -- Tabela Pacífico
 CREATE TABLE Pacifico (
     nome_mob VARCHAR(10) PRIMARY KEY,
-    vida_max DECIMAL(4,2) NOT NULL,
+    vida_max INT NOT NULL,
     probabilidade DECIMAL(5,2) NOT NULL,
     tipo_pacifico tipo_pacifico NOT NULL,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
@@ -219,7 +219,7 @@ CREATE TABLE InstanciaFonte (
 CREATE TABLE InstanciaMob (
     id_inst_mob SERIAL PRIMARY KEY,
     nome_mob VARCHAR(10) NOT NULL,
-    vida_atual DECIMAL(4,2) NOT NULL,
+    vida_atual INT NOT NULL,
     numero_chunk INT NOT NULL,
     id_estrutura INT,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome),
