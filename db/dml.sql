@@ -99,7 +99,7 @@ VALUES  (0, '', '', '', 00.00, ''),
         (5, 'Ferreiro Iniciante', 'Crie um forno para fundir minérios e cozinhar alimentos.', 'Criar um forno', 30, '5 carvao');
 
 -- Tabela Jogador
-INSERT INTO Jogador (id_jogador, nome, fome, vida, nivel, exp, cabeca, peito, pernas, pe, numero_chunk, missao)
+INSERT INTO Jogador (id_jogador, nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, missao)
 VALUES  (1, 'EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1, 0),
         (2, 'EhOBruno', 19, 18, 4, 90, 'Capacete de ouro', 'Peitoral de Ouro', 'Calças de Ouro', 'Botas de Ouro', 40, 1),
         (3, 'EhOArthur', 1, 1, 0, 10, null, null, 'Calças de Couro', null, 55, 4),
