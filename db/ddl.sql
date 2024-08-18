@@ -143,7 +143,7 @@ CREATE TABLE Jogador (
 
 -- Tabela Inventário
 CREATE TABLE Inventario (
-    id_inst_item INT UNIQUE NOT NULL,
+    id_inst_item INT PRIMARY KEY NOT NULL,
     id_inventario INT NOT NULL,
     FOREIGN KEY (id_inventario) REFERENCES Jogador(id_jogador),
     FOREIGN KEY (id_inst_item) REFERENCES InstanciaItem(id_inst_item)
