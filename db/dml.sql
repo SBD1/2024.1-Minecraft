@@ -18,8 +18,8 @@ DECLARE
     biomas TEXT[] := ARRAY['Deserto', 'Floresta', 'Montanhas', 'Planície', 'Caverna'];
 BEGIN
     WHILE i < 10000 LOOP
-        INSERT INTO Chunk (numero, nome_mapa, nome_bioma)
-        VALUES (i, 'O incrivel mundo BD4', biomas[1 + floor(random() * array_length(biomas, 1))::int]);
+        INSERT INTO Chunk (nome_mapa, nome_bioma)
+        VALUES ('O incrivel mundo BD4', biomas[1 + floor(random() * array_length(biomas, 1))::int]);
 
         i := i + 1;
     END LOOP;
@@ -82,43 +82,45 @@ VALUES  ('Bau', '8 Tabua de madeira', 'Armazenar itens'),
         ('Cama', '3 tabua + 3 lã', 'Possibilita dormir');
 
 -- Tabela Instância Construível
-INSERT INTO InstanciaConstruivel (id_inst_construivel, nome_construivel, numero_chunk)
-VALUES  (1, 'Casa', 10),
-        (2, 'Cama', 10),
-        (3, 'Bancada de Trabalho', 10),
-        (4, 'Fornalha', 55),
-        (5, 'Bau', 55);
+INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk)
+VALUES  ('Casa', 10),
+        ('Cama', 10),
+        ('Bancada de Trabalho', 10),
+        ('Fornalha', 55),
+        ('Bau', 55);
+
 
 -- Tabela Missao
 INSERT INTO Missao (id_missao, nome, descricao, objetivo, exp, recompensa)
-VALUES  (0, '', '', '', 00.00, ''),
-        (1, 'Lenhador Novato', 'Colete madeira de uma árvore para obter recursos básicos.', 'Coletar madeira', 10, '4 tabua'),
-        (2, 'Artesão Iniciante', 'Crie uma mesa de trabalho para começar a fabricar itens.', 'Criar uma mesa de trabalho', 15, '2 gravetos'),
-        (3, 'Explorador Iniciante', 'Abra seu inventário para começar a explorar seus itens.', 'Abrir o inventário', 20, '5 pao'),
-        (4, 'Minerador Iniciante', 'Crie uma picareta de madeira para minerar seus primeiros blocos.', 'Criar uma picareta de madeira', 25, '1 picareta de madeira'),
-        (5, 'Ferreiro Iniciante', 'Crie um forno para fundir minérios e cozinhar alimentos.', 'Criar um forno', 30, '5 carvao');
+VALUES  (0, '', '', '', 00.00, '');
+INSERT INTO Missao (nome, descricao, objetivo, exp, recompensa)
+VALUES  ('Lenhador Novato', 'Colete madeira de uma árvore para obter recursos básicos.', 'Coletar madeira', 10, '4 tabua'),
+        ('Artesão Iniciante', 'Crie uma mesa de trabalho para começar a fabricar itens.', 'Criar uma mesa de trabalho', 15, '2 gravetos'),
+        ('Explorador Iniciante', 'Abra seu inventário para começar a explorar seus itens.', 'Abrir o inventário', 20, '5 pao'),
+        ('Minerador Iniciante', 'Crie uma picareta de madeira para minerar seus primeiros blocos.', 'Criar uma picareta de madeira', 25, '1 picareta de madeira'),
+        ('Ferreiro Iniciante', 'Crie um forno para fundir minérios e cozinhar alimentos.', 'Criar um forno', 30, '5 carvao');
 
 -- Tabela Jogador
-INSERT INTO Jogador (id_jogador, nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, missao)
-VALUES  (1, 'EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1, 0),
-        (2, 'EhOBruno', 19, 18, 4, 90, 'Capacete de ouro', 'Peitoral de Ouro', 'Calças de Ouro', 'Botas de Ouro', 40, 1),
-        (3, 'EhOArthur', 1, 1, 0, 10, null, null, 'Calças de Couro', null, 55, 4),
-        (4, 'lionKing', 0, 5, 4, 50, null, null, null, null, 10, 0);
+INSERT INTO Jogador (nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, missao)
+VALUES  ('EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1, 0),
+        ('EhOBruno', 19, 18, 4, 90, 'Capacete de ouro', 'Peitoral de Ouro', 'Calças de Ouro', 'Botas de Ouro', 40, 1),
+        ('EhOArthur', 1, 1, 0, 10, null, null, 'Calças de Couro', null, 55, 4),
+        ('lionKing', 0, 5, 4, 50, null, null, null, null, 10, 0);
 
 -- Tabela Instância Item
-INSERT INTO InstanciaItem (id_inst_item, nome_item, durabilidade_atual)
-VALUES  (1, 'Pedregulho', null),
-        (2, 'Pedregulho', null),
-        (3, 'Pedregulho', null),
-        (4, 'Pedregulho', null),
-        (5, 'Pedregulho', null),
-        (6, 'Bolo', null),
-        (7, 'Mapa', null),
-        (8, 'Pedregulho', null),
-        (9, 'Pedregulho', null),
-        (10, 'Capacete de Ferro', 100.00),
-        (11, 'Picareta de Diamante', 1000.00),
-        (12, 'Picareta de Diamante', 200.00);
+INSERT INTO InstanciaItem (nome_item, durabilidade_atual)
+VALUES  ('Pedregulho', null),
+        ('Pedregulho', null),
+        ('Pedregulho', null),
+        ('Pedregulho', null),
+        ('Pedregulho', null),
+        ('Bolo', null),
+        ('Mapa', null),
+        ('Pedregulho', null),
+        ('Pedregulho', null),
+        ('Capacete de Ferro', 100.00),
+        ('Picareta de Diamante', 1000.00),
+        ('Picareta de Diamante', 200.00);
 
 -- Tabela Inventario
 INSERT INTO Inventario (id_inst_item, id_inventario)
@@ -168,20 +170,20 @@ VALUES  ('Templo do deserto', 10.00),
         ('Fortaleza', 10.00);
 
 -- Tabela Instância Estrutura
-INSERT INTO InstanciaEstrutura (id_inst_estrutura, nome_estrutura, id_bioma, numero_chunk)
-VALUES  (1, 'Templo do deserto', 'Deserto', 1),
-        (2, 'Templo da selva', 'Floresta', 10),
-        (3, 'Vila', 'Planície', 40),
-        (4, 'Fortaleza do Nether', 'Caverna', 55),
-        (5, 'Fortaleza', 'Caverna', 22);
+INSERT INTO InstanciaEstrutura (nome_estrutura, id_bioma, numero_chunk)
+VALUES  ('Templo do deserto', 'Deserto', 1),
+        ('Templo da selva', 'Floresta', 10),
+        ('Vila', 'Planície', 40),
+        ('Fortaleza do Nether', 'Caverna', 55),
+        ('Fortaleza', 'Caverna', 22);
 
 -- Tabela Instância Mob
-INSERT INTO InstanciaMob (id_inst_mob, nome_mob, vida_atual, numero_chunk, id_estrutura)
-VALUES  (1, 'Crepper', 20, 55, null),
-        (2, 'Zumbi', 15, 10, 2),
-        (3, 'Lobo', 8, 22, null),
-        (4, 'Galinha', 5, 40, null),
-        (5, 'Aldeão', 20, 40, 3);
+INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, id_estrutura)
+VALUES  ('Crepper', 20, 55, null),
+        ('Zumbi', 15, 10, 2),
+        ('Lobo', 8, 22, null),
+        ('Galinha', 5, 40, null),
+        ('Aldeão', 20, 40, 3);
 
 -- Tabela Mob Dropa Item
 INSERT INTO MobDropaItem (nome_mob, nome_item, probabilidade)
@@ -210,12 +212,12 @@ VALUES  ('Madeira', 30),
         ('Ferro', 10);
 
 -- Tabela Instância Fonte
-INSERT INTO InstanciaFonte (id_inst_fonte, nome_fonte, qtd_atual, numero_chunk)
-VALUES  (1, 'Areia', 200, 1),
-        (2, 'Madeira', 15, 10),
-        (3, 'Terra', 256, 10),
-        (4, 'Pedra', 150, 55),
-        (5, 'Ferro', 2, 55);
+INSERT INTO InstanciaFonte (nome_fonte, qtd_atual, numero_chunk)
+VALUES  ('Areia', 200, 1),
+        ('Madeira', 15, 10),
+        ('Terra', 256, 10),
+        ('Pedra', 150, 55),
+        ('Ferro', 2, 55);
 
 -- Tabela Ferramenta Minera Instância de Fonte
 INSERT INTO FerramentaMineraInstFonte (nome_ferramenta, nome_fonte)
