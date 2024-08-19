@@ -16,7 +16,7 @@ def mostrar_texto_gradualmente(texto, cor=Fore.WHITE, velocidade=0.03):
     for char in texto:
         print(cor + char, end='', flush=True)
         time.sleep(velocidade)
-    print()  # Nova linha ao final
+    print()
 
 def connect_to_db():
     return psycopg2.connect(
