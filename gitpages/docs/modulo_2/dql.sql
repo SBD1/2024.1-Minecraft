@@ -6,6 +6,14 @@ JOIN Jogador ON Inventario.id_inventario = Jogador.id_jogador
 WHERE Jogador.nome = 'EhOBruno'
   AND InstanciaItem.nome_item = 'Bolo';
 
+-- Lista todos os itens do inventário do jogador
+SELECT Item.nome AS item_nome, 
+       InstanciaItem.durabilidade_atual
+FROM Inventario
+JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+JOIN Item ON InstanciaItem.nome_item = Item.nome
+WHERE Inventario.id_inventario = 1;
+
 -- Consultar período do dia no mundo
 SELECT hora
 FROM mapa;
@@ -52,6 +60,16 @@ JOIN
 WHERE
   Jogador.nome = 'EhOBruno';
 
+SELECT
+  InstanciaMob.id_inst_mob,
+  InstanciaMob.nome_mob
+FROM
+  InstanciaMob
+JOIN
+  Jogador ON Jogador.numero_chunk = InstanciaMob.numero_chunk
+WHERE
+  Jogador.nome = 'EhOBruno';
+
 -- Consultar atributos básicos de um mob específico no mesmo chunk do jogador
 SELECT
   Mob.tipo_mob,
@@ -67,4 +85,13 @@ WHERE
   Jogador.nome = 'EhOBruno'
   AND Mob.nome = 'Galinha';
 
--- Atacar um mob no mesmo chunk do jogador (atributo arma?)
+-- Consultar a missão atual do jogador
+SELECT m.nome, m.descricao, m.objetivo, m.recompensa
+FROM Missao m
+JOIN Jogador j ON m.id_missao = j.missao
+WHERE j.id_jogador = 2;
+
+-- Ferramenta necessária para minerar o item específico
+SELECT FerramentaMineraInstFonte.nome_ferramenta
+FROM FerramentaMineraInstFonte
+WHERE FerramentaMineraInstFonte.nome_fonte = 'Madeira';
