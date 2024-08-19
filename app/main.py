@@ -9,7 +9,8 @@ from colorama import Fore, Style, init
 init(autoreset=True)
 
 def limpar_tela():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    # os.system('cls' if os.name == 'nt' else 'clear')
+    print('coco')
 
 def mostrar_texto_gradualmente(texto, cor=Fore.WHITE, velocidade=0.03):
     for char in texto:
@@ -164,6 +165,7 @@ def iniciar_jogo(nomeUser):
         jogar(cursor, nomeUser)
 
     except (Exception, psycopg2.Error) as error:
+        print(error)
         mostrar_texto_gradualmente("Erro ao iniciar o jogo. Por favor, tente novamente mais tarde.", Fore.RED)
     finally:
         if connection:
