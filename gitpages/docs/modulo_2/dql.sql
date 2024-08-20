@@ -89,3 +89,28 @@ WHERE j.id_jogador = 2;
 SELECT FerramentaMineraInstFonte.nome_ferramenta
 FROM FerramentaMineraInstFonte
 WHERE FerramentaMineraInstFonte.nome_fonte = 'Madeira';
+
+-- Atualizar a durabilidade da instância de um item no inventário do jogador
+UPDATE InstanciaItem
+SET durabilidade_atual = 200
+WHERE id_inst_item = 10;
+
+-- Atualizar vida atual de uma instância de um mob
+UPDATE InstanciaMob
+SET vida_atual = 19
+WHERE id_inst_mob = 1;
+
+-- Atualizar vida atual de um jogador
+UPDATE Jogador
+SET vida = 19
+WHERE nome = 'EhOArthur';
+
+-- Atualizar a missão de um jogador
+UPDATE Jogador
+SET missao = 2
+WHERE nome = 'EhOArthur';
+
+-- Atualizar o nível de um jogador
+UPDATE Jogador
+SET nivel = 3
+WHERE nome = 'EhOArthur';
