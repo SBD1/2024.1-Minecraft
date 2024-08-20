@@ -54,15 +54,16 @@ A jornada culmina na busca pelo Ender Dragon, o chefe final do jogo, localizado 
 # <img src="gitpages/docs/assets/images/bau.png" alt="Ícone do Minecraft" width="30" style="margin-bottom: -7px;"> Entregas
 
 - Módulo 1
-    - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_1/der/" target="_blank">Diagrama Entidade-Relacionamento</a>
-    - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_1/modeloRelacional/" target="_blank">Modelo Relacional</a>
-    - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_1/dicDados/" target="_blank">Dicionário de Dados</a>
+    - <a href="sbd1.github.io/2024.1-Minecraft/modulo_1/der/" target="_blank">Diagrama Entidade-Relacionamento</a>
+    - <a href="sbd1.github.io/2024.1-Minecraft/modulo_1/modeloRelacional/" target="_blank">Modelo Relacional</a>
+    - <a href="sbd1.github.io/2024.1-Minecraft/modulo_1/dicDados/" target="_blank">Dicionário de Dados</a>
     - <a href="https://www.youtube.com/watch?v=a7Gq16dQrgY" target="_blank">Apresentação do Módulo 1</a>
 - Módulo 2
-    - <a href="https://https://sbd1.github.io/2024.1-Minecraft/modulo_2/algebra_relacional/" target="_blank">Álgebra Relacional</a>
-    - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_2/ddl/" target="_blank">DDL (Data Definition Language)</a>
-    - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_2/dml/" target="_blank">DML (Data Manipulation Language)</a>
-    - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_2/dql/">DQL (Data Query Language)</a>
+    - <a href="sbd1.github.io/2024.1-Minecraft/modulo_2/algebra_relacional/" target="_blank">Álgebra Relacional</a>
+    - <a href="sbd1.github.io/2024.1-Minecraft/modulo_2/ddl/" target="_blank">DDL (Data Definition Language)</a>
+    - <a href="sbd1.github.io/2024.1-Minecraft/modulo_2/dml/" target="_blank">DML (Data Manipulation Language)</a>
+    - <a href="sbd1.github.io/2024.1-Minecraft/modulo_2/dql/">DQL (Data Query Language)</a>
+    - <a href="https://www.youtube.com/watch?v=a7Gq16dQrgY" target="_blank">Apresentação do Módulo 2</a>
  
 # <img src="gitpages/docs/assets/images/encant.png" alt="Ícone do Minecraft" width="30" style="margin-bottom: -7px;"> Como Rodar o Jogo
 
