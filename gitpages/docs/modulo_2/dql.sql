@@ -33,33 +33,27 @@ SELECT cabeca, peito, pernas, pes
 FROM Jogador
 WHERE Jogador.nome = 'EhOBruno';
 
--- Consultar informações do chunk em que o jogador se encontra (comentar amanhã)
+-- Consultar estruturas dentro de um chunk em que o jogador se encontra
 SELECT 
   Chunk.nome_bioma,
   InstanciaEstrutura.nome_estrutura,
-  InstanciaFonte.nome_fonte
 FROM 
   Chunk
 LEFT JOIN 
   InstanciaEstrutura ON InstanciaEstrutura.numero_chunk = Chunk.numero
-LEFT JOIN 
-  InstanciaFonte ON InstanciaFonte.numero_chunk = Chunk.numero
 JOIN 
   Jogador ON Jogador.numero_chunk = Chunk.numero
 WHERE 
   Jogador.nome = 'EhOBruno';
 
--- Consultar mobs que estão no mesmo chunk que o jogador
-SELECT
-  InstanciaMob.id_inst_mob,
-  InstanciaMob.nome_mob
-FROM
-  InstanciaMob
-JOIN
-  Jogador ON Jogador.numero_chunk = InstanciaMob.numero_chunk
-WHERE
-  Jogador.nome = 'EhOBruno';
+-- Consultar fontes dentro de um chunk em que o jogador se encontra
+SELECT Fonte.nome AS fonte_nome, 
+       InstanciaFonte.qtd_atual
+FROM InstanciaFonte
+JOIN Fonte ON InstanciaFonte.nome_fonte = Fonte.nome
+WHERE InstanciaFonte.numero_chunk = 1;
 
+-- Consultar mobs que estão no mesmo chunk que o jogador
 SELECT
   InstanciaMob.id_inst_mob,
   InstanciaMob.nome_mob

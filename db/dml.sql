@@ -205,19 +205,22 @@ VALUES  ('Templo do deserto', 'Barra de Ouro', 18.00),
 
 -- tabela Fonte
 INSERT INTO Fonte (nome, qtd_max)
-VALUES  ('Madeira', 30),
-        ('Areia', 256),
-        ('Terra', 256),
-        ('Pedra', 300),
-        ('Ferro', 10);
+VALUES  ('Árvore', 30),
+        ('Veio de Diamante', 5),
+        ('Jazida de Ouro', 10),
+        ('Jazida de Ferro', 15),
+        ('Jazida de Carvão', 20),
+        ('Jazida de Esmeralda', 3),
+        ('Cardume', 5);
 
 -- Tabela Instância Fonte
 INSERT INTO InstanciaFonte (nome_fonte, qtd_atual, numero_chunk)
-VALUES  ('Areia', 200, 1),
-        ('Madeira', 15, 10),
-        ('Terra', 256, 10),
-        ('Pedra', 150, 55),
-        ('Ferro', 2, 55);
+VALUES  ('Árvore', 15, 1),
+        ('Veio de Diamante', 3, 10),
+        ('Jazida de Ouro', 5, 10),
+        ('Jazida de Ferro', 9, 55),
+        ('Jazida de Carvão', 12, 55),
+        ('Jazida de Esmeralda', 1, 55);
 
 -- Tabela Ferramenta Minera Instância de Fonte
 INSERT INTO FerramentaMineraInstFonte (nome_ferramenta, nome_fonte)
