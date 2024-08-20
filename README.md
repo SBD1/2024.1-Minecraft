@@ -63,7 +63,7 @@ A jornada culmina na busca pelo Ender Dragon, o chefe final do jogo, localizado 
     - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_2/ddl/" target="_blank">DDL (Data Definition Language)</a>
     - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_2/dml/" target="_blank">DML (Data Manipulation Language)</a>
     - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_2/dql/">DQL (Data Query Language)</a>
-    - <a href="" target="_blank">Apresentação do Módulo 2</a>
+    - <a href="https://youtu.be/I-YHoyzLO1U" target="_blank">Apresentação do Módulo 2</a>
  
 # <img src="gitpages/docs/assets/images/encant.png" alt="Ícone do Minecraft" width="30" style="margin-bottom: -7px;"> Como Rodar o Jogo
 
