@@ -219,7 +219,9 @@ VALUES  ('Árvore', 30),
         ('Jazida de Ferro', 15),
         ('Jazida de Carvão', 20),
         ('Jazida de Esmeralda', 3),
-        ('Cardume', 5);
+        ('Cardume', 5),
+        ('Duna', 256),
+        ('Pedreira', 256);
 
 -- Tabela Instância Fonte
 INSERT INTO InstanciaFonte (nome_fonte, qtd_atual, numero_chunk)
@@ -232,11 +234,10 @@ VALUES  ('Árvore', 15, 1),
 
 -- Tabela Ferramenta Minera Instância de Fonte
 INSERT INTO FerramentaMineraInstFonte (nome_ferramenta, nome_fonte)
-VALUES  ('Machado', 'Madeira'),
-        ('Pa', 'Areia'),
-        ('Pa', 'Terra'),
-        ('Picareta de Diamante', 'Pedra'),
-        ('Picareta de Diamante', 'Ferro');
+VALUES  ('Machado', 'Árvore'),
+        ('Pa', 'Duna'),
+        ('Picareta de Diamante', 'Pedreira'),
+        ('Picareta de Diamante', 'Jazida de Ferro');
 ```
 
 ## Histórico de versões

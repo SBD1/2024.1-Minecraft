@@ -9,8 +9,7 @@ from colorama import Fore, Style, init
 init(autoreset=True)
 
 def limpar_tela():
-    # os.system('cls' if os.name == 'nt' else 'clear')
-    print('coco')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def mostrar_texto_gradualmente(texto, cor=Fore.WHITE, velocidade=0.03):
     for char in texto:
