@@ -4,22 +4,34 @@ VALUES  ('O incrivel mundo BD4', 'noite');
 
 -- Tabela Bioma
 INSERT INTO Bioma (nome)
-VALUES  ('Deserto'),
-        ('Floresta'),
+VALUES  ('Floresta'),
+        ('Deserto'),
         ('Montanhas'),
-        ('Planície'),
-        ('Caverna');
+        ('Tundra Nevada'),
+        ('Pântano'),
+        ('Oceano'),
 
 -- Inserindo Chunks para um mapa 100x100
 DO
 $$
 DECLARE
     i INTEGER := 1;
-    biomas TEXT[] := ARRAY['Deserto', 'Floresta', 'Montanhas', 'Planície', 'Caverna'];
+    bioma_row RECORD;
+    total_biomas INTEGER;
 BEGIN
-    WHILE i < 10000 LOOP
+    -- Contando o número total de biomas
+    SELECT COUNT(*) INTO total_biomas FROM Bioma;
+
+    WHILE i <= 10000 LOOP
+        -- Selecionando um bioma aleatório da tabela Bioma
+        SELECT nome INTO bioma_row
+        FROM Bioma
+        ORDER BY random() 
+        LIMIT 1;
+
+        -- Inserindo um chunk com o bioma selecionado aleatoriamente
         INSERT INTO Chunk (nome_mapa, nome_bioma)
-        VALUES ('O incrivel mundo BD4', biomas[1 + floor(random() * array_length(biomas, 1))::int]);
+        VALUES ('O incrivel mundo BD4', bioma_row.nome);
 
         i := i + 1;
     END LOOP;
@@ -163,19 +175,111 @@ VALUES  ('Aldeão', 'Cleitin'),
 
 -- Tabela Estrutura
 INSERT INTO Estrutura (nome, probabilidade)
-VALUES  ('Templo do deserto', 10.00),
-        ('Templo da selva', 15.00),
-        ('Vila', 20.00),
-        ('Fortaleza do Nether', 10.00),
-        ('Fortaleza', 10.00);
+VALUES  
+    ('Templo do Deserto', 5.00),       -- Deserto
+    ('Vila', 20.00),                   -- Floresta, Deserto, Montanhas, Tundra Nevada, Savana
+    ('Templo da Selva', 4.00),         -- Jungle
+    ('Cabana da Bruxa', 7.00),         -- Pântano
+    ('Fortaleza', 5.00),               -- Geral (Subterrâneo)
+    ('Portal em Ruínas', 15.00);       -- Geral (Superfície)
 
 -- Tabela Instância Estrutura
-INSERT INTO InstanciaEstrutura (nome_estrutura, id_bioma, numero_chunk)
-VALUES  ('Templo do deserto', 'Deserto', 1),
-        ('Templo da selva', 'Floresta', 10),
-        ('Vila', 'Planície', 40),
-        ('Fortaleza do Nether', 'Caverna', 55),
-        ('Fortaleza', 'Caverna', 22);
+-- INSERT INTO InstanciaEstrutura (nome_estrutura, id_bioma, numero_chunk)
+-- VALUES  ('Templo do deserto', 'Deserto', 1),
+--         ('Templo da selva', 'Floresta', 10),
+--         ('Vila', 'Planície', 40),
+--         ('Fortaleza do Nether', 'Caverna', 55),
+--         ('Fortaleza', 'Caverna', 22);
+
+
+DO
+$$
+DECLARE
+    chunk_id INTEGER;
+    chunk_bioma TEXT;
+    rand_num FLOAT;
+BEGIN
+    -- Criando instância do Templo do Deserto
+    SELECT numero_chunk, nome_bioma INTO chunk_id, chunk_bioma
+    FROM Chunk
+    WHERE nome_mapa = 'Mundo Principal' AND nome_bioma = 'Deserto'
+    ORDER BY random() LIMIT 1;
+
+    rand_num := random() * 100;
+
+    IF rand_num <= 5.00 THEN
+        INSERT INTO InstanciaEstrutura (nome_estrutura, id_bioma, numero_chunk)
+        VALUES ('Templo do Deserto', chunk_bioma, chunk_id);
+    END IF;
+
+    -- Criando instância de Vila
+    SELECT numero_chunk, nome_bioma INTO chunk_id, chunk_bioma
+    FROM Chunk
+    WHERE nome_mapa = 'Mundo Principal' AND nome_bioma IN ('Floresta', 'Deserto', 'Montanhas', 'Tundra Nevada', 'Savana')
+    ORDER BY random() LIMIT 1;
+
+    rand_num := random() * 100;
+
+    IF rand_num <= 20.00 THEN
+        INSERT INTO InstanciaEstrutura (nome_estrutura, id_bioma, numero_chunk)
+        VALUES ('Vila', chunk_bioma, chunk_id);
+    END IF;
+
+    -- Criando instância do Templo da Selva
+    SELECT numero_chunk, nome_bioma INTO chunk_id, chunk_bioma
+    FROM Chunk
+    WHERE nome_mapa = 'Mundo Principal' AND nome_bioma = 'Jungle'
+    ORDER BY random() LIMIT 1;
+
+    rand_num := random() * 100;
+
+    IF rand_num <= 4.00 THEN
+        INSERT INTO InstanciaEstrutura (nome_estrutura, id_bioma, numero_chunk)
+        VALUES ('Templo da Selva', chunk_bioma, chunk_id);
+    END IF;
+
+    -- Criando instância da Cabana da Bruxa
+    SELECT numero_chunk, nome_bioma INTO chunk_id, chunk_bioma
+    FROM Chunk
+    WHERE nome_mapa = 'Mundo Principal' AND nome_bioma = 'Pântano'
+    ORDER BY random() LIMIT 1;
+
+    rand_num := random() * 100;
+
+    IF rand_num <= 7.00 THEN
+        INSERT INTO InstanciaEstrutura (nome_estrutura, id_bioma, numero_chunk)
+        VALUES ('Cabana da Bruxa', chunk_bioma, chunk_id);
+    END IF;
+
+    -- Criando instância da Fortaleza
+    SELECT numero_chunk, nome_bioma INTO chunk_id, chunk_bioma
+    FROM Chunk
+    WHERE nome_mapa = 'Mundo Principal' AND nome_bioma = 'Caverna'
+    ORDER BY random() LIMIT 1;
+
+    rand_num := random() * 100;
+
+    IF rand_num <= 5.00 THEN
+        INSERT INTO InstanciaEstrutura (nome_estrutura, id_bioma, numero_chunk)
+        VALUES ('Fortaleza', chunk_bioma, chunk_id);
+    END IF;
+
+    -- Criando instância de Portal em Ruínas
+    SELECT numero_chunk, nome_bioma INTO chunk_id, chunk_bioma
+    FROM Chunk
+    WHERE nome_mapa = 'Mundo Principal' 
+    ORDER BY random() LIMIT 1;
+
+    rand_num := random() * 100;
+
+    IF rand_num <= 15.00 THEN
+        INSERT INTO InstanciaEstrutura (nome_estrutura, id_bioma, numero_chunk)
+        VALUES ('Portal em Ruínas', chunk_bioma, chunk_id);
+    END IF;
+
+END
+$$;
+
 
 -- Tabela Instância Mob
 INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, id_estrutura)
