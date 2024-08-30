@@ -198,10 +198,10 @@ CREATE TABLE InstanciaConstruivel (
 CREATE TABLE InstanciaEstrutura (
     id_inst_estrutura SERIAL PRIMARY KEY,
     nome_estrutura VARCHAR(30) NOT NULL,
-    id_bioma VARCHAR(10) NOT NULL,
+    nome_bioma VARCHAR(10) NOT NULL,
     numero_chunk INT NOT NULL,
     FOREIGN KEY (nome_estrutura) REFERENCES Estrutura(nome),
-    FOREIGN KEY (id_bioma) REFERENCES Bioma(nome),
+    FOREIGN KEY (nome_bioma) REFERENCES Bioma(nome),
     FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
 );
 
