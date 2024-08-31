@@ -32,7 +32,7 @@ CREATE TABLE Bioma (
 -- Tabela Chunk
 CREATE TABLE Chunk (
     numero SERIAL PRIMARY KEY,
-    nome_bioma VARCHAR(10) NOT NULL,
+    nome_bioma VARCHAR(30) NOT NULL,
     nome_mapa VARCHAR(30) NOT NULL,
     FOREIGN KEY (nome_bioma) REFERENCES Bioma(nome),
     FOREIGN KEY (nome_mapa) REFERENCES Mapa(nome)
@@ -127,7 +127,7 @@ CREATE TABLE Missao (
 -- Tabela Jogador
 CREATE TABLE Jogador (
     id_jogador SERIAL PRIMARY KEY,
-    nome VARCHAR(10) NOT NULL,
+    nome VARCHAR(30) NOT NULL,
     fome INT NOT NULL,
     vida INT NOT NULL,
     nivel INT NOT NULL,
@@ -152,7 +152,7 @@ CREATE TABLE Inventario (
 
 -- Tabela Mob
 CREATE TABLE Mob (
-    nome VARCHAR(10) PRIMARY KEY,
+    nome VARCHAR(30) PRIMARY KEY,
     vida_max INT NOT NULL,
     probabilidade DECIMAL(5,2) NOT NULL,
     tipo_mob tipo_mob NOT NULL
@@ -160,7 +160,7 @@ CREATE TABLE Mob (
 
 -- Tabela Agressivo
 CREATE TABLE Agressivo (
-    nome_mob VARCHAR(10) PRIMARY KEY,
+    nome_mob VARCHAR(30) PRIMARY KEY,
     impulsivo BOOLEAN NOT NULL,
     pts_dano INT NOT NULL,
     vida_max INT NOT NULL,
@@ -170,7 +170,7 @@ CREATE TABLE Agressivo (
 
 -- Tabela Pacífico
 CREATE TABLE Pacifico (
-    nome_mob VARCHAR(10) PRIMARY KEY,
+    nome_mob VARCHAR(30) PRIMARY KEY,
     vida_max INT NOT NULL,
     probabilidade DECIMAL(5,2) NOT NULL,
     tipo_pacifico tipo_pacifico NOT NULL,
@@ -179,8 +179,8 @@ CREATE TABLE Pacifico (
 
 -- Tabela NPC
 CREATE TABLE NPC (
-    nome_pacifico VARCHAR(10),
-    nome_proprio VARCHAR(10) NOT NULL,
+    nome_pacifico VARCHAR(30),
+    nome_proprio VARCHAR(30) NOT NULL,
     FOREIGN KEY (nome_pacifico) REFERENCES Pacifico(nome_mob)
 );
 
@@ -199,7 +199,7 @@ CREATE TABLE InstanciaConstruivel (
 CREATE TABLE InstanciaEstrutura (
     id_inst_estrutura SERIAL PRIMARY KEY,
     nome_estrutura VARCHAR(30) NOT NULL,
-    nome_bioma VARCHAR(10) NOT NULL,
+    nome_bioma VARCHAR(30) NOT NULL,
     numero_chunk INT NOT NULL,
     FOREIGN KEY (nome_estrutura) REFERENCES Estrutura(nome),
     FOREIGN KEY (nome_bioma) REFERENCES Bioma(nome),
@@ -219,7 +219,7 @@ CREATE TABLE InstanciaFonte (
 -- Tabela Instância Mob
 CREATE TABLE InstanciaMob (
     id_inst_mob SERIAL PRIMARY KEY,
-    nome_mob VARCHAR(10) NOT NULL,
+    nome_mob VARCHAR(30) NOT NULL,
     vida_atual INT NOT NULL,
     numero_chunk INT NOT NULL,
     id_estrutura INT,
@@ -232,7 +232,7 @@ CREATE TABLE InstanciaMob (
 
 -- Tabela Mob Dropa Item
 CREATE TABLE MobDropaItem (
-    nome_mob VARCHAR(10) NOT NULL,
+    nome_mob VARCHAR(30) NOT NULL,
     nome_item VARCHAR(30) NOT NULL,
     probabilidade DECIMAL(5,2) NOT NULL,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome),
