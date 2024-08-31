@@ -10305,4 +10305,25 @@ INSERT INTO FerramentaMineraInstFonte (nome_ferramenta, nome_fonte)
 VALUES  ('Machado', 'Árvore'),
         ('Pa', 'Duna'),
         ('Picareta de Diamante', 'Pedreira'),
-        ('Picareta de Diamante', 'Jazida de Ferro')
+        ('Picareta de Diamante', 'Jazida de Ferro');
+
+-- Criação da stored procedure para atualizar o clima
+CREATE OR REPLACE PROCEDURE atualizar_clima() LANGUAGE plpgsql AS $$
+BEGIN
+    UPDATE Mapa
+    SET hora = CASE
+        WHEN hora = 'dia' THEN 'tarde'::ciclo_dia
+        WHEN hora = 'tarde' THEN 'noite'::ciclo_dia
+        WHEN hora = 'noite' THEN 'dia'::ciclo_dia
+        ELSE 'dia'::ciclo_dia
+    END;
+END;
+$$;
+
+
+-- Agendamento da stored procedure para rodar a cada 10 minutos
+SELECT cron.schedule(
+    'atualizar_clima_job',
+    '*/10 * * * *',
+    $$ CALL atualizar_clima(); $$
+);

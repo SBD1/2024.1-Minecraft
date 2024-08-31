@@ -1,1 +1,9 @@
-FROM postgres:latest
+FROM postgres:16-bullseye
+
+RUN apt-get update && apt-get install -y postgresql-16-cron
+
+# Configura a extensão para ser carregada
+RUN echo "shared_preload_libraries='pg_cron'" >> /usr/share/postgresql/postgresql.conf.sample
+
+# Defina o banco de dados onde os cron jobs serão armazenados
+RUN echo "cron.database_name='2024_1_Minecraft'" >> /usr/share/postgresql/postgresql.conf.sample

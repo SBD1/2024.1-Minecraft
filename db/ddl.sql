@@ -1,3 +1,4 @@
+CREATE EXTENSION pg_cron;
 -- Criando tipos ENUM
 
 -- Tipo ENUM para o ciclo de dia
