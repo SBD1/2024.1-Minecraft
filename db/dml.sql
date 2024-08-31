@@ -10034,12 +10034,39 @@ VALUES  ('Pedregulho', 'material'),
         ('Diamante', 'material'),
         ('Picareta de Diamante', 'craftavel'),
         ('Machado', 'craftavel'),
-        ('Pa', 'craftavel');
+        ('Pa', 'craftavel'),
+        ('Peixe Cru', 'alimento'),
+        ('Carne Crua', 'alimento'),
+        ('Couro', 'material'),
+        ('Carne de Porco Crua', 'alimento'),
+        ('Lã', 'material'),
+        ('Carne de Carneiro Crua', 'alimento'),
+        ('Olho de Aranha', 'material'),
+        ('Fio', 'material'),
+        ('Pérola do Ender', 'material'),
+        ('Pó de Redstone', 'material'),
+        ('Garrafas de Vidro', 'material'),
+        ('Pó de Glowstone', 'material'),
+        ('Pó de Pedra Infernal', 'material'),
+        ('Açúcar', 'material'),
+        ('Palito', 'material'),
+        ('Osso', 'material'),
+        ('Flecha', 'material'),
+        ('Arco', 'craftavel'),
+        ('Ovo de Dragão', 'material'),
+        ('Vara de Blaze', 'material');
+
         
 
 -- Tabela Alimento
 INSERT INTO Alimento (nome_item, pts_fome)
-VALUES  ('Bolo', 14);
+VALUES  ('Bolo', 14),
+        ('Carne Podre', 4),
+        ('Frango', 6),
+        ('Peixe Cru', 2),
+        ('Carne Crua', 3),
+        ('Carne de Porco Crua', 3),
+        ('Carne de Carneiro Crua', 3);
 
 -- Tabela Craftavel
 INSERT INTO Craftavel (nome_item, tipo_craftavel, receita)
@@ -10047,7 +10074,8 @@ VALUES  ('Mapa', 'funcional', '9 papel'),
         ('Capacete de Ferro', 'armadura', '5 barra de Ferro'),
         ('Picareta de Diamante', 'ferramenta', '3 diamante + 2 graveto'),
         ('Pa', 'ferramenta', '1 diamante + 2 graveto'),
-        ('Machado', 'ferramenta', '3 diamante + 2 graveto');
+        ('Machado', 'ferramenta', '3 diamante + 2 graveto'),
+        ('Arco', 'ferramenta', '3 graveto + 3 fio');
 
 -- Tabela Funcional
 INSERT INTO Funcional (nome_item, funcao, receita)
@@ -10133,23 +10161,45 @@ VALUES  ('Crepper', 20, 'agressivo', 100.00),
         ('Zumbi', 25, 'agressivo', 100.00),
         ('Lobo', 8, 'agressivo', 100.00),
         ('Galinha', 5, 'pacifico', 100.00),
-        ('Aldeão', 20, 'pacifico', 100.00);
+        ('Aldeão', 20, 'pacifico', 100.00),
+        ('Peixe', 3, 'pacifico', 100.00),
+        ('Vaca', 10, 'pacifico', 100.00),
+        ('Porco', 10, 'pacifico', 100.00),
+        ('Ovelha', 8, 'pacifico', 100.00),
+        ('Aranha', 16, 'agressivo', 100.00),
+        ('Enderman', 40, 'agressivo', 100.00),
+        ('Bruxa', 26, 'agressivo', 100.00),
+        ('Esqueleto', 20, 'agressivo', 100.00),
+        ('Dragão Ender', 200, 'agressivo', 100.00),
+        ('Blaze', 20, 'agressivo', 100.00);
 
 -- Tabela Agressivo
 INSERT INTO Agressivo (nome_mob, impulsivo, pts_dano, probabilidade, vida_max)
-VALUES  ('Crepper', true, 10, 100.00, 20),
+VALUES  ('Crepper', true, 15, 100.00, 20),
         ('Zumbi', true, 3, 100.00, 25),
-        ('Lobo', false, 4, 100.00, 8);
+        ('Lobo', false, 4, 100.00, 8),
+        ('Aranha', true, 2, 100.00, 16),
+        ('Enderman', true, 7, 100.00, 40),
+        ('Bruxa', false, 6, 100.00, 26),
+        ('Esqueleto', false, 4, 100.00, 20),
+        ('Blaze', true, 6, 100.00, 20),
+        ('Dragão Ender', true, 10, 100.00, 200);
 
 -- Tabela Pacifico
 INSERT INTO Pacifico (nome_mob, tipo_pacifico, vida_max, probabilidade)
-VALUES  ('Galinha', 'outro', 10, 100.00),
-        ('Aldeão', 'NPC', 20, 100.00);
+VALUES  ('Galinha', 'outro', 5, 100.00),
+        ('Aldeão', 'NPC', 20, 100.00),
+        ('Peixe', 'outro', 3, 100.00),
+        ('Vaca', 'outro', 10, 100.00),
+        ('Porco', 'outro', 10, 100.00),
+        ('Ovelha', 'outro', 8, 100.00);
 
 -- Tabela NPC
 INSERT INTO NPC (nome_pacifico, nome_proprio)
 VALUES  ('Aldeão', 'Cleitin'),
-        ('Aldeão', 'Josefa');
+        ('Aldeão', 'Josefa'),
+        ('Aldeão', 'Mauricio'),
+        ('Aldeão', 'Ana');
 
 -- Tabela Estrutura
 INSERT INTO Estrutura (nome, probabilidade)
@@ -10271,7 +10321,40 @@ VALUES  ('Crepper', 'xp', 100.00),
         ('Galinha', 'Pena', 50.00),
         ('Galinha', 'Frango', 100.00),
         ('Galinha', 'xp', 100.00),
-        ('Galinha', 'ovo', 100.00);
+        ('Galinha', 'ovo', 100.00),
+        ('Lobo', 'xp', 100.00),
+        ('Peixe', 'Peixe Cru', 100.00),
+        ('Peixe', 'xp', 100.00),
+        ('Vaca', 'Carne Crua', 100.00),
+        ('Vaca', 'Couro', 50.00),
+        ('Vaca', 'xp', 100.00),
+        ('Porco', 'Carne de Porco Crua', 100.00),
+        ('Porco', 'xp', 100.00),
+        ('Ovelha', 'Lã', 100.00),
+        ('Ovelha', 'Carne de Carneiro Crua', 100.00),
+        ('Ovelha', 'xp', 100.00),
+        ('Aranha', 'Olho de Aranha', 33.33),
+        ('Aranha', 'Fio', 100.00),
+        ('Aranha', 'xp', 100.00),
+        ('Enderman', 'Pérola do Ender', 50.00),
+        ('Enderman', 'xp', 100.00),
+        ('Bruxa', 'Pó de Redstone', 12.50),
+        ('Bruxa', 'Garrafas de Vidro', 12.50),
+        ('Bruxa', 'Pólvora', 12.50),
+        ('Bruxa', 'Pó de Glowstone', 12.50),
+        ('Bruxa', 'Pó de Pedra Infernal', 12.50),
+        ('Bruxa', 'Olho de Aranha', 12.50),
+        ('Bruxa', 'Açúcar', 12.50),
+        ('Bruxa', 'Palito', 12.50),
+        ('Bruxa', 'xp', 100.00),
+        ('Esqueleto', 'Osso', 100.00),
+        ('Esqueleto', 'Flecha', 100.00),
+        ('Esqueleto', 'Arco', 8.50),
+        ('Esqueleto', 'xp', 100.00),
+        ('Dragão Ender', 'Ovo de Dragão', 100.00),
+        ('Dragão Ender', 'xp', 100.00),
+        ('Blaze', 'Vara de Blaze', 50.00),
+        ('Blaze', 'xp', 100.00);
 
 -- Tabela Estrutura Fornece Item
 INSERT INTO EstruturaForneceItem (nome_estrutura, nome_item, probabilidade)
