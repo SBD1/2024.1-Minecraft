@@ -21,7 +21,7 @@ CREATE TYPE tipo_pacifico AS ENUM ('NPC', 'outro');
 -- Tabela Mapa
 CREATE TABLE Mapa (
     nome VARCHAR(30) PRIMARY KEY,
-    hora ciclo_dia NOT NULL
+    hora ciclo_dia
 );
 
 -- Tabela Bioma
@@ -31,18 +31,19 @@ CREATE TABLE Bioma (
 
 -- Tabela Chunk
 CREATE TABLE Chunk (
-    numero SERIAL PRIMARY KEY,
+    numero INT NOT NULL,
     nome_bioma VARCHAR(30) NOT NULL,
     nome_mapa VARCHAR(30) NOT NULL,
     FOREIGN KEY (nome_bioma) REFERENCES Bioma(nome),
-    FOREIGN KEY (nome_mapa) REFERENCES Mapa(nome)
+    FOREIGN KEY (nome_mapa) REFERENCES Mapa(nome),
+    PRIMARY KEY (numero, nome_mapa)
 );
 
 -- Tabela Construível
 CREATE TABLE Construivel (
     nome VARCHAR(30) PRIMARY KEY,
     receita TEXT NOT NULL,
-    funcao TEXT NOT NULL
+    descricao TEXT NOT NULL
 );
 
 -- Tabela Item
@@ -137,8 +138,9 @@ CREATE TABLE Jogador (
     pernas VARCHAR(30),
     pes VARCHAR(30),
     numero_chunk INT NOT NULL,
+    nome_mapa VARCHAR(30) NOT NULL,
     missao INT,
-    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero),
+    FOREIGN KEY (numero_chunk, nome_mapa) REFERENCES Chunk(numero, nome_mapa),
     FOREIGN KEY (missao) REFERENCES Missao(id_missao)
 );
 
@@ -191,9 +193,11 @@ CREATE TABLE InstanciaConstruivel (
     id_inst_construivel SERIAL PRIMARY KEY,
     nome_construivel VARCHAR(30) NOT NULL,
     numero_chunk INT NOT NULL,
+    nome_mapa VARCHAR(30) NOT NULL,
     FOREIGN KEY (nome_construivel) REFERENCES Construivel(nome),
-    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
+    FOREIGN KEY (numero_chunk, nome_mapa) REFERENCES Chunk(numero, nome_mapa)
 );
+
 
 -- Tabela Instância Estrutura
 CREATE TABLE InstanciaEstrutura (
@@ -201,9 +205,10 @@ CREATE TABLE InstanciaEstrutura (
     nome_estrutura VARCHAR(30) NOT NULL,
     nome_bioma VARCHAR(30) NOT NULL,
     numero_chunk INT NOT NULL,
+    nome_mapa VARCHAR(30) NOT NULL,
     FOREIGN KEY (nome_estrutura) REFERENCES Estrutura(nome),
     FOREIGN KEY (nome_bioma) REFERENCES Bioma(nome),
-    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
+    FOREIGN KEY (numero_chunk, nome_mapa) REFERENCES Chunk(numero, nome_mapa)
 );
 
 -- Tabela Instância Fonte
@@ -212,9 +217,11 @@ CREATE TABLE InstanciaFonte (
     nome_fonte VARCHAR(30) NOT NULL,
     qtd_atual INT NOT NULL,
     numero_chunk INT NOT NULL,
+    nome_mapa VARCHAR(30) NOT NULL,
     FOREIGN KEY (nome_fonte) REFERENCES Fonte(nome),
-    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero)
+    FOREIGN KEY (numero_chunk, nome_mapa) REFERENCES Chunk(numero, nome_mapa)
 );
+
 
 -- Tabela Instância Mob
 CREATE TABLE InstanciaMob (
@@ -222,11 +229,13 @@ CREATE TABLE InstanciaMob (
     nome_mob VARCHAR(30) NOT NULL,
     vida_atual INT NOT NULL,
     numero_chunk INT NOT NULL,
+    nome_mapa VARCHAR(30) NOT NULL,
     id_estrutura INT,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome),
-    FOREIGN KEY (numero_chunk) REFERENCES Chunk(numero),
+    FOREIGN KEY (numero_chunk, nome_mapa) REFERENCES Chunk(numero, nome_mapa),
     FOREIGN KEY (id_estrutura) REFERENCES InstanciaEstrutura(id_inst_estrutura)
 );
+
 
 -- Tabelas Intermediárias
 

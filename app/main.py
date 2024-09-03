@@ -103,21 +103,21 @@ def determinar_cor_bioma(bioma):
 # Mostrar bioma com cor específica
 def mostrar_bioma_com_cor(bioma):
     cor_bioma = determinar_cor_bioma(bioma)
-    mostrar_texto_gradualmente("De bioma:", Fore.CYAN)
+    mostrar_texto_gradualmente("Do bioma:", Fore.CYAN)
     mostrar_texto_gradualmente(bioma, cor_bioma)
 
 # Função principal do jogo
 def jogar(cursor, nomeUser):
     while True:
-        cursor.execute("SELECT numero_chunk FROM jogador WHERE nome = %s;", (nomeUser,))
+        cursor.execute("SELECT numero_chunk, nome_mapa FROM jogador WHERE nome = %s;", (nomeUser,))
         result = cursor.fetchone()
 
         if not result:
             mostrar_texto_gradualmente("Jogador não encontrado!", Fore.RED)
             break
         
-        chunkAtual = result[0]
-        cursor.execute("SELECT * FROM chunk WHERE numero = %s;", (chunkAtual,))
+        chunkAtual, mapaAtual = result
+        cursor.execute("SELECT * FROM chunk WHERE numero = %s AND nome_mapa = %s;", (chunkAtual, mapaAtual))
         dadosChunkAtual = cursor.fetchone()
 
         if not dadosChunkAtual:
