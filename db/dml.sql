@@ -16116,7 +16116,8 @@ VALUES  ('Creeper', 20, 'agressivo', 100.00),
         ('Bruxa', 26, 'agressivo', 100.00),
         ('Esqueleto', 20, 'agressivo', 100.00),
         ('Dragão Ender', 200, 'agressivo', 100.00),
-        ('Blaze', 20, 'agressivo', 100.00);
+        ('Blaze', 20, 'agressivo', 100.00),
+        ('Warden', 500, 'agressivo', 100.00);
 
 -- Tabela Agressivo
 INSERT INTO Agressivo (nome_mob, impulsivo, pts_dano, probabilidade, vida_max)
@@ -16128,7 +16129,8 @@ VALUES  ('Creeper', true, 15, 100.00, 20),
         ('Bruxa', false, 6, 100.00, 26),
         ('Esqueleto', false, 4, 100.00, 20),
         ('Blaze', true, 6, 100.00, 20),
-        ('Dragão Ender', true, 10, 100.00, 200);
+        ('Dragão Ender', true, 10, 100.00, 200),
+        ('Warden', true, 30, 100.00, 500);
 
 -- Tabela Pacifico
 INSERT INTO Pacifico (nome_mob, tipo_pacifico, vida_max, probabilidade)
