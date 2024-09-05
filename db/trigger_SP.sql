@@ -172,3 +172,42 @@ $prevencao_update_tipo_item_craftavel$ LANGUAGE plpgsql;
 CREATE OR REPLACE TRIGGER prevencao_update_tipo_item_craftavel
 BEFORE UPDATE ON Craftavel
 FOR EACH ROW EXECUTE PROCEDURE prevencao_update_tipo_item_craftavel();
+
+
+
+
+-- ANALISAR COM BRUNO DEPOIS
+
+CREATE OR REPLACE PROCEDURE inserir_inst_estrutura(
+    nome_estrutura VARCHAR,
+    nome_bioma VARCHAR,
+    numero_chunk INT,
+    nome_mapa VARCHAR,
+    OUT nova_estrutura_id INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Inserir a estrutura na tabela InstanciaEstrutura
+    INSERT INTO InstanciaEstrutura (nome_estrutura, nome_bioma, numero_chunk, nome_mapa)
+    VALUES (nome_estrutura, nome_bioma, numero_chunk, nome_mapa)
+    RETURNING id_inst_estrutura INTO nova_estrutura_id;
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE inserir_inst_mob(
+    nome_mob VARCHAR,
+    vida_atual INT,
+    numero_chunk INT,
+    nome_mapa VARCHAR,
+    id_estrutura INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Inserir o mob na tabela InstanciaMob
+    INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
+    VALUES (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura);
+END;
+$$;
+

@@ -16210,7 +16210,7 @@ VALUES
 -- Tabela Jogador
 INSERT INTO Jogador (nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, nome_mapa, missao)
 VALUES  
-        ('EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 3, 'Nether', 0);
+        ('EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 3, 'Superfície', 0);
 
 -- Tabela Instância Item
 INSERT INTO InstanciaItem (nome_item, durabilidade_atual)
@@ -16254,14 +16254,13 @@ VALUES
         ('Enderman', 40, 'agressivo', 100.00),
         ('Lobo', 8, 'agressivo', 100.00),
         ('Golfinho', 10, 'agressivo', 100.00),
-        ('Iron Golem', 100, 'agressivo', 100.00),
+        ('Golem de Ferro', 100, 'agressivo', 100.00),
         ('Golem de Neve', 4, 'agressivo', 100.00),
         ('Urso Polar', 30, 'agressivo', 100.00),
         
     -- Nether
         ('Piglin Zumbi', 20, 'agressivo', 100.00),
         ('Piglin', 16, 'agressivo', 100.00),
-        ('Zoglin', 40, 'agressivo', 100.00),
         ('Hoglin', 40, 'agressivo', 100.00),
         ('Ghast', 10, 'agressivo', 100.00),
         ('Esqueleto Wither', 20, 'agressivo', 100.00),
@@ -16289,18 +16288,19 @@ VALUES
 INSERT INTO Estrutura (nome, probabilidade)
 VALUES  
     -- Estruturas da Superfície
-        ('Templo do Deserto', 5.00),
-        ('Templo da Selva', 4.00),
         ('Vila', 20.00),
+        ('Templo da Selva', 4.00),
+        ('Templo do Deserto', 5.00),
+        ('Posto Avançado', 8.00),
         ('Cabana da Bruxa', 7.00),
         ('Portal em Ruínas', 15.00),
-        ('Posto Avançado', 8.00),
         
     -- Estruturas das Cavernas
-        ('Fortaleza', 5.00),
+        ('Fortaleza do Fim', 5.00),
         ('Mina Abandonada', 10.00),
 
     -- Estruturas do Nether
+        ('Fortaleza do Nether', 5.00),
         ('Bastião em Ruínas', 3.00);
 
 -- Tabela Instância Estrutura
@@ -16312,179 +16312,326 @@ DECLARE
     estrutura_existente INTEGER;
     nova_estrutura_id INTEGER;
 BEGIN
-    -- Iterando por todos os chunks no mapa "Superfície"
+    -- Iterando por todos os chunks em todos os mapas
     FOR chunk_rec IN 
-        SELECT numero, nome_bioma 
+        SELECT numero, nome_bioma, nome_mapa 
         FROM Chunk
-        WHERE nome_mapa = 'Superfície'
     LOOP
         -- Verifica se o chunk já possui uma estrutura
         SELECT COUNT(*) INTO estrutura_existente
         FROM InstanciaEstrutura
-        WHERE numero_chunk = chunk_rec.numero;
+        WHERE numero_chunk = chunk_rec.numero
+        AND nome_mapa = chunk_rec.nome_mapa;
 
         -- Se já houver uma estrutura, pula para o próximo chunk
         IF estrutura_existente > 0 THEN
-            CONTINUE;  -- Continua para o próximo chunk se uma estrutura já existir
+            CONTINUE;
         END IF;
 
-        -- Tentando inserir uma estrutura no chunk baseado no bioma e na probabilidade
+        -- Superfície
+        IF chunk_rec.nome_mapa = 'Superfície' THEN
+            -- Templo da Selva
+            IF chunk_rec.nome_bioma = 'Selva' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 5.00 THEN
+                    -- Chamar stored procedure para inserir a estrutura
+                    CALL inserir_inst_estrutura('Templo da Selva', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
-        -- Templo da Selva
-        IF chunk_rec.nome_bioma = 'Selva' THEN
-            rand_num := random() * 100;
-            IF rand_num <= 4.00 THEN
-                INSERT INTO InstanciaEstrutura (nome_estrutura, nome_bioma, numero_chunk, nome_mapa)
-                VALUES ('Templo da Selva', chunk_rec.nome_bioma, chunk_rec.numero, 'Superfície')
-                RETURNING id_inst_estrutura INTO nova_estrutura_id;
-                
-                -- Inserindo mobs na estrutura usando o ID capturado
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Zumbi', 20, chunk_rec.numero, 'Superfície', nova_estrutura_id),  -- Zumbi no Templo da Selva
-                       ('Esqueleto', 20, chunk_rec.numero, 'Superfície', nova_estrutura_id);  -- Esqueleto no Templo da Selva
-                CONTINUE;  -- Passa para o próximo chunk após inserir a estrutura e mobs
+                    -- Chamar stored procedure para inserir mobs na estrutura
+                    CALL inserir_inst_mob('Zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    
+                    CONTINUE;
+                END IF;
+            END IF;
+
+            -- Templo do Deserto
+            IF chunk_rec.nome_bioma = 'Deserto' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 5.00 THEN
+                    -- Chamar stored procedure para inserir a estrutura
+                    CALL inserir_inst_estrutura('Templo do Deserto', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    -- Chamar stored procedure para inserir mobs na estrutura
+                    CALL inserir_inst_mob('Zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    CONTINUE;
+                END IF;
+            END IF;
+
+            -- Cabana da Bruxa
+            IF chunk_rec.nome_bioma = 'Pântano' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 7.00 THEN
+                    -- Chamar stored procedure para inserir a estrutura
+                    CALL inserir_inst_estrutura('Cabana da Bruxa', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    -- Chamar stored procedure para inserir mob na Cabana da Bruxa
+                    CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    CONTINUE;
+                END IF;
+            END IF;
+
+            -- Portal em Ruínas
+            IF chunk_rec.nome_bioma IN ('Deserto', 'Planície', 'Floresta', 'Selva', 'Pântano', 'Montanha', 'Neve') THEN
+                rand_num := random() * 100;
+                IF rand_num <= 10.00 THEN
+                    -- Chamar stored procedure para inserir a estrutura
+                    CALL inserir_inst_estrutura('Portal em Ruínas', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    -- Chamar stored procedure para inserir mob no Portal em Ruínas
+                    CALL inserir_inst_mob('Piglin', 16, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Piglin Zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    CONTINUE;
+                END IF;
+            END IF;
+
+            -- Vila
+            IF chunk_rec.nome_bioma IN ('Deserto', 'Planície', 'Floresta', 'Montanha', 'Neve') THEN
+                rand_num := random() * 100;
+                IF rand_num <= 20.00 THEN
+                    -- Chamar stored procedure para inserir a estrutura
+                    CALL inserir_inst_estrutura('Vila', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    -- Chamar stored procedure para inserir NPCs na Vila
+                    CALL inserir_inst_mob('Aldeão', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Aldeão', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Golem de Ferro', 100, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    CONTINUE;
+                END IF;
+            END IF;
+
+            -- Posto Avançado
+            IF chunk_rec.nome_bioma IN ('Planície', 'Deserto', 'Montanha') THEN
+                rand_num := random() * 100;
+                IF rand_num <= 8.00 THEN
+                    -- Chamar stored procedure para inserir a estrutura
+                    CALL inserir_inst_estrutura('Posto Avançado', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    -- Chamar stored procedure para inserir mobs no Posto Avançado
+                    CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    CONTINUE;
+                END IF;
             END IF;
         END IF;
 
-        -- Fortaleza
-        IF chunk_rec.nome_bioma = 'Montanha' THEN
-            rand_num := random() * 100;
-            IF rand_num <= 5.00 THEN
-                INSERT INTO InstanciaEstrutura (nome_estrutura, nome_bioma, numero_chunk, nome_mapa)
-                VALUES ('Fortaleza', chunk_rec.nome_bioma, chunk_rec.numero, 'Superfície')
-                RETURNING id_inst_estrutura INTO nova_estrutura_id;
+        -- Cavernas
+        IF chunk_rec.nome_mapa = 'Cavernas' THEN
+            -- Fortaleza do Fim
+            IF chunk_rec.nome_bioma = 'Fortaleza' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 5.00 THEN
+                    -- Chamar stored procedure para inserir a estrutura
+                    CALL inserir_inst_estrutura('Fortaleza do Fim', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
-                -- Inserindo mobs na estrutura usando o ID capturado
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Esqueleto', 20, chunk_rec.numero, 'Superfície', nova_estrutura_id),  -- Esqueleto na Fortaleza
-                       ('Blaze', 20, chunk_rec.numero, 'Superfície', nova_estrutura_id),  -- Blaze na Fortaleza
-                       ('Enderman', 40, chunk_rec.numero, 'Superfície', nova_estrutura_id);  -- Enderman na Fortaleza
-                CONTINUE;  -- Passa para o próximo chunk após inserir a estrutura e mobs
+                    -- Chamar stored procedure para inserir mobs na Fortaleza do Fim
+                    CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Blaze', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    CONTINUE;
+                END IF;
+            END IF;
+
+            -- Mina Abandonada
+            IF chunk_rec.nome_bioma = 'Caverna' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 10.00 THEN
+                    -- Chamar stored procedure para inserir a estrutura
+                    CALL inserir_inst_estrutura('Mina Abandonada', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    -- Chamar stored procedure para inserir mobs na Mina Abandonada
+                    CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    CONTINUE;
+                END IF;
             END IF;
         END IF;
 
-        -- Templo do Deserto
-        IF chunk_rec.nome_bioma = 'Deserto' THEN
-            rand_num := random() * 100;
-            IF rand_num <= 5.00 THEN
-                INSERT INTO InstanciaEstrutura (nome_estrutura, nome_bioma, numero_chunk, nome_mapa)
-                VALUES ('Templo do Deserto', chunk_rec.nome_bioma, chunk_rec.numero, 'Superfície')
-                RETURNING id_inst_estrutura INTO nova_estrutura_id;
+        -- Nether
+        IF chunk_rec.nome_mapa = 'Nether' THEN
+            -- Bastião em Ruínas
+            IF chunk_rec.nome_bioma = 'Descampado' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 3.00 THEN
+                    -- Chamar stored procedure para inserir a estrutura
+                    CALL inserir_inst_estrutura('Bastião em Ruínas', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
-                -- Inserindo mobs na estrutura usando o ID capturado
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Esqueleto', 20, chunk_rec.numero, 'Superfície', nova_estrutura_id),  -- Esqueleto no Templo do Deserto
-                       ('Creeper', 20, chunk_rec.numero, 'Superfície', nova_estrutura_id);  -- Creeper no Templo do Deserto
-                CONTINUE;  -- Passa para o próximo chunk após inserir a estrutura e mobs
+                    -- Chamar stored procedure para inserir mobs no Bastião em Ruínas
+                    CALL inserir_inst_mob('Piglin', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Piglin Zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Esqueleto Wither', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+
+                    CONTINUE;
+                END IF;
             END IF;
         END IF;
-
-        -- Cabana da Bruxa
-        IF chunk_rec.nome_bioma = 'Pântano' THEN
-            rand_num := random() * 100;
-            IF rand_num <= 7.00 THEN
-                INSERT INTO InstanciaEstrutura (nome_estrutura, nome_bioma, numero_chunk, nome_mapa)
-                VALUES ('Cabana da Bruxa', chunk_rec.nome_bioma, chunk_rec.numero, 'Superfície')
-                RETURNING id_inst_estrutura INTO nova_estrutura_id;
-
-                -- Inserindo mob na estrutura usando o ID capturado
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Bruxa', 26, chunk_rec.numero, 'Superfície', nova_estrutura_id);  -- Bruxa na Cabana da Bruxa
-                CONTINUE;  -- Passa para o próximo chunk após inserir a estrutura e mobs
-            END IF;
-        END IF;
-
-        -- Portal em Ruínas
-        IF chunk_rec.nome_bioma IN ('Deserto', 'Planície', 'Floresta', 'Selva', 'Pântano', 'Montanha', 'Neve') THEN
-            rand_num := random() * 100;
-            IF rand_num >= 95.00 THEN
-                INSERT INTO InstanciaEstrutura (nome_estrutura, nome_bioma, numero_chunk, nome_mapa)
-                VALUES ('Portal em Ruínas', chunk_rec.nome_bioma, chunk_rec.numero, 'Superfície')
-                RETURNING id_inst_estrutura INTO nova_estrutura_id;
-
-                -- Inserindo mob na estrutura usando o ID capturado
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Enderman', 40, chunk_rec.numero, 'Superfície', nova_estrutura_id);  -- Enderman no Portal em Ruínas
-                CONTINUE;  -- Passa para o próximo chunk após inserir a estrutura e mobs
-            END IF;
-        END IF;
-
-        -- Vila
-        IF chunk_rec.nome_bioma IN ('Deserto', 'Planície', 'Floresta', 'Montanha', 'Neve') THEN
-            rand_num := random() * 100;
-            IF rand_num >= 80.00 THEN
-                INSERT INTO InstanciaEstrutura (nome_estrutura, nome_bioma, numero_chunk, nome_mapa)
-                VALUES ('Vila', chunk_rec.nome_bioma, chunk_rec.numero, 'Superfície')
-                RETURNING id_inst_estrutura INTO nova_estrutura_id;
-
-                -- Inserindo NPCs na Vila usando o ID capturado
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Aldeão', 20, chunk_rec.numero, 'Superfície', nova_estrutura_id),  -- Aldeão na Vila
-                       ('Aldeão', 20, chunk_rec.numero, 'Superfície', nova_estrutura_id),  -- Outro Aldeão na Vila
-                       ('Aldeão', 20, chunk_rec.numero, 'Superfície', nova_estrutura_id);  -- Mais um Aldeão na Vila
-                CONTINUE;  -- Passa para o próximo chunk após inserir a estrutura e mobs
-            END IF;
-        END IF;
-
+        
     END LOOP;
 END
 $$;
 
 -- Tabela Instância Mob
--- Colocando apenas mobs pacifico
 DO
 $$
 DECLARE
     chunk_rec RECORD;
     rand_num FLOAT;
 BEGIN
-    -- Iterando por todos os chunks no mapa "Superfície"
+    -- Iterando por todos os chunks na tabela Chunk
     FOR chunk_rec IN 
-        SELECT numero, nome_bioma 
+        SELECT numero, nome_bioma, nome_mapa 
         FROM Chunk
-        WHERE nome_mapa = 'Superfície'
     LOOP
-        -- Tentando spawnar mobs pacíficos baseado no bioma e na probabilidade
+        -- Superfície
+        IF chunk_rec.nome_mapa = 'Superfície' THEN
+            -- Galinha (spawn em Planície, Floresta)
+            IF chunk_rec.nome_bioma IN ('Planície', 'Floresta') THEN
+                rand_num := random() * 100;
+                IF rand_num <= 45.00 THEN
+                    CALL inserir_inst_mob('Galinha', 5, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+            END IF;
 
-        -- Galinha (spawn em Planície, Floresta)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Floresta') THEN
-            rand_num := random() * 100;
-            IF rand_num <= 80.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Galinha', 5, chunk_rec.numero, 'Superfície', null);
+            -- Vaca e Porco (spawn em Planície)
+            IF chunk_rec.nome_bioma = 'Planície' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 45.00 THEN
+                    CALL inserir_inst_mob('Vaca', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
+                IF rand_num <= 35.00 THEN
+                    CALL inserir_inst_mob('Porco', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+            END IF;
+
+            -- Ovelha (spawn em Planície, Montanha)
+            IF chunk_rec.nome_bioma IN ('Planície', 'Montanha') THEN
+                rand_num := random() * 100;
+                IF rand_num <= 30.00 THEN
+                    CALL inserir_inst_mob('Ovelha', 8, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+            END IF;
+
+            -- Peixe, Golfinho e Guardião (spawn em Lago)
+            IF chunk_rec.nome_bioma = 'Lago' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 30.00 THEN
+                    CALL inserir_inst_mob('Peixe', 3, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
+                IF rand_num <= 10.00 THEN
+                    CALL inserir_inst_mob('Golfinho', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
+                IF rand_num <= 5.00 THEN
+                    CALL inserir_inst_mob('Guardião', 30, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+            END IF;
+
+            -- Urso Polar e Golem de Neve (spawn em Neve)
+            IF chunk_rec.nome_bioma = 'Neve' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 25.00 THEN
+                    CALL inserir_inst_mob('Urso Polar', 30, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
+                IF rand_num <= 15.00 THEN
+                    CALL inserir_inst_mob('Golem de Neve', 4, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
             END IF;
         END IF;
 
-        -- Vaca e Porco (spawn em Planície)
-        IF chunk_rec.nome_bioma = 'Planície' THEN
-            rand_num := random() * 100;
-            IF rand_num <= 50.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Vaca', 10, chunk_rec.numero, 'Superfície', null);
+        -- Cavernas
+        IF chunk_rec.nome_mapa = 'Cavernas' THEN
+            -- Mobs hostis (spawn em Caverna)
+            IF chunk_rec.nome_bioma = 'Caverna' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 40.00 THEN
+                    CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
+                IF rand_num <= 40.00 THEN
+                    CALL inserir_inst_mob('Creeper', 20, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
+                IF rand_num <= 50.00 THEN
+                    CALL inserir_inst_mob('Zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
+                IF rand_num <= 30.00 THEN
+                    CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
+                IF rand_num <= 10.00 THEN
+                    CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
             END IF;
-            
-            rand_num := random() * 100;
-            IF rand_num <= 50.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Porco', 10, chunk_rec.numero, 'Superfície', null);
+
+            -- Warden (spawn em Cidade Ancestral)
+            IF chunk_rec.nome_bioma = 'Cidade Ancestral' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 5.00 THEN
+                    CALL inserir_inst_mob('Warden', 500, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
             END IF;
         END IF;
 
-        -- Ovelha (spawn em Planície, Montanha)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha') THEN
-            rand_num := random() * 100;
-            IF rand_num <= 70.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Ovelha', 8, chunk_rec.numero, 'Superfície', null);
+        -- Nether
+        IF chunk_rec.nome_mapa = 'Nether' THEN
+            -- Piglin e Hoglin (spawn em Floresta Carmesim)
+            IF chunk_rec.nome_bioma = 'Floresta Carmesim' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 45.00 THEN
+                    CALL inserir_inst_mob('Piglin', 16, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+                IF rand_num <= 40.00 THEN
+                    CALL inserir_inst_mob('Hoglin', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+            END IF;
+
+            -- Ghast e Piglin Zumbi (spawn em Descampado)
+            IF chunk_rec.nome_bioma = 'Descampado' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 35.00 THEN
+                    CALL inserir_inst_mob('Ghast', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
+                IF rand_num <= 50.00 THEN
+                    CALL inserir_inst_mob('Piglin Zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+            END IF;
+
+            -- Enderman (spawn em Floresta Distorcida)
+            IF chunk_rec.nome_bioma = 'Floresta Distorcida' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 90.00 THEN
+                    CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
             END IF;
         END IF;
 
-        -- Peixe (spawn em Lago)
-        IF chunk_rec.nome_bioma = 'Lago' THEN
-            rand_num := random() * 100;
-            IF rand_num <= 90.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Peixe', 3, chunk_rec.numero, 'Superfície', null);
+        -- Fim
+        IF chunk_rec.nome_mapa = 'Fim' THEN
+            IF chunk_rec.nome_bioma = 'Ilha do Fim' THEN
+                rand_num := random() * 100;
+                IF rand_num <= 90.00 THEN
+                    CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
             END IF;
         END IF;
 
@@ -16529,7 +16676,7 @@ VALUES
         ('Ovelha', 'Carne Crua', 80.00, 1),
 
     -- Neutros
-        ('Iron Golem', 'Barras de Ferro', 100.00, 3),
+        ('Golem de Ferro', 'Barras de Ferro', 100.00, 3),
         ('Urso Polar', 'Peixe Cru', 50.00, 1),
 
     -- Nether
@@ -16537,7 +16684,6 @@ VALUES
         ('Piglin Zumbi', 'Barras de Ouro', 10.00, 1),
         ('Piglin', 'Barras de Ouro', 15.00, 3),
         ('Piglin', 'Carne Podre', 80.00, 1),
-        ('Zoglin', 'Carne Assada', 100.00, 2),
         ('Hoglin', 'Carne Assada', 100.00, 2),
         ('Ghast', 'Lágrima de Ghast', 25.00, 1),
         ('Ghast', 'Pólvora', 70.00, 1),
@@ -16590,13 +16736,13 @@ VALUES
     ('Posto Avançado', 'Arco', 50.00),
     ('Posto Avançado', 'Mapa', 15.00),
 
-    -- Fortaleza
-    ('Fortaleza', 'Vara de Blaze', 30.00),
-    ('Fortaleza', 'Pérola do Ender', 30.00),
-    ('Fortaleza', 'Espada de Ferro', 25.00),
-    ('Fortaleza', 'Peitoral de Ferro', 15.00),
-    ('Fortaleza', 'Espada de Diamante', 7.00),
-    ('Fortaleza', 'Peitoral de Diamante', 3.00),
+    -- Fortaleza do Fim
+    ('Fortaleza do Fim', 'Vara de Blaze', 30.00),
+    ('Fortaleza do Fim', 'Pérola do Ender', 30.00),
+    ('Fortaleza do Fim', 'Espada de Ferro', 25.00),
+    ('Fortaleza do Fim', 'Peitoral de Ferro', 15.00),
+    ('Fortaleza do Fim', 'Espada de Diamante', 7.00),
+    ('Fortaleza do Fim', 'Peitoral de Diamante', 3.00),
 
     -- Mina Abandonada
     ('Mina Abandonada', 'Carvão', 100.00),
@@ -16717,14 +16863,11 @@ BEGIN
         FROM Chunk
         WHERE nome_mapa = 'Superfície'
     LOOP
-        -- Tentando spawnar mobs agressivos baseado no bioma e na probabilidade
-
         -- Zumbi (spawn em Planície, Floresta, Pântano)
         IF chunk_rec.nome_bioma IN ('Planície', 'Floresta', 'Pântano') THEN
             rand_num := random() * 100;
             IF rand_num <= 70.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Zumbi', 20, chunk_rec.numero, 'Superfície', null);
+                CALL inserir_inst_mob('Zumbi', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
@@ -16732,8 +16875,7 @@ BEGIN
         IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Floresta') THEN
             rand_num := random() * 100;
             IF rand_num <= 60.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Esqueleto', 20, chunk_rec.numero, 'Superfície', null);
+                CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
@@ -16741,8 +16883,7 @@ BEGIN
         IF chunk_rec.nome_bioma IN ('Floresta', 'Pântano') THEN
             rand_num := random() * 100;
             IF rand_num <= 50.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Aranha', 16, chunk_rec.numero, 'Superfície', null);
+                CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
@@ -16750,17 +16891,31 @@ BEGIN
         IF chunk_rec.nome_bioma IN ('Planície', 'Deserto') THEN
             rand_num := random() * 100;
             IF rand_num <= 10.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Enderman', 40, chunk_rec.numero, 'Superfície', null);
+                CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
         -- Creeper (spawn em Floresta, Planície)
         IF chunk_rec.nome_bioma IN ('Floresta', 'Planície') THEN
             rand_num := random() * 100;
-            IF rand_num <= 20.00 THEN
-                INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-                VALUES ('Creeper', 20, chunk_rec.numero, 'Superfície', null);
+            IF rand_num <= 30.00 THEN
+                CALL inserir_inst_mob('Creeper', 20, chunk_rec.numero, 'Superfície', NULL);
+            END IF;
+        END IF;
+
+        -- Bruxa (spawn em Pântano)
+        IF chunk_rec.nome_bioma = 'Pântano' THEN
+            rand_num := random() * 100;
+            IF rand_num <= 7.00 THEN
+                CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, 'Superfície', NULL);
+            END IF;
+        END IF;
+
+        -- Pilhador (spawn em Planície, Montanha)
+        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha') THEN
+            rand_num := random() * 100;
+            IF rand_num <= 10.00 THEN
+                CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
@@ -16768,16 +16923,17 @@ BEGIN
 END;
 $$;
 
--- Remover mobs quando ficar de dia, apenas mobs que não estão em estruturas 
-CREATE OR REPLACE PROCEDURE remover_mobs_agressivos() LANGUAGE plpgsql AS $$
+-- Remover mobs da Superfície quando ficar de dia, apenas mobs que não estão em estruturas 
+CREATE OR REPLACE PROCEDURE despanw_mobs_agressivos() LANGUAGE plpgsql AS $$
 BEGIN
     DELETE FROM InstanciaMob
-    WHERE nome_mob IN ('Zumbi', 'Esqueleto', 'Aranha', 'Enderman', 'Creeper', 'Blaze')
-    AND id_estrutura IS NULL;  -- Remove apenas mobs fora de estruturas
+    WHERE nome_mob IN ('Zumbi', 'Esqueleto', 'Aranha', 'Enderman', 'Creeper', 'Bruxa', 'Pilhador')
+    AND nome_mapa = 'Superfície'
+    AND id_estrutura IS NULL;
 END;
 $$;
 
--- Criação da stored procedure para atualizar o clima
+-- Criação da stored procedure para atualizar a hora
 CREATE OR REPLACE PROCEDURE atualizar_ciclo_dia() LANGUAGE plpgsql AS 
 $$
 BEGIN
