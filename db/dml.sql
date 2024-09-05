@@ -18,20 +18,24 @@ VALUES
         ('Pântano'),
         ('Montanha'),
         ('Neve'),
+
     -- Biomas das Cavernas
         ('Caverna'),
         ('Fortaleza'),
         ('Cidade ancestral'),
+
     -- Biomas do Nether
         ('Descampado'),
         ('Floresta carmesim'),
         ('Floresta distorcida'),
+
     -- Biomas do Fim
         ('Ilha do fim');
 
 -- Inserindo Chunks do mapa Superfície
 INSERT INTO Chunk (numero, nome_bioma, nome_mapa) 
 VALUES  
+    -- Inserindo Chunks do mapa Superfície
         (1, 'Planície', 'Superfície'),
         (2, 'Deserto', 'Superfície'),
         (3, 'Deserto', 'Superfície'),
@@ -10031,11 +10035,9 @@ VALUES
         (9997, 'Planície', 'Superfície'),
         (9998, 'Planície', 'Superfície'),
         (9999, 'Planície', 'Superfície'),
-        (10000, 'Planície', 'Superfície');
+        (10000, 'Planície', 'Superfície'),
 
 -- Inserindo Chunks do mapa Cavernas
-INSERT INTO Chunk (numero, nome_bioma, nome_mapa) 
-VALUES
         (2, 'Caverna', 'Cavernas'),
         (3, 'Caverna', 'Cavernas'),
         (6, 'Caverna', 'Cavernas'),
@@ -15944,144 +15946,178 @@ VALUES
 INSERT INTO Item (nome, tipo_item) 
 VALUES
     -- Materiais básicos
-    ('Madeira', 'material'),
-    ('Tábua', 'material'),
-    ('Graveto', 'material'),
-    ('Pedregulho', 'material'),
-    ('Areia', 'material'),
-    ('Teia', 'material'),
-    ('Lã', 'material'),
-    ('Obsidiana', 'material'),
-    ('Cana de Acúcar', 'material'),
-    ('Couro', 'material'),
-    ('Minério de Ferro', 'material'),
-    ('Barras de Ferro', 'material'),
-    ('Minério de Ouro', 'material'),
-    ('Barras de Ouro', 'material'),
-    ('Diamante', 'material'),
-    ('Netherita', 'material'),
-    ('Papel', 'material'),
-    ('Livro', 'material'),
-    ('Pó de Redstone', 'material'),
-    ('Pólvora', 'material'),
-    ('Pena', 'material'),
-    ('Fio', 'material'),
-    ('Pérola do Ender', 'material'),
-    ('Garrafas de Vidro', 'material'),
-    ('Açúcar', 'material'),
-    ('Osso', 'material'),
-    ('Flecha', 'material'),
-    ('Ovo de Dragão', 'material'),
-    ('Vara de Blaze', 'material'),
-    ('Pó de Blaze', 'material'),
-    ('Estante', 'material'),
-    ('Vidro', 'material'),
-    ('Porta', 'material'),
-    ('Escada', 'material'),
-    ('Cama', 'material'),
+        ('Madeira', 'material'),
+        ('Tábua', 'material'),
+        ('Graveto', 'material'),
+        ('Pedregulho', 'material'),
+        ('Areia', 'material'),
+        ('Teia', 'material'),
+        ('Lã', 'material'),
+        ('Obsidiana', 'material'),
+        ('Cana de Açúcar', 'material'),
+        ('Couro', 'material'),
+        ('Carvão', 'material'),
+        ('Minério de Ferro', 'material'),
+        ('Barras de Ferro', 'material'),
+        ('Minério de Ouro', 'material'),
+        ('Barras de Ouro', 'material'),
+        ('Diamante', 'material'),
+        ('Netherita', 'material'),
+        ('Papel', 'material'),
+        ('Livro', 'material'),
+        ('Pó de Redstone', 'material'),
+        ('Pólvora', 'material'),
+        ('Pena', 'material'),
+        ('Fio', 'material'),
+        ('Pérola do Ender', 'material'),
+        ('Lágrima de Ghast', 'material'),
+        ('Estrela do Nether', 'material'),
+        ('Açúcar', 'material'),
+        ('Osso', 'material'),
+        ('Flecha', 'material'),
+        ('Ovo de Dragão', 'material'),
+        ('Vara de Blaze', 'material'),
+        ('Pó de Blaze', 'material'),
+        ('Estante', 'material'),
+        ('Vidro', 'material'),
+        ('Porta', 'material'),
+        ('Escada', 'material'),
+        ('Cama', 'material'),
+
     -- Ferramentas
-    ('Arco', 'craftavel'),
-    ('Picareta de Pedra', 'craftavel'),
-    ('Espada de Pedra', 'craftavel'),
-    ('Machado de Pedra', 'craftavel'),
-    ('Picareta de Ferro', 'craftavel'),
-    ('Espada de Ferro', 'craftavel'),
-    ('Machado de Ferro', 'craftavel'),
-    ('Picareta de Ouro', 'craftavel'),
-    ('Espada de Ouro', 'craftavel'),
-    ('Machado de Ouro', 'craftavel'),
-    ('Picareta de Diamante', 'craftavel'),
-    ('Espada de Diamante', 'craftavel'),
-    ('Machado de Diamante', 'craftavel'),
-    ('Picareta de Netherita', 'craftavel'),
-    ('Espada de Netherita', 'craftavel'),
-    ('Machado de Netherita', 'craftavel'),
+        ('Arco', 'craftavel'),
+        ('Picareta de Madeira', 'craftavel'),
+        ('Espada de Madeira', 'craftavel'),
+        ('Pá de Madeira', 'craftavel'),
+        ('Picareta de Pedra', 'craftavel'),
+        ('Espada de Pedra', 'craftavel'),
+        ('Machado de Pedra', 'craftavel'),
+        ('Pá de Pedra', 'craftavel'),
+        ('Picareta de Ferro', 'craftavel'),
+        ('Espada de Ferro', 'craftavel'),
+        ('Machado de Ferro', 'craftavel'),
+        ('Pá de Ferro', 'craftavel'),
+        ('Picareta de Ouro', 'craftavel'),
+        ('Espada de Ouro', 'craftavel'),
+        ('Machado de Ouro', 'craftavel'),
+        ('Pá de Ouro', 'craftavel'),
+        ('Picareta de Diamante', 'craftavel'),
+        ('Espada de Diamante', 'craftavel'),
+        ('Machado de Diamante', 'craftavel'),
+        ('Pá de Diamante', 'craftavel'),
+        ('Picareta de Netherita', 'craftavel'),
+        ('Espada de Netherita', 'craftavel'),
+        ('Machado de Netherita', 'craftavel'),
+        ('Pá de Netherita', 'craftavel'),
+
     -- Armaduras
-    ('Capacete de Couro', 'craftavel'),
-    ('Túnica de Couro', 'craftavel'),
-    ('Calças de Couro', 'craftavel'),
-    ('Botas de Couro', 'craftavel'),
-    ('Capacete de Ferro', 'craftavel'),
-    ('Peitoral de Ferro', 'craftavel'),
-    ('Calças de Ferro', 'craftavel'),
-    ('Capacete de Ouro', 'craftavel'),
-    ('Peitoral de Ouro', 'craftavel'),
-    ('Calças de Ouro', 'craftavel'),
-    ('Capacete de Diamante', 'craftavel'),
-    ('Peitoral de Diamante', 'craftavel'),
-    ('Calças de Diamante', 'craftavel'),
-    ('Capacete de Netherita', 'craftavel'),
-    ('Peitoral de Netherita', 'craftavel'),
-    ('Calças de Netherita', 'craftavel'),
+        ('Capacete de Couro', 'craftavel'),
+        ('Túnica de Couro', 'craftavel'),
+        ('Calças de Couro', 'craftavel'),
+        ('Botas de Couro', 'craftavel'),
+        ('Capacete de Ferro', 'craftavel'),
+        ('Peitoral de Ferro', 'craftavel'),
+        ('Calças de Ferro', 'craftavel'),
+        ('Botas de Ferro', 'craftavel'),
+        ('Capacete de Ouro', 'craftavel'),
+        ('Peitoral de Ouro', 'craftavel'),
+        ('Calças de Ouro', 'craftavel'),
+        ('Botas de Ouro', 'craftavel'),
+        ('Capacete de Diamante', 'craftavel'),
+        ('Peitoral de Diamante', 'craftavel'),
+        ('Calças de Diamante', 'craftavel'),
+        ('Botas de Diamante', 'craftavel'),
+        ('Capacete de Netherita', 'craftavel'),
+        ('Peitoral de Netherita', 'craftavel'),
+        ('Calças de Netherita', 'craftavel'),
+        ('Botas de Netherita', 'craftavel'),
+
     -- Itens Funcionais
-    ('Isqueiro', 'craftavel'),
-    ('Mapa', 'craftavel'),
-    ('Bússola', 'craftavel'),
-    ('Olho do Ender', 'craftavel'),
+        ('Isqueiro', 'craftavel'),
+        ('Mapa', 'craftavel'),
+        ('Bússola', 'craftavel'),
+        ('Olho do Ender', 'craftavel'),
+
     -- Alimentos
-    ('Carne Podre', 'alimento'),
-    ('Frango', 'alimento'),
-    ('Frango Assado', 'alimento'),
-    ('Peixe Cru', 'alimento'),
-    ('Peixe Assado', 'alimento'),
-    ('Carne Crua', 'alimento'),
-    ('Carne Assada', 'alimento');
+        ('Batata', 'alimento'),
+        ('Maçã', 'alimento'),
+        ('Carne Podre', 'alimento'),
+        ('Frango', 'alimento'),
+        ('Frango Assado', 'alimento'),
+        ('Peixe Cru', 'alimento'),
+        ('Peixe Assado', 'alimento'),
+        ('Carne Crua', 'alimento'),
+        ('Carne Assada', 'alimento');
 
 INSERT INTO ReceitaItem (nome_item, item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8, item_9, quantidade)
 VALUES
     -- Materiais
-    ('Tábua', 'Madeira', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
-    ('Graveto', 'Tábua', 'Tábua', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
-    ('Papel', 'Cana de Acúcar', 'Cana de Acúcar', 'Cana de Acúcar', NULL, NULL, NULL, NULL, NULL, NULL, 3),
-    ('Livro', 'Papel', 'Papel', 'Couro', NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Fio', 'Teia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
-    ('Açúcar', 'Cana de Acúcar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Flecha', 'Pena', 'Pedregulho', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 4),
-    ('Estante', 'Tábua', 'Tábua', 'Tábua', 'Livro', 'Livro', 'Livro', 'Tábua', 'Tábua', 'Tábua', 1),
-    ('Porta', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 3),
-    ('Escada', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 4),
-    ('Cama', 'Lã', 'Lã', 'Lã', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 1),
-    ('Pó de Blaze', 'Vara de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2),
-    -- Ferramentas
-    ('Arco', 'Fio', 'Fio', 'Fio', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
-    ('Picareta de Pedra', 'Pedregulho', 'Pedregulho', 'Pedregulho', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
-    ('Espada de Pedra', 'Pedregulho', 'Pedregulho', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Machado de Pedra', 'Pedregulho', 'Pedregulho', 'Pedregulho', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
-    ('Picareta de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
-    ('Espada de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Machado de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
-    ('Picareta de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
-    ('Espada de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Machado de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
-    ('Picareta de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
-    ('Espada de Diamante', 'Diamante', 'Diamante', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Machado de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
-    ('Picareta de Netherita', 'Picareta de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Espada de Netherita', 'Espada de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Machado de Netherita', 'Machado de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    -- Armaduras
-    ('Capacete de Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, NULL, NULL, 1),
-    ('Túnica de Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, 1),
-    ('Calças de Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, NULL, 1),
-    ('Botas de Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, NULL, NULL, NULL, 1),
-    ('Capacete de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, NULL, 1),
-    ('Peitoral de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, 1),
-    ('Calças de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, 1),
-    ('Capacete de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, NULL, 1),
-    ('Peitoral de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, 1),
-    ('Calças de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, 1),
-    ('Capacete de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, NULL, 1),
-    ('Peitoral de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, 1),
-    ('Calças de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, 1),
-    ('Capacete de Netherita', 'Capacete de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Peitoral de Netherita', 'Peitoral de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Calças de Netherita', 'Calças de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    -- Itens Funcionais
-    ('Isqueiro', 'Barras de Ferro', 'Pedregulho', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-    ('Mapa', 'Papel', 'Papel', 'Papel', 'Papel', 'Bússola', 'Papel', 'Papel', 'Papel', NULL, 1),
-    ('Bússola', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Pó de Redstone', 'Barras de Ferro', NULL, NULL, NULL, NULL, 1),
-    ('Olho do Ender', 'Pérola do Ender', 'Pó de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+        ('Tábua', 'Madeira', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
+        ('Graveto', 'Tábua', 'Tábua', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
+        ('Papel', 'Cana de Açúcar', 'Cana de Açúcar', 'Cana de Açúcar', NULL, NULL, NULL, NULL, NULL, NULL, 3),
+        ('Livro', 'Papel', 'Papel', 'Couro', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Fio', 'Teia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
+        ('Açúcar', 'Cana de Açúcar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Flecha', 'Pena', 'Pedregulho', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 4),
+        ('Estante', 'Tábua', 'Tábua', 'Tábua', 'Livro', 'Livro', 'Livro', 'Tábua', 'Tábua', 'Tábua', 1),
+        ('Porta', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 3),
+        ('Escada', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 4),
+        ('Cama', 'Lã', 'Lã', 'Lã', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 1),
+        ('Pó de Blaze', 'Vara de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2),
 
+    -- Ferramentas
+        ('Arco', 'Fio', 'Fio', 'Fio', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Picareta de Madeira', 'Madeira', 'Madeira', 'Madeira', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Espada de Madeira', 'Madeira', 'Madeira', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Pá de Madeira', 'Madeira', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Picareta de Pedra', 'Pedregulho', 'Pedregulho', 'Pedregulho', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Espada de Pedra', 'Pedregulho', 'Pedregulho', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Machado de Pedra', 'Pedregulho', 'Pedregulho', 'Pedregulho', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Pá de Pedra', 'Pedregulho', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Picareta de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Espada de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Machado de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Pá de Ferro', 'Barras de Ferro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Picareta de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Espada de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Machado de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Pá de Ouro', 'Barras de Ouro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Picareta de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Espada de Diamante', 'Diamante', 'Diamante', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Machado de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+        ('Pá de Diamante', 'Diamante', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Picareta de Netherita', 'Picareta de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Espada de Netherita', 'Espada de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Machado de Netherita', 'Machado de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Pá de Netherita', 'Pá de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+
+        -- Armaduras
+        ('Capacete de Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, NULL, NULL, 1),
+        ('Túnica de Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, 1),
+        ('Calças de Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, NULL, 1),
+        ('Botas de Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, NULL, NULL, NULL, 1),
+        ('Capacete de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, NULL, 1),
+        ('Peitoral de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, 1),
+        ('Calças de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, 1),
+        ('Botas de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, NULL, NULL, 1),
+        ('Capacete de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, NULL, 1),
+        ('Peitoral de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, 1),
+        ('Calças de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, 1),
+        ('Botas de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, NULL, NULL, 1),
+        ('Capacete de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, NULL, 1),
+        ('Peitoral de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, 1),
+        ('Calças de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, 1),
+        ('Botas de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, NULL, NULL, 1),
+        ('Capacete de Netherita', 'Capacete de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Peitoral de Netherita', 'Peitoral de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Calças de Netherita', 'Calças de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Botas de Netherita', 'Botas de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+
+    -- Itens Funcionais
+        ('Isqueiro', 'Barras de Ferro', 'Pedregulho', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+        ('Mapa', 'Papel', 'Papel', 'Papel', 'Papel', 'Bússola', 'Papel', 'Papel', 'Papel', NULL, 1),
+        ('Bússola', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Pó de Redstone', 'Barras de Ferro', NULL, NULL, NULL, NULL, 1),
+        ('Olho do Ender', 'Pérola do Ender', 'Pó de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- Tabela Alimento
 -- INSERT INTO Alimento (nome_item, pts_fome)
@@ -16118,30 +16154,41 @@ VALUES
 -- Tabela Receita Construivel
 INSERT INTO ReceitaConstruivel (nome_construivel, item, quantidade)
 VALUES
-    ('Casa', 'Porta', 1),
-    ('Casa', 'Cama', 1),
-    ('Casa', 'Vidro', 4),
-    ('Casa', 'Tábua', 32),
+    -- Casa 
+        ('Casa', 'Porta', 1),
+        ('Casa', 'Cama', 1),
+        ('Casa', 'Vidro', 4),
+        ('Casa', 'Tábua', 32),
 
-    ('Armazém', 'Pedregulho', 64),
-    ('Armazém', 'Madeira', 10),
+    -- Armazém 
+        ('Armazém', 'Pedregulho', 64),
+        ('Armazém', 'Madeira', 10),
+        ('Armazém', 'Escada', 5),
 
-    ('Fazenda', 'Madeira', 10),
+    -- Fazenda 
+        ('Fazenda', 'Madeira', 10),
+        ('Fazenda', 'Pá de Ferro', 1),
 
-    ('Forja', 'Pedregulho', 32),
-    ('Forja', 'Barras de Ferro', 12),
+    -- Forja 
+        ('Forja', 'Pedregulho', 32),
+        ('Forja', 'Barras de Ferro', 12),
 
-    ('Fornalha', 'Pedregulho', 8),
+    -- Fornalha 
+        ('Fornalha', 'Pedregulho', 8),
 
-    ('Biblioteca', 'Tábua', 32),
-    ('Biblioteca', 'Livro', 10),
+    -- Biblioteca 
+        ('Biblioteca', 'Tábua', 32),
+        ('Biblioteca', 'Livro', 10),
+        ('Biblioteca', 'Escada', 5),
 
-    ('Portal do Nether', 'Obsidiana', 10),
-    ('Portal do Nether', 'Isqueiro', 1),
+    -- Portal do Nether
+        ('Portal do Nether', 'Obsidiana', 10),
+        ('Portal do Nether', 'Isqueiro', 1),
 
-    ('Portal de Viagem', 'Pedregulho', 8),
-    ('Portal de Viagem', 'Barras de Ferro', 4),
-    ('Portal de Viagem', 'Olho do Ender', 1);
+    -- Portal de Viagem 
+        ('Portal de Viagem', 'Pedregulho', 8),
+        ('Portal de Viagem', 'Barras de Ferro', 4),
+        ('Portal de Viagem', 'Olho do Ender', 1);
 
 
 -- Tabela Instância Construível
@@ -16185,61 +16232,76 @@ VALUES
 
 -- Tabela Mob
 INSERT INTO Mob (nome, vida_max, tipo_mob, probabilidade)
-VALUES  ('Creeper', 20, 'agressivo', 100.00),
+VALUES
+    -- Agressivos
+        ('Creeper', 20, 'agressivo', 100.00),
         ('Zumbi', 25, 'agressivo', 100.00),
-        ('Lobo', 8, 'agressivo', 100.00),
+        ('Aranha', 16, 'agressivo', 100.00),
+        ('Esqueleto', 20, 'agressivo', 100.00),
+        ('Bruxa', 26, 'agressivo', 100.00),
+        ('Guardião', 30, 'agressivo', 100.00),
+        ('Pilhador', 24, 'agressivo', 100.00),
+
+    -- Pacíficos
         ('Galinha', 5, 'pacifico', 100.00),
         ('Aldeão', 20, 'pacifico', 100.00),
         ('Peixe', 3, 'pacifico', 100.00),
         ('Vaca', 10, 'pacifico', 100.00),
         ('Porco', 10, 'pacifico', 100.00),
         ('Ovelha', 8, 'pacifico', 100.00),
-        ('Aranha', 16, 'agressivo', 100.00),
+
+    -- Neutros
         ('Enderman', 40, 'agressivo', 100.00),
-        ('Bruxa', 26, 'agressivo', 100.00),
-        ('Esqueleto', 20, 'agressivo', 100.00),
-        ('Dragão Ender', 200, 'agressivo', 100.00),
+        ('Lobo', 8, 'agressivo', 100.00),
+        ('Golfinho', 10, 'agressivo', 100.00),
+        ('Iron Golem', 100, 'agressivo', 100.00),
+        ('Golem de Neve', 4, 'agressivo', 100.00),
+        ('Urso Polar', 30, 'agressivo', 100.00),
+        
+    -- Nether
+        ('Piglin Zumbi', 20, 'agressivo', 100.00),
+        ('Piglin', 16, 'agressivo', 100.00),
+        ('Zoglin', 40, 'agressivo', 100.00),
+        ('Hoglin', 40, 'agressivo', 100.00),
+        ('Ghast', 10, 'agressivo', 100.00),
+        ('Esqueleto Wither', 20, 'agressivo', 100.00),
         ('Blaze', 20, 'agressivo', 100.00),
+
+    -- Bosses
+        ('Dragão Ender', 200, 'agressivo', 100.00),
+        ('Wither', 300, 'agressivo', 100.00),
         ('Warden', 500, 'agressivo', 100.00);
 
+
 -- Tabela Agressivo
-INSERT INTO Agressivo (nome_mob, impulsivo, pts_dano, probabilidade, vida_max)
-VALUES  ('Creeper', true, 15, 100.00, 20),
-        ('Zumbi', true, 3, 100.00, 25),
-        ('Lobo', false, 4, 100.00, 8),
-        ('Aranha', true, 2, 100.00, 16),
-        ('Enderman', true, 7, 100.00, 40),
-        ('Bruxa', false, 6, 100.00, 26),
-        ('Esqueleto', false, 4, 100.00, 20),
-        ('Blaze', true, 6, 100.00, 20),
-        ('Dragão Ender', true, 10, 100.00, 200),
-        ('Warden', true, 30, 100.00, 500);
+-- INSERT INTO Agressivo (nome_mob, impulsivo, pts_dano, probabilidade, vida_max)
+-- VALUES
 
 -- Tabela Pacifico
-INSERT INTO Pacifico (nome_mob, tipo_pacifico, vida_max, probabilidade)
-VALUES  ('Galinha', 'outro', 5, 100.00),
-        ('Aldeão', 'NPC', 20, 100.00),
-        ('Peixe', 'outro', 3, 100.00),
-        ('Vaca', 'outro', 10, 100.00),
-        ('Porco', 'outro', 10, 100.00),
-        ('Ovelha', 'outro', 8, 100.00);
+-- INSERT INTO Pacifico (nome_mob, tipo_pacifico, vida_max, probabilidade)
+-- VALUES
 
 -- Tabela NPC
-INSERT INTO NPC (nome_pacifico, nome_proprio)
-VALUES  ('Aldeão', 'Cleitin'),
-        ('Aldeão', 'Josefa'),
-        ('Aldeão', 'Mauricio'),
-        ('Aldeão', 'Ana');
+-- INSERT INTO NPC (nome_pacifico, nome_proprio)
+-- VALUES
 
 -- Tabela Estrutura
 INSERT INTO Estrutura (nome, probabilidade)
 VALUES  
-    ('Templo do Deserto', 5.00),       -- Deserto
-    ('Vila', 20.00),                   -- Floresta, Deserto, Montanhas, Tundra Nevada, Savana
-    ('Templo da Selva', 4.00),         -- Jungle
-    ('Cabana da Bruxa', 7.00),         -- Pântano
-    ('Fortaleza', 5.00),               -- Geral (Subterrâneo)
-    ('Portal em Ruínas', 15.00);       -- Geral (Superfície)
+    -- Estruturas da Superfície
+        ('Templo do Deserto', 5.00),
+        ('Templo da Selva', 4.00),
+        ('Vila', 20.00),
+        ('Cabana da Bruxa', 7.00),
+        ('Portal em Ruínas', 15.00),
+        ('Posto Avançado', 8.00),
+        
+    -- Estruturas das Cavernas
+        ('Fortaleza', 5.00),
+        ('Mina Abandonada', 10.00),
+
+    -- Estruturas do Nether
+        ('Bastião em Ruínas', 3.00);
 
 -- Tabela Instância Estrutura
 DO
@@ -16431,60 +16493,217 @@ END
 $$;
 
 -- Tabela Mob Dropa Item
-INSERT INTO MobDropaItem (nome_mob, nome_item, probabilidade)
+INSERT INTO MobDropaItem (nome_mob, nome_item, probabilidade, quantidade)
 VALUES
-        ('Creeper', 'Pólvora', 100.00),
-        ('Zumbi', 'Carne Podre', 50.00),
-        ('Zumbi', 'Barras de Ferro', 1.00),
-        ('Galinha', 'Pena', 50.00),
-        ('Galinha', 'Frango', 100.00),
-        ('Peixe', 'Peixe Cru', 100.00),
-        ('Vaca', 'Carne Crua', 100.00),
-        ('Vaca', 'Couro', 50.00),
-        ('Porco', 'Carne Crua', 100.00),
-        ('Ovelha', 'Lã', 100.00),
-        ('Ovelha', 'Carne Crua', 100.00),
-        ('Aranha', 'Fio', 100.00),
-        ('Enderman', 'Pérola do Ender', 50.00),
-        ('Bruxa', 'Pó de Redstone', 12.50),
-        ('Bruxa', 'Garrafas de Vidro', 12.50),
-        ('Bruxa', 'Pólvora', 12.50),
-        ('Esqueleto', 'Osso', 100.00),
-        ('Esqueleto', 'Flecha', 100.00),
-        ('Esqueleto', 'Arco', 8.50),
-        ('Dragão Ender', 'Ovo de Dragão', 100.00),
-        ('Blaze', 'Vara de Blaze', 50.00);
+    -- Agressivos
+        ('Creeper', 'Pólvora', 100.00, 1),
+        ('Zumbi', 'Carne Podre', 100.00, 1),
+        ('Zumbi', 'Espada de Pedra', 30.00, 1),
+        ('Zumbi', 'Barras de Ferro', 10.00, 1),
+        ('Zumbi', 'Túnica de Couro', 5.00, 1),
+        ('Zumbi', 'Botas de Ferro', 5.00, 1), 
+        ('Aranha', 'Fio', 100.00, 3),
+        ('Aranha', 'Teia', 25.00, 1),
+        ('Enderman', 'Pérola do Ender', 75.00, 1),
+        ('Enderman', 'Obsidiana', 10.00, 1),
+        ('Bruxa', 'Pó de Redstone', 50.00, 1),
+        ('Bruxa', 'Pólvora', 50.00, 1),
+        ('Bruxa', 'Bússola', 10.0, 1),
+        ('Bruxa', 'Maçã', 30.0, 1),
+        ('Esqueleto', 'Osso', 75.00, 1),
+        ('Esqueleto', 'Flecha', 80.00, 2),
+        ('Esqueleto', 'Arco', 10.00, 1),
+        ('Pilhador', 'Arco', 10.00, 1),
+        ('Pilhador', 'Flecha', 60.00, 2),
+        ('Pilhador', 'Bússola', 10.0, 1),
+
+    -- Pacíficos
+        ('Galinha', 'Pena', 70.00, 1), 
+        ('Galinha', 'Frango', 100.00, 1),
+        ('Galinha', 'Ovo de Dragão', 0.01, 1),
+        ('Peixe', 'Peixe Cru', 100.00, 1),
+        ('Vaca', 'Carne Crua', 100.00, 1),
+        ('Vaca', 'Couro', 60.00, 1),
+        ('Porco', 'Carne Crua', 100.00, 1),
+        ('Ovelha', 'Lã', 100.00, 1),
+        ('Ovelha', 'Carne Crua', 80.00, 1),
+
+    -- Neutros
+        ('Iron Golem', 'Barras de Ferro', 100.00, 3),
+        ('Urso Polar', 'Peixe Cru', 50.00, 1),
+
+    -- Nether
+        ('Piglin Zumbi', 'Carne Podre', 100.00, 1),
+        ('Piglin Zumbi', 'Barras de Ouro', 10.00, 1),
+        ('Piglin', 'Barras de Ouro', 15.00, 3),
+        ('Piglin', 'Carne Podre', 80.00, 1),
+        ('Zoglin', 'Carne Assada', 100.00, 2),
+        ('Hoglin', 'Carne Assada', 100.00, 2),
+        ('Ghast', 'Lágrima de Ghast', 25.00, 1),
+        ('Ghast', 'Pólvora', 70.00, 1),
+        ('Esqueleto Wither', 'Osso', 80.00, 2),
+        ('Blaze', 'Vara de Blaze', 75.00, 1),
+        ('Blaze', 'Pó de Blaze', 30.00, 1),
+
+    -- Bosses
+        ('Dragão Ender', 'Ovo de Dragão', 100.00, 1),
+        ('Wither', 'Estrela do Nether', 100.00, 1);
 
 -- Tabela Estrutura Fornece Item
 INSERT INTO EstruturaForneceItem (nome_estrutura, nome_item, probabilidade)
-VALUES  ('Templo do Deserto', 'Barras de Ouro', 18.00),
-        ('Templo da Selva', 'Barras de Ferro', 37.00),
-        ('Templo da Selva', 'Diamante', 13.00);
+VALUES  
+    -- Templo do Deserto
+    ('Templo do Deserto', 'Barras de Ouro', 18.00),
+    ('Templo do Deserto', 'Barras de Ferro', 20.00),
+    ('Templo do Deserto', 'Diamante', 12.00),
+    ('Templo do Deserto', 'Pólvora', 30.00),
+    ('Templo do Deserto', 'Osso', 40.00),
+
+    -- Templo da Selva
+    ('Templo da Selva', 'Barras de Ferro', 37.00),
+    ('Templo da Selva', 'Diamante', 13.00),
+    ('Templo da Selva', 'Flecha', 20.00),
+
+    -- Vila
+    ('Vila', 'Barras de Ferro', 30.00),
+    ('Vila', 'Espada de Ferro', 15.00),
+    ('Vila', 'Batata', 43.00),
+    ('Vila', 'Maçã', 50.00),
+    ('Vila', 'Livro', 15.00),
+    ('Vila', 'Papel', 50.00),
+    ('Vila', 'Mapa', 15.00),
+
+    -- Cabana da Bruxa
+    ('Cabana da Bruxa', 'Pó de Redstone', 12.50),
+    ('Cabana da Bruxa', 'Pólvora', 12.50),
+    ('Cabana da Bruxa', 'Olho do Ender', 15.00),
+
+    -- Portal em Ruínas
+    ('Portal em Ruínas', 'Barras de Ouro', 25.00),
+    ('Portal em Ruínas', 'Isqueiro', 10.00),
+    ('Portal em Ruínas', 'Obsidiana', 15.00),
+
+    -- Posto Avançado
+    ('Posto Avançado', 'Machado de Ferro', 75.00),
+    ('Posto Avançado', 'Bússola', 15.00),
+    ('Posto Avançado', 'Flecha', 50.00),
+    ('Posto Avançado', 'Arco', 50.00),
+    ('Posto Avançado', 'Mapa', 15.00),
+
+    -- Fortaleza
+    ('Fortaleza', 'Vara de Blaze', 30.00),
+    ('Fortaleza', 'Pérola do Ender', 30.00),
+    ('Fortaleza', 'Espada de Ferro', 25.00),
+    ('Fortaleza', 'Peitoral de Ferro', 15.00),
+    ('Fortaleza', 'Espada de Diamante', 7.00),
+    ('Fortaleza', 'Peitoral de Diamante', 3.00),
+
+    -- Mina Abandonada
+    ('Mina Abandonada', 'Carvão', 100.00),
+    ('Mina Abandonada', 'Barras de Ferro', 50.00),
+    ('Mina Abandonada', 'Picareta de Ferro', 30.00),
+    ('Mina Abandonada', 'Diamante', 10.00),
+    ('Mina Abandonada', 'Picareta de Diamante', 3.00),
+
+    -- Bastião em Ruínas
+    ('Bastião em Ruínas', 'Pó de Blaze', 30.00),
+    ('Bastião em Ruínas', 'Peitoral de Ouro', 30.00),
+    ('Bastião em Ruínas', 'Espada de Ouro', 20.00),
+    ('Bastião em Ruínas', 'Netherita', 1.00),
+    ('Bastião em Ruínas', 'Espada de Netherita', 0.50);
 
 -- Tabela Fonte
 INSERT INTO Fonte (nome, qtd_max)
-VALUES  ('Árvore', 30),
-        ('Veio de Diamante', 5),
-        ('Jazida de Ouro', 10),
-        ('Jazida de Ferro', 15),
-        ('Jazida de Carvão', 20),
-        ('Jazida de Esmeralda', 3),
+VALUES  
+        ('Árvore', 24),
+        ('Pedreira', 16),
+        ('Duna', 16),
         ('Cardume', 5),
-        ('Duna', 256),
-        ('Pedreira', 256);
+        ('Jazida de Carvão', 24),
+        ('Jazida de Ferro', 10),
+        ('Depósito de Redstone', 16),
+        ('Jazida de Ouro', 8),
+        ('Veio de Diamante', 5),
+        ('Depósito de Netherita', 5),
+        ('Campo de Cana de Açúcar', 5);
 
 -- Tabela Instância Fonte
-INSERT INTO InstanciaFonte (nome_fonte, qtd_atual, numero_chunk, nome_mapa)
-VALUES  ('Árvore', 15, 1, 'Superfície'),
-        ('Veio de Diamante', 3, 10, 'Superfície'),
-        ('Jazida de Ouro', 5, 10, 'Superfície'),
-        ('Jazida de Ferro', 9, 55, 'Superfície'),
-        ('Jazida de Carvão', 12, 55, 'Superfície'),
-        ('Jazida de Esmeralda', 1, 55, 'Superfície');
-
--- Tabela Ferramenta Minera Instância de Fonte
--- INSERT INTO FerramentaMineraInstFonte (nome_ferramenta, nome_fonte)
+-- INSERT INTO InstanciaFonte (nome_fonte, qtd_atual, numero_chunk, nome_mapa)
 -- VALUES
+
+-- Tabela Ferramenta Minera Fonte
+-- INSERT INTO FerramentaMineraFonte (nome_ferramenta, nome_fonte)
+-- VALUES
+--     -- Árvore
+--         (NULL, 'Árvore'),
+
+--     -- Pedreira
+--         ('Picareta de Madeira', 'Pedreira'),
+--         ('Picareta de Pedra', 'Pedreira'),
+--         ('Picareta de Ferro', 'Pedreira'),
+--         ('Picareta de Ouro', 'Pedreira'),
+--         ('Picareta de Diamante', 'Pedreira'),
+--         ('Picareta de Netherita', 'Pedreira'),
+
+--     -- Duna
+--         ('Pá de Madeira', 'Duna'),
+--         ('Pá de Pedra', 'Duna'),
+--         ('Pá de Ferro', 'Duna'),
+--         ('Pá de Ouro', 'Duna'),
+--         ('Pá de Diamante', 'Duna'),
+--         ('Pá de Netherita', 'Duna'),
+
+--     -- Cardume
+--         ('Espada de Madeira', 'Cardume'),
+--         ('Espada de Pedra', 'Cardume'),
+--         ('Espada de Ferro', 'Cardume'),
+--         ('Espada de Ouro', 'Cardume'),
+--         ('Espada de Diamante', 'Cardume'),
+--         ('Espada de Netherita', 'Cardume'),
+
+--     -- Jazida de Carvão
+--         ('Picareta de Madeira', 'Jazida de Carvão'),
+--         ('Picareta de Pedra', 'Jazida de Carvão'),
+--         ('Picareta de Ferro', 'Jazida de Carvão'),
+--         ('Picareta de Ouro', 'Jazida de Carvão'),
+--         ('Picareta de Diamante', 'Jazida de Carvão'),
+--         ('Picareta de Netherita', 'Jazida de Carvão'),
+
+--     -- Jazida de Ferro
+--         ('Picareta de Pedra', 'Jazida de Ferro'),
+--         ('Picareta de Ferro', 'Jazida de Ferro'),
+--         ('Picareta de Ouro', 'Jazida de Ferro'),
+--         ('Picareta de Diamante', 'Jazida de Ferro'),
+--         ('Picareta de Netherita', 'Jazida de Ferro'),
+
+--     -- Depósito de Redstone
+--         ('Picareta de Ferro', 'Depósito de Redstone'),
+--         ('Picareta de Ouro', 'Depósito de Redstone'),
+--         ('Picareta de Diamante', 'Depósito de Redstone'),
+--         ('Picareta de Netherita', 'Depósito de Redstone'),
+
+--     -- Jazida de Ouro
+--         ('Picareta de Ferro', 'Jazida de Ouro'),
+--         ('Picareta de Ouro', 'Jazida de Ouro'),
+--         ('Picareta de Diamante', 'Jazida de Ouro'),
+--         ('Picareta de Netherita', 'Jazida de Ouro'),
+
+--     -- Veio de Diamante
+--         ('Picareta de Ferro', 'Veio de Diamante'),
+--         ('Picareta de Diamante', 'Veio de Diamante'),
+--         ('Picareta de Netherita', 'Veio de Diamante'),
+
+--     -- Depósito de Netherita
+--         ('Picareta de Diamante', 'Depósito de Netherita'),
+--         ('Picareta de Netherita', 'Depósito de Netherita'),
+
+--     -- Campo de Cana de Açúcar
+--         ('Machado de Madeira', 'Campo de Cana de Açúcar'),
+--         ('Machado de Pedra', 'Campo de Cana de Açúcar'),
+--         ('Machado de Ferro', 'Campo de Cana de Açúcar'),
+--         ('Machado de Ouro', 'Campo de Cana de Açúcar'),
+--         ('Machado de Diamante', 'Campo de Cana de Açúcar'),
+--         ('Machado de Netherita', 'Campo de Cana de Açúcar');
 
 -- Spawnar mobs agressivos em cada chunk
 CREATE OR REPLACE PROCEDURE spawn_mobs_agressivos() LANGUAGE plpgsql AS $$
