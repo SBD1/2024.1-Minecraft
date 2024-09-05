@@ -8,7 +8,7 @@ CREATE TYPE ciclo_dia AS ENUM ('dia', 'tarde', 'noite');
 CREATE TYPE tipo_item AS ENUM ('material', 'craftavel', 'alimento');
 
 -- Tipo ENUM para o tipo de item craftável
-CREATE TYPE tipo_craftavel AS ENUM ('funcional', 'ferramenta', 'armadura');
+CREATE TYPE tipo_craftavel AS ENUM ('funcional', 'ferramenta', 'armadura', 'material');
 
 -- Tipo ENUM para o tipo de mob
 CREATE TYPE tipo_mob AS ENUM ('agressivo', 'pacifico');
@@ -42,7 +42,6 @@ CREATE TABLE Chunk (
 -- Tabela Construível
 CREATE TABLE Construivel (
     nome VARCHAR(30) PRIMARY KEY,
-    receita TEXT NOT NULL,
     descricao TEXT NOT NULL
 );
 
@@ -71,7 +70,6 @@ CREATE TABLE Alimento (
 CREATE TABLE Craftavel (
     nome_item VARCHAR(30) PRIMARY KEY,
     tipo_craftavel tipo_craftavel NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
 
@@ -99,6 +97,41 @@ CREATE TABLE ArmaduraDuravel (
     durabilidade_total INT NOT NULL,
     receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
+);
+
+-- Tabela Receita
+CREATE TABLE ReceitaItem (
+    nome_item VARCHAR(30) PRIMARY KEY,
+    item_1 VARCHAR(30),
+    item_2 VARCHAR(30),
+    item_3 VARCHAR(30),
+    item_4 VARCHAR(30),
+    item_5 VARCHAR(30),
+    item_6 VARCHAR(30),
+    item_7 VARCHAR(30),
+    item_8 VARCHAR(30),
+    item_9 VARCHAR(30),
+    quantidade INT NOT NULL,
+    FOREIGN KEY (nome_item) REFERENCES Item(nome),
+    FOREIGN KEY (item_1) REFERENCES Item(nome),
+    FOREIGN KEY (item_2) REFERENCES Item(nome),
+    FOREIGN KEY (item_3) REFERENCES Item(nome),
+    FOREIGN KEY (item_4) REFERENCES Item(nome),
+    FOREIGN KEY (item_5) REFERENCES Item(nome),
+    FOREIGN KEY (item_6) REFERENCES Item(nome),
+    FOREIGN KEY (item_7) REFERENCES Item(nome),
+    FOREIGN KEY (item_8) REFERENCES Item(nome),
+    FOREIGN KEY (item_9) REFERENCES Item(nome)
+);
+
+-- Tabela Receita Construivel
+CREATE TABLE ReceitaConstruivel (
+    nome_construivel VARCHAR(30),
+    item VARCHAR(30),
+    quantidade INT NOT NULL,
+    PRIMARY KEY (nome_construivel, item),
+    FOREIGN KEY (nome_construivel) REFERENCES Construivel(nome),
+    FOREIGN KEY (item) REFERENCES Item(nome)
 );
 
 -- Tabela Estrutura
