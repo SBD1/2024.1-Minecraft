@@ -77,7 +77,6 @@ CREATE TABLE Craftavel (
 CREATE TABLE Funcional (
     nome_item VARCHAR(30) PRIMARY KEY,
     funcao TEXT NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
 
@@ -86,7 +85,6 @@ CREATE TABLE FerramentaDuravel (
     nome_item VARCHAR(30) PRIMARY KEY,
     durabilidade_total INT NOT NULL,
     pts_dano INT NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
 
@@ -95,7 +93,6 @@ CREATE TABLE ArmaduraDuravel (
     nome_item VARCHAR(30) PRIMARY KEY,
     pts_armadura INT NOT NULL,
     durabilidade_total INT NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
 
