@@ -8,7 +8,7 @@ CREATE TYPE ciclo_dia AS ENUM ('dia', 'tarde', 'noite');
 CREATE TYPE tipo_item AS ENUM ('material', 'craftavel', 'alimento');
 
 -- Tipo ENUM para o tipo de item craftável
-CREATE TYPE tipo_craftavel AS ENUM ('funcional', 'ferramenta', 'armadura');
+CREATE TYPE tipo_craftavel AS ENUM ('funcional', 'ferramenta', 'armadura', 'material');
 
 -- Tipo ENUM para o tipo de mob
 CREATE TYPE tipo_mob AS ENUM ('agressivo', 'pacifico');
@@ -71,7 +71,6 @@ CREATE TABLE Alimento (
 CREATE TABLE Craftavel (
     nome_item VARCHAR(30) PRIMARY KEY,
     tipo_craftavel tipo_craftavel NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
 
@@ -79,7 +78,6 @@ CREATE TABLE Craftavel (
 CREATE TABLE Funcional (
     nome_item VARCHAR(30) PRIMARY KEY,
     funcao TEXT NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
 
@@ -88,7 +86,6 @@ CREATE TABLE FerramentaDuravel (
     nome_item VARCHAR(30) PRIMARY KEY,
     durabilidade_total INT NOT NULL,
     pts_dano INT NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
 
@@ -97,7 +94,6 @@ CREATE TABLE ArmaduraDuravel (
     nome_item VARCHAR(30) PRIMARY KEY,
     pts_armadura INT NOT NULL,
     durabilidade_total INT NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
 
