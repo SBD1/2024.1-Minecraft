@@ -16576,13 +16576,18 @@ BEGIN
                 END IF;
 
                 rand_num := random() * 100;
+                IF rand_num <= 20.00 THEN
+                    CALL inserir_inst_mob('Enderman', 26, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                END IF;
+
+                rand_num := random() * 100;
                 IF rand_num <= 10.00 THEN
                     CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
 
-            -- Warden (spawn em Cidade Ancestral)
-            IF chunk_rec.nome_bioma = 'Cidade Ancestral' THEN
+            -- Warden (spawn em Cidade ancestral)
+            IF chunk_rec.nome_bioma = 'Cidade ancestral' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 5.00 THEN
                     CALL inserir_inst_mob('Warden', 500, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
@@ -16592,8 +16597,8 @@ BEGIN
 
         -- Nether
         IF chunk_rec.nome_mapa = 'Nether' THEN
-            -- Piglin e Hoglin (spawn em Floresta Carmesim)
-            IF chunk_rec.nome_bioma = 'Floresta Carmesim' THEN
+            -- Piglin e Hoglin (spawn em Floresta carmesim)
+            IF chunk_rec.nome_bioma = 'Floresta carmesim' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 45.00 THEN
                     CALL inserir_inst_mob('Piglin', 16, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
@@ -16616,8 +16621,8 @@ BEGIN
                 END IF;
             END IF;
 
-            -- Enderman (spawn em Floresta Distorcida)
-            IF chunk_rec.nome_bioma = 'Floresta Distorcida' THEN
+            -- Enderman (spawn em Floresta distorcida)
+            IF chunk_rec.nome_bioma = 'Floresta distorcida' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 90.00 THEN
                     CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
@@ -16627,7 +16632,7 @@ BEGIN
 
         -- Fim
         IF chunk_rec.nome_mapa = 'Fim' THEN
-            IF chunk_rec.nome_bioma = 'Ilha do Fim' THEN
+            IF chunk_rec.nome_bioma = 'Ilha do fim' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 90.00 THEN
                     CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
