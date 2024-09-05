@@ -15013,11 +15013,9 @@ VALUES
         (9997, 'Caverna', 'Cavernas'),
         (9998, 'Caverna', 'Cavernas'),
         (9999, 'Caverna', 'Cavernas'),
-        (10000, 'Caverna', 'Cavernas');
+        (10000, 'Caverna', 'Cavernas'),
 
 -- Inserindo Chunks do mapa Nether
-INSERT INTO Chunk (numero, nome_bioma, nome_mapa) 
-VALUES
         (1, 'Floresta distorcida', 'Nether'),
         (2, 'Descampado', 'Nether'),
         (3, 'Descampado', 'Nether'),
@@ -15917,11 +15915,9 @@ VALUES
         (897, 'Floresta distorcida', 'Nether'),
         (898, 'Floresta distorcida', 'Nether'),
         (899, 'Floresta distorcida', 'Nether'),
-        (900, 'Descampado', 'Nether');
+        (900, 'Descampado', 'Nether'),
 
 -- Inserindo Chunks do mapa Fim
-INSERT INTO Chunk (numero, nome_bioma, nome_mapa) 
-VALUES
         (35, 'Ilha do fim', 'Fim'),
         (36, 'Ilha do fim', 'Fim'),
         (44, 'Ilha do fim', 'Fim'),
@@ -15945,7 +15941,8 @@ VALUES
         (77, 'Ilha do fim', 'Fim');
 
 -- Tabela Item
-INSERT INTO Item (nome, tipo_item) VALUES
+INSERT INTO Item (nome, tipo_item) 
+VALUES
     -- Materiais básicos
     ('Madeira', 'material'),
     ('Tábua', 'material'),
@@ -15976,6 +15973,7 @@ INSERT INTO Item (nome, tipo_item) VALUES
     ('Flecha', 'material'),
     ('Ovo de Dragão', 'material'),
     ('Vara de Blaze', 'material'),
+    ('Pó de Blaze', 'material'),
     ('Estante', 'material'),
     ('Vidro', 'material'),
     ('Porta', 'material'),
@@ -16029,37 +16027,122 @@ INSERT INTO Item (nome, tipo_item) VALUES
     ('Carne Crua', 'alimento'),
     ('Carne Assada', 'alimento');
 
+INSERT INTO ReceitaItem (nome_item, item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8, item_9, quantidade)
+VALUES
+    -- Materiais
+    ('Tábua', 'Madeira', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
+    ('Graveto', 'Tábua', 'Tábua', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
+    ('Papel', 'Cana de Acúcar', 'Cana de Acúcar', 'Cana de Acúcar', NULL, NULL, NULL, NULL, NULL, NULL, 3),
+    ('Livro', 'Papel', 'Papel', 'Couro', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Fio', 'Teia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4),
+    ('Açúcar', 'Cana de Acúcar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Flecha', 'Pena', 'Pedregulho', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 4),
+    ('Estante', 'Tábua', 'Tábua', 'Tábua', 'Livro', 'Livro', 'Livro', 'Tábua', 'Tábua', 'Tábua', 1),
+    ('Porta', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 3),
+    ('Escada', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 4),
+    ('Cama', 'Lã', 'Lã', 'Lã', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 1),
+    ('Pó de Blaze', 'Vara de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2),
+    -- Ferramentas
+    ('Arco', 'Fio', 'Fio', 'Fio', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+    ('Picareta de Pedra', 'Pedregulho', 'Pedregulho', 'Pedregulho', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+    ('Espada de Pedra', 'Pedregulho', 'Pedregulho', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Machado de Pedra', 'Pedregulho', 'Pedregulho', 'Pedregulho', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+    ('Picareta de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+    ('Espada de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Machado de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+    ('Picareta de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+    ('Espada de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Machado de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+    ('Picareta de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+    ('Espada de Diamante', 'Diamante', 'Diamante', 'Graveto', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Machado de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
+    ('Picareta de Netherita', 'Picareta de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Espada de Netherita', 'Espada de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Machado de Netherita', 'Machado de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    -- Armaduras
+    ('Capacete de Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, NULL, NULL, 1),
+    ('Túnica de Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, 1),
+    ('Calças de Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, NULL, 1),
+    ('Botas de Couro', 'Couro', 'Couro', 'Couro', 'Couro', NULL, NULL, NULL, NULL, NULL, 1),
+    ('Capacete de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, NULL, 1),
+    ('Peitoral de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, 1),
+    ('Calças de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', NULL, NULL, NULL, 1),
+    ('Capacete de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, NULL, 1),
+    ('Peitoral de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, 1),
+    ('Calças de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', 'Barras de Ouro', NULL, NULL, NULL, 1),
+    ('Capacete de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, NULL, 1),
+    ('Peitoral de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, 1),
+    ('Calças de Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', 'Diamante', NULL, NULL, NULL, 1),
+    ('Capacete de Netherita', 'Capacete de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Peitoral de Netherita', 'Peitoral de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Calças de Netherita', 'Calças de Diamante', 'Netherita', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    -- Itens Funcionais
+    ('Isqueiro', 'Barras de Ferro', 'Pedregulho', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+    ('Mapa', 'Papel', 'Papel', 'Papel', 'Papel', 'Bússola', 'Papel', 'Papel', 'Papel', NULL, 1),
+    ('Bússola', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Pó de Redstone', 'Barras de Ferro', NULL, NULL, NULL, NULL, 1),
+    ('Olho do Ender', 'Pérola do Ender', 'Pó de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
+
 -- Tabela Alimento
 -- INSERT INTO Alimento (nome_item, pts_fome)
 -- VALUES
 
 -- Tabela Craftavel
--- INSERT INTO Craftavel (nome_item, tipo_craftavel, receita)
+-- INSERT INTO Craftavel (nome_item, tipo_craftavel)
 -- VALUES
 
 -- Tabela Funcional
--- INSERT INTO Funcional (nome_item, funcao, receita)
+-- INSERT INTO Funcional (nome_item, funcao)
 -- VALUES
 
 -- Tabela Armadura Durável
--- INSERT INTO ArmaduraDuravel (nome_item, durabilidade_total, pts_armadura, receita)
+-- INSERT INTO ArmaduraDuravel (nome_item, durabilidade_total, pts_armadura)
 -- VALUES
 
 -- Tabela Ferramenta Durável
--- INSERT INTO FerramentaDuravel (nome_item, durabilidade_total, pts_dano, receita)
+-- INSERT INTO FerramentaDuravel (nome_item, durabilidade_total, pts_dano)
 -- VALUES
 
 -- Tabela Construivel
-INSERT INTO Construivel (nome, receita, descricao)
+INSERT INTO Construivel (nome, descricao)
 VALUES  
-    ('Casa', '1 porta + 1 cama + 4 vidro + 32 tábua', 'Um lar aconchegante para fugir dos monstros noturnos e relaxar. Define seu ponto de renascimento, então se morrer, você volta direto para casa.'),
-    ('Armazém', '64 pedregulho + 10 madeira', 'O lugar perfeito para guardar todas as bugigangas que você não sabe onde colocar, mas jura que vai precisar um dia. Armazena uma vasta quantidade de itens.'),
-    ('Fazenda', '10 madeira', 'Transforme essa pilha de madeira em um oásis verdejante, perfeito para quando a barriga roncar. Fornece itens consumíveis regularmente.'),
-    ('Forja', '32 pedregulho + 12 barras de ferro', 'Restaure o brilho das suas ferramentas e armaduras. A forja é o lugar ideal para reparar seus equipamentos.'),
-    ('Fornalha', '8 pedregulho', 'O coração quente da sua casa, onde você pode assar batatas ou fundir ferro, o que vier primeiro. Essencial para cozinhar alimentos e processar minérios.'),
-    ('Biblioteca', '32 tábua + 10 livro', 'Um cantinho tranquilo repleto de conhecimento. A biblioteca desbloqueia as receitas dos itens disponíveis.'),
-    ('Portal do Nether', '10 obsidiana + 1 isqueiro', 'Uma portal para o inferno. Literalmente. Transporta você para o Nether, entre por sua conta e risco.'),
-    ('Portal de Viagem', '8 pedregulho + 4 barras de ferro + 1 olho do ender', 'Como um Enderman, este portal permite teleportar-se magicamente. Use-o para explorar novas áreas. Cuidado com os destinos inesperados!');
+    ('Casa', 'Um lar aconchegante para fugir dos monstros noturnos e relaxar. Define seu ponto de renascimento, então se morrer, você volta direto para casa.'),
+    ('Armazém', 'O lugar perfeito para guardar todas as bugigangas que você não sabe onde colocar, mas jura que vai precisar um dia. Armazena uma vasta quantidade de itens.'),
+    ('Fazenda', 'Transforme essa pilha de madeira em um oásis verdejante, perfeito para quando a barriga roncar. Fornece itens consumíveis regularmente.'),
+    ('Forja', 'Restaure o brilho das suas ferramentas e armaduras. A forja é o lugar ideal para reparar seus equipamentos.'),
+    ('Fornalha', 'O coração quente da sua casa, onde você pode assar batatas ou fundir ferro, o que vier primeiro. Essencial para cozinhar alimentos e processar minérios.'),
+    ('Biblioteca', 'Um cantinho tranquilo repleto de conhecimento. A biblioteca desbloqueia as receitas dos itens disponíveis.'),
+    ('Portal do Nether', 'Um portal para o inferno. Literalmente. Transporta você para o Nether, entre por sua conta e risco.'),
+    ('Portal de Viagem', 'Como um Enderman, este portal permite teleportar-se magicamente. Use-o para explorar novas áreas. Cuidado com os destinos inesperados!');
+
+-- Tabela Receita Construivel
+INSERT INTO ReceitaConstruivel (nome_construivel, item, quantidade)
+VALUES
+    ('Casa', 'Porta', 1),
+    ('Casa', 'Cama', 1),
+    ('Casa', 'Vidro', 4),
+    ('Casa', 'Tábua', 32),
+
+    ('Armazém', 'Pedregulho', 64),
+    ('Armazém', 'Madeira', 10),
+
+    ('Fazenda', 'Madeira', 10),
+
+    ('Forja', 'Pedregulho', 32),
+    ('Forja', 'Barras de Ferro', 12),
+
+    ('Fornalha', 'Pedregulho', 8),
+
+    ('Biblioteca', 'Tábua', 32),
+    ('Biblioteca', 'Livro', 10),
+
+    ('Portal do Nether', 'Obsidiana', 10),
+    ('Portal do Nether', 'Isqueiro', 1),
+
+    ('Portal de Viagem', 'Pedregulho', 8),
+    ('Portal de Viagem', 'Barras de Ferro', 4),
+    ('Portal de Viagem', 'Olho do Ender', 1);
+
 
 -- Tabela Instância Construível
 -- INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk)
