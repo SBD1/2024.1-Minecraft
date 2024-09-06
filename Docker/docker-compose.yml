@@ -16,6 +16,7 @@ services:
       - ../db/trigger_SP.sql:/docker-entrypoint-initdb.d/2_trigger_SP.sql
       - ../db/dml.sql:/docker-entrypoint-initdb.d/3_dml.sql
       - db_data:/var/lib/postgresql/data
+      - ../db/create_user.sql:/docker-entrypoint-initdb.d/4_create_user.sql
 
   app:
     build:
