@@ -16230,46 +16230,45 @@ VALUES
         (4, 1),
         (5, 1);
 
--- Tabela Mob
-INSERT INTO Mob (nome, vida_max, tipo_mob, probabilidade)
-VALUES
-    -- Agressivos
-        ('Creeper', 20, 'agressivo', 100.00),
-        ('Zumbi', 25, 'agressivo', 100.00),
-        ('Aranha', 16, 'agressivo', 100.00),
-        ('Esqueleto', 20, 'agressivo', 100.00),
-        ('Bruxa', 26, 'agressivo', 100.00),
-        ('Guardião', 30, 'agressivo', 100.00),
-        ('Pilhador', 24, 'agressivo', 100.00),
+-- Agressivos (impulsivo = TRUE)
+CALL inserir_mob('Creeper', 'agressivo', TRUE, 50, 20);
+CALL inserir_mob('Zumbi', 'agressivo', TRUE, 15, 20);
+CALL inserir_mob('Aranha', 'agressivo', TRUE, 10, 16);
+CALL inserir_mob('Esqueleto', 'agressivo', TRUE, 10, 20);
+CALL inserir_mob('Bruxa', 'agressivo', TRUE, 12, 26);
+CALL inserir_mob('Guardião', 'agressivo', TRUE, 30, 30);
+CALL inserir_mob('Pilhador', 'agressivo', TRUE, 20, 24);
 
-    -- Pacíficos
-        ('Galinha', 5, 'pacifico', 100.00),
-        ('Aldeão', 20, 'pacifico', 100.00),
-        ('Peixe', 3, 'pacifico', 100.00),
-        ('Vaca', 10, 'pacifico', 100.00),
-        ('Porco', 10, 'pacifico', 100.00),
-        ('Ovelha', 8, 'pacifico', 100.00),
+-- Pacíficos (não têm parâmetro impulsivo)
+CALL inserir_mob('Galinha', 'pacifico', NULL, NULL, 4, 'outro');
+CALL inserir_mob('Aldeão', 'pacifico', NULL, NULL, 20, 'NPC');
+CALL inserir_mob('Peixe', 'pacifico', NULL, NULL, 3, 'outro');
+CALL inserir_mob('Vaca', 'pacifico', NULL, NULL, 10, 'outro');
+CALL inserir_mob('Porco', 'pacifico', NULL, NULL, 10, 'outro');
+CALL inserir_mob('Ovelha', 'pacifico', NULL, NULL, 8, 'outro');
 
-    -- Neutros
-        ('Enderman', 40, 'agressivo', 100.00),
-        ('Lobo', 8, 'agressivo', 100.00),
-        ('Golfinho', 10, 'agressivo', 100.00),
-        ('Golem de Ferro', 100, 'agressivo', 100.00),
-        ('Golem de Neve', 4, 'agressivo', 100.00),
-        ('Urso Polar', 30, 'agressivo', 100.00),
-        
-    -- Nether
-        ('Piglin Zumbi', 20, 'agressivo', 100.00),
-        ('Piglin', 16, 'agressivo', 100.00),
-        ('Hoglin', 40, 'agressivo', 100.00),
-        ('Ghast', 10, 'agressivo', 100.00),
-        ('Esqueleto Wither', 20, 'agressivo', 100.00),
-        ('Blaze', 20, 'agressivo', 100.00),
+-- Neutros (impulsivo = FALSE)
+CALL inserir_mob('Enderman', 'agressivo', FALSE, 40, 40);
+CALL inserir_mob('Lobo', 'agressivo', FALSE, 5, 8);
+CALL inserir_mob('Golfinho', 'agressivo', FALSE, 10, 10);
+CALL inserir_mob('Golem de Ferro', 'agressivo', FALSE, 15, 100);
+CALL inserir_mob('Golem de Neve', 'agressivo', FALSE, 5, 4);
+CALL inserir_mob('Urso Polar', 'agressivo', FALSE, 20, 30);
 
-    -- Bosses
-        ('Dragão Ender', 200, 'agressivo', 100.00),
-        ('Wither', 300, 'agressivo', 100.00),
-        ('Warden', 500, 'agressivo', 100.00);
+-- Nether (impulsivo = TRUE)
+CALL inserir_mob('Piglin Zumbi', 'agressivo', FALSE, 10, 20);
+CALL inserir_mob('Piglin', 'agressivo', FALSE, 15, 16);
+CALL inserir_mob('Hoglin', 'agressivo', TRUE, 25, 40);
+CALL inserir_mob('Ghast', 'agressivo', TRUE, 50, 10);
+CALL inserir_mob('Esqueleto Wither', 'agressivo', TRUE, 40, 20);
+CALL inserir_mob('Blaze', 'agressivo', TRUE, 20, 20);
+
+-- Bosses (impulsivo = TRUE)
+CALL inserir_mob('Dragão Ender', 'agressivo', TRUE, 100, 200);
+CALL inserir_mob('Wither', 'agressivo', TRUE, 50, 300);
+CALL inserir_mob('Warden', 'agressivo', TRUE, 80, 500);
+
+
 
 
 -- Tabela Agressivo
