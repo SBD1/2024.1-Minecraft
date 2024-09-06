@@ -35,7 +35,7 @@ def jogar(cursor, nomeUser):
         movimentos = calcular_movimentos_possiveis(chunkAtual)
 
         # Solicita a entrada do usuario
-        if not processar_comando(cursor, nomeUser):
+        if not processar_comando(cursor, nomeUser, movimentos):
             break
 
 # Função para obter dados do jogador
@@ -133,6 +133,7 @@ def processar_comando(cursor, nomeUser, movimentos):
         ver_mob(cursor, nomeUser, nome_mob)
 
     elif acao == "visualizar_inventario":
+        limpar_tela()
         visualizar_inventario(cursor, nomeUser)
 
     elif acao == "utilizar_item" and parametros:
