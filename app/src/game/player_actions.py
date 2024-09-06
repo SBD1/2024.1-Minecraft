@@ -18,7 +18,10 @@ def visualizar_inventario(cursor, nomeUser):
     if inventario:
         mostrar_texto_gradualmente("Seu inventário:", Fore.CYAN)
         for item in inventario:
-            mostrar_texto_gradualmente(f"- {item[0]} (Durabilidade: {item[1] or 'N/A'})", Fore.CYAN)
+            if item[1] is not None:
+                mostrar_texto_gradualmente(f"- {item[0]} (Durabilidade: {item[1]})", Fore.CYAN)
+            else:
+                mostrar_texto_gradualmente(f"- {item[0]}", Fore.CYAN)
     else:
         mostrar_texto_gradualmente("Seu inventário está vazio.", Fore.CYAN)
 
