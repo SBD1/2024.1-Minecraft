@@ -32,13 +32,13 @@ def jogar(cursor, nomeUser):
         bioma = dadosChunkAtual[1]
 
         # Consultar informações do chunk (recursos, mobs, estruturas)
-        fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk = obter_info_chunk(cursor, chunkAtual)
+        fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk = obter_info_chunk(cursor, chunkAtual, mapaAtual)
 
         # Mostrar as informações coletadas
         exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos)
 
         # Calcular direções possiveis
-        movimentos = calcular_movimentos_possiveis(chunkAtual)
+        movimentos = calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual)
 
         # Solicita a entrada do usuario
         if not processar_comando(cursor, nomeUser, movimentos):
@@ -61,17 +61,17 @@ def obter_dados_chunk(cursor, chunkAtual, mapaAtual):
     return cursor.fetchone()
 
 # Função para obter informações sobre o chunk
-def obter_info_chunk(cursor, chunkAtual):
+def obter_info_chunk(cursor, chunkAtual, mapaAtual):
     """
     Retorna informações sobre fontes de recursos, mobs e estruturas no chunk.
     """
-    cursor.execute("SELECT nome_fonte FROM instanciafonte WHERE numero_chunk = %s;", (chunkAtual,))
+    cursor.execute("SELECT nome_fonte FROM instanciafonte WHERE numero_chunk = %s and nome_mapa = %s;", (chunkAtual, mapaAtual))
     fontes_recursos = [fonte[0] for fonte in cursor.fetchall()]
 
-    cursor.execute("SELECT nome_mob, id_estrutura FROM instanciamob WHERE numero_chunk = %s;", (chunkAtual,))
+    cursor.execute("SELECT nome_mob, id_estrutura FROM instanciamob WHERE numero_chunk = %s and nome_mapa = %s;", (chunkAtual, mapaAtual))
     mobs_pacificos, mobs_agressivos = classificar_mobs(cursor, cursor.fetchall())
 
-    cursor.execute("SELECT nome_estrutura FROM instanciaestrutura WHERE numero_chunk = %s;", (chunkAtual,))
+    cursor.execute("SELECT nome_estrutura FROM instanciaestrutura WHERE numero_chunk = %s and nome_mapa = %s;", (chunkAtual, mapaAtual))
     estruturas_no_chunk = [estrutura[0] for estrutura in cursor.fetchall()]
 
     return fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk
@@ -197,42 +197,76 @@ def processar_comando(cursor, nomeUser, movimentos):
     return True
 
 # Função para calcular os movimentos possíveis
-def calcular_movimentos_possiveis(chunkAtual):
+def calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual):
     """
-    Retorna os movimentos possíveis com base na posição atual do chunk.
+    Retorna os movimentos possíveis com base na posição atual do chunk e no mapa atual.
     """
     movimentos = {}
     
+    # Define os tamanhos máximos de chunk de acordo com o mapa
+    if mapaAtual == 'Superfície' or mapaAtual == 'Cavernas':
+        max_chunk = 10000  # Mapa 100x100
+        limite_leste = 100  # Limite leste para o mapa 100x100
+    elif mapaAtual == 'Nether':
+        max_chunk = 900  # Mapa 30x30
+        limite_leste = 30  # Limite leste para o mapa 30x30
+    elif mapaAtual == 'Fim':
+        max_chunk = 100  # Mapa 10x10
+        limite_leste = 10  # Limite leste para o mapa 10x10
+    else:
+        return {}  # Se o mapa não for reconhecido, retorna um dicionário vazio
+
     # Verifica se o jogador pode ir para o norte
-    if chunkAtual > 100:
-        movimentos['norte'] = chunkAtual - 100
+    if chunkAtual > limite_leste:
+        movimentos['norte'] = chunkAtual - limite_leste
     # Verifica se o jogador pode ir para o sul
-    if chunkAtual <= 9900:
-        movimentos['sul'] = chunkAtual + 100
+    if chunkAtual <= max_chunk - limite_leste:
+        movimentos['sul'] = chunkAtual + limite_leste
     # Verifica se o jogador pode ir para o leste
-    if chunkAtual % 100 != 0:
+    if chunkAtual % limite_leste != 0:
         movimentos['leste'] = chunkAtual + 1
     # Verifica se o jogador pode ir para o oeste
-    if chunkAtual % 100 != 1:
+    if chunkAtual % limite_leste != 1:
         movimentos['oeste'] = chunkAtual - 1
     
+    # Se o jogador estiver na Superfície, pode descer para as Cavernas
+    if mapaAtual == 'Superfície':
+        cursor.execute("SELECT 1 FROM Chunk WHERE numero = %s AND nome_mapa = 'Cavernas'", (chunkAtual,))
+        result = cursor.fetchone()
+        if result:
+            movimentos['baixo'] = chunkAtual
+
+    # Se o jogador estiver nas Cavernas, pode voltar para a Superfície
+    if mapaAtual == 'Cavernas':
+        movimentos['cima'] = chunkAtual
+    
+    # Mostra as direções disponíveis
     direcoes_disponiveis = [direcao for direcao in movimentos if movimentos[direcao] is not None]
     mostrar_texto_gradualmente(f"Você pode se mover para: {', '.join(direcoes_disponiveis)}", Fore.CYAN)
 
-    # Garante que sempre será retornado um dicionário (mesmo que vazio)
+    # Retorna o dicionário de movimentos (ou vazio)
     return movimentos if movimentos else {}
-
 
 # Função para mover o jogador
 def mover_jogador(cursor, nomeUser, direcao, movimentos):
     """
     Move o jogador para um novo chunk com base na direção escolhida.
     """
-    novo_chunk = movimentos.get(direcao)
 
+    novo_chunk = movimentos.get(direcao)
+    
     if novo_chunk:
-        cursor.execute("UPDATE jogador SET numero_chunk = %s WHERE nome = %s;", (novo_chunk, nomeUser))
-        mostrar_texto_gradualmente(f"Você se moveu para o {direcao.capitalize()} e agora está no chunk {novo_chunk}.", Fore.GREEN)
+        if direcao == 'baixo':
+            cursor.execute("UPDATE jogador SET nome_mapa = 'Cavernas' WHERE nome = %s;", (nomeUser,))
+            mostrar_texto_gradualmente(f"Você se desceu para as Cavernas e agora está no chunk {novo_chunk}.", Fore.GREEN)
+
+        elif direcao == 'cima':
+            cursor.execute("UPDATE jogador SET nome_mapa = 'Superfície' WHERE nome = %s;", (nomeUser,))
+            mostrar_texto_gradualmente(f"Você retornou para a Superfície e agora está no chunk {novo_chunk}.", Fore.GREEN)
+
+        else:
+            cursor.execute("UPDATE jogador SET numero_chunk = %s WHERE nome = %s;", (novo_chunk, nomeUser))
+            mostrar_texto_gradualmente(f"Você se moveu para o {direcao.capitalize()} e agora está no chunk {novo_chunk}.", Fore.GREEN)
     else:
         mostrar_texto_gradualmente(f"Não é possível ir para {direcao.capitalize()}.", Fore.RED)
 
