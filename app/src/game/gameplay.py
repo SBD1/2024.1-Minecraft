@@ -218,17 +218,48 @@ def calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual):
 
     # Verifica se o jogador pode ir para o norte
     if chunkAtual > limite_leste:
-        movimentos['norte'] = chunkAtual - limite_leste
+        chunk_destino = chunkAtual - limite_leste
+        if mapaAtual == 'Cavernas':
+            cursor.execute("SELECT 1 FROM Chunk WHERE numero = %s AND nome_mapa = 'Cavernas'", (chunk_destino,))
+            result = cursor.fetchone()
+            if result:
+                movimentos['norte'] = chunk_destino
+        else:
+            movimentos['norte'] = chunk_destino
+    
     # Verifica se o jogador pode ir para o sul
     if chunkAtual <= max_chunk - limite_leste:
-        movimentos['sul'] = chunkAtual + limite_leste
+        chunk_destino = chunkAtual + limite_leste
+        if mapaAtual == 'Cavernas':
+            cursor.execute("SELECT 1 FROM Chunk WHERE numero = %s AND nome_mapa = 'Cavernas'", (chunk_destino,))
+            result = cursor.fetchone()
+            if result:
+                movimentos['sul'] = chunk_destino
+        else:
+            movimentos['sul'] = chunk_destino
+
     # Verifica se o jogador pode ir para o leste
     if chunkAtual % limite_leste != 0:
-        movimentos['leste'] = chunkAtual + 1
+        chunk_destino = chunkAtual + 1
+        if mapaAtual == 'Cavernas':
+            cursor.execute("SELECT 1 FROM Chunk WHERE numero = %s AND nome_mapa = 'Cavernas'", (chunk_destino,))
+            result = cursor.fetchone()
+            if result:
+                movimentos['leste'] = chunk_destino
+        else:
+            movimentos['leste'] = chunk_destino
+
     # Verifica se o jogador pode ir para o oeste
     if chunkAtual % limite_leste != 1:
-        movimentos['oeste'] = chunkAtual - 1
-    
+        chunk_destino = chunkAtual - 1
+        if mapaAtual == 'Cavernas':
+            cursor.execute("SELECT 1 FROM Chunk WHERE numero = %s AND nome_mapa = 'Cavernas'", (chunk_destino,))
+            result = cursor.fetchone()
+            if result:
+                movimentos['oeste'] = chunk_destino
+        else:
+            movimentos['oeste'] = chunk_destino
+
     # Se o jogador estiver na Superfície, pode descer para as Cavernas
     if mapaAtual == 'Superfície':
         cursor.execute("SELECT 1 FROM Chunk WHERE numero = %s AND nome_mapa = 'Cavernas'", (chunkAtual,))
@@ -239,13 +270,14 @@ def calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual):
     # Se o jogador estiver nas Cavernas, pode voltar para a Superfície
     if mapaAtual == 'Cavernas':
         movimentos['cima'] = chunkAtual
-    
+
     # Mostra as direções disponíveis
     direcoes_disponiveis = [direcao for direcao in movimentos if movimentos[direcao] is not None]
     mostrar_texto_gradualmente(f"Você pode se mover para: {', '.join(direcoes_disponiveis)}", Fore.CYAN)
 
     # Retorna o dicionário de movimentos (ou vazio)
     return movimentos if movimentos else {}
+
 
 # Função para mover o jogador
 def mover_jogador(cursor, nomeUser, direcao, movimentos):
