@@ -185,8 +185,6 @@ CREATE TABLE Inventario (
 -- Tabela Mob
 CREATE TABLE Mob (
     nome VARCHAR(30) PRIMARY KEY,
-    vida_max INT NOT NULL,
-    probabilidade DECIMAL(5,2) NOT NULL,
     tipo_mob tipo_mob NOT NULL
 );
 
@@ -196,7 +194,6 @@ CREATE TABLE Agressivo (
     impulsivo BOOLEAN NOT NULL,
     pts_dano INT NOT NULL,
     vida_max INT NOT NULL,
-    probabilidade DECIMAL(5,2) NOT NULL,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
 );
 
@@ -204,15 +201,13 @@ CREATE TABLE Agressivo (
 CREATE TABLE Pacifico (
     nome_mob VARCHAR(30) PRIMARY KEY,
     vida_max INT NOT NULL,
-    probabilidade DECIMAL(5,2) NOT NULL,
     tipo_pacifico tipo_pacifico NOT NULL,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome)
 );
 
 -- Tabela NPC
 CREATE TABLE NPC (
-    nome_pacifico VARCHAR(30),
-    nome_proprio VARCHAR(30) NOT NULL,
+    nome_pacifico VARCHAR(30) PRIMARY KEY,
     FOREIGN KEY (nome_pacifico) REFERENCES Pacifico(nome_mob)
 );
 

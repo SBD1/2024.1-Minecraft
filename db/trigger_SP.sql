@@ -11,7 +11,7 @@ REVOKE INSERT ON ArmaduraDuravel FROM PUBLIC;
 REVOKE INSERT ON FerramentaDuravel FROM PUBLIC;
 REVOKE INSERT ON Funcional FROM PUBLIC;
 
---- REMOVE A PERMISSÃO DE DELETAR DIRETAMENTE NAS TABELAS
+--- REMOVE A PERMISSÃO DE DELETAR DIRETAMENTE NAS TABELAS ESPECÍFICAS
 
 REVOKE DELETE ON Alimento FROM PUBLIC;
 REVOKE DELETE ON Craftavel FROM PUBLIC;
@@ -173,8 +173,189 @@ CREATE OR REPLACE TRIGGER prevencao_update_tipo_item_craftavel
 BEFORE UPDATE ON Craftavel
 FOR EACH ROW EXECUTE PROCEDURE prevencao_update_tipo_item_craftavel();
 
+--------------------------------------------------------------------------------------------------------
+-------------------------------- Generalização/Especialização dos mobs --------------------------------
+--------------------------------------------------------------------------------------------------------
 
+--- REMOVE A PERMISSÃO DE INSERIR DIRETAMENTE NAS TABELAS
 
+REVOKE INSERT ON Mob FROM PUBLIC;
+REVOKE INSERT ON Agressivo FROM PUBLIC;
+REVOKE INSERT ON Pacifico FROM PUBLIC;
+REVOKE INSERT ON NPC FROM PUBLIC;
+
+--- REMOVE A PERMISSÃO DE DELETAR DIRETAMENTE NAS TABELAS ESPECÍFICAS
+
+REVOKE DELETE ON Agressivo FROM PUBLIC;
+REVOKE DELETE ON Pacifico FROM PUBLIC;
+REVOKE DELETE ON NPC FROM PUBLIC;
+
+--- STORED PROCEDURE PARA INSERIR NAS TABELAS
+
+CREATE OR REPLACE PROCEDURE inserir_mob(
+	p_nome VARCHAR(30),
+	p_tipo_mob tipo_mob,
+	p_impulsivo BOOLEAN DEFAULT NULL,
+	p_pts_dano INT DEFAULT NULL,
+	p_vida_max INT DEFAULT NULL,
+	p_tipo_pacifico tipo_pacifico DEFAULT NULL
+) 
+AS $inserir_mob$
+BEGIN
+	INSERT INTO Mob(nome, tipo_mob)
+	VALUES(p_nome, p_tipo_mob);
+
+	IF p_tipo_mob = 'pacifico' THEN
+		INSERT INTO Pacifico(nome_mob, vida_max, tipo_pacifico)
+		VALUES(p_nome, p_vida_max, p_tipo_pacifico);
+
+		IF p_tipo_pacifico = 'NPC' THEN
+			INSERT INTO NPC(nome_pacifico)
+			VALUES(p_nome);
+
+		ELSIF p_tipo_pacifico = 'outro' THEN
+			NULL;
+
+		ELSE
+        	RAISE EXCEPTION 'Tipo de mob pacifico desconhecido: %. Deve ser "NPC" ou "outro".', p_tipo_pacifico;
+		END IF;
+
+	ELSIF p_tipo_mob = 'agressivo' THEN
+		INSERT INTO Agressivo(nome_mob, impulsivo, pts_dano, vida_max)
+		VALUES(p_nome, p_impulsivo, p_pts_dano, p_vida_max);
+
+	ELSE
+		RAISE EXCEPTION 'Tipo de mob desconhecido: %. Deve ser "pacifico" ou "agressivo".', p_tipo_mob;
+	END IF;
+END
+$inserir_mob$ LANGUAGE plpgsql;
+
+--- TRIGGER E STORED PROCEDURE PARA DELETAR MOB
+
+CREATE OR REPLACE FUNCTION deletar_mob()
+RETURNS trigger AS $deletar_mob$
+BEGIN
+
+	IF (OLD.tipo_mob = 'pacifico') THEN
+		DELETE FROM Pacifico
+		WHERE nome_mob = OLD.nome;
+	END IF;
+
+	IF (OLD.tipo_mob = 'agressivo') THEN
+		DELETE FROM Agressivo
+		WHERE nome_mob = OLD.nome;
+	END IF;
+	
+	RETURN OLD;
+	
+END;
+
+$deletar_mob$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER deletar_mob
+BEFORE DELETE ON Mob
+FOR EACH ROW EXECUTE PROCEDURE deletar_mob();
+
+--- TRIGGER E STORED PROCEDURE PARA DELETAR MOB PACIFICO
+
+CREATE OR REPLACE FUNCTION deletar_mob_pacifico()
+RETURNS trigger AS $deletar_mob_pacifico$
+BEGIN
+
+	IF (OLD.tipo_mob = 'NPC') THEN
+		DELETE FROM Pacifico
+		WHERE nome_pacifico = OLD.nome_mob;
+
+	ELSIF (OLD.tipo_mob = 'outro') THEN
+		NULL;
+	
+	ELSE
+		RAISE EXCEPTION 'Erro ao deletar. O tipo está errado.';			
+	END IF;
+	
+	RETURN OLD;
+	
+END;
+
+$deletar_mob_pacifico$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER deletar_mob_pacifico
+BEFORE DELETE ON Pacifico
+FOR EACH ROW EXECUTE PROCEDURE deletar_mob_pacifico();
+
+--- TRIGGER E STORED PROCEDURE PARA IMPEDIR DE ATUALIZAR O TIPO DA TABELA MOB
+
+CREATE OR REPLACE FUNCTION prevencao_update_tipo_mob()
+RETURNS trigger AS $prevencao_update_tipo_mob$
+BEGIN
+
+	IF (OLD.tipo_mob <> NEW.tipo_mob) THEN
+		RAISE EXCEPTION 'Não é permitido alterar o tipo de mob.';
+	END IF;
+	
+	RETURN NEW;
+	
+END;
+
+$prevencao_update_tipo_mob$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER prevencao_update_tipo_mob
+BEFORE UPDATE ON Mob
+FOR EACH ROW EXECUTE PROCEDURE prevencao_update_tipo_mob();
+
+--- TRIGGER E STORED PROCEDURE PARA IMPEDIR DE ATUALIZAR O TIPO DA TABELA PACIFICO
+
+CREATE OR REPLACE FUNCTION prevencao_update_tipo_pacifico()
+RETURNS trigger AS $prevencao_update_tipo_pacifico$
+BEGIN
+
+	IF (OLD.tipo_pacifico <> NEW.tipo_pacifico) THEN
+		RAISE EXCEPTION 'Não é permitido alterar o tipo de mob pacífico.';
+	END IF;
+	
+	RETURN NEW;
+	
+END;
+
+$prevencao_update_tipo_pacifico$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER prevencao_update_tipo_pacifico
+BEFORE UPDATE ON Pacifico
+FOR EACH ROW EXECUTE PROCEDURE prevencao_update_tipo_pacifico();
+
+--- CHECAR EXISTÊNCIA NA TABELA PACIFICO
+
+CREATE OR REPLACE FUNCTION check_existe_pacifico() RETURNS trigger AS $check_existe_pacifico$
+BEGIN
+	PERFORM * FROM Pacifico WHERE nome_mob = NEW.nome_mob;
+	IF FOUND THEN
+		RAISE EXCEPTION 'Este mob já existe na tabela Pacifico.';
+	END IF;
+	
+	RETURN NEW;
+END;
+$check_existe_pacifico$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER check_existe_pacifico
+BEFORE INSERT ON Agressivo
+FOR EACH ROW EXECUTE PROCEDURE check_existe_pacifico();
+
+--- CHECAR EXISTÊNCIA NA TABELA AGRESSIVO
+
+CREATE OR REPLACE FUNCTION check_existe_agressivo() RETURNS trigger AS $check_existe_agressivo$
+BEGIN
+	PERFORM * FROM Agressivo WHERE nome_mob = NEW.nome_mob;
+	IF FOUND THEN
+		RAISE EXCEPTION 'Este mob já existe na tabela Agressivo.';
+	END IF;
+	
+	RETURN NEW;
+END;
+$check_existe_agressivo$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER check_existe_agressivo
+BEFORE INSERT ON Pacifico
+FOR EACH ROW EXECUTE PROCEDURE check_existe_agressivo();
 
 -- ANALISAR COM BRUNO DEPOIS
 
