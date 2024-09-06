@@ -1,6 +1,7 @@
 import psycopg2
 from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela
 from colorama import Fore
+import random
 
 def connect_to_db():
     return psycopg2.connect(
@@ -16,14 +17,15 @@ def criar_novo_jogador(cursor, nomeUser):
     cabeca = peito = pernas = pes = None
     numero_chunk = random.randint(1, 10000)
     missao = 0
+    nome_mapa = 'Superfície'
     
     cursor.execute(
         """
         INSERT INTO jogador 
-        (nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, missao) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        (nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, nome_mapa, missao) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
         """, 
-        (nomeUser, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, missao)
+        (nomeUser, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, nome_mapa,  missao)
     )
 
 def testar_banco():
