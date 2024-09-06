@@ -1,4 +1,3 @@
-from db.database import connect_to_db
 from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela
 from colorama import Fore
 

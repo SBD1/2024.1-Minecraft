@@ -1,5 +1,8 @@
 from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bioma_com_cor
 from colorama import Fore
+from ..game.combat import atacar_mob
+from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item
+from ..game.player_actions import visualizar_inventario, utilizar_item
 
 # Função principal do jogo
 def jogar(cursor, nomeUser):
@@ -28,9 +31,11 @@ def jogar(cursor, nomeUser):
         # Mostrar as informações coletadas
         exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos)
 
-        # Mostrar direções possíveis e solicitar entrada do usuário
+        # Calcular direções possiveis
         movimentos = calcular_movimentos_possiveis(chunkAtual)
-        if not processar_movimento(cursor, nomeUser, movimentos):
+
+        # Solicita a entrada do usuario
+        if not processar_comando(cursor, nomeUser):
             break
 
 # Função para obter dados do jogador
@@ -109,28 +114,70 @@ def exibir_lista(titulo, itens, cor_titulo, mensagem_vazia):
         mostrar_texto_gradualmente(mensagem_vazia, cor_titulo)
     print()
 
-# Função para processar o movimento do jogador
-def processar_movimento(cursor, nomeUser, movimentos):
-    """
-    Solicita a entrada do jogador para mover-se em uma direção ou finalizar o jogo.
-    """
-    direcoes_disponiveis = [direcao for direcao in movimentos if movimentos[direcao] is not None]
-    mostrar_texto_gradualmente(f"Você pode se mover para: {', '.join(direcoes_disponiveis)}", Fore.CYAN)
+# Função para processar o comando do jogador
+def processar_comando(cursor, nomeUser, movimentos):
+    comando = input(f"{Fore.CYAN}Digite um comando ou 'ajuda' para ver a lista de comandos: ").strip().lower()
+    partes_comando = comando.split()
+    acao = partes_comando[0] if partes_comando else ""
+    parametros = partes_comando[1:] if len(partes_comando) > 1 else []
 
-    direcao = input(f"{Fore.CYAN}Digite a direção para onde deseja se mover (norte, sul, leste, oeste), 'ajuda' para ver a lista de comandos, ou 'sair' para terminar: ").strip().lower()
+    if acao == "andar" and parametros:
+        direcao = parametros[0]
+        if direcao in movimentos:
+            mover_jogador(cursor, nomeUser, direcao, movimentos)
+        else:
+            mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
 
-    if direcao in movimentos:
-        limpar_tela()
-        mover_jogador(cursor, nomeUser, direcao, movimentos)
-    elif direcao == "sair":
-        return False
-    elif direcao == "ajuda":
+    elif acao == "ver" and parametros:
+        nome_mob = parametros[0]
+        ver_mob(cursor, nomeUser, nome_mob)
+
+    elif acao == "visualizar_inventario":
+        visualizar_inventario(cursor, nomeUser)
+
+    elif acao == "utilizar_item" and parametros:
+        nome_item = parametros[0]
+        utilizar_item(cursor, nomeUser, nome_item)
+
+    elif acao == "minerar_fonte" and parametros:
+        nome_fonte = parametros[0]
+        minerar_fonte(cursor, nomeUser, nome_fonte)
+
+    elif acao == "craftar_item" and parametros:
+        nome_item = parametros[0]
+        craftar_item(cursor, nomeUser, nome_item)
+
+    elif acao == "equipar_item" and parametros:
+        nome_item = parametros[0]
+        equipar_item(cursor, nomeUser, nome_item)
+
+    elif acao == "atacar_mob" and len(parametros) == 2:
+        nome_mob = parametros[0]
+        nome_ferramenta = parametros[1]
+        atacar_mob(cursor, nomeUser, nome_mob, nome_ferramenta)
+
+    elif acao == "falar" and parametros:
+        nome_aldeao = parametros[0]
+        falar_aldeao(cursor, nomeUser, nome_aldeao)  # Placeholder para quando a função estiver pronta
+
+    elif acao == "construir" and parametros:
+        nome_estrutura = parametros[0]
+        construir_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
+
+    elif acao == "explorar_estrutura" and parametros:
+        nome_estrutura = parametros[0]
+        explorar_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
+
+    elif acao == "ajuda":
         limpar_tela()
         exibir_ajuda()
         input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...")
+
+    elif acao == "sair":
+        return False
+
     else:
         mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
-        print()
 
     return True
 
@@ -148,7 +195,10 @@ def calcular_movimentos_possiveis(chunkAtual):
         movimentos['leste'] = chunkAtual + 1
     if chunkAtual % 100 != 1:
         movimentos['oeste'] = chunkAtual - 1
-    return movimentos
+    
+    direcoes_disponiveis = [direcao for direcao in movimentos if movimentos[direcao] is not None]
+    mostrar_texto_gradualmente(f"Você pode se mover para: {', '.join(direcoes_disponiveis)}", Fore.CYAN)
+
 
 # Função para mover o jogador
 def mover_jogador(cursor, nomeUser, direcao, movimentos):
@@ -170,7 +220,7 @@ def exibir_ajuda():
     limpar_tela()
     mostrar_texto_gradualmente("Comandos disponíveis:", Fore.BLUE)
 
-    print(f"{Fore.YELLOW}norte, sul, leste, oeste{Fore.RESET}: para se mover na respectiva direção")
+    print(f"{Fore.YELLOW}andar <direção>{Fore.RESET}: para se mover na respectiva direção")
     print(f"{Fore.YELLOW}ver <nomeMob>{Fore.RESET}: para ver informações sobre um mob no chunk atual")
     print(f"{Fore.YELLOW}visualizar_inventario{Fore.RESET}: para ver os itens no seu inventário")
     print(f"{Fore.YELLOW}utilizar_item <nomeItem>{Fore.RESET}: para usar um item do inventário")
