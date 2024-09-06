@@ -77,7 +77,6 @@ CREATE TABLE Craftavel (
 CREATE TABLE Funcional (
     nome_item VARCHAR(30) PRIMARY KEY,
     funcao TEXT NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
 
@@ -86,7 +85,6 @@ CREATE TABLE FerramentaDuravel (
     nome_item VARCHAR(30) PRIMARY KEY,
     durabilidade_total INT NOT NULL,
     pts_dano INT NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
 
@@ -95,7 +93,6 @@ CREATE TABLE ArmaduraDuravel (
     nome_item VARCHAR(30) PRIMARY KEY,
     pts_armadura INT NOT NULL,
     durabilidade_total INT NOT NULL,
-    receita TEXT NOT NULL,
     FOREIGN KEY (nome_item) REFERENCES Craftavel(nome_item)
 );
 
@@ -277,6 +274,7 @@ CREATE TABLE MobDropaItem (
     nome_mob VARCHAR(30) NOT NULL,
     nome_item VARCHAR(30) NOT NULL,
     probabilidade DECIMAL(5,2) NOT NULL,
+    quantidade INT DEFAULT 1,
     FOREIGN KEY (nome_mob) REFERENCES Mob(nome),
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
@@ -290,9 +288,9 @@ CREATE TABLE EstruturaForneceItem (
     FOREIGN KEY (nome_item) REFERENCES Item(nome)
 );
 
--- Tabela Ferramenta Minera Instância de Fonte
-CREATE TABLE FerramentaMineraInstFonte (
-    nome_ferramenta VARCHAR(30) NOT NULL,
+-- Tabela Ferramenta Minera Fonte
+CREATE TABLE FerramentaMineraFonte (
+    nome_ferramenta VARCHAR(30),
     nome_fonte VARCHAR(30) NOT NULL,
     FOREIGN KEY (nome_ferramenta) REFERENCES FerramentaDuravel(nome_item),
     FOREIGN KEY (nome_fonte) REFERENCES Fonte(nome)

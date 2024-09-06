@@ -12,8 +12,9 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ../db/ddl.sql:/docker-entrypoint-initdb.d/ddl.sql
-      - ../db/dml.sql:/docker-entrypoint-initdb.d/dml.sql
+      - ../db/ddl.sql:/docker-entrypoint-initdb.d/1_ddl.sql
+      - ../db/trigger_SP.sql:/docker-entrypoint-initdb.d/2_trigger_SP.sql
+      - ../db/dml.sql:/docker-entrypoint-initdb.d/3_dml.sql
       - db_data:/var/lib/postgresql/data
 
   app:
