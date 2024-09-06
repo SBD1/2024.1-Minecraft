@@ -21,7 +21,7 @@ def validar_nick(nomeUser):
         )
         return False
 
-def mostrar_texto_gradualmente(texto, cor=Fore.CYAN, velocidade=0.03):
+def mostrar_texto_gradualmente(texto, cor=Fore.CYAN, velocidade=0.01):
     """Exibe o texto gradualmente, como uma máquina de escrever."""
     for char in texto:
         print(cor + char, end='', flush=True)

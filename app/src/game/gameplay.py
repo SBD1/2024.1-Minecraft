@@ -9,7 +9,13 @@ def jogar(cursor, nomeUser):
     """
     Loop principal do jogo. Processa o estado do jogador, movimentação e interações no chunk.
     """
+    limpar_tela()
+
     while True:
+
+        # NAO COLOCAR FUNCAO DE LIMPAR TELA AQUI 
+        # Porconta da def mover_jogador que deve mostrar pra onde o usuuario foi 
+
         # Obter dados do jogador
         jogador_data = obter_dados_jogador(cursor, nomeUser)
         if not jogador_data:
@@ -91,7 +97,6 @@ def exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, mobs_pacifi
     """
     Exibe as informações do chunk, como bioma, mobs, estruturas e recursos.
     """
-    limpar_tela()
     mostrar_texto_gradualmente(f"Você está no Chunk {chunkAtual}", Fore.CYAN)
     mostrar_bioma_com_cor(bioma)
     print()
@@ -123,12 +128,14 @@ def processar_comando(cursor, nomeUser, movimentos):
 
     if acao == "andar" and parametros:
         direcao = parametros[0]
+        limpar_tela()
         if direcao in movimentos:
             mover_jogador(cursor, nomeUser, direcao, movimentos)
         else:
             mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
 
     elif acao == "ver" and parametros:
+        limpar_tela()
         nome_mob = parametros[0]
         ver_mob(cursor, nomeUser, nome_mob)
 
@@ -137,42 +144,49 @@ def processar_comando(cursor, nomeUser, movimentos):
         visualizar_inventario(cursor, nomeUser)
 
     elif acao == "utilizar_item" and parametros:
+        limpar_tela()
         nome_item = parametros[0]
         utilizar_item(cursor, nomeUser, nome_item)
 
     elif acao == "minerar_fonte" and parametros:
+        limpar_tela()
         nome_fonte = parametros[0]
         minerar_fonte(cursor, nomeUser, nome_fonte)
 
     elif acao == "craftar_item" and parametros:
+        limpar_tela()
         nome_item = parametros[0]
         craftar_item(cursor, nomeUser, nome_item)
 
     elif acao == "equipar_item" and parametros:
+        limpar_tela()
         nome_item = parametros[0]
         equipar_item(cursor, nomeUser, nome_item)
 
     elif acao == "atacar_mob" and len(parametros) == 2:
+        limpar_tela()
         nome_mob = parametros[0]
         nome_ferramenta = parametros[1]
         atacar_mob(cursor, nomeUser, nome_mob, nome_ferramenta)
 
     elif acao == "falar" and parametros:
+        limpar_tela()
         nome_aldeao = parametros[0]
         falar_aldeao(cursor, nomeUser, nome_aldeao)  # Placeholder para quando a função estiver pronta
 
     elif acao == "construir" and parametros:
+        limpar_tela()
         nome_estrutura = parametros[0]
         construir_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
 
     elif acao == "explorar_estrutura" and parametros:
+        limpar_tela()
         nome_estrutura = parametros[0]
         explorar_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
 
     elif acao == "ajuda":
         limpar_tela()
         exibir_ajuda()
-        input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...")
 
     elif acao == "sair":
         return False
@@ -188,17 +202,25 @@ def calcular_movimentos_possiveis(chunkAtual):
     Retorna os movimentos possíveis com base na posição atual do chunk.
     """
     movimentos = {}
+    
+    # Verifica se o jogador pode ir para o norte
     if chunkAtual > 100:
         movimentos['norte'] = chunkAtual - 100
+    # Verifica se o jogador pode ir para o sul
     if chunkAtual <= 9900:
         movimentos['sul'] = chunkAtual + 100
+    # Verifica se o jogador pode ir para o leste
     if chunkAtual % 100 != 0:
         movimentos['leste'] = chunkAtual + 1
+    # Verifica se o jogador pode ir para o oeste
     if chunkAtual % 100 != 1:
         movimentos['oeste'] = chunkAtual - 1
     
     direcoes_disponiveis = [direcao for direcao in movimentos if movimentos[direcao] is not None]
     mostrar_texto_gradualmente(f"Você pode se mover para: {', '.join(direcoes_disponiveis)}", Fore.CYAN)
+
+    # Garante que sempre será retornado um dicionário (mesmo que vazio)
+    return movimentos if movimentos else {}
 
 
 # Função para mover o jogador
@@ -235,4 +257,5 @@ def exibir_ajuda():
     print(f"{Fore.YELLOW}sair{Fore.RESET}: para terminar o jogo")
 
     input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
+    limpar_tela()
 
