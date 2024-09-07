@@ -35,6 +35,8 @@ def ver_mob(cursor, nomeUser, nomeMob):
 
         if tipo_mob == 'agressivo':
             mostrar_texto_gradualmente(f"Dano: {pts_dano}", Fore.RED)
+
+        input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
     else:
         mostrar_texto_gradualmente(f"Não há um mob chamado {nomeMob} no seu chunk.", Fore.RED)
         time.sleep(2)

@@ -16240,7 +16240,7 @@ CALL inserir_mob('guardião', 'agressivo', TRUE, 30, 30);
 CALL inserir_mob('pilhador', 'agressivo', TRUE, 20, 24);
 
 -- Pacíficos (não têm parâmetro impulsivo)
-CALL inserir_mob('galinha', 'pacifico', NULL, NULL, 4, 'outro');
+CALL inserir_mob('galinha', 'pacifico', NULL, NULL, 5, 'outro');
 CALL inserir_mob('aldeão', 'pacifico', NULL, NULL, 20, 'NPC');
 CALL inserir_mob('peixe', 'pacifico', NULL, NULL, 3, 'outro');
 CALL inserir_mob('vaca', 'pacifico', NULL, NULL, 10, 'outro');
@@ -16928,7 +16928,7 @@ END;
 $$;
 
 -- Remover mobs da Superfície quando ficar de dia, apenas mobs que não estão em estruturas 
-CREATE OR REPLACE PROCEDURE despanw_mobs_agressivos() LANGUAGE plpgsql AS $$
+CREATE OR REPLACE PROCEDURE despawn_mobs_agressivos() LANGUAGE plpgsql AS $$
 BEGIN
     DELETE FROM InstanciaMob
     WHERE nome_mob IN ('zumbi', 'esqueleto', 'aranha', 'enderman', 'creeper', 'bruxa', 'pilhador')
@@ -16951,16 +16951,16 @@ BEGIN
         WHEN hora = 'noite' THEN 'dia'::ciclo_dia
         ELSE 'dia'::ciclo_dia
     END
-    WHERE nome = 'Superficie'
+    WHERE nome = 'Superfície'
     RETURNING hora INTO hora_atual;  -- Armazena a hora atualizada na variável
 
     -- Verifica o novo ciclo do dia e executa as ações apropriadas
     IF hora_atual = 'noite' THEN
         -- Se for noite, spawna mobs agressivos
-        PERFORM spawn_mobs_agressivos();
+        CALL  spawn_mobs_agressivos();
     ELSIF hora_atual = 'dia' THEN
         -- Se for dia, remove mobs agressivos
-        PERFORM remover_mobs_agressivos();
+        CALL  despawn_mobs_agressivos();
     END IF;
 END;
 $$;
@@ -16968,6 +16968,6 @@ $$;
 -- Agendamento da stored procedure para rodar a cada 10 minutos
 SELECT cron.schedule(
     'atualizar_ciclo_dia_job',
-    '*/10 * * * *',
+    '*/1 * * * *',
     $$ CALL atualizar_ciclo_dia(); $$
 );
