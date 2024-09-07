@@ -133,7 +133,7 @@ def processar_comando(cursor, nomeUser, movimentos):
     parametros = partes_comando[1:] if len(partes_comando) > 1 else []
     limpar_tela()
 
-    if acao == "andar" and parametros:
+    if acao == "andar" and parametros: #Feito
         direcao = parametros[0]
         if direcao in movimentos:
             mover_jogador(cursor, nomeUser, direcao, movimentos)
@@ -141,11 +141,11 @@ def processar_comando(cursor, nomeUser, movimentos):
             mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
             time.sleep(2)
 
-    elif acao == "ver" and parametros:
+    elif acao == "ver" and parametros: #Feito
         nome_mob = parametros[0]
         ver_mob(cursor, nomeUser, nome_mob)
 
-    elif acao == "visualizar_inventario":
+    elif acao == "visualizar_inventario": #Feito
         visualizar_inventario(cursor, nomeUser)
 
     elif acao == "utilizar_item" and parametros:
