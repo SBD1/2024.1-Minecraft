@@ -15970,14 +15970,14 @@ VALUES
         ('Pena', 'material'),
         ('Fio', 'material'),
         ('Pérola do Ender', 'material'),
-        ('Lágrima de Ghast', 'material'),
+        ('Lágrima de ghast', 'material'),
         ('Estrela do Nether', 'material'),
         ('Açúcar', 'material'),
         ('Osso', 'material'),
         ('Flecha', 'material'),
         ('Ovo de Dragão', 'material'),
-        ('Vara de Blaze', 'material'),
-        ('Pó de Blaze', 'material'),
+        ('Vara de blaze', 'material'),
+        ('Pó de blaze', 'material'),
         ('Estante', 'material'),
         ('Vidro', 'material'),
         ('Porta', 'material'),
@@ -16044,8 +16044,8 @@ VALUES
         ('Carne Podre', 'alimento'),
         ('Frango', 'alimento'),
         ('Frango Assado', 'alimento'),
-        ('Peixe Cru', 'alimento'),
-        ('Peixe Assado', 'alimento'),
+        ('peixe Cru', 'alimento'),
+        ('peixe Assado', 'alimento'),
         ('Carne Crua', 'alimento'),
         ('Carne Assada', 'alimento');
 
@@ -16063,7 +16063,7 @@ VALUES
         ('Porta', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 3),
         ('Escada', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 4),
         ('Cama', 'Lã', 'Lã', 'Lã', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 1),
-        ('Pó de Blaze', 'Vara de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2),
+        ('Pó de blaze', 'Vara de blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2),
 
     -- Ferramentas
         ('Arco', 'Fio', 'Fio', 'Fio', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
@@ -16117,7 +16117,7 @@ VALUES
         ('Isqueiro', 'Barras de Ferro', 'Pedregulho', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
         ('Mapa', 'Papel', 'Papel', 'Papel', 'Papel', 'Bússola', 'Papel', 'Papel', 'Papel', NULL, 1),
         ('Bússola', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Pó de Redstone', 'Barras de Ferro', NULL, NULL, NULL, NULL, 1),
-        ('Olho do Ender', 'Pérola do Ender', 'Pó de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+        ('Olho do Ender', 'Pérola do Ender', 'Pó de blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- Tabela Alimento
 -- INSERT INTO Alimento (nome_item, pts_fome)
@@ -16149,7 +16149,7 @@ VALUES
     ('Fornalha', 'O coração quente da sua casa, onde você pode assar batatas ou fundir ferro, o que vier primeiro. Essencial para cozinhar alimentos e processar minérios.'),
     ('Biblioteca', 'Um cantinho tranquilo repleto de conhecimento. A biblioteca desbloqueia as receitas dos itens disponíveis.'),
     ('Portal do Nether', 'Um portal para o inferno. Literalmente. Transporta você para o Nether, entre por sua conta e risco.'),
-    ('Portal de Viagem', 'Como um Enderman, este portal permite teleportar-se magicamente. Use-o para explorar novas áreas. Cuidado com os destinos inesperados!');
+    ('Portal de Viagem', 'Como um enderman, este portal permite teleportar-se magicamente. Use-o para explorar novas áreas. Cuidado com os destinos inesperados!');
 
 -- Tabela Receita Construivel
 INSERT INTO ReceitaConstruivel (nome_construivel, item, quantidade)
@@ -16210,7 +16210,7 @@ VALUES
 -- Tabela Jogador
 INSERT INTO Jogador (nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, nome_mapa, missao)
 VALUES  
-        ('EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 3, 'Superfície', 0);
+        ('EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1, 'Superfície', 0);
 
 -- Tabela Instância Item
 INSERT INTO InstanciaItem (nome_item, durabilidade_atual)
@@ -16231,42 +16231,42 @@ VALUES
         (5, 1);
 
 -- Agressivos (impulsivo = TRUE)
-CALL inserir_mob('Creeper', 'agressivo', TRUE, 50, 20);
-CALL inserir_mob('Zumbi', 'agressivo', TRUE, 15, 20);
-CALL inserir_mob('Aranha', 'agressivo', TRUE, 10, 16);
-CALL inserir_mob('Esqueleto', 'agressivo', TRUE, 10, 20);
-CALL inserir_mob('Bruxa', 'agressivo', TRUE, 12, 26);
-CALL inserir_mob('Guardião', 'agressivo', TRUE, 30, 30);
-CALL inserir_mob('Pilhador', 'agressivo', TRUE, 20, 24);
+CALL inserir_mob('creeper', 'agressivo', TRUE, 50, 20);
+CALL inserir_mob('zumbi', 'agressivo', TRUE, 15, 20);
+CALL inserir_mob('aranha', 'agressivo', TRUE, 10, 16);
+CALL inserir_mob('esqueleto', 'agressivo', TRUE, 10, 20);
+CALL inserir_mob('bruxa', 'agressivo', TRUE, 12, 26);
+CALL inserir_mob('guardião', 'agressivo', TRUE, 30, 30);
+CALL inserir_mob('pilhador', 'agressivo', TRUE, 20, 24);
 
 -- Pacíficos (não têm parâmetro impulsivo)
-CALL inserir_mob('Galinha', 'pacifico', NULL, NULL, 4, 'outro');
-CALL inserir_mob('Aldeão', 'pacifico', NULL, NULL, 20, 'NPC');
-CALL inserir_mob('Peixe', 'pacifico', NULL, NULL, 3, 'outro');
-CALL inserir_mob('Vaca', 'pacifico', NULL, NULL, 10, 'outro');
-CALL inserir_mob('Porco', 'pacifico', NULL, NULL, 10, 'outro');
-CALL inserir_mob('Ovelha', 'pacifico', NULL, NULL, 8, 'outro');
+CALL inserir_mob('galinha', 'pacifico', NULL, NULL, 4, 'outro');
+CALL inserir_mob('aldeão', 'pacifico', NULL, NULL, 20, 'NPC');
+CALL inserir_mob('peixe', 'pacifico', NULL, NULL, 3, 'outro');
+CALL inserir_mob('vaca', 'pacifico', NULL, NULL, 10, 'outro');
+CALL inserir_mob('porco', 'pacifico', NULL, NULL, 10, 'outro');
+CALL inserir_mob('ovelha', 'pacifico', NULL, NULL, 8, 'outro');
 
 -- Neutros (impulsivo = FALSE)
-CALL inserir_mob('Enderman', 'agressivo', FALSE, 40, 40);
-CALL inserir_mob('Lobo', 'agressivo', FALSE, 5, 8);
-CALL inserir_mob('Golfinho', 'agressivo', FALSE, 10, 10);
-CALL inserir_mob('Golem de Ferro', 'agressivo', FALSE, 15, 100);
-CALL inserir_mob('Golem de Neve', 'agressivo', FALSE, 5, 4);
-CALL inserir_mob('Urso Polar', 'agressivo', FALSE, 20, 30);
+CALL inserir_mob('enderman', 'agressivo', FALSE, 40, 40);
+CALL inserir_mob('lobo', 'agressivo', FALSE, 5, 8);
+CALL inserir_mob('golfinho', 'agressivo', FALSE, 10, 10);
+CALL inserir_mob('golem de ferro', 'agressivo', FALSE, 15, 100);
+CALL inserir_mob('golem de neve', 'agressivo', FALSE, 5, 4);
+CALL inserir_mob('urso polar', 'agressivo', FALSE, 20, 30);
 
 -- Nether (impulsivo = TRUE)
-CALL inserir_mob('Piglin Zumbi', 'agressivo', FALSE, 10, 20);
-CALL inserir_mob('Piglin', 'agressivo', FALSE, 15, 16);
-CALL inserir_mob('Hoglin', 'agressivo', TRUE, 25, 40);
-CALL inserir_mob('Ghast', 'agressivo', TRUE, 50, 10);
-CALL inserir_mob('Esqueleto Wither', 'agressivo', TRUE, 40, 20);
-CALL inserir_mob('Blaze', 'agressivo', TRUE, 20, 20);
+CALL inserir_mob('piglin zumbi', 'agressivo', FALSE, 10, 20);
+CALL inserir_mob('piglin', 'agressivo', FALSE, 15, 16);
+CALL inserir_mob('hoglin', 'agressivo', TRUE, 25, 40);
+CALL inserir_mob('ghast', 'agressivo', TRUE, 50, 10);
+CALL inserir_mob('esqueleto wither', 'agressivo', TRUE, 40, 20);
+CALL inserir_mob('blaze', 'agressivo', TRUE, 20, 20);
 
 -- Bosses (impulsivo = TRUE)
-CALL inserir_mob('Dragão Ender', 'agressivo', TRUE, 100, 200);
-CALL inserir_mob('Wither', 'agressivo', TRUE, 50, 300);
-CALL inserir_mob('Warden', 'agressivo', TRUE, 80, 500);
+CALL inserir_mob('dragão ender', 'agressivo', TRUE, 100, 200);
+CALL inserir_mob('wither', 'agressivo', TRUE, 50, 300);
+CALL inserir_mob('warden', 'agressivo', TRUE, 80, 500);
 
 
 
@@ -16291,7 +16291,7 @@ VALUES
         ('Templo da Selva', 4.00),
         ('Templo do Deserto', 5.00),
         ('Posto Avançado', 8.00),
-        ('Cabana da Bruxa', 7.00),
+        ('Cabana da bruxa', 7.00),
         ('Portal em Ruínas', 15.00),
         
     -- Estruturas das Cavernas
@@ -16337,8 +16337,8 @@ BEGIN
                     CALL inserir_inst_estrutura('Templo da Selva', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir mobs na estrutura
-                    CALL inserir_inst_mob('Zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('esqueleto', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
                     
                     CONTINUE;
                 END IF;
@@ -16352,22 +16352,22 @@ BEGIN
                     CALL inserir_inst_estrutura('Templo do Deserto', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir mobs na estrutura
-                    CALL inserir_inst_mob('Zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     CONTINUE;
                 END IF;
             END IF;
 
-            -- Cabana da Bruxa
+            -- Cabana da bruxa
             IF chunk_rec.nome_bioma = 'Pântano' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 7.00 THEN
                     -- Chamar stored procedure para inserir a estrutura
-                    CALL inserir_inst_estrutura('Cabana da Bruxa', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_estrutura('Cabana da bruxa', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
-                    -- Chamar stored procedure para inserir mob na Cabana da Bruxa
-                    CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    -- Chamar stored procedure para inserir mob na Cabana da bruxa
+                    CALL inserir_inst_mob('bruxa', 26, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     CONTINUE;
                 END IF;
@@ -16381,8 +16381,8 @@ BEGIN
                     CALL inserir_inst_estrutura('Portal em Ruínas', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir mob no Portal em Ruínas
-                    CALL inserir_inst_mob('Piglin', 16, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Piglin Zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('piglin', 16, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('piglin zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     CONTINUE;
                 END IF;
@@ -16396,9 +16396,9 @@ BEGIN
                     CALL inserir_inst_estrutura('Vila', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir NPCs na Vila
-                    CALL inserir_inst_mob('Aldeão', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Aldeão', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Golem de Ferro', 100, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('aldeão', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('aldeão', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('golem de ferro', 100, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     CONTINUE;
                 END IF;
@@ -16412,8 +16412,8 @@ BEGIN
                     CALL inserir_inst_estrutura('Posto Avançado', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir mobs no Posto Avançado
-                    CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('pilhador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('pilhador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     CONTINUE;
                 END IF;
@@ -16430,8 +16430,8 @@ BEGIN
                     CALL inserir_inst_estrutura('Fortaleza do Fim', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir mobs na Fortaleza do Fim
-                    CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Blaze', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('esqueleto', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('blaze', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     CONTINUE;
                 END IF;
@@ -16445,7 +16445,7 @@ BEGIN
                     CALL inserir_inst_estrutura('Mina Abandonada', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir mobs na Mina Abandonada
-                    CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('aranha', 16, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     CONTINUE;
                 END IF;
@@ -16462,9 +16462,9 @@ BEGIN
                     CALL inserir_inst_estrutura('Bastião em Ruínas', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir mobs no Bastião em Ruínas
-                    CALL inserir_inst_mob('Piglin', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Piglin Zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Esqueleto Wither', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('piglin', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('piglin zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('esqueleto wither', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     CONTINUE;
                 END IF;
@@ -16489,63 +16489,63 @@ BEGIN
     LOOP
         -- Superfície
         IF chunk_rec.nome_mapa = 'Superfície' THEN
-            -- Galinha (spawn em Planície, Floresta)
+            -- galinha (spawn em Planície, Floresta)
             IF chunk_rec.nome_bioma IN ('Planície', 'Floresta') THEN
                 rand_num := random() * 100;
                 IF rand_num <= 45.00 THEN
-                    CALL inserir_inst_mob('Galinha', 5, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('galinha', 5, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
 
-            -- Vaca e Porco (spawn em Planície)
+            -- vaca e porco (spawn em Planície)
             IF chunk_rec.nome_bioma = 'Planície' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 45.00 THEN
-                    CALL inserir_inst_mob('Vaca', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('vaca', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 35.00 THEN
-                    CALL inserir_inst_mob('Porco', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('porco', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
 
-            -- Ovelha (spawn em Planície, Montanha)
+            -- ovelha (spawn em Planície, Montanha)
             IF chunk_rec.nome_bioma IN ('Planície', 'Montanha') THEN
                 rand_num := random() * 100;
                 IF rand_num <= 30.00 THEN
-                    CALL inserir_inst_mob('Ovelha', 8, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('ovelha', 8, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
 
-            -- Peixe, Golfinho e Guardião (spawn em Lago)
+            -- peixe, golfinho e guardião (spawn em Lago)
             IF chunk_rec.nome_bioma = 'Lago' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 30.00 THEN
-                    CALL inserir_inst_mob('Peixe', 3, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('peixe', 3, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 10.00 THEN
-                    CALL inserir_inst_mob('Golfinho', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('golfinho', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 5.00 THEN
-                    CALL inserir_inst_mob('Guardião', 30, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('guardião', 30, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
 
-            -- Urso Polar e Golem de Neve (spawn em Neve)
+            -- urso polar e golem de neve (spawn em Neve)
             IF chunk_rec.nome_bioma = 'Neve' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 25.00 THEN
-                    CALL inserir_inst_mob('Urso Polar', 30, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('urso polar', 30, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 15.00 THEN
-                    CALL inserir_inst_mob('Golem de Neve', 4, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('golem de neve', 4, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
         END IF;
@@ -16556,75 +16556,75 @@ BEGIN
             IF chunk_rec.nome_bioma = 'Caverna' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 40.00 THEN
-                    CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('esqueleto', 20, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 40.00 THEN
-                    CALL inserir_inst_mob('Creeper', 20, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('creeper', 20, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 50.00 THEN
-                    CALL inserir_inst_mob('Zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('zumbi', 25, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 30.00 THEN
-                    CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('aranha', 16, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 20.00 THEN
-                    CALL inserir_inst_mob('Enderman', 26, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('enderman', 26, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 10.00 THEN
-                    CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('bruxa', 26, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
 
-            -- Warden (spawn em Cidade ancestral)
+            -- warden (spawn em Cidade ancestral)
             IF chunk_rec.nome_bioma = 'Cidade ancestral' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 5.00 THEN
-                    CALL inserir_inst_mob('Warden', 500, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('warden', 500, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
         END IF;
 
         -- Nether
         IF chunk_rec.nome_mapa = 'Nether' THEN
-            -- Piglin e Hoglin (spawn em Floresta carmesim)
+            -- piglin e hoglin (spawn em Floresta carmesim)
             IF chunk_rec.nome_bioma = 'Floresta carmesim' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 45.00 THEN
-                    CALL inserir_inst_mob('Piglin', 16, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('piglin', 16, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
                 IF rand_num <= 40.00 THEN
-                    CALL inserir_inst_mob('Hoglin', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('hoglin', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
 
-            -- Ghast e Piglin Zumbi (spawn em Descampado)
+            -- ghast e piglin zumbi (spawn em Descampado)
             IF chunk_rec.nome_bioma = 'Descampado' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 35.00 THEN
-                    CALL inserir_inst_mob('Ghast', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('ghast', 10, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
 
                 rand_num := random() * 100;
                 IF rand_num <= 50.00 THEN
-                    CALL inserir_inst_mob('Piglin Zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('piglin zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
 
-            -- Enderman (spawn em Floresta distorcida)
+            -- enderman (spawn em Floresta distorcida)
             IF chunk_rec.nome_bioma = 'Floresta distorcida' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 90.00 THEN
-                    CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('enderman', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
         END IF;
@@ -16634,7 +16634,7 @@ BEGIN
             IF chunk_rec.nome_bioma = 'Ilha do fim' THEN
                 rand_num := random() * 100;
                 IF rand_num <= 90.00 THEN
-                    CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
+                    CALL inserir_inst_mob('enderman', 40, chunk_rec.numero, chunk_rec.nome_mapa, NULL);
                 END IF;
             END IF;
         END IF;
@@ -16647,57 +16647,57 @@ $$;
 INSERT INTO MobDropaItem (nome_mob, nome_item, probabilidade, quantidade)
 VALUES
     -- Agressivos
-        ('Creeper', 'Pólvora', 100.00, 1),
-        ('Zumbi', 'Carne Podre', 100.00, 1),
-        ('Zumbi', 'Espada de Pedra', 30.00, 1),
-        ('Zumbi', 'Barras de Ferro', 10.00, 1),
-        ('Zumbi', 'Túnica de Couro', 5.00, 1),
-        ('Zumbi', 'Botas de Ferro', 5.00, 1), 
-        ('Aranha', 'Fio', 100.00, 3),
-        ('Aranha', 'Teia', 25.00, 1),
-        ('Enderman', 'Pérola do Ender', 75.00, 1),
-        ('Enderman', 'Obsidiana', 10.00, 1),
-        ('Bruxa', 'Pó de Redstone', 50.00, 1),
-        ('Bruxa', 'Pólvora', 50.00, 1),
-        ('Bruxa', 'Bússola', 10.0, 1),
-        ('Bruxa', 'Maçã', 30.0, 1),
-        ('Esqueleto', 'Osso', 75.00, 1),
-        ('Esqueleto', 'Flecha', 80.00, 2),
-        ('Esqueleto', 'Arco', 10.00, 1),
-        ('Pilhador', 'Arco', 10.00, 1),
-        ('Pilhador', 'Flecha', 60.00, 2),
-        ('Pilhador', 'Bússola', 10.0, 1),
+        ('creeper', 'Pólvora', 100.00, 1),
+        ('zumbi', 'Carne Podre', 100.00, 1),
+        ('zumbi', 'Espada de Pedra', 30.00, 1),
+        ('zumbi', 'Barras de Ferro', 10.00, 1),
+        ('zumbi', 'Túnica de Couro', 5.00, 1),
+        ('zumbi', 'Botas de Ferro', 5.00, 1), 
+        ('aranha', 'Fio', 100.00, 3),
+        ('aranha', 'Teia', 25.00, 1),
+        ('enderman', 'Pérola do Ender', 75.00, 1),
+        ('enderman', 'Obsidiana', 10.00, 1),
+        ('bruxa', 'Pó de Redstone', 50.00, 1),
+        ('bruxa', 'Pólvora', 50.00, 1),
+        ('bruxa', 'Bússola', 10.0, 1),
+        ('bruxa', 'Maçã', 30.0, 1),
+        ('esqueleto', 'Osso', 75.00, 1),
+        ('esqueleto', 'Flecha', 80.00, 2),
+        ('esqueleto', 'Arco', 10.00, 1),
+        ('pilhador', 'Arco', 10.00, 1),
+        ('pilhador', 'Flecha', 60.00, 2),
+        ('pilhador', 'Bússola', 10.0, 1),
 
     -- Pacíficos
-        ('Galinha', 'Pena', 70.00, 1), 
-        ('Galinha', 'Frango', 100.00, 1),
-        ('Galinha', 'Ovo de Dragão', 0.01, 1),
-        ('Peixe', 'Peixe Cru', 100.00, 1),
-        ('Vaca', 'Carne Crua', 100.00, 1),
-        ('Vaca', 'Couro', 60.00, 1),
-        ('Porco', 'Carne Crua', 100.00, 1),
-        ('Ovelha', 'Lã', 100.00, 1),
-        ('Ovelha', 'Carne Crua', 80.00, 1),
+        ('galinha', 'Pena', 70.00, 1), 
+        ('galinha', 'Frango', 100.00, 1),
+        ('galinha', 'Ovo de Dragão', 0.01, 1),
+        ('peixe', 'peixe Cru', 100.00, 1),
+        ('vaca', 'Carne Crua', 100.00, 1),
+        ('vaca', 'Couro', 60.00, 1),
+        ('porco', 'Carne Crua', 100.00, 1),
+        ('ovelha', 'Lã', 100.00, 1),
+        ('ovelha', 'Carne Crua', 80.00, 1),
 
     -- Neutros
-        ('Golem de Ferro', 'Barras de Ferro', 100.00, 3),
-        ('Urso Polar', 'Peixe Cru', 50.00, 1),
+        ('golem de ferro', 'Barras de Ferro', 100.00, 3),
+        ('urso polar', 'peixe Cru', 50.00, 1),
 
     -- Nether
-        ('Piglin Zumbi', 'Carne Podre', 100.00, 1),
-        ('Piglin Zumbi', 'Barras de Ouro', 10.00, 1),
-        ('Piglin', 'Barras de Ouro', 15.00, 3),
-        ('Piglin', 'Carne Podre', 80.00, 1),
-        ('Hoglin', 'Carne Assada', 100.00, 2),
-        ('Ghast', 'Lágrima de Ghast', 25.00, 1),
-        ('Ghast', 'Pólvora', 70.00, 1),
-        ('Esqueleto Wither', 'Osso', 80.00, 2),
-        ('Blaze', 'Vara de Blaze', 75.00, 1),
-        ('Blaze', 'Pó de Blaze', 30.00, 1),
+        ('piglin zumbi', 'Carne Podre', 100.00, 1),
+        ('piglin zumbi', 'Barras de Ouro', 10.00, 1),
+        ('piglin', 'Barras de Ouro', 15.00, 3),
+        ('piglin', 'Carne Podre', 80.00, 1),
+        ('hoglin', 'Carne Assada', 100.00, 2),
+        ('ghast', 'Lágrima de ghast', 25.00, 1),
+        ('ghast', 'Pólvora', 70.00, 1),
+        ('esqueleto wither', 'Osso', 80.00, 2),
+        ('blaze', 'Vara de blaze', 75.00, 1),
+        ('blaze', 'Pó de blaze', 30.00, 1),
 
     -- Bosses
-        ('Dragão Ender', 'Ovo de Dragão', 100.00, 1),
-        ('Wither', 'Estrela do Nether', 100.00, 1);
+        ('dragão ender', 'Ovo de Dragão', 100.00, 1),
+        ('wither', 'Estrela do Nether', 100.00, 1);
 
 -- Tabela Estrutura Fornece Item
 INSERT INTO EstruturaForneceItem (nome_estrutura, nome_item, probabilidade)
@@ -16723,10 +16723,10 @@ VALUES
     ('Vila', 'Papel', 50.00),
     ('Vila', 'Mapa', 15.00),
 
-    -- Cabana da Bruxa
-    ('Cabana da Bruxa', 'Pó de Redstone', 12.50),
-    ('Cabana da Bruxa', 'Pólvora', 12.50),
-    ('Cabana da Bruxa', 'Olho do Ender', 15.00),
+    -- Cabana da bruxa
+    ('Cabana da bruxa', 'Pó de Redstone', 12.50),
+    ('Cabana da bruxa', 'Pólvora', 12.50),
+    ('Cabana da bruxa', 'Olho do Ender', 15.00),
 
     -- Portal em Ruínas
     ('Portal em Ruínas', 'Barras de Ouro', 25.00),
@@ -16741,7 +16741,7 @@ VALUES
     ('Posto Avançado', 'Mapa', 15.00),
 
     -- Fortaleza do Fim
-    ('Fortaleza do Fim', 'Vara de Blaze', 30.00),
+    ('Fortaleza do Fim', 'Vara de blaze', 30.00),
     ('Fortaleza do Fim', 'Pérola do Ender', 30.00),
     ('Fortaleza do Fim', 'Espada de Ferro', 25.00),
     ('Fortaleza do Fim', 'Peitoral de Ferro', 15.00),
@@ -16756,7 +16756,7 @@ VALUES
     ('Mina Abandonada', 'Picareta de Diamante', 3.00),
 
     -- Bastião em Ruínas
-    ('Bastião em Ruínas', 'Pó de Blaze', 30.00),
+    ('Bastião em Ruínas', 'Pó de blaze', 30.00),
     ('Bastião em Ruínas', 'Peitoral de Ouro', 30.00),
     ('Bastião em Ruínas', 'Espada de Ouro', 20.00),
     ('Bastião em Ruínas', 'Netherita', 1.00),
@@ -16867,59 +16867,59 @@ BEGIN
         FROM Chunk
         WHERE nome_mapa = 'Superfície'
     LOOP
-        -- Zumbi (spawn em Planície, Floresta, Pântano)
+        -- zumbi (spawn em Planície, Floresta, Pântano)
         IF chunk_rec.nome_bioma IN ('Planície', 'Floresta', 'Pântano') THEN
             rand_num := random() * 100;
             IF rand_num <= 70.00 THEN
-                CALL inserir_inst_mob('Zumbi', 20, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('zumbi', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- Esqueleto (spawn em Planície, Montanha, Floresta)
+        -- esqueleto (spawn em Planície, Montanha, Floresta)
         IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Floresta') THEN
             rand_num := random() * 100;
             IF rand_num <= 60.00 THEN
-                CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('esqueleto', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- Aranha (spawn em Floresta, Pântano)
+        -- aranha (spawn em Floresta, Pântano)
         IF chunk_rec.nome_bioma IN ('Floresta', 'Pântano') THEN
             rand_num := random() * 100;
             IF rand_num <= 50.00 THEN
-                CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('aranha', 16, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- Enderman (spawn em Planície, Deserto)
+        -- enderman (spawn em Planície, Deserto)
         IF chunk_rec.nome_bioma IN ('Planície', 'Deserto') THEN
             rand_num := random() * 100;
             IF rand_num <= 10.00 THEN
-                CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('enderman', 40, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- Creeper (spawn em Floresta, Planície)
+        -- creeper (spawn em Floresta, Planície)
         IF chunk_rec.nome_bioma IN ('Floresta', 'Planície') THEN
             rand_num := random() * 100;
             IF rand_num <= 30.00 THEN
-                CALL inserir_inst_mob('Creeper', 20, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('creeper', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- Bruxa (spawn em Pântano)
+        -- bruxa (spawn em Pântano)
         IF chunk_rec.nome_bioma = 'Pântano' THEN
             rand_num := random() * 100;
             IF rand_num <= 7.00 THEN
-                CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('bruxa', 26, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- Pilhador (spawn em Planície, Montanha)
+        -- pilhador (spawn em Planície, Montanha)
         IF chunk_rec.nome_bioma IN ('Planície', 'Montanha') THEN
             rand_num := random() * 100;
             IF rand_num <= 10.00 THEN
-                CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('pilhador', 24, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
@@ -16931,7 +16931,7 @@ $$;
 CREATE OR REPLACE PROCEDURE despanw_mobs_agressivos() LANGUAGE plpgsql AS $$
 BEGIN
     DELETE FROM InstanciaMob
-    WHERE nome_mob IN ('Zumbi', 'Esqueleto', 'Aranha', 'Enderman', 'Creeper', 'Bruxa', 'Pilhador')
+    WHERE nome_mob IN ('zumbi', 'esqueleto', 'aranha', 'enderman', 'creeper', 'bruxa', 'pilhador')
     AND nome_mapa = 'Superfície'
     AND id_estrutura IS NULL;
 END;
@@ -16940,23 +16940,27 @@ $$;
 -- Criação da stored procedure para atualizar a hora
 CREATE OR REPLACE PROCEDURE atualizar_ciclo_dia() LANGUAGE plpgsql AS 
 $$
+DECLARE
+    hora_atual ciclo_dia;  -- Declara uma variável para armazenar o valor atual da hora
 BEGIN
-    -- Atualiza o ciclo do dia
+    -- Atualiza o ciclo do dia apenas para o mapa 'Superficie'
     UPDATE Mapa
     SET hora = CASE
         WHEN hora = 'dia' THEN 'tarde'::ciclo_dia
         WHEN hora = 'tarde' THEN 'noite'::ciclo_dia
         WHEN hora = 'noite' THEN 'dia'::ciclo_dia
         ELSE 'dia'::ciclo_dia
-    END;
+    END
+    WHERE nome = 'Superficie'
+    RETURNING hora INTO hora_atual;  -- Armazena a hora atualizada na variável
 
     -- Verifica o novo ciclo do dia e executa as ações apropriadas
-    IF (SELECT hora FROM Mapa) = 'noite' THEN
+    IF hora_atual = 'noite' THEN
         -- Se for noite, spawna mobs agressivos
-        CALL spawn_mobs_agressivos();
-    ELSIF (SELECT hora FROM Mapa) = 'dia' THEN
+        PERFORM spawn_mobs_agressivos();
+    ELSIF hora_atual = 'dia' THEN
         -- Se for dia, remove mobs agressivos
-        CALL remover_mobs_agressivos();
+        PERFORM remover_mobs_agressivos();
     END IF;
 END;
 $$;

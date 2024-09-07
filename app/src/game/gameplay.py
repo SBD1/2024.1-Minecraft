@@ -1,3 +1,4 @@
+import time
 from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bioma_com_cor
 from colorama import Fore
 from ..game.combat import atacar_mob
@@ -9,12 +10,8 @@ def jogar(cursor, nomeUser):
     """
     Loop principal do jogo. Processa o estado do jogador, movimentação e interações no chunk.
     """
-    limpar_tela()
-
     while True:
-
-        # NAO COLOCAR FUNCAO DE LIMPAR TELA AQUI 
-        # Porconta da def mover_jogador que deve mostrar pra onde o usuuario foi 
+        limpar_tela() 
 
         # Obter dados do jogador
         jogador_data = obter_dados_jogador(cursor, nomeUser)
@@ -32,10 +29,10 @@ def jogar(cursor, nomeUser):
         bioma = dadosChunkAtual[1]
 
         # Consultar informações do chunk (recursos, mobs, estruturas)
-        fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk = obter_info_chunk(cursor, chunkAtual, mapaAtual)
+        fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk, horaMapa = obter_info_chunk(cursor, chunkAtual, mapaAtual)
 
         # Mostrar as informações coletadas
-        exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos)
+        exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos, horaMapa, mapaAtual)
 
         # Calcular direções possiveis
         movimentos = calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual)
@@ -74,7 +71,10 @@ def obter_info_chunk(cursor, chunkAtual, mapaAtual):
     cursor.execute("SELECT nome_estrutura FROM instanciaestrutura WHERE numero_chunk = %s and nome_mapa = %s;", (chunkAtual, mapaAtual))
     estruturas_no_chunk = [estrutura[0] for estrutura in cursor.fetchall()]
 
-    return fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk
+    cursor.execute("SELECT hora FROM mapa WHERE nome = %s;", (mapaAtual,))
+    horaMapa = cursor.fetchall()[0][0]
+
+    return fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk, horaMapa
 
 # Função para classificar mobs
 def classificar_mobs(cursor, mobs_no_chunk):
@@ -93,11 +93,17 @@ def classificar_mobs(cursor, mobs_no_chunk):
     return mobs_pacificos, mobs_agressivos
 
 # Função para exibir informações do chunk
-def exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos):
+def exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos, horaMapa, mapaAtual):
     """
     Exibe as informações do chunk, como bioma, mobs, estruturas e recursos.
     """
     mostrar_texto_gradualmente(f"Você está no Chunk {chunkAtual}", Fore.CYAN)
+    
+    texto = f"Mapa: {mapaAtual}"
+    if horaMapa is not None:
+        texto += f", está de {horaMapa}"
+    mostrar_texto_gradualmente(texto, Fore.CYAN)
+    
     mostrar_bioma_com_cor(bioma)
     print()
 
@@ -125,67 +131,57 @@ def processar_comando(cursor, nomeUser, movimentos):
     partes_comando = comando.split()
     acao = partes_comando[0] if partes_comando else ""
     parametros = partes_comando[1:] if len(partes_comando) > 1 else []
+    limpar_tela()
 
     if acao == "andar" and parametros:
         direcao = parametros[0]
-        limpar_tela()
         if direcao in movimentos:
             mover_jogador(cursor, nomeUser, direcao, movimentos)
         else:
             mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
+            time.sleep(2)
 
     elif acao == "ver" and parametros:
-        limpar_tela()
         nome_mob = parametros[0]
         ver_mob(cursor, nomeUser, nome_mob)
 
     elif acao == "visualizar_inventario":
-        limpar_tela()
         visualizar_inventario(cursor, nomeUser)
 
     elif acao == "utilizar_item" and parametros:
-        limpar_tela()
         nome_item = parametros[0]
         utilizar_item(cursor, nomeUser, nome_item)
 
     elif acao == "minerar_fonte" and parametros:
-        limpar_tela()
         nome_fonte = parametros[0]
         minerar_fonte(cursor, nomeUser, nome_fonte)
 
     elif acao == "craftar_item" and parametros:
-        limpar_tela()
         nome_item = parametros[0]
         craftar_item(cursor, nomeUser, nome_item)
 
     elif acao == "equipar_item" and parametros:
-        limpar_tela()
         nome_item = parametros[0]
         equipar_item(cursor, nomeUser, nome_item)
 
     elif acao == "atacar_mob" and len(parametros) == 2:
-        limpar_tela()
         nome_mob = parametros[0]
         nome_ferramenta = parametros[1]
         atacar_mob(cursor, nomeUser, nome_mob, nome_ferramenta)
 
     elif acao == "falar" and parametros:
-        limpar_tela()
         nome_aldeao = parametros[0]
         falar_aldeao(cursor, nomeUser, nome_aldeao)  # Placeholder para quando a função estiver pronta
 
     elif acao == "construir" and parametros:
-        limpar_tela()
         nome_estrutura = parametros[0]
         construir_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
 
     elif acao == "explorar_estrutura" and parametros:
-        limpar_tela()
         nome_estrutura = parametros[0]
         explorar_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
 
     elif acao == "ajuda":
-        limpar_tela()
         exibir_ajuda()
 
     elif acao == "sair":
@@ -193,6 +189,7 @@ def processar_comando(cursor, nomeUser, movimentos):
 
     else:
         mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
+        time.sleep(1)
 
     return True
 
@@ -291,14 +288,17 @@ def mover_jogador(cursor, nomeUser, direcao, movimentos):
         if direcao == 'baixo':
             cursor.execute("UPDATE jogador SET nome_mapa = 'Cavernas' WHERE nome = %s;", (nomeUser,))
             mostrar_texto_gradualmente(f"Você se desceu para as Cavernas e agora está no chunk {novo_chunk}.", Fore.GREEN)
+            time.sleep(2)
 
         elif direcao == 'cima':
             cursor.execute("UPDATE jogador SET nome_mapa = 'Superfície' WHERE nome = %s;", (nomeUser,))
             mostrar_texto_gradualmente(f"Você retornou para a Superfície e agora está no chunk {novo_chunk}.", Fore.GREEN)
+            time.sleep(2)
 
         else:
             cursor.execute("UPDATE jogador SET numero_chunk = %s WHERE nome = %s;", (novo_chunk, nomeUser))
             mostrar_texto_gradualmente(f"Você se moveu para o {direcao.capitalize()} e agora está no chunk {novo_chunk}.", Fore.GREEN)
+            time.sleep(2)
     else:
         mostrar_texto_gradualmente(f"Não é possível ir para {direcao.capitalize()}.", Fore.RED)
 

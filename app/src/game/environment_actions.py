@@ -1,6 +1,7 @@
 from ..db.database import connect_to_db
 from ..utils.helpers import mostrar_texto_gradualmente
 from colorama import Fore
+import time
 
 # Comando: Ver Mob
 def ver_mob(cursor, nomeUser, nomeMob):
@@ -9,10 +10,16 @@ def ver_mob(cursor, nomeUser, nomeMob):
     """
     # Verificar se o mob está no mesmo chunk que o jogador
     cursor.execute("""
-        SELECT Mob.nome, Mob.tipo_mob, Mob.vida_max, InstanciaMob.vida_atual, Agressivo.pts_dano 
+        SELECT 
+            Mob.nome, 
+            Mob.tipo_mob, 
+            COALESCE(Agressivo.vida_max, Pacifico.vida_max) AS vida_max,  -- Pega a vida_max de Agressivo ou Pacifico
+            InstanciaMob.vida_atual, 
+            Agressivo.pts_dano 
         FROM InstanciaMob
         JOIN Mob ON InstanciaMob.nome_mob = Mob.nome
         LEFT JOIN Agressivo ON Mob.nome = Agressivo.nome_mob
+        LEFT JOIN Pacifico ON Mob.nome = Pacifico.nome_mob  -- Inclui o join com a tabela Pacifico
         WHERE InstanciaMob.nome_mob = %s
         AND InstanciaMob.numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s);
     """, (nomeMob, nomeUser))
@@ -30,6 +37,7 @@ def ver_mob(cursor, nomeUser, nomeMob):
             mostrar_texto_gradualmente(f"Dano: {pts_dano}", Fore.RED)
     else:
         mostrar_texto_gradualmente(f"Não há um mob chamado {nomeMob} no seu chunk.", Fore.RED)
+        time.sleep(2)
 
 # Comando: Minerar Fonte
 def minerar_fonte(cursor, nomeUser, nomeFonte):

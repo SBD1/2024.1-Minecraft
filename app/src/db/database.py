@@ -37,7 +37,6 @@ def testar_banco():
         cursor.execute("SELECT * FROM jogador;")
         jogadores = cursor.fetchall()
 
-        limpar_tela()
         mostrar_texto_gradualmente("Tabela de Jogadores:", Fore.YELLOW)
         for jogador in jogadores:
             mostrar_texto_gradualmente(f"ID: {jogador[0]}, Nome: {jogador[1]}, Fome: {jogador[2]}, Vida: {jogador[3]}, Nível: {jogador[4]}, Chunk: {jogador[9]}, Missão: {jogador[10]}")

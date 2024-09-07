@@ -35,7 +35,7 @@ def limpar_tela():
 # Mostrar bioma com cor específica
 def mostrar_bioma_com_cor(bioma):
     cor_bioma = determinar_cor_bioma(bioma)
-    mostrar_texto_gradualmente("Do bioma:", Fore.CYAN)
+    mostrar_texto_gradualmente("Bioma:", Fore.CYAN)
     mostrar_texto_gradualmente(bioma, cor_bioma)
 
 # Determinar a cor do bioma

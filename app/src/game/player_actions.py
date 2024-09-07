@@ -26,7 +26,6 @@ def visualizar_inventario(cursor, nomeUser):
         mostrar_texto_gradualmente("Seu inventário está vazio.", Fore.CYAN)
 
     input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
-    limpar_tela()
     
 
 # Comando: Usar Item (alimento ou funcional)
