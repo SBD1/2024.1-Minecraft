@@ -35,7 +35,7 @@ VALUES
 -- Inserindo Chunks do mapa Superfície
 INSERT INTO Chunk (numero, nome_bioma, nome_mapa) 
 VALUES  
-    -- Inserindo Chunks do mapa Superfície
+-- Inserindo Chunks do mapa Superfície
         (1, 'Planície', 'Superfície'),
         (2, 'Deserto', 'Superfície'),
         (3, 'Deserto', 'Superfície'),
@@ -16212,7 +16212,7 @@ VALUES
 -- Tabela Jogador
 INSERT INTO Jogador (nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, nome_mapa, missao)
 VALUES  
-        ('EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1, 'Superfície', 0);
+        ('EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1234, 'Superfície', 0);
 
 -- Tabela Instância Item
 INSERT INTO InstanciaItem (nome_item, durabilidade_atual)

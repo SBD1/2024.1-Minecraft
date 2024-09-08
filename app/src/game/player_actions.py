@@ -1,5 +1,5 @@
 from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela
-from colorama import Fore
+from colorama import Fore, Back, Style
 import time
 
 # Comando: Visualizar Inventário
@@ -98,10 +98,11 @@ def utilizar_item(cursor, nomeUser, nomeItem):
         if tipo_item == 'craftavel':
             if nomeItem in ["Mapa", "Bússola", "Olho do Ender"]:
                 # Implementar funcionalidades específicas para itens funcionais
-                if nomeItem == "Isqueiro":
-                    mostrar_texto_gradualmente(f"Você usou {nomeItem} para acender uma chama.", Fore.YELLOW)
-                elif nomeItem == "Mapa":
+                if nomeItem == "Mapa":
                     mostrar_texto_gradualmente(f"Você abriu o {nomeItem} para visualizar a região.", Fore.YELLOW)
+                    mostrar_mapa(cursor, nomeUser)
+                    input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
+                    return
                 elif nomeItem == "Bússola":
                     mostrar_texto_gradualmente(f"Você usou a {nomeItem} para encontrar a direção.", Fore.YELLOW)
                 elif nomeItem == "Olho do Ender":
@@ -114,3 +115,73 @@ def utilizar_item(cursor, nomeUser, nomeItem):
         mostrar_texto_gradualmente(f"Item {nomeItem} não encontrado no inventário.", Fore.RED)
 
     time.sleep(2)
+
+# Função para mostrar o mapa ao redor do jogador
+def mostrar_mapa(cursor, nomeUser):
+    # Definição das cores para cada bioma da superfície
+    bioma_cores = {
+        'Lago': (Back.BLUE, Fore.BLUE),
+        'Deserto': (Back.YELLOW, Fore.YELLOW),
+        'Planície': (Back.LIGHTGREEN_EX, Fore.LIGHTGREEN_EX),
+        'Floresta': (Back.GREEN, Fore.GREEN),
+        'Selva': (Back.LIGHTBLACK_EX, Fore.LIGHTBLACK_EX),
+        'Pântano': (Back.MAGENTA, Fore.MAGENTA),
+        'Montanha': (Back.LIGHTWHITE_EX, Fore.LIGHTWHITE_EX),
+        'Neve': (Back.WHITE, Fore.WHITE),
+    }
+
+    # Obter a posição atual do jogador (chunk atual e mapa atual)
+    cursor.execute("""
+        SELECT Jogador.numero_chunk, Jogador.nome_mapa
+        FROM Jogador
+        WHERE Jogador.nome = %s
+    """, (nomeUser,))
+    
+    jogador_data = cursor.fetchone()
+    chunkAtual, mapaAtual = jogador_data
+    
+    # Apenas mostrar o mapa da Superfície
+    if mapaAtual != 'Superfície':
+        print(f"{Fore.RED}Este mapa só pode ser exibido na Superfície.{Style.RESET_ALL}")
+        return
+    
+    # Calcular a posição X e Y do chunk atual
+    chunk_x = (chunkAtual - 1) % 100
+    chunk_y = (chunkAtual - 1) // 100
+    
+    # Mostrar o mapa ao redor do jogador (10x10 chunks)
+    for dy in range(-15, 14):
+        for dx in range(-15, 14):
+            # Calcular a posição do chunk ao redor do jogador
+            mapa_x = chunk_x + dx
+            mapa_y = chunk_y + dy
+            
+            if 0 <= mapa_x < 100 and 0 <= mapa_y < 100:
+                chunk_id = mapa_y * 100 + mapa_x + 1
+                
+                # Consultar o bioma do chunk
+                cursor.execute("""
+                    SELECT nome_bioma
+                    FROM Chunk
+                    WHERE numero = %s AND nome_mapa = 'Superfície'
+                """, (chunk_id,))
+                
+                bioma_data = cursor.fetchone()
+                bioma = bioma_data[0] if bioma_data else "Desconhecido"
+                
+                # Verifica se é o chunk atual do jogador
+                if chunk_id == chunkAtual:
+                    print(f"{Back.RED}  {Style.RESET_ALL}", end="")
+                elif bioma in bioma_cores:
+                    print(f"{bioma_cores[bioma][0]}  {Style.RESET_ALL}", end="")  # Usando Back no mapa
+                else:
+                    print(f"{Back.BLACK}  {Style.RESET_ALL}", end="")  # Fora dos limites ou desconhecido em preto
+            else:
+                print(f"{Back.BLACK}  {Style.RESET_ALL}", end="")  # Fora dos limites, em preto
+        
+        print()  # Quebra de linha a cada linha do mapa
+
+    # Mostrar a legenda usando Fore
+    print(f"{Fore.CYAN}Legenda:{Style.RESET_ALL}")
+    for bioma, (back_color, fore_color) in bioma_cores.items():
+        print(f"{fore_color}■ {bioma}{Style.RESET_ALL}")  # Usando Fore na legenda
