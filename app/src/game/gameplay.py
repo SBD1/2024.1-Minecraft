@@ -332,6 +332,7 @@ def exibir_ajuda():
     print(f"{Fore.YELLOW}ir_para <direção>{Fore.RESET}: para se mover na respectiva direção")
     print(f"{Fore.YELLOW}ver_mob <nomeMob>{Fore.RESET}: para ver informações sobre um mob no chunk atual")
     print(f"{Fore.YELLOW}ver_inventario{Fore.RESET}: para ver os itens no seu inventário")
+    print(f"{Fore.YELLOW}comer <alimento>{Fore.RESET}: para se alimentar")
     print(f"{Fore.YELLOW}utilizar_item <nomeItem>{Fore.RESET}: para usar um item do inventário")
     print(f"{Fore.YELLOW}minerar_fonte <nomeFonte>{Fore.RESET}: para minerar uma fonte de recursos")
     print(f"{Fore.YELLOW}craftar_item <nomeItem>{Fore.RESET}: para criar um item usando recursos")

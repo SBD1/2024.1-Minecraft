@@ -2,32 +2,133 @@ from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela
 from colorama import Fore, Back, Style
 import time
 
-# Comando: Visualizar Inventário
+# Função: Visualizar Inventário com suporte a comandos
 def visualizar_inventario(cursor, nomeUser):
     """
-    Exibe os itens no inventário do jogador.
+    Exibe os itens no inventário do jogador e permite executar ações relacionadas ao inventário,
+    como comer, utilizar ou equipar itens.
     """
-    cursor.execute("""
-        SELECT Item.nome AS item_nome, InstanciaItem.durabilidade_atual
-        FROM Inventario
-        JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
-        JOIN Item ON InstanciaItem.nome_item = Item.nome
-        WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s);
-    """, (nomeUser,))
-    
-    inventario = cursor.fetchall()
-    if inventario:
-        mostrar_texto_gradualmente("Seu inventário:", Fore.CYAN)
-        for item in inventario:
-            if item[1] is not None:
-                mostrar_texto_gradualmente(f"- {item[0]} (Durabilidade: {item[1]})", Fore.CYAN)
-            else:
-                mostrar_texto_gradualmente(f"- {item[0]}", Fore.CYAN)
-    else:
-        mostrar_texto_gradualmente("Seu inventário está vazio.", Fore.CYAN)
+    while True:
+        # Primeiro, obter os dados do jogador
+        cursor.execute("""
+            SELECT fome, vida, nivel, exp, cabeca, peito, pernas, pes 
+            FROM jogador 
+            WHERE nome = %s;
+        """, (nomeUser,))
+        
+        jogador_info = cursor.fetchone()
+        if jogador_info:
+            fome, vida, nivel, exp, cabeca, peito, pernas, pes = jogador_info
+        else:
+            mostrar_texto_gradualmente("Jogador não encontrado!", Fore.RED)
+            return
+        
+        # Obter os itens do inventário
+        cursor.execute("""
+            SELECT Item.nome AS item_nome, InstanciaItem.durabilidade_atual
+            FROM Inventario
+            JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+            JOIN Item ON InstanciaItem.nome_item = Item.nome
+            WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s);
+        """, (nomeUser,))
+        
+        inventario = cursor.fetchall()
 
-    input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
+        limpar_tela()
+        mostrar_texto_gradualmente(f"Inventário de {nomeUser}", Fore.GREEN)
+        print(f"{Fore.YELLOW}-------------------------------")
+        
+        # Exibir informações do status do jogador
+        print(f"{Fore.CYAN} Status do Jogador:")
+        print(f"{Fore.CYAN} Vida: {Fore.RED}{vida}/20")
+        print(f"{Fore.CYAN} Fome: {Fore.YELLOW}{fome}/20")
+        print(f"{Fore.CYAN} Nível: {Fore.LIGHTGREEN_EX}{nivel}")
+        print(f"{Fore.CYAN} Experiência: {Fore.LIGHTBLUE_EX}{exp}")
+        print(f"{Fore.YELLOW}-------------------------------")
+        
+        # Exibir as armaduras equipadas
+        print(f"{Fore.MAGENTA} Armaduras Equipadas:")
+        print(f"{Fore.MAGENTA} Cabeça: {Fore.WHITE}{cabeca if cabeca else 'Nenhum'}")
+        print(f"{Fore.MAGENTA} Peito: {Fore.WHITE}{peito if peito else 'Nenhum'}")
+        print(f"{Fore.MAGENTA} Pernas: {Fore.WHITE}{pernas if pernas else 'Nenhum'}")
+        print(f"{Fore.MAGENTA} Pés: {Fore.WHITE}{pes if pes else 'Nenhum'}")
+        print(f"{Fore.YELLOW}-------------------------------")
+        
+        # Exibir o inventário de itens
+        if inventario:
+            mostrar_texto_gradualmente(f"Seus itens:", Fore.LIGHTGREEN_EX)
+            for item in inventario:
+                if item[1] is not None:
+                    mostrar_texto_gradualmente(f"- {item[0]} (Durabilidade: {item[1]})", Fore.CYAN)
+                else:
+                    mostrar_texto_gradualmente(f"- {item[0]}", Fore.CYAN)
+        else:
+            mostrar_texto_gradualmente("Seu inventário está vazio.", Fore.CYAN)
+
+        print(f"{Fore.YELLOW}-------------------------------")
+        
+        # Processar o comando dentro do inventário
+        if not processar_comando_inventario(cursor, nomeUser):
+            break
+
+# Função para processar comandos dentro do inventário
+def processar_comando_inventario(cursor, nomeUser):
+    """
+    Processa os comandos específicos dentro do inventário, como comer, utilizar item, equipar item.
+    """
+    comando = input(f"{Fore.CYAN}Digite um comando, 'ajuda' para ver os comandos disponíveis no inventário, ou 'fechar_inventario' para voltar ao jogo: ").strip().lower()
+    partes_comando = comando.split()
+    acao = partes_comando[0] if partes_comando else ""
+    parametros = partes_comando[1:] if len(partes_comando) > 1 else []
+
+    if acao == "comer" and parametros:
+        limpar_tela()
+        nomeItem = parametros[0].capitalize()
+        comer(cursor, nomeUser, nomeItem)
     
+    elif acao == "utilizar_item" and parametros:
+        limpar_tela()
+        nomeItem = parametros[0].capitalize()
+        utilizar_item(cursor, nomeUser, nomeItem)
+    
+    elif acao == "craftar_item" and parametros:
+        limpar_tela()
+        nome_item = parametros[0].capitalize()
+        craftar_item(cursor, nomeUser, nome_item)
+
+    elif acao == "equipar_item" and parametros:
+        limpar_tela()
+        nomeItem = parametros[0].capitalize()
+        equipar_item(cursor, nomeUser, nomeItem)
+    
+    elif acao == "ajuda":
+        limpar_tela()
+        exibir_ajuda_inventario()
+
+    elif acao == "fechar_inventario":
+        return False
+
+    else:
+        mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
+        processar_comando_inventario(cursor, nomeUser)
+
+    return True
+
+# Função para exibir ajuda específica do inventário
+def exibir_ajuda_inventario():
+    """
+    Exibe os comandos disponíveis para o jogador dentro do inventário.
+    """
+    print(f"{Fore.YELLOW}Comandos disponíveis no inventário:")
+    print(f"{Fore.LIGHTGREEN_EX}comer <item>{Fore.RESET}: Para comer um item")
+    print(f"{Fore.LIGHTGREEN_EX}utilizar_item <item>{Fore.RESET}: Para utilizar um item do inventário")
+    print(f"{Fore.LIGHTGREEN_EX}craftar_item <nomeItem>{Fore.RESET}: para criar um item usando recursos")
+    print(f"{Fore.LIGHTGREEN_EX}equipar_item <item>{Fore.RESET}: Para equipar uma armadura ou item")
+    print(f"{Fore.LIGHTGREEN_EX}ajuda{Fore.RESET}: Para ver esta lista de comandos")
+    print(f"{Fore.LIGHTGREEN_EX}fechar_inventario{Fore.RESET}: Para sair do inventário e voltar ao jogo principal")
+
+    input(f"{Fore.CYAN}Pressione Enter para continuar...{Fore.RESET}")
+
 # Comando: Comer Item (alimento)
 def comer(cursor, nomeUser, nomeItem):
     """
