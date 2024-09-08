@@ -15943,111 +15943,110 @@ VALUES
         (77, 'Ilha do fim', 'Fim');
 
 -- Tabela Item
-INSERT INTO Item (nome, tipo_item) 
-VALUES
-    -- Materiais básicos
-        ('Madeira', 'material'),
-        ('Tábua', 'material'),
-        ('Graveto', 'material'),
-        ('Pedregulho', 'material'),
-        ('Areia', 'material'),
-        ('Teia', 'material'),
-        ('Lã', 'material'),
-        ('Obsidiana', 'material'),
-        ('Cana de Açúcar', 'material'),
-        ('Couro', 'material'),
-        ('Carvão', 'material'),
-        ('Minério de Ferro', 'material'),
-        ('Barras de Ferro', 'material'),
-        ('Minério de Ouro', 'material'),
-        ('Barras de Ouro', 'material'),
-        ('Diamante', 'material'),
-        ('Netherita', 'material'),
-        ('Papel', 'material'),
-        ('Livro', 'material'),
-        ('Pó de Redstone', 'material'),
-        ('Pólvora', 'material'),
-        ('Pena', 'material'),
-        ('Fio', 'material'),
-        ('Pérola do Ender', 'material'),
-        ('Lágrima de Ghast', 'material'),
-        ('Estrela do Nether', 'material'),
-        ('Açúcar', 'material'),
-        ('Osso', 'material'),
-        ('Flecha', 'material'),
-        ('Ovo de Dragão', 'material'),
-        ('Vara de Blaze', 'material'),
-        ('Pó de Blaze', 'material'),
-        ('Estante', 'material'),
-        ('Vidro', 'material'),
-        ('Porta', 'material'),
-        ('Escada', 'material'),
-        ('Cama', 'material'),
-        ('Isqueiro', 'material'),
 
-    -- Ferramentas
-        ('Arco', 'craftavel'),
-        ('Picareta de Madeira', 'craftavel'),
-        ('Espada de Madeira', 'craftavel'),
-        ('Pá de Madeira', 'craftavel'),
-        ('Picareta de Pedra', 'craftavel'),
-        ('Espada de Pedra', 'craftavel'),
-        ('Machado de Pedra', 'craftavel'),
-        ('Pá de Pedra', 'craftavel'),
-        ('Picareta de Ferro', 'craftavel'),
-        ('Espada de Ferro', 'craftavel'),
-        ('Machado de Ferro', 'craftavel'),
-        ('Pá de Ferro', 'craftavel'),
-        ('Picareta de Ouro', 'craftavel'),
-        ('Espada de Ouro', 'craftavel'),
-        ('Machado de Ouro', 'craftavel'),
-        ('Pá de Ouro', 'craftavel'),
-        ('Picareta de Diamante', 'craftavel'),
-        ('Espada de Diamante', 'craftavel'),
-        ('Machado de Diamante', 'craftavel'),
-        ('Pá de Diamante', 'craftavel'),
-        ('Picareta de Netherita', 'craftavel'),
-        ('Espada de Netherita', 'craftavel'),
-        ('Machado de Netherita', 'craftavel'),
-        ('Pá de Netherita', 'craftavel'),
+-- Materiais básicos
+CALL inserir_item('Madeira', 'material');
+CALL inserir_item('Tábua', 'material');
+CALL inserir_item('Graveto', 'material');
+CALL inserir_item('Pedregulho', 'material');
+CALL inserir_item('Areia', 'material');
+CALL inserir_item('Teia', 'material');
+CALL inserir_item('Lã', 'material');
+CALL inserir_item('Obsidiana', 'material');
+CALL inserir_item('Cana de Açúcar', 'material');
+CALL inserir_item('Couro', 'material');
+CALL inserir_item('Carvão', 'material');
+CALL inserir_item('Minério de Ferro', 'material');
+CALL inserir_item('Barras de Ferro', 'material');
+CALL inserir_item('Minério de Ouro', 'material');
+CALL inserir_item('Barras de Ouro', 'material');
+CALL inserir_item('Diamante', 'material');
+CALL inserir_item('Netherita', 'material');
+CALL inserir_item('Papel', 'material');
+CALL inserir_item('Livro', 'material');
+CALL inserir_item('Pó de Redstone', 'material');
+CALL inserir_item('Pólvora', 'material');
+CALL inserir_item('Pena', 'material');
+CALL inserir_item('Fio', 'material');
+CALL inserir_item('Pérola do Ender', 'material');
+CALL inserir_item('Lágrima de Ghast', 'material');
+CALL inserir_item('Estrela do Nether', 'material');
+CALL inserir_item('Açúcar', 'material');
+CALL inserir_item('Osso', 'material');
+CALL inserir_item('Flecha', 'material');
+CALL inserir_item('Ovo de Dragão', 'material');
+CALL inserir_item('Vara de Blaze', 'material');
+CALL inserir_item('Pó de Blaze', 'material');
+CALL inserir_item('Estante', 'material');
+CALL inserir_item('Vidro', 'material');
+CALL inserir_item('Porta', 'material');
+CALL inserir_item('Escada', 'material');
+CALL inserir_item('Cama', 'material');
+CALL inserir_item('Isqueiro', 'material');
 
-    -- Armaduras
-        ('Capacete de Couro', 'craftavel'),
-        ('Túnica de Couro', 'craftavel'),
-        ('Calças de Couro', 'craftavel'),
-        ('Botas de Couro', 'craftavel'),
-        ('Capacete de Ferro', 'craftavel'),
-        ('Peitoral de Ferro', 'craftavel'),
-        ('Calças de Ferro', 'craftavel'),
-        ('Botas de Ferro', 'craftavel'),
-        ('Capacete de Ouro', 'craftavel'),
-        ('Peitoral de Ouro', 'craftavel'),
-        ('Calças de Ouro', 'craftavel'),
-        ('Botas de Ouro', 'craftavel'),
-        ('Capacete de Diamante', 'craftavel'),
-        ('Peitoral de Diamante', 'craftavel'),
-        ('Calças de Diamante', 'craftavel'),
-        ('Botas de Diamante', 'craftavel'),
-        ('Capacete de Netherita', 'craftavel'),
-        ('Peitoral de Netherita', 'craftavel'),
-        ('Calças de Netherita', 'craftavel'),
-        ('Botas de Netherita', 'craftavel'),
+-- Ferramentas
+CALL inserir_item('Arco', 'craftavel', NULL, 'ferramenta', NULL, 384, 4);
+CALL inserir_item('Picareta de Madeira', 'craftavel', NULL, 'ferramenta', NULL, 60, 2);
+CALL inserir_item('Espada de Madeira', 'craftavel', NULL, 'ferramenta', NULL, 59, 4);
+CALL inserir_item('Pá de Madeira', 'craftavel', NULL, 'ferramenta', NULL, 60, 2);
+CALL inserir_item('Picareta de Pedra', 'craftavel', NULL, 'ferramenta', NULL, 132, 3);
+CALL inserir_item('Espada de Pedra', 'craftavel', NULL, 'ferramenta', NULL, 131, 5);
+CALL inserir_item('Machado de Pedra', 'craftavel', NULL, 'ferramenta', NULL, 131, 4);
+CALL inserir_item('Pá de Pedra', 'craftavel', NULL, 'ferramenta', NULL, 132, 3);
+CALL inserir_item('Picareta de Ferro', 'craftavel', NULL, 'ferramenta', NULL, 251, 4);
+CALL inserir_item('Espada de Ferro', 'craftavel', NULL, 'ferramenta', NULL, 250, 6);
+CALL inserir_item('Machado de Ferro', 'craftavel', NULL, 'ferramenta', NULL, 250, 5);
+CALL inserir_item('Pá de Ferro', 'craftavel', NULL, 'ferramenta', NULL, 251, 4);
+CALL inserir_item('Picareta de Ouro', 'craftavel', NULL, 'ferramenta', NULL, 33, 3);
+CALL inserir_item('Espada de Ouro', 'craftavel', NULL, 'ferramenta', NULL, 32, 4);
+CALL inserir_item('Machado de Ouro', 'craftavel', NULL, 'ferramenta', NULL, 32, 3);
+CALL inserir_item('Pá de Ouro', 'craftavel', NULL, 'ferramenta', NULL, 33, 2);
+CALL inserir_item('Picareta de Diamante', 'craftavel', NULL, 'ferramenta', NULL, 1562, 5);
+CALL inserir_item('Espada de Diamante', 'craftavel', NULL, 'ferramenta', NULL, 1561, 7);
+CALL inserir_item('Machado de Diamante', 'craftavel', NULL, 'ferramenta', NULL, 1561, 6);
+CALL inserir_item('Pá de Diamante', 'craftavel', NULL, 'ferramenta', NULL, 1562, 5);
+CALL inserir_item('Picareta de Netherita', 'craftavel', NULL, 'ferramenta', NULL, 2032, 6);
+CALL inserir_item('Espada de Netherita', 'craftavel', NULL, 'ferramenta', NULL, 2031, 8);
+CALL inserir_item('Machado de Netherita', 'craftavel', NULL, 'ferramenta', NULL, 2031, 7);
+CALL inserir_item('Pá de Netherita', 'craftavel', NULL, 'ferramenta', NULL, 2032, 6);
 
-    -- Itens Funcionais
-        ('Mapa', 'craftavel'),
-        ('Bússola', 'craftavel'),
-        ('Olho do Ender', 'craftavel'),
+-- Armaduras
+CALL inserir_item('Capacete de Couro', 'craftavel', NULL, 'armadura', NULL, 55, NULL, 2);
+CALL inserir_item('Túnica de Couro', 'craftavel', NULL, 'armadura', NULL, 80, NULL, 3);
+CALL inserir_item('Calças de Couro', 'craftavel', NULL, 'armadura', NULL, 75, NULL, 2);
+CALL inserir_item('Botas de Couro', 'craftavel', NULL, 'armadura', NULL, 65, NULL, 1);
+CALL inserir_item('Capacete de Ferro', 'craftavel', NULL, 'armadura', NULL, 165, NULL, 2);
+CALL inserir_item('Peitoral de Ferro', 'craftavel', NULL, 'armadura', NULL, 240, NULL, 6);
+CALL inserir_item('Calças de Ferro', 'craftavel', NULL, 'armadura', NULL, 225, NULL, 5);
+CALL inserir_item('Botas de Ferro', 'craftavel', NULL, 'armadura', NULL, 195, NULL, 2);
+CALL inserir_item('Capacete de Ouro', 'craftavel', NULL, 'armadura', NULL, 77, NULL, 2);
+CALL inserir_item('Peitoral de Ouro', 'craftavel', NULL, 'armadura', NULL, 112, NULL, 6);
+CALL inserir_item('Calças de Ouro', 'craftavel', NULL, 'armadura', NULL, 105, NULL, 5);
+CALL inserir_item('Botas de Ouro', 'craftavel', NULL, 'armadura', NULL, 91, NULL, 2);
+CALL inserir_item('Capacete de Diamante', 'craftavel', NULL, 'armadura', NULL, 363, NULL, 3);
+CALL inserir_item('Peitoral de Diamante', 'craftavel', NULL, 'armadura', NULL, 528, NULL, 8);
+CALL inserir_item('Calças de Diamante', 'craftavel', NULL, 'armadura', NULL, 495, NULL, 6);
+CALL inserir_item('Botas de Diamante', 'craftavel', NULL, 'armadura', NULL, 429, NULL, 3);
+CALL inserir_item('Capacete de Netherita', 'craftavel', NULL, 'armadura', NULL, 407, NULL, 3);
+CALL inserir_item('Peitoral de Netherita', 'craftavel', NULL, 'armadura', NULL, 592, NULL, 8);
+CALL inserir_item('Calças de Netherita', 'craftavel', NULL, 'armadura', NULL, 555, NULL, 6);
+CALL inserir_item('Botas de Netherita', 'craftavel', NULL, 'armadura', NULL, 481, NULL, 3);
 
-    -- Alimentos
-        ('Batata', 'alimento'),
-        ('Maçã', 'alimento'),
-        ('Carne Podre', 'alimento'),
-        ('Frango', 'alimento'),
-        ('Frango Assado', 'alimento'),
-        ('Peixe Cru', 'alimento'),
-        ('Peixe Assado', 'alimento'),
-        ('Carne Crua', 'alimento'),
-        ('Carne Assada', 'alimento');
+-- Itens Funcionais
+CALL inserir_item('Mapa', 'craftavel', NULL, 'funcional', 'Navegação');
+CALL inserir_item('Bússola', 'craftavel', NULL, 'funcional', 'Localização');
+CALL inserir_item('Olho do Ender', 'craftavel', NULL, 'funcional', 'Ativar portal do End');
+
+-- Alimentos
+CALL inserir_item('Batata', 'alimento', 2);
+CALL inserir_item('Maçã', 'alimento', 4);
+CALL inserir_item('Carne Podre', 'alimento', 1);
+CALL inserir_item('Frango', 'alimento', 3);
+CALL inserir_item('Frango Assado', 'alimento', 6);
+CALL inserir_item('Peixe Cru', 'alimento', 2);
+CALL inserir_item('Peixe Assado', 'alimento', 5);
+CALL inserir_item('Carne Crua', 'alimento', 3);
+CALL inserir_item('Carne Assada', 'alimento', 8);
 
 INSERT INTO ReceitaItem (nome_item, item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8, item_9, quantidade)
 VALUES
@@ -16119,24 +16118,24 @@ VALUES
         ('Bússola', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Pó de Redstone', 'Barras de Ferro', NULL, NULL, NULL, NULL, 1),
         ('Olho do Ender', 'Pérola do Ender', 'Pó de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
--- Tabela Alimento
-INSERT INTO Alimento (nome_item, pts_fome)
-VALUES
-        ('Maçã', 10);
+-- -- Tabela Alimento
+-- INSERT INTO Alimento (nome_item, pts_fome)
+-- VALUES
+--         ('Maçã', 10);
 
--- Tabela Craftavel
-INSERT INTO Craftavel (nome_item, tipo_craftavel)
-VALUES
-        ('Mapa', 'funcional'),
-        ('Bússola', 'funcional'),
-        ('Olho do Ender', 'funcional');
+-- -- Tabela Craftavel
+-- INSERT INTO Craftavel (nome_item, tipo_craftavel)
+-- VALUES
+--         ('Mapa', 'funcional'),
+--         ('Bússola', 'funcional'),
+--         ('Olho do Ender', 'funcional');
 
--- Tabela Funcional
-INSERT INTO Funcional (nome_item, funcao)
-VALUES
-        ('Mapa', 'teste'),
-        ('Bússola', 'teste'),
-        ('Olho do Ender', 'teste');
+-- -- Tabela Funcional
+-- INSERT INTO Funcional (nome_item, funcao)
+-- VALUES
+--         ('Mapa', 'teste'),
+--         ('Bússola', 'teste'),
+--         ('Olho do Ender', 'teste');
 
 -- Tabela Armadura Durável
 -- INSERT INTO ArmaduraDuravel (nome_item, durabilidade_total, pts_armadura)
@@ -16241,42 +16240,42 @@ VALUES
 -- Inserindo Mobs
 
 -- Pacíficos (não têm parâmetro impulsivo)
-    CALL inserir_mob('Galinha', 'pacifico', NULL, NULL, 5, 'outro');
-    CALL inserir_mob('Aldeão', 'pacifico', NULL, NULL, 20, 'NPC');
-    CALL inserir_mob('Peixe', 'pacifico', NULL, NULL, 3, 'outro');
-    CALL inserir_mob('Vaca', 'pacifico', NULL, NULL, 10, 'outro');
-    CALL inserir_mob('Porco', 'pacifico', NULL, NULL, 10, 'outro');
-    CALL inserir_mob('Ovelha', 'pacifico', NULL, NULL, 8, 'outro');
+CALL inserir_mob('Galinha', 'pacifico', NULL, NULL, 5, 'outro');
+CALL inserir_mob('Aldeão', 'pacifico', NULL, NULL, 20, 'NPC');
+CALL inserir_mob('Peixe', 'pacifico', NULL, NULL, 3, 'outro');
+CALL inserir_mob('Vaca', 'pacifico', NULL, NULL, 10, 'outro');
+CALL inserir_mob('Porco', 'pacifico', NULL, NULL, 10, 'outro');
+CALL inserir_mob('Ovelha', 'pacifico', NULL, NULL, 8, 'outro');
 
 -- Neutros (impulsivo = FALSE)
-    CALL inserir_mob('Enderman', 'agressivo', FALSE, 40, 40);
-    CALL inserir_mob('Lobo', 'agressivo', FALSE, 5, 8);
-    CALL inserir_mob('Golfinho', 'agressivo', FALSE, 10, 10);
-    CALL inserir_mob('Golem de Ferro', 'agressivo', FALSE, 15, 100);
-    CALL inserir_mob('Golem de Neve', 'agressivo', FALSE, 5, 4);
-    CALL inserir_mob('Urso', 'agressivo', FALSE, 20, 30);
+CALL inserir_mob('Enderman', 'agressivo', FALSE, 40, 40);
+CALL inserir_mob('Lobo', 'agressivo', FALSE, 5, 8);
+CALL inserir_mob('Golfinho', 'agressivo', FALSE, 10, 10);
+CALL inserir_mob('Golem de Ferro', 'agressivo', FALSE, 15, 100);
+CALL inserir_mob('Golem de Neve', 'agressivo', FALSE, 5, 4);
+CALL inserir_mob('Urso', 'agressivo', FALSE, 20, 30);
 
 -- Agressivos (impulsivo = TRUE)
-    CALL inserir_mob('Creeper', 'agressivo', TRUE, 50, 20);
-    CALL inserir_mob('Zumbi', 'agressivo', TRUE, 15, 20);
-    CALL inserir_mob('Aranha', 'agressivo', TRUE, 10, 16);
-    CALL inserir_mob('Esqueleto', 'agressivo', TRUE, 10, 20);
-    CALL inserir_mob('Bruxa', 'agressivo', TRUE, 12, 26);
-    CALL inserir_mob('Guardião', 'agressivo', TRUE, 30, 30);
-    CALL inserir_mob('Pilhador', 'agressivo', TRUE, 20, 24);
+CALL inserir_mob('Creeper', 'agressivo', TRUE, 50, 20);
+CALL inserir_mob('Zumbi', 'agressivo', TRUE, 15, 25);
+CALL inserir_mob('Aranha', 'agressivo', TRUE, 10, 16);
+CALL inserir_mob('Esqueleto', 'agressivo', TRUE, 10, 20);
+CALL inserir_mob('Bruxa', 'agressivo', TRUE, 12, 26);
+CALL inserir_mob('Guardião', 'agressivo', TRUE, 30, 30);
+CALL inserir_mob('Pilhador', 'agressivo', TRUE, 20, 24);
 
 -- Nether (impulsivo = TRUE)
-    CALL inserir_mob('Piglin Zumbi', 'agressivo', FALSE, 10, 20);
-    CALL inserir_mob('Piglin', 'agressivo', FALSE, 15, 16);
-    CALL inserir_mob('Hoglin', 'agressivo', TRUE, 25, 40);
-    CALL inserir_mob('Ghast', 'agressivo', TRUE, 50, 10);
-    CALL inserir_mob('Esqueleto Wither', 'agressivo', TRUE, 40, 20);
-    CALL inserir_mob('Blaze', 'agressivo', TRUE, 20, 20);
+CALL inserir_mob('Piglin Zumbi', 'agressivo', FALSE, 10, 20);
+CALL inserir_mob('Piglin', 'agressivo', FALSE, 16, 16);
+CALL inserir_mob('Hoglin', 'agressivo', TRUE, 25, 40);
+CALL inserir_mob('Ghast', 'agressivo', TRUE, 50, 10);
+CALL inserir_mob('Esqueleto Wither', 'agressivo', TRUE, 40, 20);
+CALL inserir_mob('Blaze', 'agressivo', TRUE, 20, 20);
 
 -- Bosses (impulsivo = TRUE)
-    CALL inserir_mob('Dragão Ender', 'agressivo', TRUE, 100, 200);
-    CALL inserir_mob('Wither', 'agressivo', TRUE, 50, 300);
-    CALL inserir_mob('Warden', 'agressivo', TRUE, 80, 500);
+CALL inserir_mob('Dragão Ender', 'agressivo', TRUE, 100, 200);
+CALL inserir_mob('Wither', 'agressivo', TRUE, 50, 300);
+CALL inserir_mob('Warden', 'agressivo', TRUE, 80, 500);
 
 -- Tabela Estrutura
 INSERT INTO Estrutura (nome, probabilidade)
