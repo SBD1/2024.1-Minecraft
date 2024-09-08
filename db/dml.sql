@@ -15970,19 +15970,20 @@ VALUES
         ('Pena', 'material'),
         ('Fio', 'material'),
         ('Pérola do Ender', 'material'),
-        ('Lágrima de ghast', 'material'),
+        ('Lágrima de Ghast', 'material'),
         ('Estrela do Nether', 'material'),
         ('Açúcar', 'material'),
         ('Osso', 'material'),
         ('Flecha', 'material'),
         ('Ovo de Dragão', 'material'),
-        ('Vara de blaze', 'material'),
-        ('Pó de blaze', 'material'),
+        ('Vara de Blaze', 'material'),
+        ('Pó de Blaze', 'material'),
         ('Estante', 'material'),
         ('Vidro', 'material'),
         ('Porta', 'material'),
         ('Escada', 'material'),
         ('Cama', 'material'),
+        ('Isqueiro', 'material'),
 
     -- Ferramentas
         ('Arco', 'craftavel'),
@@ -16033,7 +16034,6 @@ VALUES
         ('Botas de Netherita', 'craftavel'),
 
     -- Itens Funcionais
-        ('Isqueiro', 'craftavel'),
         ('Mapa', 'craftavel'),
         ('Bússola', 'craftavel'),
         ('Olho do Ender', 'craftavel'),
@@ -16044,8 +16044,8 @@ VALUES
         ('Carne Podre', 'alimento'),
         ('Frango', 'alimento'),
         ('Frango Assado', 'alimento'),
-        ('peixe Cru', 'alimento'),
-        ('peixe Assado', 'alimento'),
+        ('Peixe Cru', 'alimento'),
+        ('Peixe Assado', 'alimento'),
         ('Carne Crua', 'alimento'),
         ('Carne Assada', 'alimento');
 
@@ -16063,7 +16063,7 @@ VALUES
         ('Porta', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 3),
         ('Escada', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 4),
         ('Cama', 'Lã', 'Lã', 'Lã', 'Tábua', 'Tábua', 'Tábua', NULL, NULL, NULL, 1),
-        ('Pó de blaze', 'Vara de blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2),
+        ('Pó de Blaze', 'Vara de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2),
 
     -- Ferramentas
         ('Arco', 'Fio', 'Fio', 'Fio', 'Graveto', 'Graveto', NULL, NULL, NULL, NULL, 1),
@@ -16117,19 +16117,26 @@ VALUES
         ('Isqueiro', 'Barras de Ferro', 'Pedregulho', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
         ('Mapa', 'Papel', 'Papel', 'Papel', 'Papel', 'Bússola', 'Papel', 'Papel', 'Papel', NULL, 1),
         ('Bússola', 'Barras de Ferro', 'Barras de Ferro', 'Barras de Ferro', 'Pó de Redstone', 'Barras de Ferro', NULL, NULL, NULL, NULL, 1),
-        ('Olho do Ender', 'Pérola do Ender', 'Pó de blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+        ('Olho do Ender', 'Pérola do Ender', 'Pó de Blaze', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- Tabela Alimento
--- INSERT INTO Alimento (nome_item, pts_fome)
--- VALUES
+INSERT INTO Alimento (nome_item, pts_fome)
+VALUES
+        ('Maçã', 10);
 
 -- Tabela Craftavel
--- INSERT INTO Craftavel (nome_item, tipo_craftavel)
--- VALUES
+INSERT INTO Craftavel (nome_item, tipo_craftavel)
+VALUES
+        ('Mapa', 'funcional'),
+        ('Bússola', 'funcional'),
+        ('Olho do Ender', 'funcional');
 
 -- Tabela Funcional
--- INSERT INTO Funcional (nome_item, funcao)
--- VALUES
+INSERT INTO Funcional (nome_item, funcao)
+VALUES
+        ('Mapa', 'teste'),
+        ('Bússola', 'teste'),
+        ('Olho do Ender', 'teste');
 
 -- Tabela Armadura Durável
 -- INSERT INTO ArmaduraDuravel (nome_item, durabilidade_total, pts_armadura)
@@ -16149,7 +16156,7 @@ VALUES
     ('Fornalha', 'O coração quente da sua casa, onde você pode assar batatas ou fundir ferro, o que vier primeiro. Essencial para cozinhar alimentos e processar minérios.'),
     ('Biblioteca', 'Um cantinho tranquilo repleto de conhecimento. A biblioteca desbloqueia as receitas dos itens disponíveis.'),
     ('Portal do Nether', 'Um portal para o inferno. Literalmente. Transporta você para o Nether, entre por sua conta e risco.'),
-    ('Portal de Viagem', 'Como um enderman, este portal permite teleportar-se magicamente. Use-o para explorar novas áreas. Cuidado com os destinos inesperados!');
+    ('Portal de Viagem', 'Como um Enderman, este portal permite teleportar-se magicamente. Use-o para explorar novas áreas. Cuidado com os destinos inesperados!');
 
 -- Tabela Receita Construivel
 INSERT INTO ReceitaConstruivel (nome_construivel, item, quantidade)
@@ -16190,11 +16197,6 @@ VALUES
         ('Portal de Viagem', 'Barras de Ferro', 4),
         ('Portal de Viagem', 'Olho do Ender', 1);
 
-
--- Tabela Instância Construível
--- INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk)
--- VALUES
-
 -- Tabela Missao
 INSERT INTO Missao (id_missao, nome, descricao, objetivo, exp, recompensa)
 VALUES  (0, '', '', '', 00.00, '');
@@ -16218,8 +16220,11 @@ VALUES
         ('Pedregulho', null),
         ('Pedregulho', null),
         ('Pedregulho', null),
-        ('Pedregulho', null),
-        ('Picareta de Ferro', 100);
+        ('Maçã', NULL),
+        ('Maçã', NULL),
+        ('Mapa', NULL),
+        ('Olho do Ender', NULL),
+        ('Bússola', NULL);
 
 -- Tabela Inventario
 INSERT INTO Inventario (id_inst_item, id_inventario)
@@ -16228,47 +16233,50 @@ VALUES
         (2, 1),
         (3, 1),
         (4, 1),
-        (5, 1);
+        (5, 1),
+        (6, 1),
+        (7, 1),
+        (8, 1);
 
 -- Inserindo Mobs
 
 -- Pacíficos (não têm parâmetro impulsivo)
-CALL inserir_mob('galinha', 'pacifico', NULL, NULL, 5, 'outro');
-CALL inserir_mob('aldeão', 'pacifico', NULL, NULL, 20, 'NPC');
-CALL inserir_mob('peixe', 'pacifico', NULL, NULL, 3, 'outro');
-CALL inserir_mob('vaca', 'pacifico', NULL, NULL, 10, 'outro');
-CALL inserir_mob('porco', 'pacifico', NULL, NULL, 10, 'outro');
-CALL inserir_mob('ovelha', 'pacifico', NULL, NULL, 8, 'outro');
+    CALL inserir_mob('Galinha', 'pacifico', NULL, NULL, 5, 'outro');
+    CALL inserir_mob('Aldeão', 'pacifico', NULL, NULL, 20, 'NPC');
+    CALL inserir_mob('Peixe', 'pacifico', NULL, NULL, 3, 'outro');
+    CALL inserir_mob('Vaca', 'pacifico', NULL, NULL, 10, 'outro');
+    CALL inserir_mob('Porco', 'pacifico', NULL, NULL, 10, 'outro');
+    CALL inserir_mob('Ovelha', 'pacifico', NULL, NULL, 8, 'outro');
 
 -- Neutros (impulsivo = FALSE)
-CALL inserir_mob('enderman', 'agressivo', FALSE, 40, 40);
-CALL inserir_mob('lobo', 'agressivo', FALSE, 5, 8);
-CALL inserir_mob('golfinho', 'agressivo', FALSE, 10, 10);
-CALL inserir_mob('golem de ferro', 'agressivo', FALSE, 15, 100);
-CALL inserir_mob('golem de neve', 'agressivo', FALSE, 5, 4);
-CALL inserir_mob('urso polar', 'agressivo', FALSE, 20, 30);
+    CALL inserir_mob('Enderman', 'agressivo', FALSE, 40, 40);
+    CALL inserir_mob('Lobo', 'agressivo', FALSE, 5, 8);
+    CALL inserir_mob('Golfinho', 'agressivo', FALSE, 10, 10);
+    CALL inserir_mob('Golem de Ferro', 'agressivo', FALSE, 15, 100);
+    CALL inserir_mob('Golem de Neve', 'agressivo', FALSE, 5, 4);
+    CALL inserir_mob('Urso', 'agressivo', FALSE, 20, 30);
 
 -- Agressivos (impulsivo = TRUE)
-CALL inserir_mob('creeper', 'agressivo', TRUE, 50, 20);
-CALL inserir_mob('zumbi', 'agressivo', TRUE, 15, 20);
-CALL inserir_mob('aranha', 'agressivo', TRUE, 10, 16);
-CALL inserir_mob('esqueleto', 'agressivo', TRUE, 10, 20);
-CALL inserir_mob('bruxa', 'agressivo', TRUE, 12, 26);
-CALL inserir_mob('guardião', 'agressivo', TRUE, 30, 30);
-CALL inserir_mob('pilhador', 'agressivo', TRUE, 20, 24);
+    CALL inserir_mob('Creeper', 'agressivo', TRUE, 50, 20);
+    CALL inserir_mob('Zumbi', 'agressivo', TRUE, 15, 20);
+    CALL inserir_mob('Aranha', 'agressivo', TRUE, 10, 16);
+    CALL inserir_mob('Esqueleto', 'agressivo', TRUE, 10, 20);
+    CALL inserir_mob('Bruxa', 'agressivo', TRUE, 12, 26);
+    CALL inserir_mob('Guardião', 'agressivo', TRUE, 30, 30);
+    CALL inserir_mob('Pilhador', 'agressivo', TRUE, 20, 24);
 
 -- Nether (impulsivo = TRUE)
-CALL inserir_mob('piglin zumbi', 'agressivo', FALSE, 10, 20);
-CALL inserir_mob('piglin', 'agressivo', FALSE, 15, 16);
-CALL inserir_mob('hoglin', 'agressivo', TRUE, 25, 40);
-CALL inserir_mob('ghast', 'agressivo', TRUE, 50, 10);
-CALL inserir_mob('esqueleto wither', 'agressivo', TRUE, 40, 20);
-CALL inserir_mob('blaze', 'agressivo', TRUE, 20, 20);
+    CALL inserir_mob('Piglin Zumbi', 'agressivo', FALSE, 10, 20);
+    CALL inserir_mob('Piglin', 'agressivo', FALSE, 15, 16);
+    CALL inserir_mob('Hoglin', 'agressivo', TRUE, 25, 40);
+    CALL inserir_mob('Ghast', 'agressivo', TRUE, 50, 10);
+    CALL inserir_mob('Esqueleto Wither', 'agressivo', TRUE, 40, 20);
+    CALL inserir_mob('Blaze', 'agressivo', TRUE, 20, 20);
 
 -- Bosses (impulsivo = TRUE)
-CALL inserir_mob('dragão ender', 'agressivo', TRUE, 100, 200);
-CALL inserir_mob('wither', 'agressivo', TRUE, 50, 300);
-CALL inserir_mob('warden', 'agressivo', TRUE, 80, 500);
+    CALL inserir_mob('Dragão Ender', 'agressivo', TRUE, 100, 200);
+    CALL inserir_mob('Wither', 'agressivo', TRUE, 50, 300);
+    CALL inserir_mob('Warden', 'agressivo', TRUE, 80, 500);
 
 -- Tabela Estrutura
 INSERT INTO Estrutura (nome, probabilidade)
@@ -16278,7 +16286,7 @@ VALUES
         ('Templo da Selva', 4.00),
         ('Templo do Deserto', 5.00),
         ('Posto Avançado', 8.00),
-        ('Cabana da bruxa', 7.00),
+        ('Cabana da Bruxa', 7.00),
         ('Portal em Ruínas', 15.00),
         
     -- Estruturas das Cavernas
@@ -16293,57 +16301,57 @@ VALUES
 INSERT INTO MobDropaItem (nome_mob, nome_item, probabilidade, quantidade)
 VALUES
     -- Agressivos
-        ('creeper', 'Pólvora', 100.00, 1),
-        ('zumbi', 'Carne Podre', 100.00, 1),
-        ('zumbi', 'Espada de Pedra', 30.00, 1),
-        ('zumbi', 'Barras de Ferro', 10.00, 1),
-        ('zumbi', 'Túnica de Couro', 5.00, 1),
-        ('zumbi', 'Botas de Ferro', 5.00, 1), 
-        ('aranha', 'Fio', 100.00, 3),
-        ('aranha', 'Teia', 25.00, 1),
-        ('enderman', 'Pérola do Ender', 75.00, 1),
-        ('enderman', 'Obsidiana', 10.00, 1),
-        ('bruxa', 'Pó de Redstone', 50.00, 1),
-        ('bruxa', 'Pólvora', 50.00, 1),
-        ('bruxa', 'Bússola', 10.0, 1),
-        ('bruxa', 'Maçã', 30.0, 1),
-        ('esqueleto', 'Osso', 75.00, 1),
-        ('esqueleto', 'Flecha', 80.00, 2),
-        ('esqueleto', 'Arco', 10.00, 1),
-        ('pilhador', 'Arco', 10.00, 1),
-        ('pilhador', 'Flecha', 60.00, 2),
-        ('pilhador', 'Bússola', 10.0, 1),
+        ('Creeper', 'Pólvora', 100.00, 1),
+        ('Zumbi', 'Carne Podre', 100.00, 1),
+        ('Zumbi', 'Espada de Pedra', 30.00, 1),
+        ('Zumbi', 'Barras de Ferro', 10.00, 1),
+        ('Zumbi', 'Túnica de Couro', 5.00, 1),
+        ('Zumbi', 'Botas de Ferro', 5.00, 1), 
+        ('Aranha', 'Fio', 100.00, 3),
+        ('Aranha', 'Teia', 25.00, 1),
+        ('Enderman', 'Pérola do Ender', 75.00, 1),
+        ('Enderman', 'Obsidiana', 10.00, 1),
+        ('Bruxa', 'Pó de Redstone', 50.00, 1),
+        ('Bruxa', 'Pólvora', 50.00, 1),
+        ('Bruxa', 'Bússola', 10.0, 1),
+        ('Bruxa', 'Maçã', 30.0, 1),
+        ('Esqueleto', 'Osso', 75.00, 1),
+        ('Esqueleto', 'Flecha', 80.00, 2),
+        ('Esqueleto', 'Arco', 10.00, 1),
+        ('Pilhador', 'Arco', 10.00, 1),
+        ('Pilhador', 'Flecha', 60.00, 2),
+        ('Pilhador', 'Bússola', 10.0, 1),
 
     -- Pacíficos
-        ('galinha', 'Pena', 70.00, 1), 
-        ('galinha', 'Frango', 100.00, 1),
-        ('galinha', 'Ovo de Dragão', 0.01, 1),
-        ('peixe', 'peixe Cru', 100.00, 1),
-        ('vaca', 'Carne Crua', 100.00, 1),
-        ('vaca', 'Couro', 60.00, 1),
-        ('porco', 'Carne Crua', 100.00, 1),
-        ('ovelha', 'Lã', 100.00, 1),
-        ('ovelha', 'Carne Crua', 80.00, 1),
+        ('Galinha', 'Pena', 70.00, 1), 
+        ('Galinha', 'Frango', 100.00, 1),
+        ('Galinha', 'Ovo de Dragão', 0.01, 1),
+        ('Peixe', 'Peixe Cru', 100.00, 1),
+        ('Vaca', 'Carne Crua', 100.00, 1),
+        ('Vaca', 'Couro', 60.00, 1),
+        ('Porco', 'Carne Crua', 100.00, 1),
+        ('Ovelha', 'Lã', 100.00, 1),
+        ('Ovelha', 'Carne Crua', 80.00, 1),
 
     -- Neutros
-        ('golem de ferro', 'Barras de Ferro', 100.00, 3),
-        ('urso polar', 'peixe Cru', 50.00, 1),
+        ('Golem de Ferro', 'Barras de Ferro', 100.00, 3),
+        ('Urso', 'Peixe Cru', 50.00, 1),
 
     -- Nether
-        ('piglin zumbi', 'Carne Podre', 100.00, 1),
-        ('piglin zumbi', 'Barras de Ouro', 10.00, 1),
-        ('piglin', 'Barras de Ouro', 15.00, 3),
-        ('piglin', 'Carne Podre', 80.00, 1),
-        ('hoglin', 'Carne Assada', 100.00, 2),
-        ('ghast', 'Lágrima de ghast', 25.00, 1),
-        ('ghast', 'Pólvora', 70.00, 1),
-        ('esqueleto wither', 'Osso', 80.00, 2),
-        ('blaze', 'Vara de blaze', 75.00, 1),
-        ('blaze', 'Pó de blaze', 30.00, 1),
+        ('Piglin Zumbi', 'Carne Podre', 100.00, 1),
+        ('Piglin Zumbi', 'Barras de Ouro', 10.00, 1),
+        ('Piglin', 'Barras de Ouro', 15.00, 3),
+        ('Piglin', 'Carne Podre', 80.00, 1),
+        ('Hoglin', 'Carne Assada', 100.00, 2),
+        ('Ghast', 'Lágrima de Ghast', 25.00, 1),
+        ('Ghast', 'Pólvora', 70.00, 1),
+        ('Esqueleto Wither', 'Osso', 80.00, 2),
+        ('Blaze', 'Vara de Blaze', 75.00, 1),
+        ('Blaze', 'Pó de Blaze', 30.00, 1),
 
     -- Bosses
-        ('dragão ender', 'Ovo de Dragão', 100.00, 1),
-        ('wither', 'Estrela do Nether', 100.00, 1);
+        ('Dragão Ender', 'Ovo de Dragão', 100.00, 1),
+        ('Wither', 'Estrela do Nether', 100.00, 1);
 
 -- Tabela Estrutura Fornece Item
 INSERT INTO EstruturaForneceItem (nome_estrutura, nome_item, probabilidade)
@@ -16369,10 +16377,10 @@ VALUES
     ('Vila', 'Papel', 50.00),
     ('Vila', 'Mapa', 15.00),
 
-    -- Cabana da bruxa
-    ('Cabana da bruxa', 'Pó de Redstone', 12.50),
-    ('Cabana da bruxa', 'Pólvora', 12.50),
-    ('Cabana da bruxa', 'Olho do Ender', 15.00),
+    -- Cabana da Bruxa
+    ('Cabana da Bruxa', 'Pó de Redstone', 12.50),
+    ('Cabana da Bruxa', 'Pólvora', 12.50),
+    ('Cabana da Bruxa', 'Olho do Ender', 15.00),
 
     -- Portal em Ruínas
     ('Portal em Ruínas', 'Barras de Ouro', 25.00),
@@ -16387,7 +16395,7 @@ VALUES
     ('Posto Avançado', 'Mapa', 15.00),
 
     -- Fortaleza do Fim
-    ('Fortaleza do Fim', 'Vara de blaze', 30.00),
+    ('Fortaleza do Fim', 'Vara de Blaze', 30.00),
     ('Fortaleza do Fim', 'Pérola do Ender', 30.00),
     ('Fortaleza do Fim', 'Espada de Ferro', 25.00),
     ('Fortaleza do Fim', 'Peitoral de Ferro', 15.00),
@@ -16402,7 +16410,7 @@ VALUES
     ('Mina Abandonada', 'Picareta de Diamante', 3.00),
 
     -- Bastião em Ruínas
-    ('Bastião em Ruínas', 'Pó de blaze', 30.00),
+    ('Bastião em Ruínas', 'Pó de Blaze', 30.00),
     ('Bastião em Ruínas', 'Peitoral de Ouro', 30.00),
     ('Bastião em Ruínas', 'Espada de Ouro', 20.00),
     ('Bastião em Ruínas', 'Netherita', 1.00),
@@ -16509,59 +16517,59 @@ BEGIN
         FROM Chunk
         WHERE nome_mapa = 'Superfície'
     LOOP
-        -- zumbi (spawn em Planície, Floresta, Pântano)
+        -- Zumbi (spawn em Planície, Floresta, Pântano)
         IF chunk_rec.nome_bioma IN ('Planície', 'Floresta', 'Pântano') THEN
             rand_num := random() * 100;
             IF rand_num <= 70.00 THEN
-                CALL inserir_inst_mob('zumbi', 20, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('Zumbi', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- esqueleto (spawn em Planície, Montanha, Floresta)
+        -- Esqueleto (spawn em Planície, Montanha, Floresta)
         IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Floresta') THEN
             rand_num := random() * 100;
             IF rand_num <= 60.00 THEN
-                CALL inserir_inst_mob('esqueleto', 20, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- aranha (spawn em Floresta, Pântano)
+        -- Aranha (spawn em Floresta, Pântano)
         IF chunk_rec.nome_bioma IN ('Floresta', 'Pântano') THEN
             rand_num := random() * 100;
             IF rand_num <= 50.00 THEN
-                CALL inserir_inst_mob('aranha', 16, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- enderman (spawn em Planície, Deserto)
+        -- Enderman (spawn em Planície, Deserto)
         IF chunk_rec.nome_bioma IN ('Planície', 'Deserto') THEN
             rand_num := random() * 100;
             IF rand_num <= 10.00 THEN
-                CALL inserir_inst_mob('enderman', 40, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- creeper (spawn em Floresta, Planície)
+        -- Creeper (spawn em Floresta, Planície)
         IF chunk_rec.nome_bioma IN ('Floresta', 'Planície') THEN
             rand_num := random() * 100;
             IF rand_num <= 30.00 THEN
-                CALL inserir_inst_mob('creeper', 20, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('Creeper', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- bruxa (spawn em Pântano)
+        -- Bruxa (spawn em Pântano)
         IF chunk_rec.nome_bioma = 'Pântano' THEN
             rand_num := random() * 100;
             IF rand_num <= 7.00 THEN
-                CALL inserir_inst_mob('bruxa', 26, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- pilhador (spawn em Planície, Montanha)
+        -- Pilhador (spawn em Planície, Montanha)
         IF chunk_rec.nome_bioma IN ('Planície', 'Montanha') THEN
             rand_num := random() * 100;
             IF rand_num <= 10.00 THEN
-                CALL inserir_inst_mob('pilhador', 24, chunk_rec.numero, 'Superfície', NULL);
+                CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
@@ -16573,7 +16581,7 @@ $$;
 CREATE OR REPLACE PROCEDURE despawn_mobs_agressivos() LANGUAGE plpgsql AS $$
 BEGIN
     DELETE FROM InstanciaMob
-    WHERE nome_mob IN ('zumbi', 'esqueleto', 'aranha', 'enderman', 'creeper', 'bruxa', 'pilhador')
+    WHERE nome_mob IN ('Zumbi', 'Esqueleto', 'Aranha', 'Enderman', 'Creeper', 'Bruxa', 'Pilhador')
     AND nome_mapa = 'Superfície'
     AND id_estrutura IS NULL;
 END;

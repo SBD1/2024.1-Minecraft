@@ -3,7 +3,7 @@ from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bio
 from colorama import Fore
 from ..game.combat import atacar_mob
 from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item
-from ..game.player_actions import visualizar_inventario, utilizar_item
+from ..game.player_actions import visualizar_inventario, comer, utilizar_item
 
 # Função principal do jogo
 def jogar(cursor, nomeUser):
@@ -134,13 +134,9 @@ def processar_comando(cursor, nomeUser, movimentos):
     acao = partes_comando[0] if partes_comando else ""
     parametros = partes_comando[1:] if len(partes_comando) > 1 else []
 
-    if acao == "ir" and parametros and parametros[0] == "para":
-        acao = "ir para"
-        parametros = parametros[1:]
-
     limpar_tela()
 
-    if acao == "ir para" and parametros: #Feito
+    if acao == "ir_para" and parametros: #Feito
         direcao = parametros[0]
         if direcao in movimentos:
             mover_jogador(cursor, nomeUser, direcao, movimentos)
@@ -148,16 +144,20 @@ def processar_comando(cursor, nomeUser, movimentos):
             mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
             time.sleep(2)
 
-    elif acao == "ver" and parametros: #Feito
-        nome_mob = parametros[0]
+    elif acao == "ver_mob" and parametros: #Feito
+        nome_mob = parametros[0].capitalize()
         ver_mob(cursor, nomeUser, nome_mob)
 
-    elif acao == "visualizar_inventario": #Feito
+    elif acao == "ver_inventario": #Feito
         visualizar_inventario(cursor, nomeUser)
 
-    elif acao == "utilizar_item" and parametros:
-        nome_item = parametros[0]
-        utilizar_item(cursor, nomeUser, nome_item)
+    elif acao == "comer" and parametros: #Feito
+        nomeItem = parametros[0].capitalize()
+        comer(cursor, nomeUser, nomeItem)
+
+    elif acao == "utilizar_item" and parametros: #Implementar ações específicas
+        nomeItem = parametros[0].capitalize()
+        utilizar_item(cursor, nomeUser, nomeItem)
 
     elif acao == "minerar_fonte" and parametros:
         nome_fonte = parametros[0]
@@ -316,15 +316,15 @@ def exibir_ajuda():
     limpar_tela()
     mostrar_texto_gradualmente("Comandos disponíveis:", Fore.BLUE)
 
-    print(f"{Fore.YELLOW}ir para <direção>{Fore.RESET}: para se mover na respectiva direção")
-    print(f"{Fore.YELLOW}ver <nomeMob>{Fore.RESET}: para ver informações sobre um mob no chunk atual")
-    print(f"{Fore.YELLOW}visualizar_inventario{Fore.RESET}: para ver os itens no seu inventário")
+    print(f"{Fore.YELLOW}ir_para <direção>{Fore.RESET}: para se mover na respectiva direção")
+    print(f"{Fore.YELLOW}ver_mob <nomeMob>{Fore.RESET}: para ver informações sobre um mob no chunk atual")
+    print(f"{Fore.YELLOW}ver_inventario{Fore.RESET}: para ver os itens no seu inventário")
     print(f"{Fore.YELLOW}utilizar_item <nomeItem>{Fore.RESET}: para usar um item do inventário")
     print(f"{Fore.YELLOW}minerar_fonte <nomeFonte>{Fore.RESET}: para minerar uma fonte de recursos")
     print(f"{Fore.YELLOW}craftar_item <nomeItem>{Fore.RESET}: para criar um item usando recursos")
     print(f"{Fore.YELLOW}equipar_item <nomeItem>{Fore.RESET}: para equipar uma armadura ou item")
     print(f"{Fore.YELLOW}atacar_mob <nomeMob> <nomeFerramenta>{Fore.RESET}: para atacar um mob com uma ferramenta")
-    print(f"{Fore.YELLOW}falar <NomeAldeão>{Fore.RESET}: para interagir com um aldeão")
+    print(f"{Fore.YELLOW}falar <NomeAldeão>{Fore.RESET}: para interagir com um Aldeão")
     print(f"{Fore.YELLOW}construir <NomeEstrutura>{Fore.RESET}: para construir uma estrutura")
     print(f"{Fore.YELLOW}explorar_estrutura <NomeEstrutura>{Fore.RESET}: para explorar uma estrutura próxima")
     print(f"{Fore.YELLOW}sair{Fore.RESET}: para terminar o jogo")
