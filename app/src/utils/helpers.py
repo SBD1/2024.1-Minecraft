@@ -78,3 +78,12 @@ def determinar_cor_mapa(mapa):
         'Fim': Fore.LIGHTMAGENTA_EX        
     }
     return cores_mapas.get(mapa, Fore.WHITE)
+
+def formatar_nome_item(nome_item):
+    """
+    Formata o nome do item, capitalizando corretamente palavras importantes e deixando preposições em minúsculas.
+    """
+    stopwords = ["de", "do", "da", "e"]
+    palavras = nome_item.split()
+    
+    return ' '.join([palavra.capitalize() if palavra not in stopwords else palavra for palavra in palavras])

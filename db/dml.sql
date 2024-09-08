@@ -16224,7 +16224,8 @@ VALUES
         ('Maçã', NULL),
         ('Mapa', NULL),
         ('Olho do Ender', NULL),
-        ('Bússola', NULL);
+        ('Bússola', NULL),
+        ('Graveto', null);
 
 -- Tabela Inventario
 INSERT INTO Inventario (id_inst_item, id_inventario)
@@ -16236,7 +16237,8 @@ VALUES
         (5, 1),
         (6, 1),
         (7, 1),
-        (8, 1);
+        (8, 1),
+        (9, 1);
 
 -- Inserindo Mobs
 

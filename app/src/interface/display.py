@@ -98,13 +98,14 @@ def tela_inicial():
         mostrar_texto_gradualmente("Digite 'iniciar' para começar a jogar, 'ajuda' para ver a lista de comandos, ou 'testar banco' para verificar a tabela de jogadores.", Fore.MAGENTA)
 
         command = input(f"{Fore.CYAN}Digite um comando: ").strip().lower()
-        limpar_tela()
 
         if command == "exit":
+            limpar_tela()
             mostrar_texto_gradualmente("Saindo do jogo...", Fore.RED)
             break
         
         elif command == "ajuda":
+            limpar_tela()
             mostrar_texto_gradualmente("Comandos:", Fore.BLUE)
             print(f"{Fore.YELLOW}iniciar{Fore.RESET}: para começar a jogar")
             print(f"{Fore.YELLOW}ajuda{Fore.RESET}: para ver a lista de comandos")
@@ -113,6 +114,7 @@ def tela_inicial():
             input(f"{Fore.CYAN}Pressione Enter para voltar ao menu...")
         
         elif command == "iniciar":
+            limpar_tela()
             nomeUser = input(f"{Fore.YELLOW}Digite seu nick para continuar: ").strip()
             if validar_nick(nomeUser):
                 iniciar_jogo(nomeUser)
@@ -121,6 +123,7 @@ def tela_inicial():
                 time.sleep(2)
 
         elif command == "testar banco":
+            limpar_tela()
             testar_banco()
 
         else:

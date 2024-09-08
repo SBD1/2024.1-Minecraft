@@ -1,5 +1,6 @@
-from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela
+from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, formatar_nome_item
 from colorama import Fore, Back, Style
+from ..game.environment_actions import craftar_item
 import time
 
 # Função: Visualizar Inventário com suporte a comandos
@@ -76,43 +77,48 @@ def processar_comando_inventario(cursor, nomeUser):
     """
     Processa os comandos específicos dentro do inventário, como comer, utilizar item, equipar item.
     """
-    comando = input(f"{Fore.CYAN}Digite um comando, 'ajuda' para ver os comandos disponíveis no inventário, ou 'fechar_inventario' para voltar ao jogo: ").strip().lower()
-    partes_comando = comando.split()
-    acao = partes_comando[0] if partes_comando else ""
-    parametros = partes_comando[1:] if len(partes_comando) > 1 else []
+    while True:  # Loop para processar os comandos até que o jogador saia
+        comando = input(f"{Fore.CYAN}Digite um comando, 'ajuda' para ver os comandos disponíveis no inventário, ou 'fechar_inventario' para voltar ao jogo: ").strip().lower()
+        partes_comando = comando.split()
+        acao = partes_comando[0] if partes_comando else ""
+        parametros = partes_comando[1:] if len(partes_comando) > 1 else []
 
-    if acao == "comer" and parametros:
-        limpar_tela()
-        nomeItem = parametros[0].capitalize()
-        comer(cursor, nomeUser, nomeItem)
-    
-    elif acao == "utilizar_item" and parametros:
-        limpar_tela()
-        nomeItem = parametros[0].capitalize()
-        utilizar_item(cursor, nomeUser, nomeItem)
-    
-    elif acao == "craftar_item" and parametros:
-        limpar_tela()
-        nome_item = parametros[0].capitalize()
-        craftar_item(cursor, nomeUser, nome_item)
+        if acao == "comer" and parametros:
+            limpar_tela()
+            nomeItem = formatar_nome_item(' '.join(parametros))
+            comer(cursor, nomeUser, nomeItem)
+            return True
 
-    elif acao == "equipar_item" and parametros:
-        limpar_tela()
-        nomeItem = parametros[0].capitalize()
-        equipar_item(cursor, nomeUser, nomeItem)
-    
-    elif acao == "ajuda":
-        limpar_tela()
-        exibir_ajuda_inventario()
+        elif acao == "utilizar_item" and parametros:
+            limpar_tela()
+            nomeItem = formatar_nome_item(' '.join(parametros))
+            utilizar_item(cursor, nomeUser, nomeItem)
+            return True
 
-    elif acao == "fechar_inventario":
-        return False
+        elif acao == "craftar_item" and parametros:
+            limpar_tela()
+            nome_item = formatar_nome_item(' '.join(parametros))
+            craftar_item(cursor, nomeUser, nome_item)
+            return True
 
-    else:
-        mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
-        processar_comando_inventario(cursor, nomeUser)
+        elif acao == "equipar_item" and parametros:
+            limpar_tela()
+            nomeItem = formatar_nome_item(' '.join(parametros))
+            equipar_item(cursor, nomeUser, nomeItem)
+            return True
 
-    return True
+        elif acao == "ajuda":
+            limpar_tela()
+            exibir_ajuda_inventario()
+            return True
+
+        elif acao == "fechar_inventario":
+            return False
+
+        else:
+            # Comando inválido, continuar no loop
+            mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
+
 
 # Função para exibir ajuda específica do inventário
 def exibir_ajuda_inventario():
@@ -134,7 +140,6 @@ def comer(cursor, nomeUser, nomeItem):
     """
     Permite ao jogador consumir um alimento do inventário, recuperando fome e removendo o item do inventário e da tabela de InstanciaItem.
     """
-
     # Verifica se o item é alimento e se está no inventário do jogador
     cursor.execute("""
         SELECT Alimento.pts_fome, InstanciaItem.id_inst_item
@@ -155,14 +160,33 @@ def comer(cursor, nomeUser, nomeItem):
 
     if item_data:
         pts_fome, id_inst_item = item_data
-        # Atualiza a fome do jogador
-        cursor.execute("UPDATE Jogador SET fome = fome + %s WHERE nome = %s;", (pts_fome, nomeUser))
-        
-        # Remove o item do inventário e da tabela de instância
-        cursor.execute("DELETE FROM Inventario WHERE id_inst_item = %s;", (id_inst_item,))
-        cursor.execute("DELETE FROM InstanciaItem WHERE id_inst_item = %s;", (id_inst_item,))
-        
-        mostrar_texto_gradualmente(f"Você consumiu {nomeItem} e recuperou {pts_fome} pontos de fome.", Fore.GREEN)
+
+        # Verifica o nível atual de fome do jogador
+        cursor.execute("SELECT fome FROM Jogador WHERE nome = %s;", (nomeUser,))
+        fome_atual = cursor.fetchone()[0]
+
+        if fome_atual >= 20:
+            # Jogador já está com a fome cheia
+            mostrar_texto_gradualmente(f"Você já está cheio! Não precisa comer mais agora.", Fore.GREEN)
+        else:
+            # Calcular a nova fome
+            nova_fome = fome_atual + pts_fome
+            if nova_fome > 20:
+                nova_fome = 20  # Limita ao máximo de 20
+
+            # Atualiza a fome do jogador
+            cursor.execute("UPDATE Jogador SET fome = %s WHERE nome = %s;", (nova_fome, nomeUser))
+
+            # Remove o item do inventário e da tabela de instância
+            cursor.execute("DELETE FROM Inventario WHERE id_inst_item = %s;", (id_inst_item,))
+            cursor.execute("DELETE FROM InstanciaItem WHERE id_inst_item = %s;", (id_inst_item,))
+
+            if nova_fome == 20:
+                mostrar_texto_gradualmente(f"Você comeu {nomeItem} e agora está completamente cheio!", Fore.LIGHTGREEN_EX)
+            else:
+                fome_recuperada = nova_fome - fome_atual
+                mostrar_texto_gradualmente(f"Você comeu {nomeItem} e recuperou {fome_recuperada} pontos de fome.", Fore.LIGHTGREEN_EX)
+
     else:
         mostrar_texto_gradualmente(f"Item {nomeItem} não encontrado no inventário ou não é um alimento.", Fore.RED)
 

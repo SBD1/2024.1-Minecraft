@@ -1,5 +1,5 @@
 import time
-from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bioma_com_cor, mostrar_mapa_com_cor
+from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bioma_com_cor, mostrar_mapa_com_cor, formatar_nome_item
 from colorama import Fore
 from ..game.combat import atacar_mob
 from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item
@@ -129,87 +129,100 @@ def exibir_lista(titulo, itens, cor_titulo, mensagem_vazia):
 
 # Função para processar o comando do jogador
 def processar_comando(cursor, nomeUser, movimentos):
-    comando = input(f"{Fore.CYAN}Digite um comando ou 'ajuda' para ver a lista de comandos: ").strip().lower()
-    partes_comando = comando.split()
-    acao = partes_comando[0] if partes_comando else ""
-    parametros = partes_comando[1:] if len(partes_comando) > 1 else []
+    while True:
+        comando = input(f"{Fore.CYAN}Digite um comando ou 'ajuda' para ver a lista de comandos: ").strip().lower()
+        partes_comando = comando.split()
+        acao = partes_comando[0] if partes_comando else ""
+        parametros = partes_comando[1:] if len(partes_comando) > 1 else []
 
-    if acao == "ir_para" and parametros: #Feito
-        limpar_tela()
-        direcao = parametros[0]
-        if direcao in movimentos:
-            mover_jogador(cursor, nomeUser, direcao, movimentos)
+        if acao == "ir_para" and parametros:  # Feito
+            
+            direcao = parametros[0]
+            if direcao in movimentos:
+                limpar_tela()
+                mover_jogador(cursor, nomeUser, direcao, movimentos)
+                break
+            else:
+                mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
+                time.sleep(2)
+
+        elif acao == "ver_mob" and parametros:  # Feito
+            limpar_tela()
+            nome_mob = formatar_nome_item(parametros[0])
+            ver_mob(cursor, nomeUser, nome_mob)
+            break
+
+        elif acao == "ver_inventario":  # Feito
+            limpar_tela()
+            visualizar_inventario(cursor, nomeUser)
+            break
+
+        elif acao == "comer" and parametros:  # Feito
+            limpar_tela()
+            nomeItem = formatar_nome_item(parametros[0])
+            comer(cursor, nomeUser, nomeItem)
+            break
+
+        elif acao == "utilizar_item" and parametros:  # Implementar ações específicas
+            limpar_tela()
+            nomeItem = formatar_nome_item(parametros[0])
+            utilizar_item(cursor, nomeUser, nomeItem)
+            break
+
+        elif acao == "minerar_fonte" and parametros:
+            limpar_tela()
+            nome_fonte = formatar_nome_item(parametros[0])
+            minerar_fonte(cursor, nomeUser, nome_fonte)
+            break
+
+        elif acao == "craftar_item" and parametros: # Feito
+            limpar_tela()
+            nome_item = formatar_nome_item(' '.join(parametros))
+            craftar_item(cursor, nomeUser, nome_item)
+            break
+
+        elif acao == "equipar_item" and parametros:
+            limpar_tela()
+            nome_item = formatar_nome_item(parametros[0])
+            equipar_item(cursor, nomeUser, nome_item)
+            break
+
+        elif acao == "atacar_mob" and len(parametros) == 2:
+            limpar_tela()
+            nome_mob = formatar_nome_item(parametros[0])
+            nome_ferramenta = formatar_nome_item(parametros[1])
+            atacar_mob(cursor, nomeUser, nome_mob, nome_ferramenta)
+            break
+
+        elif acao == "falar" and parametros:
+            limpar_tela()
+            nome_aldeao = formatar_nome_item(parametros[0])
+            falar_aldeao(cursor, nomeUser, nome_aldeao) # Placeholder para quando a função estiver pronta
+            break
+
+        elif acao == "construir" and parametros:
+            limpar_tela()
+            nome_estrutura = formatar_nome_item(parametros[0])
+            construir_estrutura(cursor, nomeUser, nome_estrutura)
+            break
+
+        elif acao == "explorar_estrutura" and parametros:
+            limpar_tela()
+            nome_estrutura = formatar_nome_item(parametros[0])
+            explorar_estrutura(cursor, nomeUser, nome_estrutura)
+            break
+
+        elif acao == "ajuda":  # Feito 
+            limpar_tela()
+            exibir_ajuda()
+            break
+
+        elif acao == "sair":  # Feito 
+            limpar_tela()
+            return False
+
         else:
-            mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
-            time.sleep(2)
-
-    elif acao == "ver_mob" and parametros: #Feito
-        limpar_tela()
-        nome_mob = parametros[0].capitalize()
-        ver_mob(cursor, nomeUser, nome_mob)
-
-    elif acao == "ver_inventario": #Feito
-        limpar_tela()
-        visualizar_inventario(cursor, nomeUser)
-
-    elif acao == "comer" and parametros: #Feito
-        limpar_tela()
-        nomeItem = parametros[0].capitalize()
-        comer(cursor, nomeUser, nomeItem)
-
-    elif acao == "utilizar_item" and parametros: #Implementar ações específicas
-        limpar_tela()
-        nomeItem = parametros[0].capitalize()
-        utilizar_item(cursor, nomeUser, nomeItem)
-
-    elif acao == "minerar_fonte" and parametros:
-        limpar_tela()
-        nome_fonte = parametros[0]
-        minerar_fonte(cursor, nomeUser, nome_fonte)
-
-    elif acao == "craftar_item" and parametros:
-        limpar_tela()
-        nome_item = parametros[0]
-        craftar_item(cursor, nomeUser, nome_item)
-
-    elif acao == "equipar_item" and parametros:
-        limpar_tela()
-        nome_item = parametros[0]
-        equipar_item(cursor, nomeUser, nome_item)
-
-    elif acao == "atacar_mob" and len(parametros) == 2:
-        limpar_tela()
-        nome_mob = parametros[0]
-        nome_ferramenta = parametros[1]
-        atacar_mob(cursor, nomeUser, nome_mob, nome_ferramenta)
-
-    elif acao == "falar" and parametros:
-        limpar_tela()
-        nome_aldeao = parametros[0]
-        falar_aldeao(cursor, nomeUser, nome_aldeao)  # Placeholder para quando a função estiver pronta
-
-    elif acao == "construir" and parametros:
-        limpar_tela()
-        nome_estrutura = parametros[0]
-        construir_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
-
-    elif acao == "explorar_estrutura" and parametros:
-        limpar_tela()
-        nome_estrutura = parametros[0]
-        explorar_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
-
-    elif acao == "ajuda": #Feito 
-        limpar_tela()
-        exibir_ajuda()
-
-    elif acao == "sair": #Feito 
-        limpar_tela()
-        return False
-
-    else:
-        mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
-        processar_comando(cursor, nomeUser, movimentos)
-        
+            mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
 
     return True
 
