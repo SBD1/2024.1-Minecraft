@@ -38,6 +38,18 @@ def mostrar_bioma_com_cor(bioma):
     mostrar_texto_gradualmente("Bioma:", Fore.CYAN)
     mostrar_texto_gradualmente(bioma, cor_bioma)
 
+# Mostrar mapa com cor específica
+def mostrar_mapa_com_cor(mapa, hora):
+    cor_mapa = determinar_cor_mapa(mapa)
+    mostrar_texto_gradualmente("Mapa:", Fore.CYAN)
+    
+    if hora is not None:
+        texto = f"{mapa}, está de {hora}"
+    else:
+        texto = mapa
+    
+    mostrar_texto_gradualmente(texto, cor_mapa)
+
 # Determinar a cor do bioma
 def determinar_cor_bioma(bioma):
     cores_biomas = {
@@ -57,3 +69,12 @@ def determinar_cor_bioma(bioma):
     }
     return cores_biomas.get(bioma, Fore.WHITE)
 
+# Determinar a cor do mapa
+def determinar_cor_mapa(mapa):
+    cores_mapas = {
+        'Superfície': Fore.LIGHTGREEN_EX,  
+        'Cavernas': Fore.LIGHTBLACK_EX,    
+        'Nether': Fore.RED,                
+        'Fim': Fore.LIGHTMAGENTA_EX        
+    }
+    return cores_mapas.get(mapa, Fore.WHITE)

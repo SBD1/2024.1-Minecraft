@@ -392,3 +392,30 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE PROCEDURE inserir_inst_fonte(
+    nome_fonte VARCHAR, 
+    qtd_atual INT, 
+    numero_chunk INT, 
+    nome_mapa VARCHAR
+)
+LANGUAGE plpgsql AS $$
+BEGIN
+    -- Inserir uma instância de fonte no chunk
+    INSERT INTO InstanciaFonte (nome_fonte, qtd_atual, numero_chunk, nome_mapa)
+    VALUES (nome_fonte, qtd_atual, numero_chunk, nome_mapa);
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE inserir_inst_construivel(
+    nome_construivel VARCHAR,
+    numero_chunk INT,
+    nome_mapa VARCHAR
+)
+LANGUAGE plpgsql AS
+$$
+BEGIN
+    -- Inserir instância do construível
+    INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
+    VALUES (nome_construivel, numero_chunk, nome_mapa);
+END;
+$$;

@@ -38,7 +38,7 @@ def ver_mob(cursor, nomeUser, nomeMob):
 
         input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
     else:
-        mostrar_texto_gradualmente(f"Não há um mob chamado {nomeMob} no seu chunk.", Fore.RED)
+        mostrar_texto_gradualmente(f"Não há um mob chamado {nomeMob} por aqui...", Fore.RED)
         time.sleep(2)
 
 # Comando: Minerar Fonte

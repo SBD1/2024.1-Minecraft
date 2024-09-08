@@ -1,5 +1,5 @@
 import time
-from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bioma_com_cor
+from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bioma_com_cor, mostrar_mapa_com_cor
 from colorama import Fore
 from ..game.combat import atacar_mob
 from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item
@@ -29,10 +29,10 @@ def jogar(cursor, nomeUser):
         bioma = dadosChunkAtual[1]
 
         # Consultar informações do chunk (recursos, mobs, estruturas)
-        fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk, horaMapa = obter_info_chunk(cursor, chunkAtual, mapaAtual)
+        fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk, contruiveis_no_chunk, horaMapa = obter_info_chunk(cursor, chunkAtual, mapaAtual)
 
         # Mostrar as informações coletadas
-        exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos, horaMapa, mapaAtual)
+        exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, contruiveis_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos, horaMapa, mapaAtual)
 
         # Calcular direções possiveis
         movimentos = calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual)
@@ -71,10 +71,13 @@ def obter_info_chunk(cursor, chunkAtual, mapaAtual):
     cursor.execute("SELECT nome_estrutura FROM instanciaestrutura WHERE numero_chunk = %s and nome_mapa = %s;", (chunkAtual, mapaAtual))
     estruturas_no_chunk = [estrutura[0] for estrutura in cursor.fetchall()]
 
+    cursor.execute("SELECT nome_construivel FROM instanciaconstruivel WHERE numero_chunk = %s and nome_mapa = %s;", (chunkAtual, mapaAtual))
+    construiveis_no_chunk = [construivel[0] for construivel in cursor.fetchall()]
+
     cursor.execute("SELECT hora FROM mapa WHERE nome = %s;", (mapaAtual,))
     horaMapa = cursor.fetchall()[0][0]
 
-    return fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk, horaMapa
+    return fontes_recursos, mobs_pacificos, mobs_agressivos, estruturas_no_chunk, construiveis_no_chunk, horaMapa
 
 # Função para classificar mobs
 def classificar_mobs(cursor, mobs_no_chunk):
@@ -93,24 +96,23 @@ def classificar_mobs(cursor, mobs_no_chunk):
     return mobs_pacificos, mobs_agressivos
 
 # Função para exibir informações do chunk
-def exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos, horaMapa, mapaAtual):
+def exibir_informacoes_chunk(chunkAtual, bioma, estruturas_no_chunk, construiveis_no_chunk, mobs_pacificos, mobs_agressivos, fontes_recursos, horaMapa, mapaAtual):
     """
     Exibe as informações do chunk, como bioma, mobs, estruturas e recursos.
     """
     mostrar_texto_gradualmente(f"Você está no Chunk {chunkAtual}", Fore.CYAN)
-    
-    texto = f"Mapa: {mapaAtual}"
-    if horaMapa is not None:
-        texto += f", está de {horaMapa}"
-    mostrar_texto_gradualmente(texto, Fore.CYAN)
+
+    mostrar_mapa_com_cor(mapaAtual, horaMapa)
     
     mostrar_bioma_com_cor(bioma)
     print()
 
-    exibir_lista("Você vê a seguinte estrutura:", estruturas_no_chunk, Fore.YELLOW, "Não há estruturas visíveis aqui.")
-    exibir_lista("Mobs pacíficos na área:", mobs_pacificos, Fore.LIGHTGREEN_EX, "Nenhum mob pacífico à vista.")
-    exibir_lista("Mobs agressivos na área:", mobs_agressivos, Fore.RED, "Parece tranquilo, nenhum mob agressivo por aqui.")
-    exibir_lista("Fontes de recursos disponíveis:", fontes_recursos, Fore.CYAN, "Não há recursos disponíveis neste chunk.")
+    exibir_lista("Dando uma boa olhada ao redor, você percebe algumas estruturas:", estruturas_no_chunk, Fore.YELLOW, "Nenhum sinal de estruturas imponentes por aqui...")
+    exibir_lista("Algumas construções chamam sua atenção:", construiveis_no_chunk, Fore.LIGHTBLUE_EX, "Nada construído ainda... talvez seja hora de pôr mãos à obra!")
+    exibir_lista("Parece que há companhia tranquila por perto:", mobs_pacificos, Fore.LIGHTGREEN_EX, "Nenhuma criatura amigável por aqui... tá meio deserto.")
+    exibir_lista("Algo sinistro se esconde nas sombras:", mobs_agressivos, Fore.RED, "Tudo calmo por enquanto... mas melhor não relaxar.")
+    exibir_lista("Você avista recursos valiosos pela área:", fontes_recursos, Fore.LIGHTMAGENTA_EX, "Nenhum recurso por aqui... talvez seja melhor procurar em outro lugar.")
+
 
 # Função para exibir uma lista de itens ou uma mensagem caso a lista esteja vazia
 def exibir_lista(titulo, itens, cor_titulo, mensagem_vazia):
@@ -131,9 +133,14 @@ def processar_comando(cursor, nomeUser, movimentos):
     partes_comando = comando.split()
     acao = partes_comando[0] if partes_comando else ""
     parametros = partes_comando[1:] if len(partes_comando) > 1 else []
+
+    if acao == "ir" and parametros and parametros[0] == "para":
+        acao = "ir para"
+        parametros = parametros[1:]
+
     limpar_tela()
 
-    if acao == "andar" and parametros: #Feito
+    if acao == "ir para" and parametros: #Feito
         direcao = parametros[0]
         if direcao in movimentos:
             mover_jogador(cursor, nomeUser, direcao, movimentos)
@@ -309,7 +316,7 @@ def exibir_ajuda():
     limpar_tela()
     mostrar_texto_gradualmente("Comandos disponíveis:", Fore.BLUE)
 
-    print(f"{Fore.YELLOW}andar <direção>{Fore.RESET}: para se mover na respectiva direção")
+    print(f"{Fore.YELLOW}ir para <direção>{Fore.RESET}: para se mover na respectiva direção")
     print(f"{Fore.YELLOW}ver <nomeMob>{Fore.RESET}: para ver informações sobre um mob no chunk atual")
     print(f"{Fore.YELLOW}visualizar_inventario{Fore.RESET}: para ver os itens no seu inventário")
     print(f"{Fore.YELLOW}utilizar_item <nomeItem>{Fore.RESET}: para usar um item do inventário")
