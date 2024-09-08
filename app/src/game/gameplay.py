@@ -134,9 +134,8 @@ def processar_comando(cursor, nomeUser, movimentos):
     acao = partes_comando[0] if partes_comando else ""
     parametros = partes_comando[1:] if len(partes_comando) > 1 else []
 
-    limpar_tela()
-
     if acao == "ir_para" and parametros: #Feito
+        limpar_tela()
         direcao = parametros[0]
         if direcao in movimentos:
             mover_jogador(cursor, nomeUser, direcao, movimentos)
@@ -145,58 +144,72 @@ def processar_comando(cursor, nomeUser, movimentos):
             time.sleep(2)
 
     elif acao == "ver_mob" and parametros: #Feito
+        limpar_tela()
         nome_mob = parametros[0].capitalize()
         ver_mob(cursor, nomeUser, nome_mob)
 
     elif acao == "ver_inventario": #Feito
+        limpar_tela()
         visualizar_inventario(cursor, nomeUser)
 
     elif acao == "comer" and parametros: #Feito
+        limpar_tela()
         nomeItem = parametros[0].capitalize()
         comer(cursor, nomeUser, nomeItem)
 
     elif acao == "utilizar_item" and parametros: #Implementar ações específicas
+        limpar_tela()
         nomeItem = parametros[0].capitalize()
         utilizar_item(cursor, nomeUser, nomeItem)
 
     elif acao == "minerar_fonte" and parametros:
+        limpar_tela()
         nome_fonte = parametros[0]
         minerar_fonte(cursor, nomeUser, nome_fonte)
 
     elif acao == "craftar_item" and parametros:
+        limpar_tela()
         nome_item = parametros[0]
         craftar_item(cursor, nomeUser, nome_item)
 
     elif acao == "equipar_item" and parametros:
+        limpar_tela()
         nome_item = parametros[0]
         equipar_item(cursor, nomeUser, nome_item)
 
     elif acao == "atacar_mob" and len(parametros) == 2:
+        limpar_tela()
         nome_mob = parametros[0]
         nome_ferramenta = parametros[1]
         atacar_mob(cursor, nomeUser, nome_mob, nome_ferramenta)
 
     elif acao == "falar" and parametros:
+        limpar_tela()
         nome_aldeao = parametros[0]
         falar_aldeao(cursor, nomeUser, nome_aldeao)  # Placeholder para quando a função estiver pronta
 
     elif acao == "construir" and parametros:
+        limpar_tela()
         nome_estrutura = parametros[0]
         construir_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
 
     elif acao == "explorar_estrutura" and parametros:
+        limpar_tela()
         nome_estrutura = parametros[0]
         explorar_estrutura(cursor, nomeUser, nome_estrutura)  # Placeholder
 
-    elif acao == "ajuda":
+    elif acao == "ajuda": #Feito 
+        limpar_tela()
         exibir_ajuda()
 
-    elif acao == "sair":
+    elif acao == "sair": #Feito 
+        limpar_tela()
         return False
 
     else:
         mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
-        time.sleep(1)
+        processar_comando(cursor, nomeUser, movimentos)
+        
 
     return True
 
