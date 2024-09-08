@@ -357,6 +357,61 @@ CREATE OR REPLACE TRIGGER check_existe_agressivo
 BEFORE INSERT ON Pacifico
 FOR EACH ROW EXECUTE PROCEDURE check_existe_agressivo();
 
+--- CHECAR INSERÇÃO DA VIDA DO MOB NA TABELA 
+CREATE OR REPLACE FUNCTION checar_vida_mob() RETURNS trigger 
+AS $checar_vida_mob$
+BEGIN
+
+    DECLARE 
+        tipo_mob VARCHAR(30);
+        vida_max INT;
+    BEGIN
+
+        SELECT m.tipo_mob
+        INTO tipo_mob
+        FROM Mob m
+        WHERE m.nome = NEW.nome_mob;
+
+        IF tipo_mob = 'agressivo' THEN
+            
+            SELECT a.vida_max 
+            INTO vida_max
+            FROM Agressivo a
+            WHERE a.nome_mob = NEW.nome_mob;
+            
+            IF NEW.vida_atual > vida_max THEN
+                RAISE EXCEPTION 'A vida atual (%) não pode ser maior que a vida máxima (%) para o mob agressivo %.', 
+                    NEW.vida_atual, vida_max, NEW.nome_mob;
+            END IF;
+
+        ELSIF tipo_mob = 'pacifico' THEN
+
+            SELECT p.vida_max 
+            INTO vida_max
+            FROM Pacifico p
+            WHERE p.nome_mob = NEW.nome_mob;
+            
+            IF NEW.vida_atual > vida_max THEN
+                RAISE EXCEPTION 'A vida atual (%) não pode ser maior que a vida máxima (%) para o mob pacífico %.', 
+                    NEW.vida_atual, vida_max, NEW.nome_mob;
+            END IF;
+
+        ELSE 
+			RAISE EXCEPTION 'Tipo de mob % não é válido.', tipo_mob;
+		END IF;
+
+		RETURN NEW;
+    END;
+END;
+$checar_vida_mob$ LANGUAGE plpgsql;
+
+CREATE TRIGGER checar_vida_mob
+BEFORE INSERT OR UPDATE ON InstanciaMob
+FOR EACH ROW
+EXECUTE FUNCTION checar_vida_mob();
+
+
+
 -- ANALISAR COM BRUNO DEPOIS
 
 CREATE OR REPLACE PROCEDURE inserir_inst_estrutura(
@@ -419,3 +474,5 @@ BEGIN
     VALUES (nome_construivel, numero_chunk, nome_mapa);
 END;
 $$;
+
+

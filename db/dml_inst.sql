@@ -158,7 +158,7 @@ BEGIN
                     CALL inserir_inst_estrutura('Bastião em Ruínas', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir mobs no Bastião em Ruínas
-                    CALL inserir_inst_mob('Piglin', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Piglin', 16, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
                     CALL inserir_inst_mob('Piglin Zumbi', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
                     CALL inserir_inst_mob('Esqueleto Wither', 20, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
