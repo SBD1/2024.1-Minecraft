@@ -839,9 +839,10 @@ DECLARE
     mapa_atual VARCHAR(30);
     construcao_existente RECORD;
     receita_itens RECORD;
-    inventario_jogador RECORD;
     quantidade_no_inventario INT;
     novo_portal_chunk_nether INT;
+    v_qtd_remover INT;
+    v_id_inst_item INT;
 BEGIN
     -- 1. Obter a posição atual do jogador (chunk atual e mapa)
     SELECT Jogador.numero_chunk, Jogador.nome_mapa
@@ -867,13 +868,21 @@ BEGIN
         RETURN 'Já existe ' || nome_construcao || ' nesse chunk.';
     END IF;
 
-    -- 3. Obter a receita da construção
+    -- 3. Verificar se o nome da construção está presente na tabela Construivel
+    IF nome_construcao = 'Portal do Nether' THEN
+        -- Inserir "Portal do Nether" na tabela Construivel se não estiver lá
+        IF NOT EXISTS (SELECT 1 FROM Construivel WHERE nome = 'Portal do Nether') THEN
+            INSERT INTO Construivel (nome, descricao) VALUES ('Portal do Nether', 'Um portal para o Nether.');
+        END IF;
+    END IF;
+
+    -- 4. Obter a receita da construção
     FOR receita_itens IN
         SELECT item, quantidade
         FROM ReceitaConstruivel
         WHERE nome_construivel = nome_construcao
     LOOP
-        -- 4. Verificar se o jogador tem os itens necessários
+        -- 5. Verificar se o jogador tem os itens necessários
         SELECT COUNT(*) INTO quantidade_no_inventario
         FROM Inventario
         JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
@@ -897,33 +906,41 @@ BEGIN
         VALUES ('Portal do Nether', (SELECT FLOOR(random() * 900) + 1), 'Nether')
         RETURNING numero_chunk INTO novo_portal_chunk_nether;
 
-        -- Retornar a informação sobre o novo portal no Nether
-        RETURN 'Um novo portal foi criado no Nether, no chunk ' || novo_portal_chunk_nether || '.';
+        -- Garantir que o chunk no Nether existe na tabela Chunk
+        INSERT INTO Chunk (numero, nome_bioma, nome_mapa)
+        VALUES (novo_portal_chunk_nether, 'BiomaDesconhecido', 'Nether')
+        ON CONFLICT DO NOTHING;
     END IF;
 
-    -- 7. Remover os itens usados do inventário
+    -- 7. Remover os itens usados do inventário de acordo com a quantidade exata necessária
     FOR receita_itens IN
         SELECT item, quantidade
         FROM ReceitaConstruivel
         WHERE nome_construivel = nome_construcao
     LOOP
-        -- Para cada item da receita, remover a quantidade necessária do inventário
-        FOR inventario_jogador IN
-            SELECT InstanciaItem.id_inst_item
-            FROM Inventario
-            JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
-            WHERE InstanciaItem.nome_item = receita_itens.item
-              AND Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = nome_jogador)
-            LIMIT receita_itens.quantidade
-        LOOP
-            -- Remover item do inventário e da tabela InstanciaItem
-            DELETE FROM Inventario WHERE id_inst_item = inventario_jogador.id_inst_item;
-            DELETE FROM InstanciaItem WHERE id_inst_item = inventario_jogador.id_inst_item;
+        v_qtd_remover := receita_itens.quantidade;
+
+        -- Remover exatamente a quantidade necessária de cada item
+        FOR i IN 1..v_qtd_remover LOOP
+            -- Encontrar o id_inst_item para o item específico e removê-lo
+            SELECT id_inst_item INTO v_id_inst_item
+            FROM InstanciaItem
+            WHERE nome_item = receita_itens.item
+              AND id_inst_item IN (SELECT id_inst_item FROM Inventario WHERE id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = nome_jogador))
+            LIMIT 1;
+
+            -- Remover do inventário e da instância
+            DELETE FROM Inventario WHERE id_inst_item = v_id_inst_item;
+            DELETE FROM InstanciaItem WHERE id_inst_item = v_id_inst_item;
         END LOOP;
     END LOOP;
 
-    -- Retornar sucesso para a construção
-    RETURN 'Você construiu ' || nome_construcao || ' com sucesso!';
+    -- Retornar sucesso para a construção (após a remoção dos itens)
+    IF nome_construcao = 'Portal do Nether' THEN
+        RETURN 'Um novo portal foi criado no Nether, no chunk ' || novo_portal_chunk_nether || '.';
+    ELSE
+        RETURN 'Você construiu ' || nome_construcao || ' com sucesso!';
+    END IF;
 
 END;
 $construir_construcao$ LANGUAGE plpgsql SECURITY DEFINER;
