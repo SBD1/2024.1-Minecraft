@@ -16193,10 +16193,14 @@ VALUES
         ('Pedregulho', null),
         ('Pedregulho', null),
         ('Pedregulho', null),
+        ('Pedregulho', null),
+        ('Pedregulho', null),
+        ('Pedregulho', null),
         ('Maçã', NULL),
         ('Mapa', NULL),
         ('Olho do Ender', NULL),
         ('Bússola', NULL),
+        ('Graveto', null),
         ('Graveto', null),
         ('Obsidiana', null),
         ('Obsidiana', null),
@@ -16245,7 +16249,11 @@ VALUES
         (23, 1),
         (24, 1),
         (25, 1),
-        (26, 1);
+        (26, 1),
+        (27, 1),
+        (28, 1),
+        (29, 1),
+        (30, 1);
         
 -- Inserindo Mobs
 
@@ -16526,24 +16534,24 @@ BEGIN
         FROM Chunk
         WHERE nome_mapa = 'Superfície'
     LOOP
-        -- Zumbi (spawn em Planície, Floresta, Pântano)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Floresta', 'Pântano') THEN
+        -- Zumbi (spawn em Planície, Floresta, Pântano e Deserto)
+        IF chunk_rec.nome_bioma IN ('Planície', 'Floresta', 'Pântano', 'Deserto') THEN
             rand_num := random() * 100;
             IF rand_num <= 70.00 THEN
                 CALL inserir_inst_mob('Zumbi', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- Esqueleto (spawn em Planície, Montanha, Floresta)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Floresta') THEN
+        -- Esqueleto (spawn em Planície, Montanha, Floresta e Deserto)
+        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Floresta', 'Deserto') THEN
             rand_num := random() * 100;
             IF rand_num <= 60.00 THEN
                 CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, 'Superfície', NULL);
             END IF;
         END IF;
 
-        -- Aranha (spawn em Floresta, Pântano)
-        IF chunk_rec.nome_bioma IN ('Floresta', 'Pântano') THEN
+        -- Aranha (spawn em Floresta, Pântano e Deserto)
+        IF chunk_rec.nome_bioma IN ('Floresta', 'Pântano', 'Deserto') THEN
             rand_num := random() * 100;
             IF rand_num <= 50.00 THEN
                 CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, 'Superfície', NULL);
@@ -16558,8 +16566,8 @@ BEGIN
             END IF;
         END IF;
 
-        -- Creeper (spawn em Floresta, Planície)
-        IF chunk_rec.nome_bioma IN ('Floresta', 'Planície') THEN
+        -- Creeper (spawn em Floresta, Planície e Deserto)
+        IF chunk_rec.nome_bioma IN ('Floresta', 'Planície', 'Deserto') THEN
             rand_num := random() * 100;
             IF rand_num <= 30.00 THEN
                 CALL inserir_inst_mob('Creeper', 20, chunk_rec.numero, 'Superfície', NULL);
@@ -16574,8 +16582,8 @@ BEGIN
             END IF;
         END IF;
 
-        -- Pilhador (spawn em Planície, Montanha)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha') THEN
+        -- Pilhador (spawn em Planície, Montanha e Deserto)
+        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Deserto') THEN
             rand_num := random() * 100;
             IF rand_num <= 10.00 THEN
                 CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, 'Superfície', NULL);
