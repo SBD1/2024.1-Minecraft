@@ -479,7 +479,7 @@ $$;
 ------------------------------------ PROCEDURES PARA A GAMEPLAY  ---------------------------------------
 --------------------------------------------------------------------------------------------------------
 
---- PROCEDURE PARA MOVER JOGADOR
+--- FUNCTION PARA MOVER JOGADOR
 
 CREATE OR REPLACE FUNCTION mover_jogador(
     p_nomeUser VARCHAR(30),
@@ -520,6 +520,26 @@ BEGIN
     END IF;
 END;
 $mover_jogador$ LANGUAGE plpgsql;
+
+--- TRIGGER/STORED PROCEDURE PARA NÃO PERMITIR INSERIR VALOR NULO NO CHUNK DO JOGADOR
+
+CREATE OR REPLACE FUNCTION verificar_chunk_jogador()
+RETURNS TRIGGER AS $verificar_chunk_jogador$
+BEGIN
+    -- Verifica se o campo chunk é NULL
+    IF NEW.numero_chunk IS NULL THEN
+        RAISE EXCEPTION 'O campo "numero_chunk" não pode ser NULL.';
+    END IF;
+
+    -- Se passar pela verificação, permite a inserção ou atualização
+    RETURN NEW;
+END;
+$verificar_chunk_jogador$ LANGUAGE plpgsql;
+
+CREATE TRIGGER verificar_chunk_jogador
+BEFORE UPDATE ON Jogador
+FOR EACH ROW
+EXECUTE FUNCTION verificar_chunk_jogador();
 
 --- FUNCTION PARA CRAFTAR ITENS
 
