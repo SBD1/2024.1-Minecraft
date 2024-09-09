@@ -719,6 +719,7 @@ DECLARE
     v_qtd_necessaria INT;
     v_qtd_no_inventario INT;
     v_id_inst_item INT;
+    v_durabilidade_total INT;
     v_item_removido INT;
     v_itens_remover RECORD;
 BEGIN
@@ -801,9 +802,23 @@ BEGIN
         END LOOP;
     END LOOP;
 
+    -- Verificar se o item a ser craftado tem durabilidade (FerramentaDuravel ou ArmaduraDuravel)
+    IF EXISTS (SELECT 1 FROM FerramentaDuravel WHERE nome_item = p_nomeItem) THEN
+        -- Se for ferramenta durável, pegar a durabilidade total
+        SELECT durabilidade_total INTO v_durabilidade_total FROM FerramentaDuravel WHERE nome_item = p_nomeItem;
+    ELSIF EXISTS (SELECT 1 FROM ArmaduraDuravel WHERE nome_item = p_nomeItem) THEN
+        -- Se for armadura durável, pegar a durabilidade total
+        SELECT durabilidade_total INTO v_durabilidade_total FROM ArmaduraDuravel WHERE nome_item = p_nomeItem;
+    ELSE
+        -- Caso o item não tenha durabilidade, definir como NULL
+        v_durabilidade_total := NULL;
+    END IF;
+
     -- Criar e adicionar o novo item craftado ao inventário do jogador
     FOR i IN 1..v_quantidade_saida LOOP
-        INSERT INTO InstanciaItem (nome_item) VALUES (p_nomeItem) RETURNING id_inst_item INTO v_id_inst_item;
+        INSERT INTO InstanciaItem (nome_item, durabilidade_atual) 
+        VALUES (p_nomeItem, v_durabilidade_total) 
+        RETURNING id_inst_item INTO v_id_inst_item;
 
         INSERT INTO Inventario (id_inst_item, id_inventario)
         VALUES (v_id_inst_item, v_id_jogador);
@@ -813,3 +828,4 @@ BEGIN
     RETURN 'Item ' || p_nomeItem || ' craftado com sucesso e adicionado ao inventário.';
 END;
 $craftar_item$ LANGUAGE plpgsql SECURITY DEFINER;
+
