@@ -1,6 +1,6 @@
 from ..db.database import connect_to_db
 from ..utils.helpers import mostrar_texto_gradualmente
-from colorama import Fore
+from colorama import Fore, Back, Style
 import time
 
 # Comando: Ver Mob
@@ -145,4 +145,95 @@ def craftar_item(cursor, nomeUser, nomeItem):
     mostrar_texto_gradualmente(f"Você craftou {quantidade_saida}x {nomeItem}!", Fore.GREEN)
     time.sleep(2)
 
+# Comando: Construir Construção
+def construir_construcao(cursor, nomeUser, nome_construcao):
+    # Obter a posição atual do jogador (chunk atual)
+    cursor.execute("""
+        SELECT Jogador.numero_chunk, Jogador.nome_mapa
+        FROM Jogador
+        WHERE Jogador.nome = %s
+    """, (nomeUser,))
+    
+    jogador_data = cursor.fetchone()
+    
+    if not jogador_data:
+        mostrar_texto_gradualmente(f"Jogador não encontrado.", Fore.RED)
+        time.sleep(2)
+        return
+    
+    chunkAtual, mapaAtual = jogador_data
+    
+    # Verificar se o chunk já possui a construção
+    cursor.execute("""
+        SELECT 1
+        FROM InstanciaConstruivel
+        WHERE nome_construivel = %s AND numero_chunk = %s AND nome_mapa = %s
+    """, (nome_construcao, chunkAtual, mapaAtual))
+    
+    construcao_existente = cursor.fetchone()
+    
+    if construcao_existente:
+        mostrar_texto_gradualmente(f"Já existe {nome_construcao} nesse chunk.", Fore.RED)
+        time.sleep(2)
+        return
+    
+    # Obter a receita da construção
+    cursor.execute("""
+        SELECT item, quantidade
+        FROM ReceitaConstruivel
+        WHERE nome_construivel = %s
+    """, (nome_construcao,))
+    
+    receita = cursor.fetchall()
+    
+    if not receita:
+        mostrar_texto_gradualmente(f"A construção {nome_construcao} não possui uma receita válida.", Fore.RED)
+        time.sleep(2)
+        return
+    
+    # Obter os itens do inventário do jogador
+    cursor.execute("""
+        SELECT InstanciaItem.nome_item, COUNT(InstanciaItem.id_inst_item) AS quantidade
+        FROM Inventario
+        JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+        WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
+        GROUP BY InstanciaItem.nome_item
+    """, (nomeUser,))
+    
+    inventario_jogador = cursor.fetchall()
+    inventario_dict = {item[0]: item[1] for item in inventario_jogador}
+    
+    # Verificar se o jogador tem os itens necessários
+    for item, quantidade_necessaria in receita:
+        if item not in inventario_dict or inventario_dict[item] < quantidade_necessaria:
+            mostrar_texto_gradualmente(f"Você não possui itens suficientes para construir {nome_construcao}.", Fore.RED)
+            time.sleep(2)
+            return
+    
+    # Se o jogador tiver os itens, criar a construção no chunk atual
+    cursor.execute("""
+        INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
+        VALUES (%s, %s, %s)
+    """, (nome_construcao, chunkAtual, mapaAtual))
+    
+    mostrar_texto_gradualmente(f"Você construiu {nome_construcao}!", Fore.GREEN)
+    time.sleep(2)
 
+    # Remover os itens usados do inventário e da tabela InstanciaItem
+    for item, quantidade_necessaria in receita:
+        cursor.execute("""
+            SELECT InstanciaItem.id_inst_item
+            FROM Inventario
+            JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+            WHERE InstanciaItem.nome_item = %s AND Inventario.id_inventario = (
+                SELECT id_jogador FROM Jogador WHERE nome = %s
+            )
+            LIMIT %s
+        """, (item, nomeUser, quantidade_necessaria))
+        
+        instancias_para_remover = cursor.fetchall()
+        
+        for instancia in instancias_para_remover:
+            id_inst_item = instancia[0]
+            cursor.execute("DELETE FROM Inventario WHERE id_inst_item = %s", (id_inst_item,))
+            cursor.execute("DELETE FROM InstanciaItem WHERE id_inst_item = %s", (id_inst_item,))
