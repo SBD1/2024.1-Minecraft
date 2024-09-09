@@ -6,7 +6,7 @@ from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item
 from ..game.player_actions import visualizar_inventario, comer, utilizar_item
 
 # Função principal do jogo
-def jogar(cursor, nomeUser):
+def jogar(connection, cursor, nomeUser):
     """
     Loop principal do jogo. Processa o estado do jogador, movimentação e interações no chunk.
     """
@@ -38,7 +38,7 @@ def jogar(cursor, nomeUser):
         movimentos = calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual)
 
         # Solicita a entrada do usuario
-        if not processar_comando(cursor, nomeUser, movimentos):
+        if not processar_comando(connection, cursor, nomeUser, movimentos):
             break
 
 # Função para obter dados do jogador
@@ -128,7 +128,7 @@ def exibir_lista(titulo, itens, cor_titulo, mensagem_vazia):
     print()
 
 # Função para processar o comando do jogador
-def processar_comando(cursor, nomeUser, movimentos):
+def processar_comando(connection, cursor, nomeUser, movimentos):
     while True:
         comando = input(f"{Fore.CYAN}Digite um comando ou 'ajuda' para ver a lista de comandos: ").strip().lower()
         partes_comando = comando.split()
@@ -140,7 +140,7 @@ def processar_comando(cursor, nomeUser, movimentos):
             direcao = parametros[0]
             if direcao in movimentos:
                 limpar_tela()
-                mover_jogador(cursor, nomeUser, direcao, movimentos)
+                mover_jogador(connection, cursor, nomeUser, direcao, movimentos)
                 break
             else:
                 mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
@@ -149,67 +149,67 @@ def processar_comando(cursor, nomeUser, movimentos):
         elif acao == "ver_mob" and parametros:  # Feito
             limpar_tela()
             nome_mob = formatar_nome_item(parametros[0])
-            ver_mob(cursor, nomeUser, nome_mob)
+            ver_mob(connection, cursor, nomeUser, nome_mob)
             break
 
         elif acao == "ver_inventario":  # Feito
             limpar_tela()
-            visualizar_inventario(cursor, nomeUser)
+            visualizar_inventario(connection, cursor, nomeUser)
             break
 
         elif acao == "comer" and parametros:  # Feito
             limpar_tela()
             nomeItem = formatar_nome_item(parametros[0])
-            comer(cursor, nomeUser, nomeItem)
+            comer(connection, cursor, nomeUser, nomeItem)
             break
 
         elif acao == "utilizar_item" and parametros:  # Implementar ações específicas
             limpar_tela()
             nomeItem = formatar_nome_item(parametros[0])
-            utilizar_item(cursor, nomeUser, nomeItem)
+            utilizar_item(connection, cursor, nomeUser, nomeItem)
             break
 
         elif acao == "minerar_fonte" and parametros:
             limpar_tela()
             nome_fonte = formatar_nome_item(parametros[0])
-            minerar_fonte(cursor, nomeUser, nome_fonte)
+            minerar_fonte(connection, cursor, nomeUser, nome_fonte)
             break
 
         elif acao == "craftar_item" and parametros: # Feito
             limpar_tela()
             nome_item = formatar_nome_item(' '.join(parametros))
-            craftar_item(cursor, nomeUser, nome_item)
+            craftar_item(connection, cursor, nomeUser, nome_item)
             break
 
         elif acao == "equipar_item" and parametros:
             limpar_tela()
             nome_item = formatar_nome_item(parametros[0])
-            equipar_item(cursor, nomeUser, nome_item)
+            equipar_item(connection, cursor, nomeUser, nome_item)
             break
 
         elif acao == "atacar_mob" and len(parametros) == 2:
             limpar_tela()
             nome_mob = formatar_nome_item(parametros[0])
             nome_ferramenta = formatar_nome_item(parametros[1])
-            atacar_mob(cursor, nomeUser, nome_mob, nome_ferramenta)
+            atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta)
             break
 
         elif acao == "falar" and parametros:
             limpar_tela()
             nome_aldeao = formatar_nome_item(parametros[0])
-            falar_aldeao(cursor, nomeUser, nome_aldeao) # Placeholder para quando a função estiver pronta
+            falar_aldeao(connection, cursor, nomeUser, nome_aldeao) # Placeholder para quando a função estiver pronta
             break
 
         elif acao == "construir" and parametros:
             limpar_tela()
             nome_estrutura = formatar_nome_item(parametros[0])
-            construir_estrutura(cursor, nomeUser, nome_estrutura)
+            construir_estrutura(connection, cursor, nomeUser, nome_estrutura)
             break
 
         elif acao == "explorar_estrutura" and parametros:
             limpar_tela()
             nome_estrutura = formatar_nome_item(parametros[0])
-            explorar_estrutura(cursor, nomeUser, nome_estrutura)
+            explorar_estrutura(connection, cursor, nomeUser, nome_estrutura)
             break
 
         elif acao == "ajuda":  # Feito 
@@ -310,7 +310,7 @@ def calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual):
 
 
 # Função para mover o jogador
-def mover_jogador(cursor, nomeUser, direcao, movimentos):
+def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
     """
     Move o jogador para um novo chunk com base na direção escolhida.
     """
@@ -332,8 +332,10 @@ def mover_jogador(cursor, nomeUser, direcao, movimentos):
             cursor.execute("UPDATE jogador SET numero_chunk = %s WHERE nome = %s;", (novo_chunk, nomeUser))
             mostrar_texto_gradualmente(f"Você se moveu para o {direcao.capitalize()} e agora está no chunk {novo_chunk}.", Fore.GREEN)
             time.sleep(2)
+        connection.commit()
     else:
         mostrar_texto_gradualmente(f"Não é possível ir para {direcao.capitalize()}.", Fore.RED)
+
 
 def exibir_ajuda():
     """

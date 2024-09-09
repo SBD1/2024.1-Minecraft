@@ -3,7 +3,7 @@ from colorama import Fore
 import random
 
 # Comando: Atacar Mob
-def atacar_mob(cursor, nomeUser, nomeMob, nomeFerramenta):
+def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta):
     """
     Permite ao jogador atacar um mob utilizando uma ferramenta ou arma do inventário.
     """
@@ -80,5 +80,6 @@ def atacar_mob(cursor, nomeUser, nomeMob, nomeFerramenta):
                     mostrar_texto_gradualmente(f"O mob dropou {nome_item}.", Fore.YELLOW)
         else:
             mostrar_texto_gradualmente(f"Você atacou {nomeMob} com {nomeFerramenta}.", Fore.GREEN)
+        connection.commit()
     else:
         mostrar_texto_gradualmente("Você não tem uma ferramenta válida ou ela está quebrada.", Fore.RED)

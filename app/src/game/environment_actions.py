@@ -4,7 +4,7 @@ from colorama import Fore
 import time
 
 # Comando: Ver Mob
-def ver_mob(cursor, nomeUser, nomeMob):
+def ver_mob(connection, cursor, nomeUser, nomeMob):
     """
     Permite ao jogador visualizar os atributos de um mob presente no mesmo chunk.
     """
@@ -42,7 +42,7 @@ def ver_mob(cursor, nomeUser, nomeMob):
         time.sleep(2)
 
 # Comando: Minerar Fonte
-def minerar_fonte(cursor, nomeUser, nomeFonte):
+def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
     """
     Permite ao jogador minerar uma fonte de recurso usando uma ferramenta adequada.
     """
@@ -73,12 +73,13 @@ def minerar_fonte(cursor, nomeUser, nomeFonte):
             WHERE nome_item = %s;
         """, (ferramenta[0],))
         
+        connection.commit()
         mostrar_texto_gradualmente(f"Você minerou {nomeFonte} com {ferramenta[0]}.", Fore.GREEN)
     else:
         mostrar_texto_gradualmente("Você não tem a ferramenta adequada ou ela está quebrada.", Fore.RED)
 
 # Comando: Craftar Item
-def craftar_item(cursor, nomeUser, nomeItem):
+def craftar_item(connection, cursor, nomeUser, nomeItem):
     """
     Permite ao jogador craftar um novo item, verificando se ele possui os materiais necessários.
     """
@@ -142,6 +143,7 @@ def craftar_item(cursor, nomeUser, nomeItem):
             VALUES (%s, (SELECT id_jogador FROM Jogador WHERE nome = %s));
         """, (id_inst_item, nomeUser))
 
+    connection.commit()
     mostrar_texto_gradualmente(f"Você craftou {quantidade_saida}x {nomeItem}!", Fore.GREEN)
     time.sleep(2)
 

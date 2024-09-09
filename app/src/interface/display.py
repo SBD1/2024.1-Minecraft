@@ -141,6 +141,6 @@ def iniciar_jogo(nomeUser):
         criar_novo_jogador(cursor, nomeUser)
     
     connection.commit()
-    jogar(cursor, nomeUser)
+    jogar(connection, cursor, nomeUser)
     cursor.close()
     connection.close()
