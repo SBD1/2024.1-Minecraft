@@ -219,7 +219,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
                 continue
 
             # Chamar a função atacar_mob
-            atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta)
+            atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta, False)
             break
 
         elif acao == "falar" and parametros:
