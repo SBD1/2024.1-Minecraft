@@ -148,7 +148,7 @@ def craftar_item(connection, cursor, nomeUser, nomeItem):
     time.sleep(2)
 
 # Comando: Construir Construção
-def construir_construcao(cursor, nomeUser, nome_construcao):
+def construir_construcao(connection, cursor, nomeUser, nome_construcao):
     # Obter a posição atual do jogador (chunk atual)
     cursor.execute("""
         SELECT Jogador.numero_chunk, Jogador.nome_mapa
@@ -239,3 +239,5 @@ def construir_construcao(cursor, nomeUser, nome_construcao):
             id_inst_item = instancia[0]
             cursor.execute("DELETE FROM Inventario WHERE id_inst_item = %s", (id_inst_item,))
             cursor.execute("DELETE FROM InstanciaItem WHERE id_inst_item = %s", (id_inst_item,))
+            
+    connection.commit()
