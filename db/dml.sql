@@ -15946,8 +15946,8 @@ VALUES
 
     -- Materiais básicos
         CALL inserir_item('Madeira', 'material');
-        CALL inserir_item('Tábua', 'material');
-        CALL inserir_item('Graveto', 'material');
+        CALL inserir_item('Tábua', 'craftavel', NULL, 'material');
+        CALL inserir_item('Graveto', 'craftavel', NULL, 'material');
         CALL inserir_item('Pedregulho', 'material');
         CALL inserir_item('Areia', 'material');
         CALL inserir_item('Teia', 'material');
@@ -15962,12 +15962,12 @@ VALUES
         CALL inserir_item('Barras de Ouro', 'material');
         CALL inserir_item('Diamante', 'material');
         CALL inserir_item('Netherita', 'material');
-        CALL inserir_item('Papel', 'material');
-        CALL inserir_item('Livro', 'material');
+        CALL inserir_item('Papel', 'craftavel', NULL, 'material');
+        CALL inserir_item('Livro', 'craftavel', NULL, 'material');
         CALL inserir_item('Pó de Redstone', 'material');
         CALL inserir_item('Pólvora', 'material');
         CALL inserir_item('Pena', 'material');
-        CALL inserir_item('Fio', 'material');
+        CALL inserir_item('Fio', 'craftavel', NULL, 'material');
         CALL inserir_item('Pérola do Ender', 'material');
         CALL inserir_item('Lágrima de Ghast', 'material');
         CALL inserir_item('Estrela do Nether', 'material');
@@ -15976,13 +15976,13 @@ VALUES
         CALL inserir_item('Flecha', 'material');
         CALL inserir_item('Ovo de Dragão', 'material');
         CALL inserir_item('Vara de Blaze', 'material');
-        CALL inserir_item('Pó de Blaze', 'material');
-        CALL inserir_item('Estante', 'material');
+        CALL inserir_item('Pó de Blaze', 'craftavel', NULL, 'material');
+        CALL inserir_item('Estante', 'craftavel', NULL, 'material');
         CALL inserir_item('Vidro', 'material');
-        CALL inserir_item('Porta', 'material');
-        CALL inserir_item('Escada', 'material');
-        CALL inserir_item('Cama', 'material');
-        CALL inserir_item('Isqueiro', 'material');
+        CALL inserir_item('Porta', 'craftavel', NULL, 'material');
+        CALL inserir_item('Escada', 'craftavel', NULL, 'material');
+        CALL inserir_item('Cama', 'craftavel', NULL, 'material');
+        CALL inserir_item('Isqueiro', 'craftavel', NULL, 'material');
 
     -- Ferramentas
         CALL inserir_item('Arco', 'craftavel', NULL, 'ferramenta', NULL, 384, 4);
@@ -16217,6 +16217,7 @@ VALUES
         ('Espada de Ferro', 250),
         ('Machado de Ferro', 250),
         ('Pá de Ferro', 251),
+        ('Madeira', NULL),
         ('Barras de Ferro', NULL),
         ('Barras de Ferro', NULL),
         ('Barras de Ferro', NULL);
@@ -16253,7 +16254,8 @@ VALUES
         (27, 1),
         (28, 1),
         (29, 1),
-        (30, 1);
+        (30, 1),
+        (31, 1);
         
 -- Inserindo Mobs
 
