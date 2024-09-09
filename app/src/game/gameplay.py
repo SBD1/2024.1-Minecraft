@@ -151,7 +151,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
 
         elif acao == "ver_mob" and parametros:  # Feito
             limpar_tela()
-            nome_mob = formatar_nome_item(parametros[0])
+            nome_mob = formatar_nome_item(' '.join(parametros))
             ver_mob(connection, cursor, nomeUser, nome_mob)
             break
 
@@ -162,19 +162,19 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
 
         elif acao == "comer" and parametros:  # Feito
             limpar_tela()
-            nomeItem = formatar_nome_item(parametros[0])
+            nomeItem = formatar_nome_item(' '.join(parametros))
             comer(connection, cursor, nomeUser, nomeItem)
             break
 
         elif acao == "utilizar_item" and parametros:  # Apenas Mapa
             limpar_tela()
-            nomeItem = formatar_nome_item(parametros[0])
+            nomeItem = formatar_nome_item(' '.join(parametros))
             utilizar_item(connection, cursor, nomeUser, nomeItem)
             break
 
         elif acao == "minerar_fonte" and parametros:
             limpar_tela()
-            nome_fonte = formatar_nome_item(parametros[0])
+            nome_fonte = formatar_nome_item(' '.join(parametros))
             minerar_fonte(connection, cursor, nomeUser, nome_fonte)
             break
 
@@ -186,20 +186,20 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
 
         elif acao == "equipar_item" and parametros:
             limpar_tela()
-            nome_item = formatar_nome_item(parametros[0])
+            nome_item = formatar_nome_item(' '.join(parametros))
             equipar_item(connection, cursor, nomeUser, nome_item)
             break
 
         elif acao == "atacar_mob" and len(parametros) == 2:
             limpar_tela()
-            nome_mob = formatar_nome_item(parametros[0])
+            nome_mob = formatar_nome_item(' '.join(parametros))
             nome_ferramenta = formatar_nome_item(parametros[1])
             atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta)
             break
 
         elif acao == "falar" and parametros:
             limpar_tela()
-            nome_aldeao = formatar_nome_item(parametros[0])
+            nome_aldeao = formatar_nome_item(' '.join(parametros))
             falar_aldeao(connection, cursor, nomeUser, nome_aldeao) # Placeholder para quando a função estiver pronta
             break
 

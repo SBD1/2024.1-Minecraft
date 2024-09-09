@@ -46,37 +46,163 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
     """
     Permite ao jogador minerar uma fonte de recurso usando uma ferramenta adequada.
     """
-    # Verificar se o jogador possui a ferramenta necessária para minerar a fonte
+
+    # Variáveis chave para mineração
+    QUANTIDADE_MINERACAO = 1  # Quantidade de recurso extraído por mineração
+    DURABILIDADE_PERDIDA = 1  # Quantidade de durabilidade perdida por mineração
+    DROP_MACA_FREQUENCIA = 3  # Frequência de drop de maçã ao minerar árvores
+
+    # Verificar se a fonte existe no chunk atual e no mapa
     cursor.execute("""
-        SELECT FerramentaMineraInstFonte.nome_ferramenta, InstanciaItem.durabilidade_atual
-        FROM Inventario
-        JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
-        JOIN FerramentaMineraInstFonte ON InstanciaItem.nome_item = FerramentaMineraInstFonte.nome_ferramenta
-        WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
-        AND FerramentaMineraInstFonte.nome_fonte = %s;
-    """, (nomeUser, nomeFonte))
+        SELECT InstanciaFonte.qtd_atual, InstanciaFonte.numero_chunk, Fonte.nome_item_drop 
+        FROM InstanciaFonte
+        JOIN Fonte ON InstanciaFonte.nome_fonte = Fonte.nome
+        WHERE InstanciaFonte.nome_fonte = %s 
+        AND InstanciaFonte.numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s)
+        AND InstanciaFonte.nome_mapa = (SELECT nome_mapa FROM Jogador WHERE nome = %s);
+    """, (nomeFonte, nomeUser, nomeUser))
     
-    ferramenta = cursor.fetchone()
+    instancia_fonte = cursor.fetchone()
     
-    if ferramenta and ferramenta[1] > 0:
-        # Reduzir a quantidade de recursos da fonte minerada
+    if not instancia_fonte:
+        mostrar_texto_gradualmente(f"A fonte {nomeFonte} não está presente neste chunk ou mapa.", Fore.RED)
+        time.sleep(2)
+        return
+
+    qtd_atual, numero_chunk, item_drop = instancia_fonte
+
+    if qtd_atual <= 0:
+        mostrar_texto_gradualmente(f"A fonte {nomeFonte} está esgotada.", Fore.RED)
+        time.sleep(2)
+        return
+
+    ferramenta_nome = None 
+
+    # Verificar se o jogador possui a ferramenta mínima necessária para minerar a fonte
+    cursor.execute("""
+        SELECT FerramentaMineraFonte.nome_ferramenta 
+        FROM FerramentaMineraFonte 
+        WHERE FerramentaMineraFonte.nome_fonte = %s 
+        ORDER BY nome_ferramenta IS NULL, nome_ferramenta ASC LIMIT 1;
+    """, (nomeFonte,))
+    
+    ferramenta_minima = cursor.fetchone()
+
+    if ferramenta_minima[0] is None and nomeFonte == 'Árvore':
+        # Se for uma árvore, pode ser minerada com as mãos
+        ferramenta = (None, None)  # Ferramenta fictícia
+        mostrar_texto_gradualmente("Você está coletando madeira com as mãos!", Fore.YELLOW)
+        time.sleep(1.5)
+    elif ferramenta_minima:
+        ferramenta_minima = ferramenta_minima[0]
+
+        # Verificar se o jogador possui uma ferramenta no inventário que pode minerar a fonte
         cursor.execute("""
-            UPDATE InstanciaFonte 
-            SET qtd_atual = qtd_atual - 1 
-            WHERE nome_fonte = %s AND numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s);
+            SELECT InstanciaItem.nome_item, InstanciaItem.durabilidade_atual, InstanciaItem.id_inst_item
+            FROM Inventario
+            JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+            WHERE InstanciaItem.nome_item IN (
+                SELECT nome_ferramenta FROM FerramentaMineraFonte WHERE nome_fonte = %s
+            )
+            AND Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s);
         """, (nomeFonte, nomeUser))
-        
-        # Reduzir a durabilidade da ferramenta utilizada
+
+        ferramenta = cursor.fetchone()
+
+        if not ferramenta:
+            mostrar_texto_gradualmente(f"Você precisa de uma {ferramenta_minima} ou melhor para minerar {nomeFonte}.", Fore.RED)
+            time.sleep(2)
+            return
+
+        ferramenta_nome, durabilidade, id_inst_item = ferramenta
+
+        # Se a ferramenta existir, verificar se ela tem durabilidade suficiente
+        if durabilidade <= 0:
+            mostrar_texto_gradualmente(f"Sua {ferramenta_nome} está quebrada e não pode ser usada.", Fore.RED)
+            time.sleep(2)
+            return
+
+    # Processar a mineração
+    mostrar_texto_gradualmente(f"Você está minerando {nomeFonte} com {ferramenta_nome or 'suas mãos'}!", Fore.GREEN)
+    time.sleep(1.5)
+
+    # Reduzir a quantidade de recursos da fonte
+    cursor.execute("""
+        UPDATE InstanciaFonte
+        SET qtd_atual = qtd_atual - %s
+        WHERE nome_fonte = %s AND numero_chunk = %s;
+    """, (QUANTIDADE_MINERACAO, nomeFonte, numero_chunk))
+
+    # Adicionar o recurso minerado ao inventário do jogador
+    cursor.execute("""
+        INSERT INTO InstanciaItem (nome_item) VALUES (%s) RETURNING id_inst_item;
+    """, (item_drop,))
+    
+    id_inst_item = cursor.fetchone()[0]
+
+    cursor.execute("""
+        INSERT INTO Inventario (id_inst_item, id_inventario)
+        VALUES (%s, (SELECT id_jogador FROM Jogador WHERE nome = %s));
+    """, (id_inst_item, nomeUser))
+
+    mostrar_texto_gradualmente(f"Você coletou {item_drop} de {nomeFonte}!", Fore.GREEN)
+    time.sleep(1.5)
+
+    # Verificar se uma maçã deve ser dropada a cada 3 madeiras mineradas
+    if nomeFonte == 'Árvore' and (qtd_atual - QUANTIDADE_MINERACAO) % DROP_MACA_FREQUENCIA == 0:
         cursor.execute("""
-            UPDATE InstanciaItem 
-            SET durabilidade_atual = durabilidade_atual - 1 
-            WHERE nome_item = %s;
-        """, (ferramenta[0],))
+            INSERT INTO InstanciaItem (nome_item) VALUES ('Maçã') RETURNING id_inst_item;
+        """)
+        id_maca = cursor.fetchone()[0]
+
+        cursor.execute("""
+            INSERT INTO Inventario (id_inst_item, id_inventario)
+            VALUES (%s, (SELECT id_jogador FROM Jogador WHERE nome = %s));
+        """, (id_maca, nomeUser))
         
-        connection.commit()
-        mostrar_texto_gradualmente(f"Você minerou {nomeFonte} com {ferramenta[0]}.", Fore.GREEN)
-    else:
-        mostrar_texto_gradualmente("Você não tem a ferramenta adequada ou ela está quebrada.", Fore.RED)
+        mostrar_texto_gradualmente("Uma maçã caiu da árvore enquanto você a minerava!", Fore.YELLOW)
+        time.sleep(1.5)
+
+    # Reduzir a durabilidade da ferramenta (se não estiver minerando com as mãos)
+    if ferramenta and ferramenta_nome:
+        cursor.execute("""
+            UPDATE InstanciaItem
+            SET durabilidade_atual = durabilidade_atual - %s
+            WHERE id_inst_item = %s
+            RETURNING durabilidade_atual;
+        """, (DURABILIDADE_PERDIDA, id_inst_item))
+
+        durabilidade_atual = cursor.fetchone()[0]
+        
+        if durabilidade_atual <= 0:
+            # Remover ferramenta quebrada do inventário e tabela InstanciaItem
+            cursor.execute("""
+                DELETE FROM Inventario WHERE id_inst_item = %s;
+            """, (id_inst_item,))
+            
+            cursor.execute("""
+                DELETE FROM InstanciaItem WHERE id_inst_item = %s;
+            """, (id_inst_item,))
+            
+            mostrar_texto_gradualmente(f"Sua {ferramenta_nome} quebrou após a mineração!", Fore.RED)
+            time.sleep(2)
+
+    # Se a quantidade de recursos da fonte chegar a zero, remover a fonte
+    cursor.execute("""
+        SELECT qtd_atual FROM InstanciaFonte WHERE nome_fonte = %s AND numero_chunk = %s;
+    """, (nomeFonte, numero_chunk))
+    
+    nova_qtd = cursor.fetchone()[0]
+    if nova_qtd <= 0:
+        cursor.execute("""
+            DELETE FROM InstanciaFonte WHERE nome_fonte = %s AND numero_chunk = %s;
+        """, (nomeFonte, numero_chunk))
+        
+        mostrar_texto_gradualmente(f"A fonte {nomeFonte} foi completamente esgotada e desapareceu.", Fore.RED)
+        time.sleep(3)
+
+    connection.commit()
+
 
 # Comando: Craftar Item
 def craftar_item(connection, cursor, nomeUser, nomeItem):

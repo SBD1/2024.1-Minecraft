@@ -140,7 +140,9 @@ CREATE TABLE Estrutura (
 -- Tabela Fonte
 CREATE TABLE Fonte (
     nome VARCHAR(30) PRIMARY KEY,
-    qtd_max INT NOT NULL
+    qtd_max INT NOT NULL,
+    nome_item_drop VARCHAR(30) NOT NULL,
+    FOREIGN KEY (nome_item_drop) REFERENCES Item(nome) 
 );
 
 -- Tabela Missão
