@@ -12,14 +12,14 @@ def visualizar_inventario(connection, cursor, nomeUser):
     while True:
         # Primeiro, obter os dados do jogador
         cursor.execute("""
-            SELECT fome, vida, nivel, exp, cabeca, peito, pernas, pes 
+            SELECT fome, vida, nivel, exp, pts_armadura, cabeca, peito, pernas, pes 
             FROM jogador 
             WHERE nome = %s;
         """, (nomeUser,))
         
         jogador_info = cursor.fetchone()
         if jogador_info:
-            fome, vida, nivel, exp, cabeca, peito, pernas, pes = jogador_info
+            fome, vida, nivel, exp, pts_armadura, cabeca, peito, pernas, pes = jogador_info
         else:
             mostrar_texto_gradualmente("Jogador não encontrado!", Fore.RED)
             return
@@ -61,6 +61,7 @@ def visualizar_inventario(connection, cursor, nomeUser):
         print(f"{Fore.CYAN} Status do Jogador:")
         print(f"{Fore.CYAN} Vida: {Fore.RED}{vida}/20")
         print(f"{Fore.CYAN} Fome: {Fore.YELLOW}{fome}/20")
+        print(f"{Fore.CYAN} Armadura: {Fore.LIGHTBLUE_EX}{pts_armadura}/20")
         print(f"{Fore.CYAN} Nível: {Fore.LIGHTGREEN_EX}{nivel}")
         print(f"{Fore.CYAN} Experiência: {Fore.LIGHTBLUE_EX}{exp}")
         print(f"{Fore.YELLOW}-------------------------------")
@@ -120,10 +121,16 @@ def processar_comando_inventario(connection, cursor, nomeUser):
             craftar_item(connection, cursor, nomeUser, nome_item)
             return True
 
-        elif acao == "equipar_item" and parametros:
+        elif acao == "equipar_armadura" and parametros:
             limpar_tela()
             nomeItem = formatar_nome_item(' '.join(parametros))
-            equipar_item(connection, cursor, nomeUser, nomeItem)
+            equipar_armadura(connection, cursor, nomeUser, nomeItem)
+            return True
+        
+        elif acao == "remover_armadura" and parametros:
+            limpar_tela()
+            slot = ' '.join(parametros).lower()
+            remover_armadura(connection, cursor, nomeUser, slot)
             return True
 
         elif acao == "ajuda":
@@ -148,7 +155,8 @@ def exibir_ajuda_inventario():
     print(f"{Fore.LIGHTGREEN_EX}comer <item>{Fore.RESET}: Para comer um item")
     print(f"{Fore.LIGHTGREEN_EX}utilizar_item <item>{Fore.RESET}: Para utilizar um item do inventário")
     print(f"{Fore.LIGHTGREEN_EX}craftar_item <nomeItem>{Fore.RESET}: para criar um item usando recursos")
-    print(f"{Fore.LIGHTGREEN_EX}equipar_item <item>{Fore.RESET}: Para equipar uma armadura ou item")
+    print(f"{Fore.LIGHTGREEN_EX}equipar_armadura <item>{Fore.RESET}: Para equipar uma armadura")
+    print(f"{Fore.YELLOW}remover_armadura <parteCorpo>{Fore.RESET}: para remover uma armadura")
     print(f"{Fore.LIGHTGREEN_EX}ajuda{Fore.RESET}: Para ver esta lista de comandos")
     print(f"{Fore.LIGHTGREEN_EX}fechar_inventario{Fore.RESET}: Para sair do inventário e voltar ao jogo principal")
 
@@ -394,10 +402,11 @@ def ver_construcoes(cursor, nomeUser):
     
     input(f"{Fore.CYAN}\nPressione Enter para voltar...{Style.RESET_ALL}")
 
-def equipar_item(connection, cursor, nomeUser, nome_item):
+def equipar_armadura(connection, cursor, nomeUser, nome_item):
     """
     Função para equipar um item de armadura. Verifica se o item está no inventário,
-    se é uma armadura e equipa o item na posição correta (cabeça, peito, pernas, pés).
+    se é uma armadura e equipa o item na posição correta (cabeça, peito, pernas, pés),
+    além de somar os pontos de armadura ao jogador.
     """
     # Verificar se o item está no inventário do jogador
     cursor.execute("""
@@ -417,9 +426,9 @@ def equipar_item(connection, cursor, nomeUser, nome_item):
     
     id_inst_item = item_inventario[0]
 
-    # Verificar se o item está na tabela ArmaduraDuravel
+    # Verificar se o item está na tabela ArmaduraDuravel e obter os pontos de armadura
     cursor.execute("""
-        SELECT 1
+        SELECT pts_armadura
         FROM ArmaduraDuravel
         WHERE nome_item = %s;
     """, (nome_item,))
@@ -430,6 +439,8 @@ def equipar_item(connection, cursor, nomeUser, nome_item):
         mostrar_texto_gradualmente(f"{nome_item} não é uma peça de armadura.", Fore.RED)
         time.sleep(2)
         return
+
+    pts_armadura_item = armadura_duravel[0]
 
     # Verificar se o jogador já tem um item equipado na posição
     cursor.execute("""
@@ -468,13 +479,12 @@ def equipar_item(connection, cursor, nomeUser, nome_item):
             return
         slot = 'pes'
    
-
     # Equipar o item na posição correspondente
     cursor.execute(f"""
         UPDATE Jogador
-        SET {slot} = %s
+        SET {slot} = %s, pts_armadura = pts_armadura + %s
         WHERE nome = %s;
-    """, (id_inst_item, nomeUser))
+    """, (id_inst_item, pts_armadura_item, nomeUser))
 
     connection.commit()
     slot_nomes = {
@@ -486,4 +496,57 @@ def equipar_item(connection, cursor, nomeUser, nome_item):
 
     # Exibir a mensagem com o slot formatado
     mostrar_texto_gradualmente(f"Você equipou {nome_item} no(a) {slot_nomes[slot]}.", Fore.GREEN)
+    time.sleep(2)
+
+def remover_armadura(connection, cursor, nomeUser, slot):
+    """
+    Remove uma peça de armadura do jogador, se houver uma equipada na parte especificada,
+    e decrementar os pontos de armadura.
+    """
+    # Verificar se o slot é válido
+    slots_validos = {'cabeca', 'peito', 'pernas', 'pes'}
+    if slot not in slots_validos:
+        mostrar_texto_gradualmente(f"{slot.capitalize()} não é um slot válido.", Fore.RED)
+        time.sleep(2)
+        return
+
+    # Obter o id_inst_item e os pontos de armadura da armadura equipada no slot
+    cursor.execute(f"""
+        SELECT {slot}, (SELECT pts_armadura FROM ArmaduraDuravel WHERE ArmaduraDuravel.nome_item = InstanciaItem.nome_item)
+        FROM Jogador
+        LEFT JOIN InstanciaItem ON Jogador.{slot} = InstanciaItem.id_inst_item
+        WHERE Jogador.nome = %s;
+    """, (nomeUser,))
+    
+    resultado = cursor.fetchone()
+    if not resultado:
+        mostrar_texto_gradualmente(f"Jogador {nomeUser} não encontrado.", Fore.RED)
+        time.sleep(2)
+        return
+
+    id_inst_item, pts_armadura_item = resultado
+    
+    slot_nomes = {
+        'cabeca': 'Cabeça',
+        'peito': 'Peito',
+        'pernas': 'Pernas',
+        'pes': 'Pés'
+    }
+
+    # Verificar se há armadura equipada no slot
+    if id_inst_item is None:
+        mostrar_texto_gradualmente(f"Não há nenhuma armadura equipada em {slot_nomes[slot]}.", Fore.YELLOW)
+        time.sleep(2)
+        return
+    
+    # Remover a armadura do slot
+    cursor.execute(f"""
+        UPDATE Jogador
+        SET {slot} = NULL, pts_armadura = pts_armadura - %s
+        WHERE nome = %s;
+    """, (pts_armadura_item, nomeUser))
+    
+    connection.commit()
+    
+    mostrar_texto_gradualmente(f"Você removeu a armadura de {slot_nomes[slot]}.", Fore.GREEN)
     time.sleep(2)

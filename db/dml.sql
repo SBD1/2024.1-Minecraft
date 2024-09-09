@@ -16267,11 +16267,6 @@ VALUES
         (35, 1),
         (36, 1);
 
--- Adicionando armadura no jogador 1 (remover esse trecho depois)
-UPDATE Jogador
-SET pernas = 33, pes = 34
-WHERE id_jogador = 1;
-
 -- Inserindo Mobs
 
     -- Pacíficos (não têm parâmetro impulsivo)

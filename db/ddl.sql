@@ -173,7 +173,7 @@ CREATE TABLE Jogador (
     nome_mapa VARCHAR(30) NOT NULL,
     missao INT,
     casa_chunk INT,
-    pts_armadura INT,
+    pts_armadura INT DEFAULT 0,
     FOREIGN KEY (numero_chunk, nome_mapa) REFERENCES Chunk(numero, nome_mapa),
     FOREIGN KEY (missao) REFERENCES Missao(id_missao),
     FOREIGN KEY (casa_chunk, nome_mapa) REFERENCES Chunk(numero, nome_mapa)

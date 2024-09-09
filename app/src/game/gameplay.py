@@ -3,7 +3,7 @@ from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bio
 from colorama import Fore
 from ..game.combat import atacar_mob
 from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item, construir_construcao, utilizar_construcao
-from ..game.player_actions import visualizar_inventario, comer, utilizar_item, ver_construcoes, equipar_item
+from ..game.player_actions import visualizar_inventario, comer, utilizar_item, ver_construcoes, equipar_armadura, remover_armadura
 
 # Função principal do jogo
 def jogar(connection, cursor, nomeUser):
@@ -181,10 +181,16 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             craftar_item(connection, cursor, nomeUser, nome_item)
             break
 
-        elif acao == "equipar_item" and parametros:
+        elif acao == "equipar_armadura" and parametros:
             limpar_tela()
             nome_item = formatar_nome_item(' '.join(parametros))
-            equipar_item(connection, cursor, nomeUser, nome_item)
+            equipar_armadura(connection, cursor, nomeUser, nome_item)
+            break
+
+        elif acao == "remover_armadura" and parametros:
+            limpar_tela()
+            slot = ' '.join(parametros).lower()
+            remover_armadura(connection, cursor, nomeUser, slot)
             break
 
         if acao == "atacar_mob" and len(parametros) > 1: # Feito
@@ -372,7 +378,8 @@ def exibir_ajuda():
     print(f"{Fore.YELLOW}utilizar_item <nomeItem>{Fore.RESET}: para usar um item do inventário")
     print(f"{Fore.YELLOW}minerar_fonte <nomeFonte>{Fore.RESET}: para minerar uma fonte de recursos")
     print(f"{Fore.YELLOW}craftar_item <nomeItem>{Fore.RESET}: para criar um item usando recursos")
-    print(f"{Fore.YELLOW}equipar_item <nomeItem>{Fore.RESET}: para equipar uma armadura ou item")
+    print(f"{Fore.YELLOW}equipar_armadura <nomeItem>{Fore.RESET}: para equipar uma armadura")
+    print(f"{Fore.YELLOW}remover_armadura <parteCorpo>{Fore.RESET}: para remover uma armadura")
     print(f"{Fore.YELLOW}atacar_mob <nomeMob> <nomeFerramenta>{Fore.RESET}: para atacar um mob com uma ferramenta")
     print(f"{Fore.YELLOW}falar <NomeAldeão>{Fore.RESET}: para interagir com um Aldeão")
     print(f"{Fore.YELLOW}ver_construcoes{Fore.RESET}: para ver construcoes e suas receitas")
