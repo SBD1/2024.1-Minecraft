@@ -16436,19 +16436,19 @@ VALUES
     ('Bastião em Ruínas', 'Espada de Netherita', 0.50);
 
 -- Tabela Fonte
-INSERT INTO Fonte (nome, qtd_max)
+INSERT INTO Fonte (nome, qtd_max, nome_item_drop)
 VALUES  
-        ('Árvore', 24),
-        ('Pedreira', 16),
-        ('Duna', 16),
-        ('Cardume', 5),
-        ('Jazida de Carvão', 24),
-        ('Jazida de Ferro', 10),
-        ('Depósito de Redstone', 16),
-        ('Jazida de Ouro', 8),
-        ('Veio de Diamante', 5),
-        ('Depósito de Netherita', 5),
-        ('Campo de Cana de Açúcar', 5);
+        ('Árvore', 24, 'Madeira'),
+        ('Pedreira', 16, 'Pedregulho'),
+        ('Duna', 16, 'Areia'),
+        ('Cardume', 5, 'Peixe Cru'),
+        ('Jazida de Carvão', 24, 'Carvão'),
+        ('Jazida de Ferro', 10, 'Minério de Ferro'),
+        ('Depósito de Redstone', 16, 'Pó de Redstone'),
+        ('Jazida de Ouro', 8, 'Minério de Ouro'),
+        ('Veio de Diamante', 5, 'Diamante'),
+        ('Depósito de Netherita', 5, 'Netherita'),
+        ('Campo de Cana de Açúcar', 5, 'Cana de Açúcar');
 
 -- Tabela Ferramenta Minera Fonte
 INSERT INTO FerramentaMineraFonte (nome_ferramenta, nome_fonte)
