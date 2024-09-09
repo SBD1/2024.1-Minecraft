@@ -99,11 +99,11 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
         ferramenta = cursor.fetchone()
 
         if not ferramenta:
-            mostrar_texto_gradualmente(f"Você precisa de uma {ferramenta_minima} ou melhor para minerar {nomeFonte}.", Fore.RED)
+            mostrar_texto_gradualmente(f"Você precisa de um(a) {ferramenta_minima} ou melhor para minerar {nomeFonte}.", Fore.RED)
             time.sleep(2)
             return
 
-        ferramenta_nome, durabilidade, id_inst_item = ferramenta
+        ferramenta_nome, durabilidade, id_inst_Ferramenta = ferramenta
 
         # Se a ferramenta existir, verificar se ela tem durabilidade suficiente
         if durabilidade <= 0:
@@ -159,7 +159,7 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
             SET durabilidade_atual = durabilidade_atual - %s
             WHERE id_inst_item = %s
             RETURNING durabilidade_atual;
-        """, (DURABILIDADE_PERDIDA, id_inst_item))
+        """, (DURABILIDADE_PERDIDA, id_inst_Ferramenta))
 
         durabilidade_atual = cursor.fetchone()[0]
         
@@ -167,11 +167,11 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
             # Remover ferramenta quebrada do inventário e tabela InstanciaItem
             cursor.execute("""
                 DELETE FROM Inventario WHERE id_inst_item = %s;
-            """, (id_inst_item,))
+            """, (id_inst_Ferramenta,))
             
             cursor.execute("""
                 DELETE FROM InstanciaItem WHERE id_inst_item = %s;
-            """, (id_inst_item,))
+            """, (id_inst_Ferramenta,))
             
             mostrar_texto_gradualmente(f"Sua {ferramenta_nome} quebrou após a mineração!", Fore.RED)
             time.sleep(2)

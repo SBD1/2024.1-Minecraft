@@ -189,10 +189,32 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             equipar_item(connection, cursor, nomeUser, nome_item)
             break
 
-        elif acao == "atacar_mob" and len(parametros) == 2:
+        if acao == "atacar_mob" and len(parametros) > 1:
             limpar_tela()
-            nome_mob = formatar_nome_item(' '.join(parametros))
-            nome_ferramenta = formatar_nome_item(parametros[1])
+
+            # Percorrer os parâmetros ao contrário para identificar a ferramenta primeiro
+            for i in range(1, len(parametros)):
+                nome_ferramenta_possivel = formatar_nome_item(' '.join(parametros[-i:]))
+                
+                # Verificar se o nome_ferramenta_possivel é uma ferramenta válida
+                cursor.execute("""
+                    SELECT 1 FROM FerramentaDuravel WHERE nome_item = %s;
+                """, (nome_ferramenta_possivel,))
+                
+                ferramenta_existe = cursor.fetchone()
+                
+                if ferramenta_existe:
+                    # Ferramenta encontrada, agora separa o nome do mob
+                    nome_ferramenta = nome_ferramenta_possivel
+                    nome_mob = formatar_nome_item(' '.join(parametros[:-i]))  # O restante são os parâmetros do mob
+                    break
+            else:
+                # Se nenhuma ferramenta válida for encontrada
+                mostrar_texto_gradualmente(f"Ferramenta inválida para atacar.", Fore.RED)
+                time.sleep(2)
+                continue
+
+            # Chamar a função atacar_mob
             atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta)
             break
 
