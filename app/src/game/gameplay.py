@@ -140,7 +140,10 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             direcao = parametros[0]
             if direcao in movimentos:
                 limpar_tela()
-                mover_jogador(connection, cursor, nomeUser, direcao, movimentos)
+                novo_chunk = movimentos.get(direcao)
+                cursor.execute("SELECT mover_jogador(%s, %s, %s);", (nomeUser, direcao, novo_chunk))
+                connection.commit()
+                # mover_jogador(connection, cursor, nomeUser, direcao, movimentos)
                 break
             else:
                 mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
