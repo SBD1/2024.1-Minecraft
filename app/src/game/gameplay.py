@@ -143,7 +143,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
                 novo_chunk = movimentos.get(direcao)
                 cursor.execute("SELECT mover_jogador(%s, %s, %s);", (nomeUser, direcao, novo_chunk))
                 connection.commit()
-                # mover_jogador(connection, cursor, nomeUser, direcao, movimentos)
+                # mover_jogador(connection, cursor, nomeUser, direcao, movimentos) FORNECER MENSAGEM
                 break
             else:
                 mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
@@ -181,7 +181,9 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
         elif acao == "craftar_item" and parametros: # Feito
             limpar_tela()
             nome_item = formatar_nome_item(' '.join(parametros))
-            craftar_item(connection, cursor, nomeUser, nome_item)
+            cursor.execute("SELECT craftar_item(%s, %s);", (nomeUser, nome_item))
+            connection.commit()
+            # craftar_item(connection, cursor, nomeUser, nome_item) FORNECER MENSAGEM
             break
 
         elif acao == "equipar_item" and parametros:

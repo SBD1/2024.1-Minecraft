@@ -521,4 +521,115 @@ BEGIN
 END;
 $mover_jogador$ LANGUAGE plpgsql;
 
+--- FUNCTION PARA CRAFTAR ITENS
+
+CREATE OR REPLACE FUNCTION craftar_item(
+    p_nomeUser VARCHAR(30), 
+    p_nomeItem VARCHAR(30)
+) 
+RETURNS TEXT
+AS $craftar_item$
+DECLARE
+    v_id_jogador INT;
+    v_receita RECORD;
+    v_itens_necessarios TEXT[];
+    v_quantidade_saida INT;
+    v_item VARCHAR(30);
+    v_qtd_necessaria INT;
+    v_qtd_no_inventario INT;
+    v_id_inst_item INT;
+    v_item_removido INT;
+    v_itens_remover RECORD;
+BEGIN
+    -- Verificar se o item é craftável
+    IF NOT EXISTS (SELECT 1 FROM Craftavel WHERE nome_item = p_nomeItem) THEN
+        RETURN 'Item ' || p_nomeItem || ' não pode ser craftado.';
+    END IF;
+
+    -- Consultar a receita do item na tabela ReceitaItem
+    SELECT item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8, item_9, quantidade
+    INTO v_receita
+    FROM ReceitaItem
+    WHERE nome_item = p_nomeItem;
+
+    IF v_receita IS NULL THEN
+        RETURN 'Receita para ' || p_nomeItem || ' não encontrada.';
+    END IF;
+
+    -- Guardar os itens da receita e a quantidade de saída
+    v_itens_necessarios := ARRAY[v_receita.item_1, v_receita.item_2, v_receita.item_3, v_receita.item_4, 
+                                 v_receita.item_5, v_receita.item_6, v_receita.item_7, v_receita.item_8, 
+                                 v_receita.item_9];
+    v_itens_necessarios := array_remove(v_itens_necessarios, NULL); -- Remove NULLs da receita
+    v_quantidade_saida := v_receita.quantidade;
+
+    -- Pegar o id do jogador
+    SELECT id_jogador INTO v_id_jogador FROM Jogador WHERE nome = p_nomeUser;
+
+    IF v_id_jogador IS NULL THEN
+        RETURN 'Jogador ' || p_nomeUser || ' não encontrado.';
+    END IF;
+
+    -- Verificar se o jogador tem todos os materiais necessários
+    FOR v_itens_remover IN (SELECT DISTINCT unnest(v_itens_necessarios) AS item) LOOP
+        v_item := v_itens_remover.item;
+
+        -- Contar quantas vezes esse item específico aparece na receita
+        v_qtd_necessaria := (SELECT COUNT(*) FROM unnest(v_itens_necessarios) x WHERE x = v_item);
+
+        -- Verificar a quantidade disponível no inventário
+        SELECT COUNT(*) INTO v_qtd_no_inventario
+        FROM Inventario
+        JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+        WHERE Inventario.id_inventario = v_id_jogador
+        AND InstanciaItem.nome_item = v_item;
+
+        -- Comparar a quantidade disponível com a quantidade necessária
+        IF v_qtd_no_inventario < v_qtd_necessaria THEN
+            RETURN 'Você não tem materiais suficientes para craftar ' || p_nomeItem || '. Faltam ' || (v_qtd_necessaria - v_qtd_no_inventario) || ' unidades de ' || v_item || '.';
+        END IF;
+    END LOOP;
+
+    -- Remover os itens do inventário necessários para o craft (somente a quantidade exata para um craft)
+    FOR v_itens_remover IN (SELECT DISTINCT unnest(v_itens_necessarios) AS item) LOOP
+        v_item := v_itens_remover.item;
+        v_qtd_necessaria := (SELECT COUNT(*) FROM unnest(v_itens_necessarios) x WHERE x = v_item);
+
+        -- Remover exatamente a quantidade necessária do inventário
+        v_item_removido := 0; -- Inicia um contador para itens removidos
+        FOR i IN 1..v_qtd_necessaria LOOP
+            -- Encontrar o id_inst_item para cada item e remover
+            SELECT id_inst_item INTO v_id_inst_item 
+            FROM InstanciaItem 
+            WHERE nome_item = v_item 
+            AND id_inst_item IN (SELECT id_inst_item FROM Inventario WHERE id_inventario = v_id_jogador)
+            ORDER BY id_inst_item
+            LIMIT 1;
+
+            -- Remover do inventário e da instância
+            IF v_id_inst_item IS NOT NULL THEN
+                DELETE FROM Inventario WHERE id_inst_item = v_id_inst_item;
+                DELETE FROM InstanciaItem WHERE id_inst_item = v_id_inst_item;
+                v_item_removido := v_item_removido + 1; -- Incrementa a contagem de itens removidos
+            END IF;
+
+            -- Se já removemos a quantidade necessária de itens, saímos do loop
+            IF v_item_removido >= v_qtd_necessaria THEN
+                EXIT;
+            END IF;
+        END LOOP;
+    END LOOP;
+
+    -- Criar e adicionar o novo item craftado ao inventário do jogador
+    FOR i IN 1..v_quantidade_saida LOOP
+        INSERT INTO InstanciaItem (nome_item) VALUES (p_nomeItem) RETURNING id_inst_item INTO v_id_inst_item;
+
+        INSERT INTO Inventario (id_inst_item, id_inventario)
+        VALUES (v_id_inst_item, v_id_jogador);
+    END LOOP;
+
+    -- Retorna mensagem de sucesso
+    RETURN 'Item ' || p_nomeItem || ' craftado com sucesso e adicionado ao inventário.';
+END;
+$craftar_item$ LANGUAGE plpgsql;
 
