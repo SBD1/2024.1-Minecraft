@@ -2,7 +2,7 @@ import time
 from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bioma_com_cor, mostrar_mapa_com_cor, formatar_nome_item
 from colorama import Fore
 from ..game.combat import atacar_mob
-from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item, construir_construcao
+from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item, construir_construcao, utilizar_construcao
 from ..game.player_actions import visualizar_inventario, comer, utilizar_item, ver_construcoes
 
 # Função principal do jogo
@@ -166,7 +166,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             comer(connection, cursor, nomeUser, nomeItem)
             break
 
-        elif acao == "utilizar_item" and parametros:  # Implementar ações específicas
+        elif acao == "utilizar_item" and parametros:  # Apenas Mapa
             limpar_tela()
             nomeItem = formatar_nome_item(parametros[0])
             utilizar_item(connection, cursor, nomeUser, nomeItem)
@@ -212,6 +212,12 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             limpar_tela()
             nome_construcao = formatar_nome_item(' '.join(parametros))
             construir_construcao(connection, cursor, nomeUser, nome_construcao)
+            break
+
+        elif acao == "utilizar_construcao" and parametros: # Apenas Portal do Nether
+            limpar_tela()
+            nome_construcao = formatar_nome_item(' '.join(parametros))
+            utilizar_construcao(connection, cursor, nomeUser, nome_construcao)
             break
 
         elif acao == "explorar_estrutura" and parametros:
@@ -364,6 +370,7 @@ def exibir_ajuda():
     print(f"{Fore.YELLOW}falar <NomeAldeão>{Fore.RESET}: para interagir com um Aldeão")
     print(f"{Fore.YELLOW}ver_construcoes{Fore.RESET}: para ver construcoes e suas receitas")
     print(f"{Fore.YELLOW}construir <NomeConstrucao>{Fore.RESET}: para construir uma estrutura")
+    print(f"{Fore.YELLOW}utilizar_construcao <NomeConstrucao>{Fore.RESET}: para utilizar uma estrutura construída")
     print(f"{Fore.YELLOW}explorar_estrutura <NomeEstrutura>{Fore.RESET}: para explorar uma estrutura próxima")
     print(f"{Fore.YELLOW}sair{Fore.RESET}: para terminar o jogo")
 
