@@ -199,67 +199,71 @@ def craftar_item(connection, cursor, nomeUser, nomeItem):
     Permite ao jogador craftar um novo item, verificando se ele possui os materiais necessários.
     """
     # Verificar se o item é craftável
-    cursor.execute("SELECT nome_item FROM Craftavel WHERE nome_item = %s;", (nomeItem,))
-    if cursor.fetchone() is None:
-        mostrar_texto_gradualmente(f"Item {nomeItem} não pode ser craftado.", Fore.RED)
-        time.sleep(2)
-        return
+    # cursor.execute("SELECT nome_item FROM Craftavel WHERE nome_item = %s;", (nomeItem,))
+    # if cursor.fetchone() is None:
+    #     mostrar_texto_gradualmente(f"Item {nomeItem} não pode ser craftado.", Fore.RED)
+    #     time.sleep(2)
+    #     return
 
-    # Consultar a receita do item na tabela ReceitaItem
-    cursor.execute("""
-        SELECT item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8, item_9, quantidade
-        FROM ReceitaItem WHERE nome_item = %s;
-    """, (nomeItem,))
-    receita = cursor.fetchone()
+    # # Consultar a receita do item na tabela ReceitaItem
+    # cursor.execute("""
+    #     SELECT item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8, item_9, quantidade
+    #     FROM ReceitaItem WHERE nome_item = %s;
+    # """, (nomeItem,))
+    # receita = cursor.fetchone()
 
-    if not receita:
-        mostrar_texto_gradualmente(f"Receita para {nomeItem} não encontrada.", Fore.RED)
-        time.sleep(2)
-        return
+    # if not receita:
+    #     mostrar_texto_gradualmente(f"Receita para {nomeItem} não encontrada.", Fore.RED)
+    #     time.sleep(2)
+    #     return
 
-    # Guardar os itens da receita e a quantidade de saída
-    itens_necessarios = [item for item in receita[:-1] if item is not None]  # Os 9 itens necessários, sem quantidade
-    quantidade_saida = receita[-1]  # Quantidade de itens que serão gerados ao craftar
+    # # Guardar os itens da receita e a quantidade de saída
+    # itens_necessarios = [item for item in receita[:-1] if item is not None]  # Os 9 itens necessários, sem quantidade
+    # quantidade_saida = receita[-1]  # Quantidade de itens que serão gerados ao craftar
 
-    # Verificar se o jogador tem todos os materiais necessários
-    for item in set(itens_necessarios):
-        qtd_necessaria = itens_necessarios.count(item)
-        cursor.execute("""
-            SELECT COUNT(*) 
-            FROM Inventario
-            JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
-            WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
-            AND InstanciaItem.nome_item = %s;
-        """, (nomeUser, item))
-        qtd_no_inventario = cursor.fetchone()[0]
+    # # Verificar se o jogador tem todos os materiais necessários
+    # for item in set(itens_necessarios):
+    #     qtd_necessaria = itens_necessarios.count(item)
+    #     cursor.execute("""
+    #         SELECT COUNT(*) 
+    #         FROM Inventario
+    #         JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+    #         WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
+    #         AND InstanciaItem.nome_item = %s;
+    #     """, (nomeUser, item))
+    #     qtd_no_inventario = cursor.fetchone()[0]
 
-        if qtd_no_inventario < qtd_necessaria:
-            # mostrar_texto_gradualmente(f"Você não tem materiais suficientes para craftar {nomeItem}. Faltam {qtd_necessaria - qtd_no_inventario} unidades de {item}.", Fore.RED)
-            mostrar_texto_gradualmente(f"Você não tem materiais suficientes para craftar {nomeItem}.", Fore.RED)
-            time.sleep(3)
-            return
+    #     if qtd_no_inventario < qtd_necessaria:
+    #         # mostrar_texto_gradualmente(f"Você não tem materiais suficientes para craftar {nomeItem}. Faltam {qtd_necessaria - qtd_no_inventario} unidades de {item}.", Fore.RED)
+    #         mostrar_texto_gradualmente(f"Você não tem materiais suficientes para craftar {nomeItem}.", Fore.RED)
+    #         time.sleep(3)
+    #         return
     
-    # Remover os itens do inventário necessários para o craft
-    for item in itens_necessarios:
-        cursor.execute("""
-            DELETE FROM Inventario
-            WHERE id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
-            AND id_inst_item = (SELECT id_inst_item FROM InstanciaItem WHERE nome_item = %s LIMIT 1);
-        """, (nomeUser, item))
-        cursor.execute("DELETE FROM InstanciaItem WHERE id_inst_item = (SELECT id_inst_item FROM InstanciaItem WHERE nome_item = %s LIMIT 1);", (item,))
+    # # Remover os itens do inventário necessários para o craft
+    # for item in itens_necessarios:
+    #     cursor.execute("""
+    #         DELETE FROM Inventario
+    #         WHERE id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
+    #         AND id_inst_item = (SELECT id_inst_item FROM InstanciaItem WHERE nome_item = %s LIMIT 1);
+    #     """, (nomeUser, item))
+    #     cursor.execute("DELETE FROM InstanciaItem WHERE id_inst_item = (SELECT id_inst_item FROM InstanciaItem WHERE nome_item = %s LIMIT 1);", (item,))
     
-    # Criar e adicionar o novo item craftado ao inventário do jogador
-    for _ in range(quantidade_saida):
-        cursor.execute("INSERT INTO InstanciaItem (nome_item) VALUES (%s) RETURNING id_inst_item;", (nomeItem,))
-        id_inst_item = cursor.fetchone()[0]
+    # # Criar e adicionar o novo item craftado ao inventário do jogador
+    # for _ in range(quantidade_saida):
+    #     cursor.execute("INSERT INTO InstanciaItem (nome_item) VALUES (%s) RETURNING id_inst_item;", (nomeItem,))
+    #     id_inst_item = cursor.fetchone()[0]
         
-        cursor.execute("""
-            INSERT INTO Inventario (id_inst_item, id_inventario)
-            VALUES (%s, (SELECT id_jogador FROM Jogador WHERE nome = %s));
-        """, (id_inst_item, nomeUser))
+    #     cursor.execute("""
+    #         INSERT INTO Inventario (id_inst_item, id_inventario)
+    #         VALUES (%s, (SELECT id_jogador FROM Jogador WHERE nome = %s));
+    #     """, (id_inst_item, nomeUser))
+
+    cursor.execute("SELECT craftar_item(%s, %s);", (nomeUser, nomeItem))
+    mensagem = cursor.fetchone()[0]  # Captura o valor TEXT retornado pela função
 
     connection.commit()
-    mostrar_texto_gradualmente(f"Você craftou {quantidade_saida}x {nomeItem}!", Fore.GREEN)
+
+    mostrar_texto_gradualmente(mensagem, Fore.GREEN)
     time.sleep(2)
 
 # Comando: Construir Construção

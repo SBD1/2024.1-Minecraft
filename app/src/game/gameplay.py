@@ -180,7 +180,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             nome_item = formatar_nome_item(' '.join(parametros))
             cursor.execute("SELECT craftar_item(%s, %s);", (nomeUser, nome_item))
             connection.commit()
-            # craftar_item(connection, cursor, nomeUser, nome_item) FORNECER MENSAGEM
+            craftar_item(connection, cursor, nomeUser, nome_item)
             break
 
         elif acao == "equipar_item" and parametros:
