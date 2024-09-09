@@ -23,14 +23,32 @@ def visualizar_inventario(connection, cursor, nomeUser):
         else:
             mostrar_texto_gradualmente("Jogador não encontrado!", Fore.RED)
             return
+
+        # Função auxiliar para pegar o nome do item da armadura
+        def obter_nome_armadura(inst_id):
+            if inst_id is None:
+                return "Nenhum"
+            cursor.execute("""
+                SELECT nome_item FROM InstanciaItem WHERE id_inst_item = %s
+            """, (inst_id,))
+            result = cursor.fetchone()
+            return result[0] if result else "Desconhecido"
         
-        # Obter os itens do inventário
+        # Obter os nomes dos itens de armadura equipados
+        cabeca_item = obter_nome_armadura(cabeca)
+        peito_item = obter_nome_armadura(peito)
+        pernas_item = obter_nome_armadura(pernas)
+        pes_item = obter_nome_armadura(pes)
+
+        # Obter os itens do inventário agrupados por nome e quantidade
         cursor.execute("""
-            SELECT Item.nome AS item_nome, InstanciaItem.durabilidade_atual
+            SELECT Item.nome AS item_nome, COUNT(InstanciaItem.id_inst_item) AS quantidade, 
+                   MIN(InstanciaItem.durabilidade_atual) AS durabilidade_minima
             FROM Inventario
             JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
             JOIN Item ON InstanciaItem.nome_item = Item.nome
-            WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s);
+            WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
+            GROUP BY Item.nome;
         """, (nomeUser,))
         
         inventario = cursor.fetchall()
@@ -49,20 +67,21 @@ def visualizar_inventario(connection, cursor, nomeUser):
         
         # Exibir as armaduras equipadas
         print(f"{Fore.MAGENTA} Armaduras Equipadas:")
-        print(f"{Fore.MAGENTA} Cabeça: {Fore.WHITE}{cabeca if cabeca else 'Nenhum'}")
-        print(f"{Fore.MAGENTA} Peito: {Fore.WHITE}{peito if peito else 'Nenhum'}")
-        print(f"{Fore.MAGENTA} Pernas: {Fore.WHITE}{pernas if pernas else 'Nenhum'}")
-        print(f"{Fore.MAGENTA} Pés: {Fore.WHITE}{pes if pes else 'Nenhum'}")
+        print(f"{Fore.MAGENTA} Cabeça: {Fore.WHITE}{cabeca_item}")
+        print(f"{Fore.MAGENTA} Peito: {Fore.WHITE}{peito_item}")
+        print(f"{Fore.MAGENTA} Pernas: {Fore.WHITE}{pernas_item}")
+        print(f"{Fore.MAGENTA} Pés: {Fore.WHITE}{pes_item}")
         print(f"{Fore.YELLOW}-------------------------------")
         
-        # Exibir o inventário de itens
+        # Exibir o inventário de itens agrupados
         if inventario:
             mostrar_texto_gradualmente(f"Seus itens:", Fore.LIGHTGREEN_EX)
             for item in inventario:
-                if item[1] is not None:
-                    mostrar_texto_gradualmente(f"- {item[0]} (Durabilidade: {item[1]})", Fore.CYAN)
+                nome_item, quantidade, durabilidade = item
+                if durabilidade is not None:
+                    mostrar_texto_gradualmente(f"- {nome_item} x{quantidade} (Durabilidade mínima: {durabilidade})", Fore.CYAN)
                 else:
-                    mostrar_texto_gradualmente(f"- {item[0]}", Fore.CYAN)
+                    mostrar_texto_gradualmente(f"- {nome_item} x{quantidade}", Fore.CYAN)
         else:
             mostrar_texto_gradualmente("Seu inventário está vazio.", Fore.CYAN)
 

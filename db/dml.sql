@@ -16012,17 +16012,17 @@ VALUES
         CALL inserir_item('Pá de Netherita', 'craftavel', NULL, 'ferramenta', NULL, 2032, 6);
 
     -- Armaduras
-        CALL inserir_item('Capacete de Couro', 'craftavel', NULL, 'armadura', NULL, 55, NULL, 2);
-        CALL inserir_item('Túnica de Couro', 'craftavel', NULL, 'armadura', NULL, 80, NULL, 3);
-        CALL inserir_item('Calças de Couro', 'craftavel', NULL, 'armadura', NULL, 75, NULL, 2);
+        CALL inserir_item('Capacete de Couro', 'craftavel', NULL, 'armadura', NULL, 55, NULL, 1);
+        CALL inserir_item('Túnica de Couro', 'craftavel', NULL, 'armadura', NULL, 80, NULL, 2);
+        CALL inserir_item('Calças de Couro', 'craftavel', NULL, 'armadura', NULL, 75, NULL, 1);
         CALL inserir_item('Botas de Couro', 'craftavel', NULL, 'armadura', NULL, 65, NULL, 1);
         CALL inserir_item('Capacete de Ferro', 'craftavel', NULL, 'armadura', NULL, 165, NULL, 2);
         CALL inserir_item('Peitoral de Ferro', 'craftavel', NULL, 'armadura', NULL, 240, NULL, 6);
         CALL inserir_item('Calças de Ferro', 'craftavel', NULL, 'armadura', NULL, 225, NULL, 5);
         CALL inserir_item('Botas de Ferro', 'craftavel', NULL, 'armadura', NULL, 195, NULL, 2);
-        CALL inserir_item('Capacete de Ouro', 'craftavel', NULL, 'armadura', NULL, 77, NULL, 2);
-        CALL inserir_item('Peitoral de Ouro', 'craftavel', NULL, 'armadura', NULL, 112, NULL, 6);
-        CALL inserir_item('Calças de Ouro', 'craftavel', NULL, 'armadura', NULL, 105, NULL, 5);
+        CALL inserir_item('Capacete de Ouro', 'craftavel', NULL, 'armadura', NULL, 77, NULL, 1);
+        CALL inserir_item('Peitoral de Ouro', 'craftavel', NULL, 'armadura', NULL, 112, NULL, 4);
+        CALL inserir_item('Calças de Ouro', 'craftavel', NULL, 'armadura', NULL, 105, NULL, 3);
         CALL inserir_item('Botas de Ouro', 'craftavel', NULL, 'armadura', NULL, 91, NULL, 2);
         CALL inserir_item('Capacete de Diamante', 'craftavel', NULL, 'armadura', NULL, 363, NULL, 3);
         CALL inserir_item('Peitoral de Diamante', 'craftavel', NULL, 'armadura', NULL, 528, NULL, 8);
@@ -16183,9 +16183,9 @@ VALUES
         ('Ferreiro Iniciante', 'Crie um forno para fundir minérios e cozinhar alimentos.', 'Criar um forno', 30, '5 carvao');
 
 -- Tabela Jogador
-INSERT INTO Jogador (nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, nome_mapa, missao)
+INSERT INTO Jogador (nome, fome, vida, nivel, exp, cabeca, peito, pernas, pes, numero_chunk, nome_mapa, missao, casa_chunk)
 VALUES  
-        ('EhOMiguel', 20, 20, 5, 100, 'Capacete de Ferro', 'Peitoral de Ferro', 'Calças de Ferro', 'Botas de Ferro', 1234, 'Superfície', 0);
+    ('EhOMiguel', 20, 20, 5, 100, NULL, NULL, NULL, NULL, 1234, 'Superfície', 0, 1234);
 
 -- Tabela Instância Item
 INSERT INTO InstanciaItem (nome_item, durabilidade_atual)
@@ -16218,9 +16218,10 @@ VALUES
         ('Machado de Ferro', 250),
         ('Pá de Ferro', 251),
         ('Madeira', NULL),
-        ('Barras de Ferro', NULL),
-        ('Barras de Ferro', NULL),
-        ('Barras de Ferro', NULL);
+        ('Capacete de Ferro', NULL),
+        ('Peitoral de Ferro', NULL),
+        ('Calças de Ferro', NULL),
+        ('Botas de Ferro', NULL);
 
 -- Tabela Inventario
 INSERT INTO Inventario (id_inst_item, id_inventario)
@@ -16255,8 +16256,14 @@ VALUES
         (28, 1),
         (29, 1),
         (30, 1),
-        (31, 1);
-        
+        (31, 1),
+        (32, 1);
+
+-- Adicionando armadura no jogador 1 (remover esse trecho depois)
+UPDATE Jogador
+SET cabeca = 29, peito = 30, pernas = 31, pes = 32
+WHERE id_jogador = 1;
+
 -- Inserindo Mobs
 
     -- Pacíficos (não têm parâmetro impulsivo)
