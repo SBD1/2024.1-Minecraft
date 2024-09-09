@@ -829,3 +829,101 @@ BEGIN
 END;
 $craftar_item$ LANGUAGE plpgsql SECURITY DEFINER;
 
+
+--- FUNCTION PARA CONSTRUIR CONSTRUÇÃO
+
+CREATE OR REPLACE FUNCTION construir_construcao(nome_jogador VARCHAR, nome_construcao VARCHAR)
+RETURNS TEXT AS $construir_construcao$
+DECLARE
+    chunk_atual INT;
+    mapa_atual VARCHAR(30);
+    construcao_existente RECORD;
+    receita_itens RECORD;
+    inventario_jogador RECORD;
+    quantidade_no_inventario INT;
+    novo_portal_chunk_nether INT;
+BEGIN
+    -- 1. Obter a posição atual do jogador (chunk atual e mapa)
+    SELECT Jogador.numero_chunk, Jogador.nome_mapa
+    INTO chunk_atual, mapa_atual
+    FROM Jogador
+    WHERE Jogador.nome = nome_jogador;
+
+    -- Verifica se o jogador foi encontrado
+    IF NOT FOUND THEN
+        RETURN 'Jogador não encontrado.';
+    END IF;
+
+    -- 2. Verificar se a construção já existe no chunk
+    SELECT 1
+    INTO construcao_existente
+    FROM InstanciaConstruivel
+    WHERE nome_construivel = nome_construcao
+      AND numero_chunk = chunk_atual
+      AND nome_mapa = mapa_atual;
+
+    -- Se a construção já existir, lançar uma exceção
+    IF FOUND THEN
+        RETURN 'Já existe ' || nome_construcao || ' nesse chunk.';
+    END IF;
+
+    -- 3. Obter a receita da construção
+    FOR receita_itens IN
+        SELECT item, quantidade
+        FROM ReceitaConstruivel
+        WHERE nome_construivel = nome_construcao
+    LOOP
+        -- 4. Verificar se o jogador tem os itens necessários
+        SELECT COUNT(*) INTO quantidade_no_inventario
+        FROM Inventario
+        JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+        WHERE InstanciaItem.nome_item = receita_itens.item
+          AND Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = nome_jogador);
+
+        -- Se o jogador não tiver o item ou quantidade insuficiente
+        IF quantidade_no_inventario < receita_itens.quantidade THEN
+            RETURN 'Você não possui itens suficientes para construir ' || nome_construcao || '.';
+        END IF;
+    END LOOP;
+
+    -- 5. Inserir a nova construção no chunk
+    INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
+    VALUES (nome_construcao, chunk_atual, mapa_atual);
+
+    -- 6. Se for um "Portal do Nether", criar um portal correspondente no Nether
+    IF nome_construcao = 'Portal do Nether' THEN
+        -- Gerar um chunk aleatório no mapa "Nether"
+        INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
+        VALUES ('Portal do Nether', (SELECT FLOOR(random() * 900) + 1), 'Nether')
+        RETURNING numero_chunk INTO novo_portal_chunk_nether;
+
+        -- Retornar a informação sobre o novo portal no Nether
+        RETURN 'Um novo portal foi criado no Nether, no chunk ' || novo_portal_chunk_nether || '.';
+    END IF;
+
+    -- 7. Remover os itens usados do inventário
+    FOR receita_itens IN
+        SELECT item, quantidade
+        FROM ReceitaConstruivel
+        WHERE nome_construivel = nome_construcao
+    LOOP
+        -- Para cada item da receita, remover a quantidade necessária do inventário
+        FOR inventario_jogador IN
+            SELECT InstanciaItem.id_inst_item
+            FROM Inventario
+            JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+            WHERE InstanciaItem.nome_item = receita_itens.item
+              AND Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = nome_jogador)
+            LIMIT receita_itens.quantidade
+        LOOP
+            -- Remover item do inventário e da tabela InstanciaItem
+            DELETE FROM Inventario WHERE id_inst_item = inventario_jogador.id_inst_item;
+            DELETE FROM InstanciaItem WHERE id_inst_item = inventario_jogador.id_inst_item;
+        END LOOP;
+    END LOOP;
+
+    -- Retornar sucesso para a construção
+    RETURN 'Você construiu ' || nome_construcao || ' com sucesso!';
+
+END;
+$construir_construcao$ LANGUAGE plpgsql SECURITY DEFINER;
