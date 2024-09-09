@@ -205,7 +205,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             ver_construcoes(cursor, nomeUser)
             break
 
-        elif acao == "construir" and parametros:
+        elif acao == "construir" and parametros: # Feito
             limpar_tela()
             nome_construcao = formatar_nome_item(' '.join(parametros))
             construir_construcao(connection, cursor, nomeUser, nome_construcao)
