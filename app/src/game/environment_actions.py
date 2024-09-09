@@ -285,8 +285,7 @@ def construir_construcao(connection, cursor, nomeUser, nome_construcao):
     jogador_data = cursor.fetchone()
     
     if not jogador_data:
-        mostrar_texto_gradualmente(f"Jogador não encontrado.", Fore.RED)
-        time.sleep(2)
+        mostrar_texto_gradualmente("Jogador não encontrado.", Fore.RED)
         return
     
     chunkAtual, mapaAtual = jogador_data
@@ -302,7 +301,6 @@ def construir_construcao(connection, cursor, nomeUser, nome_construcao):
     
     if construcao_existente:
         mostrar_texto_gradualmente(f"Já existe {nome_construcao} nesse chunk.", Fore.RED)
-        time.sleep(2)
         return
     
     # Obter a receita da construção
@@ -316,7 +314,6 @@ def construir_construcao(connection, cursor, nomeUser, nome_construcao):
     
     if not receita:
         mostrar_texto_gradualmente(f"A construção {nome_construcao} não possui uma receita válida.", Fore.RED)
-        time.sleep(2)
         return
     
     # Obter os itens do inventário do jogador
@@ -335,7 +332,6 @@ def construir_construcao(connection, cursor, nomeUser, nome_construcao):
     for item, quantidade_necessaria in receita:
         if item not in inventario_dict or inventario_dict[item] < quantidade_necessaria:
             mostrar_texto_gradualmente(f"Você não possui itens suficientes para construir {nome_construcao}.", Fore.RED)
-            time.sleep(2)
             return
     
     # Se o jogador tiver os itens, criar a construção no chunk atual
@@ -345,7 +341,17 @@ def construir_construcao(connection, cursor, nomeUser, nome_construcao):
     """, (nome_construcao, chunkAtual, mapaAtual))
     
     mostrar_texto_gradualmente(f"Você construiu {nome_construcao}!", Fore.GREEN)
-    time.sleep(2)
+
+    # Se for um Portal do Nether, criar também um portal correspondente no Nether
+    if nome_construcao == 'Portal do Nether':
+        # Gerar uma nova posição aleatória no Nether para o portal
+        cursor.execute("""
+            INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
+            VALUES ('Portal do Nether', (SELECT FLOOR(random() * 900) + 1), 'Nether')
+            RETURNING numero_chunk
+        """)
+        novo_portal_chunk_nether = cursor.fetchone()[0]
+        mostrar_texto_gradualmente(f"Um novo portal foi criado no Nether, no chunk {novo_portal_chunk_nether}.", Fore.MAGENTA)
 
     # Remover os itens usados do inventário e da tabela InstanciaItem
     for item, quantidade_necessaria in receita:
@@ -365,5 +371,188 @@ def construir_construcao(connection, cursor, nomeUser, nome_construcao):
             id_inst_item = instancia[0]
             cursor.execute("DELETE FROM Inventario WHERE id_inst_item = %s", (id_inst_item,))
             cursor.execute("DELETE FROM InstanciaItem WHERE id_inst_item = %s", (id_inst_item,))
-            
+
     connection.commit()
+
+# Comando: Utilizar Construção
+def utilizar_construcao(connection, cursor, nomeUser, nome_construcao):
+    # Obter a posição atual do jogador (chunk atual e mapa atual)
+    cursor.execute("""
+        SELECT Jogador.numero_chunk, Jogador.nome_mapa
+        FROM Jogador
+        WHERE Jogador.nome = %s
+    """, (nomeUser,))
+    
+    jogador_data = cursor.fetchone()
+    
+    if not jogador_data:
+        mostrar_texto_gradualmente("Jogador não encontrado.", Fore.RED)
+        time.sleep(2)
+        return
+    
+    chunkAtual, mapaAtual = jogador_data
+    
+    # Verificar se a construção existe no chunk atual do jogador
+    cursor.execute("""
+        SELECT 1
+        FROM InstanciaConstruivel
+        WHERE nome_construivel = %s AND numero_chunk = %s AND nome_mapa = %s
+    """, (nome_construcao, chunkAtual, mapaAtual))
+    
+    construcao_existe = cursor.fetchone()
+    
+    if not construcao_existe:
+        mostrar_texto_gradualmente(f"Não há {nome_construcao} por aqui...", Fore.RED)
+        time.sleep(2)
+        return
+    
+    # Funções específicas para cada construção
+    if nome_construcao == 'Casa':
+        mostrar_texto_gradualmente("Você se joga na cama, exausto, e sente sua vida e fome voltarem ao normal. Que lar aconchegante!", Fore.GREEN)
+        # Recuperar vida e fome do jogador
+    
+    elif nome_construcao == 'Armazém':
+        mostrar_texto_gradualmente("Bem-vindo ao armazém, onde todos os seus itens encontram um lar temporário... ou permanente, quem sabe?", Fore.YELLOW)
+        # Implementar lógica de armazenamento de itens
+
+    elif nome_construcao == 'Fazenda':
+        mostrar_texto_gradualmente("Você colhe algumas frutas e vegetais fresquinhos. Parece que o jantar de hoje vai ser bem verde!", Fore.GREEN)
+        # Adicionar alimentos ao inventário do jogador
+
+    elif nome_construcao == 'Forja':
+        mostrar_texto_gradualmente("Com a forja brilhando em calor, suas ferramentas estão prontas para brilhar como novas!", Fore.YELLOW)
+        # Implementar a lógica de reparo de ferramentas e armaduras
+
+    elif nome_construcao == 'Fornalha':
+        mostrar_texto_gradualmente("O calor da fornalha esquenta o ar enquanto você assa alimentos ou funde minérios com maestria!", Fore.YELLOW)
+        # Implementar a lógica de fundir minérios ou assar alimentos
+
+    elif nome_construcao == 'Biblioteca':
+        mostrar_texto_gradualmente("Entre as estantes empoeiradas, você descobre novas receitas!", Fore.BLUE)
+        # Desbloquear novas receitas para o jogador
+
+    elif nome_construcao == 'Portal do Nether':
+        usar_portal_do_nether(connection, cursor, nomeUser)
+
+    elif nome_construcao == 'Portal de Viagem':
+        cursor.execute("""
+            UPDATE Jogador
+            SET numero_chunk = (SELECT FLOOR(random() * 10000) + 1)  -- Exemplo: teletransporta para um chunk aleatório
+            WHERE nome = %s
+        """, (nomeUser,))
+        connection.commit()
+        # Implementar a lógica de teletransporte do jogador para um local distante aleatório
+        mostrar_texto_gradualmente("Você atravessa o portal e, num piscar de olhos, está em um lugar completamente diferente!", Fore.MAGENTA)
+        time.sleep(2)
+
+    else:
+        mostrar_texto_gradualmente(f"Construção desconhecida ou não implementada: {nome_construcao}.", Fore.RED)
+
+# ---
+# Função auxiliar para utilizar o portal do Nether
+def usar_portal_do_nether(connection, cursor, nomeUser):
+    """
+    Função para utilizar o Portal do Nether. Se o jogador estiver na Superfície, permite escolher um portal no Nether e viajar.
+    Se o jogador estiver no Nether, permite escolher um portal na Superfície e voltar.
+    """
+    # Obter a posição atual do jogador (chunk atual e mapa atual)
+    cursor.execute("""
+        SELECT Jogador.numero_chunk, Jogador.nome_mapa
+        FROM Jogador
+        WHERE Jogador.nome = %s
+    """, (nomeUser,))
+    
+    jogador_data = cursor.fetchone()
+    
+    if not jogador_data:
+        mostrar_texto_gradualmente("Jogador não encontrado.", Fore.RED)
+        time.sleep(2)
+        return
+    
+    chunkAtual, mapaAtual = jogador_data
+    
+    # Verifica se o jogador está na Superfície ou no Nether
+    if mapaAtual == 'Superfície':
+        # Se o jogador está na superfície, listar os portais disponíveis no Nether
+        cursor.execute("""
+            SELECT numero_chunk 
+            FROM InstanciaConstruivel
+            WHERE nome_construivel = 'Portal do Nether' AND nome_mapa = 'Nether'
+        """)
+        
+        portais_nether = cursor.fetchall()
+        
+        if portais_nether:
+            # Exibir a lista de portais disponíveis no Nether
+            mostrar_texto_gradualmente(f"Portais disponíveis no Nether:", Fore.MAGENTA)
+            for i, portal in enumerate(portais_nether):
+                mostrar_texto_gradualmente(f"{i+1}. Portal no chunk {portal[0]}", Fore.RED)
+            
+            # Perguntar ao jogador qual portal deseja usar
+            try:
+                escolha_portal = int(input("Escolha o número do portal para onde deseja ir: ")) - 1
+                if escolha_portal < 0 or escolha_portal >= len(portais_nether):
+                    mostrar_texto_gradualmente("Escolha inválida.", Fore.RED)
+                    return
+                destino_chunk = portais_nether[escolha_portal][0]
+            except (ValueError, IndexError):
+                mostrar_texto_gradualmente("Entrada inválida. Tente novamente.", Fore.RED)
+                return
+            
+            # Teleportar o jogador para o Nether, para o portal escolhido
+            cursor.execute("""
+                UPDATE Jogador
+                SET nome_mapa = 'Nether', numero_chunk = %s
+                WHERE nome = %s
+            """, (destino_chunk, nomeUser))
+            
+            connection.commit()
+            mostrar_texto_gradualmente("O portal se acende em luz púrpura, e você sente o calor do Nether. Que comece a aventura infernal!", Fore.MAGENTA)
+            time.sleep(2)
+        else:
+            mostrar_texto_gradualmente("Não há portais disponíveis no Nether.", Fore.RED)
+            time.sleep(2)
+    
+    elif mapaAtual == 'Nether':
+        # Se o jogador está no Nether, listar os portais disponíveis na Superfície
+        cursor.execute("""
+            SELECT numero_chunk 
+            FROM InstanciaConstruivel
+            WHERE nome_construivel = 'Portal do Nether' AND nome_mapa = 'Superfície'
+        """)
+        
+        portais_superficie = cursor.fetchall()
+        
+        if portais_superficie:
+            # Exibir a lista de portais disponíveis na Superfície
+            mostrar_texto_gradualmente(f"Portais disponíveis na Superfície:", Fore.GREEN)
+            for i, portal in enumerate(portais_superficie):
+                mostrar_texto_gradualmente(f"{i+1}. Portal no chunk {portal[0]}", Fore.BLUE)
+            
+            # Perguntar ao jogador qual portal deseja usar
+            try:
+                escolha_portal = int(input("Escolha o número do portal para onde deseja ir: ")) - 1
+                if escolha_portal < 0 or escolha_portal >= len(portais_superficie):
+                    mostrar_texto_gradualmente("Escolha inválida.", Fore.RED)
+                    return
+                destino_chunk = portais_superficie[escolha_portal][0]
+            except (ValueError, IndexError):
+                mostrar_texto_gradualmente("Entrada inválida. Tente novamente.", Fore.RED)
+                return
+            
+            # Teleportar o jogador para a Superfície, para o portal escolhido
+            cursor.execute("""
+                UPDATE Jogador
+                SET nome_mapa = 'Superfície', numero_chunk = %s
+                WHERE nome = %s
+            """, (destino_chunk, nomeUser))
+            
+            connection.commit()
+            mostrar_texto_gradualmente("Você atravessa o portal e o calor sufocante do Nether dá lugar a uma brisa suave e revigorante da Superfície...", Fore.GREEN)
+            time.sleep(2)
+        else:
+            mostrar_texto_gradualmente("Não há portais disponíveis na Superfície.", Fore.RED)
+            time.sleep(2)
+    else:
+        mostrar_texto_gradualmente("Você não está em um mapa onde pode usar um portal do Nether.", Fore.RED)
+        time.sleep(2)
