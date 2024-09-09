@@ -92,11 +92,9 @@ def tela_inicial():
     """Exibe a tela inicial e lida com os comandos do usuário."""
     limpar_tela()
     mover_creeper_para_direita()
+    mostrar_texto_gradualmente("Bem-vindo ao Minecraft MUD!", Fore.MAGENTA)
+    mostrar_texto_gradualmente("Digite 'iniciar' para começar a jogar, 'ajuda' para ver a lista de comandos, ou 'testar banco' para verificar a tabela de jogadores.", Fore.MAGENTA)
     while True:
-        limpar_tela()
-        mostrar_texto_gradualmente("Bem-vindo ao Minecraft MUD!", Fore.MAGENTA)
-        mostrar_texto_gradualmente("Digite 'iniciar' para começar a jogar, 'ajuda' para ver a lista de comandos, ou 'testar banco' para verificar a tabela de jogadores.", Fore.MAGENTA)
-
         command = input(f"{Fore.CYAN}Digite um comando: ").strip().lower()
 
         if command == "exit":
@@ -128,7 +126,6 @@ def tela_inicial():
 
         else:
             mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
-            time.sleep(1)
 
 def iniciar_jogo(nomeUser):
     connection = connect_to_db()

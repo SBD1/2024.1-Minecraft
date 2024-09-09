@@ -1,7 +1,9 @@
+import random
 from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, formatar_nome_item
 from colorama import Fore, Back, Style
-from ..game.environment_actions import craftar_item
+from ..game.environment_actions import craftar_item, ver_mob
 import time
+from ..game.combat import atacar_mob
 
 # Função: Visualizar Inventário com suporte a comandos
 def visualizar_inventario(connection, cursor, nomeUser):
@@ -145,7 +147,6 @@ def processar_comando_inventario(connection, cursor, nomeUser):
             # Comando inválido, continuar no loop
             mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
 
-
 # Função para exibir ajuda específica do inventário
 def exibir_ajuda_inventario():
     """
@@ -156,7 +157,7 @@ def exibir_ajuda_inventario():
     print(f"{Fore.LIGHTGREEN_EX}utilizar_item <item>{Fore.RESET}: Para utilizar um item do inventário")
     print(f"{Fore.LIGHTGREEN_EX}craftar_item <nomeItem>{Fore.RESET}: para criar um item usando recursos")
     print(f"{Fore.LIGHTGREEN_EX}equipar_armadura <item>{Fore.RESET}: Para equipar uma armadura")
-    print(f"{Fore.YELLOW}remover_armadura <parteCorpo>{Fore.RESET}: para remover uma armadura")
+    print(f"{Fore.LIGHTGREEN_EX}remover_armadura <parteCorpo>{Fore.RESET}: para remover uma armadura")
     print(f"{Fore.LIGHTGREEN_EX}ajuda{Fore.RESET}: Para ver esta lista de comandos")
     print(f"{Fore.LIGHTGREEN_EX}fechar_inventario{Fore.RESET}: Para sair do inventário e voltar ao jogo principal")
 
@@ -550,3 +551,264 @@ def remover_armadura(connection, cursor, nomeUser, slot):
     
     mostrar_texto_gradualmente(f"Você removeu a armadura de {slot_nomes[slot]}.", Fore.GREEN)
     time.sleep(2)
+
+
+# Comando: Explorar estrutura
+def explorar_estrutura(connection, cursor, nomeUser, nome_estrutura):
+    """
+    Permite ao jogador explorar uma estrutura dentro do chunk atual, listando mobs e itens fornecidos.
+    O loop dentro da estrutura permite realizar ações até o jogador sair.
+    """
+    count = 0
+    # Verificar se a estrutura existe no chunk e no mapa do jogador
+    cursor.execute("""
+        SELECT nome_estrutura FROM InstanciaEstrutura 
+        WHERE numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s) 
+        AND nome_mapa = (SELECT nome_mapa FROM Jogador WHERE nome = %s);
+    """, (nomeUser, nomeUser))
+
+    estrutura_existente = cursor.fetchone()
+    
+    if not estrutura_existente or estrutura_existente[0] != nome_estrutura:
+        mostrar_texto_gradualmente(f"A estrutura {nome_estrutura} não está presente neste chunk.", Fore.RED)
+        time.sleep(2)
+        return
+
+    while True:
+        limpar_tela()
+
+        # Exibir descrição personalizada da estrutura
+        descrever_estrutura(nome_estrutura)
+
+        # Listar mobs agressivos na estrutura, incluindo o Golem de Ferro na Vila
+        cursor.execute("""
+            SELECT InstanciaMob.nome_mob FROM InstanciaMob 
+            JOIN Mob ON InstanciaMob.nome_mob = Mob.nome 
+            WHERE InstanciaMob.id_estrutura = (
+                SELECT id_inst_estrutura FROM InstanciaEstrutura 
+                WHERE nome_estrutura = %s 
+                AND numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s)
+                AND nome_mapa = (SELECT nome_mapa FROM Jogador WHERE nome = %s)
+            )
+            AND Mob.tipo_mob = 'agressivo';
+        """, (nome_estrutura, nomeUser, nomeUser))
+
+        mobs_agressivos = cursor.fetchall()
+
+        if mobs_agressivos:
+            mostrar_texto_gradualmente(f"Você encontrou os seguintes mobs na estrutura {nome_estrutura}:", Fore.YELLOW)
+            for mob in mobs_agressivos:
+                mostrar_texto_gradualmente(f"- {mob[0]}", Fore.RED)
+        else:
+            fornecer_itens_estrutura(connection, cursor, nomeUser, nome_estrutura)
+            mostrar_texto_gradualmente(f"A estrutura {nome_estrutura} já foi completamente explorada.", Fore.CYAN)
+            time.sleep(2)
+
+        if nome_estrutura == "Vila" and count==0:
+            count += 1
+            fornecer_presente_vila(connection, cursor, nomeUser)
+
+        print(f"{Fore.YELLOW}-------------------------------")
+
+        # Processar o comando dentro da estrutura
+        if not processar_comando_estrutura(connection, cursor, nomeUser, nome_estrutura):
+            break
+
+
+# Função para fornecer itens após explorar uma estrutura completamente
+def fornecer_itens_estrutura(connection, cursor, nomeUser, nome_estrutura):
+    """
+    Fornece itens ao jogador com base na tabela estruturaForneceItem, considerando as probabilidades.
+    """
+    cursor.execute("""
+        SELECT nome_item, probabilidade 
+        FROM estruturaForneceItem 
+        WHERE nome_estrutura = %s;
+    """, (nome_estrutura,))
+    
+    itens_estrutura = cursor.fetchall()
+
+    mostrar_texto_gradualmente(f"Você terminou de explorar {nome_estrutura} e encontrou alguns itens:", Fore.YELLOW)
+    
+    for item, probabilidade in itens_estrutura:
+        if random.random() <= probabilidade / 100:
+            cursor.execute("""
+                INSERT INTO InstanciaItem (nome_item) 
+                VALUES (%s) RETURNING id_inst_item;
+            """, (item,))
+            id_inst_item = cursor.fetchone()[0]
+
+            cursor.execute("""
+                INSERT INTO Inventario (id_inst_item, id_inventario)
+                VALUES (%s, (SELECT id_jogador FROM Jogador WHERE nome = %s));
+            """, (id_inst_item, nomeUser))
+
+            mostrar_texto_gradualmente(f"Você encontrou {item}!", Fore.GREEN)
+            time.sleep(1.5)
+    connection.commit()
+
+
+# Função para fornecer presente ao explorar a Vila (mesmo com o Golem de Ferro presente)
+def fornecer_presente_vila(connection, cursor, nomeUser):
+    """
+    Fornece um presente ao jogador ao explorar uma Vila, independentemente da presença do Golem de Ferro.
+    """
+    # Fornecer presente da Vila
+    cursor.execute("""
+        SELECT nome_item, probabilidade 
+        FROM estruturaForneceItem 
+        WHERE nome_estrutura = 'Vila';
+    """)
+
+    presentes_vila = cursor.fetchall()
+
+    encontrou_presente = False
+    for item, probabilidade in presentes_vila:
+        if random.random() <= probabilidade / 100:
+            if not encontrou_presente:
+                mostrar_texto_gradualmente("Os aldeões o acolhem com presentes de boas-vindas!", Fore.LIGHTGREEN_EX)
+                encontrou_presente = True
+            
+            cursor.execute("""
+                INSERT INTO InstanciaItem (nome_item) 
+                VALUES (%s) RETURNING id_inst_item;
+            """, (item,))
+            id_inst_item = cursor.fetchone()[0]
+
+            cursor.execute("""
+                INSERT INTO Inventario (id_inst_item, id_inventario)
+                VALUES (%s, (SELECT id_jogador FROM Jogador WHERE nome = %s));
+            """, (id_inst_item, nomeUser))
+
+            mostrar_texto_gradualmente(f"Você recebeu {item} dos aldeões.", Fore.GREEN)
+            time.sleep(1.5)
+
+    if not encontrou_presente:
+        mostrar_texto_gradualmente("Infelizmente, os aldeões não têm presentes para você desta vez.", Fore.CYAN)
+        time.sleep(2)
+
+# Função para descrever a estrutura
+def descrever_estrutura(nome_estrutura):
+    """
+    Exibe uma descrição personalizada para a estrutura com base no nome da estrutura.
+    """
+    descricoes = {
+        "Vila": "Você entra na vila e vê pequenas casas aconchegantes de madeira, com aldeões pacíficos andando pelas ruas.",
+        "Templo da Selva": "Você se encontra em um antigo templo, as paredes cobertas de musgo. O som distante de algo ecoa pelas paredes.",
+        "Templo do Deserto": "Dentro do templo do deserto, você sente o calor e a presença de armadilhas ocultas nas areias movediças.",
+        "Posto Avançado": "Você chegou em um forte de saqueadores, bandeiras tremulando ao vento. O perigo espreita em cada esquina.",
+        "Portal em Ruínas": "Você vê ruínas de um portal antigo, rodeado por obsidiana quebrada e chamas pulsando nas profundezas.",
+        "Cabana da Bruxa": "A cabana solitária se ergue em meio ao pântano. O ar é pesado e denso com a presença de magia.",
+        "Fortaleza do Nether": "Chamas eternas queimam ao redor da fortaleza, lar dos mobs mais perigosos do Nether.",
+        "Mina Abandonada": "Você entra numa mina abandonada, com trilhos enferrujados e teias de aranha em cada canto.",
+        "Fortaleza do Fim": "A imponente Fortaleza do Fim se ergue diante de você, portais brilhando com energia antiga.",
+        "Bastião em Ruínas": "Entre as ruínas escuras, você percebe ecos de batalhas passadas e o perigo iminente do bastião.",
+    }
+    
+    if nome_estrutura in descricoes:
+        mostrar_texto_gradualmente(descricoes[nome_estrutura], Fore.LIGHTGREEN_EX)
+    else:
+        mostrar_texto_gradualmente(f"Você entra na estrutura misteriosa {nome_estrutura}.", Fore.LIGHTGREEN_EX)
+    
+    time.sleep(2)
+
+# Função para processar comandos dentro da estrutura
+def processar_comando_estrutura(connection, cursor, nomeUser, nome_estrutura):
+    """
+    Processa os comandos específicos dentro da estrutura.
+    """
+    while True:
+        comando = input(f"{Fore.CYAN}Digite um comando ou 'ajuda' para ver os comandos disponíveis dentro da estrutura: ").strip().lower()
+        partes_comando = comando.split()
+        acao = partes_comando[0] if partes_comando else ""
+        parametros = partes_comando[1:] if len(partes_comando) > 1 else []
+
+        if acao == "ver_mob" and parametros:
+            limpar_tela()
+            nome_mob = formatar_nome_item(' '.join(parametros))
+            ver_mob(connection, cursor, nomeUser, nome_mob)
+            return True
+
+        elif acao == "ver_inventario":
+            limpar_tela()
+            visualizar_inventario(connection, cursor, nomeUser)
+            return True
+
+        elif acao == "comer" and parametros:
+            limpar_tela()
+            nomeItem = formatar_nome_item(' '.join(parametros))
+            comer(connection, cursor, nomeUser, nomeItem)
+            return True
+
+        elif acao == "utilizar_item" and parametros:
+            limpar_tela()
+            nomeItem = formatar_nome_item(' '.join(parametros))
+            utilizar_item(connection, cursor, nomeUser, nomeItem)
+            return True
+
+        elif acao == "craftar_item" and parametros:
+            limpar_tela()
+            nome_item = formatar_nome_item(' '.join(parametros))
+            craftar_item(connection, cursor, nomeUser, nome_item)
+            return True
+
+        elif acao == "equipar_armadura" and parametros:
+            limpar_tela()
+            nome_item = formatar_nome_item(' '.join(parametros))
+            equipar_armadura(connection, cursor, nomeUser, nome_item)
+            return True
+
+        elif acao == "remover_armadura" and parametros:
+            limpar_tela()
+            slot = ' '.join(parametros).lower()
+            remover_armadura(connection, cursor, nomeUser, slot)
+            return True
+
+        elif acao == "atacar_mob" and len(parametros) > 1:
+            limpar_tela()
+            nome_ferramenta = formatar_nome_item(' '.join(parametros[1:]))
+            nome_mob = formatar_nome_item(parametros[0])
+            atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta, estaEmEstrutura=True)
+            return True
+
+        elif acao == "ver_construcoes":
+            limpar_tela()
+            ver_construcoes(cursor, nomeUser)
+            return True
+
+        elif acao == "sair_estrutura":
+            limpar_tela()
+            mostrar_texto_gradualmente("Você deixou a estrutura e voltou para o ambiente ao redor.", Fore.CYAN)
+            time.sleep(1.5)
+            return False
+
+        elif acao == "ajuda":
+            limpar_tela()
+            exibir_ajuda_estrutura()
+            return True
+
+        else:
+            mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
+
+# Função para exibir ajuda dentro da estrutura
+def exibir_ajuda_estrutura():
+    """
+    Exibe os comandos disponíveis para o jogador dentro de uma estrutura.
+    """
+    print(f"{Fore.YELLOW}Comandos disponíveis na estrutura:")
+    print(f"{Fore.LIGHTGREEN_EX}ver_mob <nomeMob>{Fore.RESET}: para ver informações sobre um mob no chunk atual")
+    print(f"{Fore.LIGHTGREEN_EX}ver_inventario{Fore.RESET}: Para ver os itens no seu inventário")
+    print(f"{Fore.LIGHTGREEN_EX}comer <alimento>{Fore.RESET}: Para se alimentar")
+    print(f"{Fore.LIGHTGREEN_EX}utilizar_item <nomeItem>{Fore.RESET}: Para usar um item do inventário")
+    print(f"{Fore.LIGHTGREEN_EX}craftar_item <nomeItem>{Fore.RESET}: para criar um item usando recursos")
+    print(f"{Fore.LIGHTGREEN_EX}equipar_armadura <nomeItem>{Fore.RESET}: para equipar uma armadura")
+    print(f"{Fore.LIGHTGREEN_EX}remover_armadura <parteCorpo>{Fore.RESET}: para remover uma armadura")
+    print(f"{Fore.LIGHTGREEN_EX}atacar_mob <nomeMob> <ferramenta>{Fore.RESET}: Para atacar um mob dentro da estrutura")
+    print(f"{Fore.LIGHTGREEN_EX}ver_construcoes{Fore.RESET}: para ver construcoes e suas receitas")
+    print(f"{Fore.LIGHTGREEN_EX}sair_estrutura{Fore.RESET}: Para sair da estrutura e voltar ao chunk")
+    print(f"{Fore.LIGHTGREEN_EX}ajuda_estrutura{Fore.RESET}: Para ver esta lista de comandos")
+
+    print(f"{Fore.YELLOW}-------------------------------")
+
+    input(f"{Fore.CYAN}Pressione Enter para continuar...{Fore.RESET}")
+    limpar_tela()

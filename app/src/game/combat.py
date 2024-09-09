@@ -23,8 +23,13 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
             WHERE InstanciaMob.nome_mob = %s
             AND InstanciaMob.numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s)
             AND InstanciaMob.nome_mapa = (SELECT nome_mapa FROM Jogador WHERE nome = %s)
-            AND InstanciaMob.nome_estrutura = (SELECT nome_estrutura FROM Jogador WHERE nome = %s);
-        """, (nomeMob, nomeUser, nomeUser, nomeUser))
+            AND EXISTS (
+                SELECT 1
+                FROM InstanciaEstrutura
+                WHERE InstanciaEstrutura.numero_chunk = InstanciaMob.numero_chunk
+                AND InstanciaEstrutura.nome_mapa = InstanciaMob.nome_mapa
+            );
+        """, (nomeMob, nomeUser, nomeUser))
     else:
         cursor.execute("""
             SELECT InstanciaMob.vida_atual, Mob.tipo_mob
@@ -143,25 +148,73 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
             """, (nomeMob,))
             dano_mob = cursor.fetchone()[0]
 
-            # Verificar armadura do jogador
+            # Verificar pontos de armadura do jogador
             cursor.execute("""
-                SELECT cabeca, peito, pernas, pes 
-                FROM Jogador WHERE nome = %s;
+                SELECT pts_armadura, cabeca, peito, pernas, pes
+                FROM Jogador 
+                WHERE nome = %s;
             """, (nomeUser,))
-            armaduras = cursor.fetchone()
+            jogador_info = cursor.fetchone()
 
-            total_armadura = 0
-            for peca_armadura in armaduras:
-                if peca_armadura is not None:
+            pts_armadura, cabeca_id, peito_id, pernas_id, pes_id = jogador_info
+
+            # Pegar a durabilidade atual das armaduras equipadas e diminuir a durabilidade
+            ids_armaduras = {
+                'cabeca': cabeca_id, 
+                'peito': peito_id, 
+                'pernas': pernas_id, 
+                'pes': pes_id
+            }
+
+            for parte_corpo, id_arma in ids_armaduras.items():
+                if id_arma is not None:
+                    # Obter durabilidade da peça de armadura
                     cursor.execute("""
-                        SELECT pts_armadura FROM armaduraduravel WHERE nome_item = %s;
-                    """, (peca_armadura,))
-                    pontos_armadura = cursor.fetchone()
-                    if pontos_armadura:
-                        total_armadura += pontos_armadura[0]
+                        SELECT InstanciaItem.durabilidade_atual, ArmaduraDuravel.durabilidade_total, InstanciaItem.nome_item
+                        FROM InstanciaItem
+                        JOIN ArmaduraDuravel ON InstanciaItem.nome_item = ArmaduraDuravel.nome_item
+                        WHERE InstanciaItem.id_inst_item = %s;
+                    """, (id_arma,))
+                    armadura_durabilidade = cursor.fetchone()
+
+                    if armadura_durabilidade:
+                        durab_atual, durab_total, nome_armadura = armadura_durabilidade
+                        nova_durabilidade = durab_atual - DURABILIDADE_PERDIDA_ARMADURA
+
+                        cursor.execute("""
+                            UPDATE InstanciaItem
+                            SET durabilidade_atual = %s
+                            WHERE id_inst_item = %s;
+                        """, (nova_durabilidade, id_arma))
+
+                        # Informar durabilidade atual da armadura
+                        mostrar_texto_gradualmente(f"Sua armadura {nome_armadura} ({parte_corpo}) perdeu {DURABILIDADE_PERDIDA_ARMADURA} ponto(s) de durabilidade. Durabilidade atual: {nova_durabilidade}.", Fore.LIGHTBLUE_EX)
+                        time.sleep(1.5)
+
+                        # Verificar se a armadura quebrou
+                        if nova_durabilidade <= 0:
+                            mostrar_texto_gradualmente(f"Sua armadura {nome_armadura} ({parte_corpo}) quebrou!", Fore.RED)
+                            time.sleep(1.5)
+
+                            # Primeiro, remover a referência da armadura do corpo do jogador
+                            cursor.execute(f"""
+                                UPDATE Jogador
+                                SET {parte_corpo} = NULL
+                                WHERE nome = %s;
+                            """, (nomeUser,))
+
+                            # Agora, remover a armadura do inventário
+                            cursor.execute("""
+                                DELETE FROM Inventario WHERE id_inst_item = %s;
+                            """, (id_arma,))
+
+                            # Finalmente, remover a armadura da tabela InstanciaItem
+                            cursor.execute("""
+                                DELETE FROM InstanciaItem WHERE id_inst_item = %s;
+                            """, (id_arma,))
 
             # Calcular o dano mitigado
-            dano_recebido = dano_mob / (1 + (total_armadura / 10))
+            dano_recebido = round(dano_mob / (1 + (pts_armadura / 10)))
             dano_mitigado = dano_mob - dano_recebido
 
             cursor.execute("""
@@ -210,3 +263,4 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
         """, (id_inst_item_ferramenta,))
 
     connection.commit()
+    input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
