@@ -276,7 +276,7 @@ def mostrar_mapa(cursor, nomeUser):
     chunk_x = (chunkAtual - 1) % 100
     chunk_y = (chunkAtual - 1) // 100
     
-    # Mostrar o mapa ao redor do jogador (10x10 chunks)
+    # Mostrar o mapa ao redor do jogador (15x15 chunks)
     for dy in range(-15, 14):
         for dx in range(-15, 14):
             # Calcular a posição do chunk ao redor do jogador
@@ -300,7 +300,7 @@ def mostrar_mapa(cursor, nomeUser):
                 if chunk_id == chunkAtual:
                     print(f"{Back.RED}  {Style.RESET_ALL}", end="")
                 elif bioma in bioma_cores:
-                    print(f"{bioma_cores[bioma][0]}  {Style.RESET_ALL}", end="")  # Usando Back no mapa
+                    print(f"{bioma_cores[bioma][0]}  {Style.RESET_ALL}", end="") 
                 else:
                     print(f"{Back.BLACK}  {Style.RESET_ALL}", end="")  # Fora dos limites ou desconhecido em preto
             else:
@@ -308,7 +308,68 @@ def mostrar_mapa(cursor, nomeUser):
         
         print()  # Quebra de linha a cada linha do mapa
 
-    # Mostrar a legenda usando Fore
     print(f"{Fore.CYAN}Legenda:{Style.RESET_ALL}")
     for bioma, (back_color, fore_color) in bioma_cores.items():
-        print(f"{fore_color}■ {bioma}{Style.RESET_ALL}")  # Usando Fore na legenda
+        print(f"{fore_color}■ {bioma}{Style.RESET_ALL}")
+
+# Função para mostrar as construções disponíveis e suas receitas
+def ver_construcoes(cursor, nomeUser):
+    # Seleciona todas as construções da tabela Construivel
+    cursor.execute("""
+        SELECT nome, descricao
+        FROM Construivel
+    """)
+    
+    construiveis = cursor.fetchall()
+
+    if not construiveis:
+        mostrar_texto_gradualmente("Não há construções disponíveis.")
+        return
+
+    # Busca o inventário do jogador e conta quantas vezes cada item aparece
+    cursor.execute("""
+        SELECT InstanciaItem.nome_item
+        FROM Inventario
+        JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+        WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
+    """, (nomeUser,))
+    
+    inventario_jogador = cursor.fetchall()
+    
+    # Contagem de quantas vezes cada item aparece no inventário
+    itens_no_inventario = {}
+    for item in inventario_jogador:
+        nome_item = item[0]
+        if nome_item in itens_no_inventario:
+            itens_no_inventario[nome_item] += 1
+        else:
+            itens_no_inventario[nome_item] = 1
+
+    for construivel in construiveis:
+        nome_construivel, descricao = construivel
+        print(f"\n{Fore.YELLOW}Construção: {nome_construivel}{Style.RESET_ALL}")
+        print(f"Descrição: {descricao}")
+        
+        # Seleciona a receita da construção atual
+        cursor.execute("""
+            SELECT item, quantidade
+            FROM ReceitaConstruivel
+            WHERE nome_construivel = %s
+        """, (nome_construivel,))
+        
+        receita = cursor.fetchall()
+        
+        if receita:
+            print(f"{Fore.CYAN}Receita:{Style.RESET_ALL}")
+            for item, quantidade in receita:
+                # Verifica se o jogador tem o item necessário no inventário e em quantidade suficiente
+                if item in itens_no_inventario and itens_no_inventario[item] >= quantidade:
+                    # Pintar o item de verde se o jogador tiver a quantidade necessária
+                    print(f"{Fore.GREEN}- {quantidade}x {item}{Style.RESET_ALL}")
+                else:
+                    # Pintar o item de vermelho se o jogador não tiver ou tiver em quantidade insuficiente
+                    print(f"{Fore.RED}- {quantidade}x {item}{Style.RESET_ALL}")
+        else:
+            print("Essa construção não possui uma receita.")
+    
+    input(f"{Fore.CYAN}\nPressione Enter para voltar...{Style.RESET_ALL}")

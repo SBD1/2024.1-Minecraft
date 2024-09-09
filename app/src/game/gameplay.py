@@ -2,8 +2,8 @@ import time
 from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bioma_com_cor, mostrar_mapa_com_cor, formatar_nome_item
 from colorama import Fore
 from ..game.combat import atacar_mob
-from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item
-from ..game.player_actions import visualizar_inventario, comer, utilizar_item
+from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item, construir_construcao, utilizar_construcao
+from ..game.player_actions import visualizar_inventario, comer, utilizar_item, ver_construcoes
 
 # Função principal do jogo
 def jogar(connection, cursor, nomeUser):
@@ -151,7 +151,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
 
         elif acao == "ver_mob" and parametros:  # Feito
             limpar_tela()
-            nome_mob = formatar_nome_item(parametros[0])
+            nome_mob = formatar_nome_item(' '.join(parametros))
             ver_mob(connection, cursor, nomeUser, nome_mob)
             break
 
@@ -162,19 +162,19 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
 
         elif acao == "comer" and parametros:  # Feito
             limpar_tela()
-            nomeItem = formatar_nome_item(parametros[0])
+            nomeItem = formatar_nome_item(' '.join(parametros))
             comer(connection, cursor, nomeUser, nomeItem)
             break
 
-        elif acao == "utilizar_item" and parametros:  # Implementar ações específicas
+        elif acao == "utilizar_item" and parametros:  # Apenas Mapa
             limpar_tela()
-            nomeItem = formatar_nome_item(parametros[0])
+            nomeItem = formatar_nome_item(' '.join(parametros))
             utilizar_item(connection, cursor, nomeUser, nomeItem)
             break
 
         elif acao == "minerar_fonte" and parametros:
             limpar_tela()
-            nome_fonte = formatar_nome_item(parametros[0])
+            nome_fonte = formatar_nome_item(' '.join(parametros))
             minerar_fonte(connection, cursor, nomeUser, nome_fonte)
             break
 
@@ -188,27 +188,38 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
 
         elif acao == "equipar_item" and parametros:
             limpar_tela()
-            nome_item = formatar_nome_item(parametros[0])
+            nome_item = formatar_nome_item(' '.join(parametros))
             equipar_item(connection, cursor, nomeUser, nome_item)
             break
 
         elif acao == "atacar_mob" and len(parametros) == 2:
             limpar_tela()
-            nome_mob = formatar_nome_item(parametros[0])
+            nome_mob = formatar_nome_item(' '.join(parametros))
             nome_ferramenta = formatar_nome_item(parametros[1])
             atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta)
             break
 
         elif acao == "falar" and parametros:
             limpar_tela()
-            nome_aldeao = formatar_nome_item(parametros[0])
+            nome_aldeao = formatar_nome_item(' '.join(parametros))
             falar_aldeao(connection, cursor, nomeUser, nome_aldeao) # Placeholder para quando a função estiver pronta
             break
 
-        elif acao == "construir" and parametros:
+        elif acao == "ver_construcoes": # Feito
             limpar_tela()
-            nome_estrutura = formatar_nome_item(parametros[0])
-            construir_estrutura(connection, cursor, nomeUser, nome_estrutura)
+            ver_construcoes(cursor, nomeUser)
+            break
+
+        elif acao == "construir" and parametros: # Feito
+            limpar_tela()
+            nome_construcao = formatar_nome_item(' '.join(parametros))
+            construir_construcao(connection, cursor, nomeUser, nome_construcao)
+            break
+
+        elif acao == "utilizar_construcao" and parametros: # Apenas Portal do Nether
+            limpar_tela()
+            nome_construcao = formatar_nome_item(' '.join(parametros))
+            utilizar_construcao(connection, cursor, nomeUser, nome_construcao)
             break
 
         elif acao == "explorar_estrutura" and parametros:
@@ -359,10 +370,11 @@ def exibir_ajuda():
     print(f"{Fore.YELLOW}equipar_item <nomeItem>{Fore.RESET}: para equipar uma armadura ou item")
     print(f"{Fore.YELLOW}atacar_mob <nomeMob> <nomeFerramenta>{Fore.RESET}: para atacar um mob com uma ferramenta")
     print(f"{Fore.YELLOW}falar <NomeAldeão>{Fore.RESET}: para interagir com um Aldeão")
-    print(f"{Fore.YELLOW}construir <NomeEstrutura>{Fore.RESET}: para construir uma estrutura")
+    print(f"{Fore.YELLOW}ver_construcoes{Fore.RESET}: para ver construcoes e suas receitas")
+    print(f"{Fore.YELLOW}construir <NomeConstrucao>{Fore.RESET}: para construir uma estrutura")
+    print(f"{Fore.YELLOW}utilizar_construcao <NomeConstrucao>{Fore.RESET}: para utilizar uma estrutura construída")
     print(f"{Fore.YELLOW}explorar_estrutura <NomeEstrutura>{Fore.RESET}: para explorar uma estrutura próxima")
     print(f"{Fore.YELLOW}sair{Fore.RESET}: para terminar o jogo")
 
     input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
     limpar_tela()
-
