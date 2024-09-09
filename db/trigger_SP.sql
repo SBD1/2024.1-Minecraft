@@ -475,4 +475,50 @@ BEGIN
 END;
 $$;
 
+--------------------------------------------------------------------------------------------------------
+------------------------------------ PROCEDURES PARA A GAMEPLAY  ---------------------------------------
+--------------------------------------------------------------------------------------------------------
+
+--- PROCEDURE PARA MOVER JOGADOR
+
+CREATE OR REPLACE FUNCTION mover_jogador(
+    p_nomeUser VARCHAR(30),
+    p_direcao VARCHAR(30),
+    p_novo_chunk INT
+) RETURNS TEXT
+AS $mover_jogador$
+BEGIN
+    -- Verifica se a direção é "baixo"
+    IF p_direcao = 'baixo' THEN
+        -- Atualiza o nome_mapa para "Cavernas"
+        UPDATE Jogador
+        SET nome_mapa = 'Cavernas'
+        WHERE nome = p_nomeUser;
+
+        -- Retorna uma mensagem de sucesso
+        RETURN 'Você se desceu para as Cavernas e agora está no chunk ' || p_novo_chunk || '.';
+
+    -- Verifica se a direção é "cima"
+    ELSIF p_direcao = 'cima' THEN
+        -- Atualiza o nome_mapa para "Superfície"
+        UPDATE Jogador
+        SET nome_mapa = 'Superfície'
+        WHERE nome = p_nomeUser;
+
+        -- Retorna uma mensagem de sucesso
+        RETURN 'Você retornou para a Superfície e agora está no chunk ' || p_novo_chunk || '.';
+
+    -- Caso contrário, atualiza o chunk
+    ELSE
+        -- Atualiza o numero_chunk
+        UPDATE Jogador
+        SET numero_chunk = p_novo_chunk
+        WHERE nome = p_nomeUser;
+
+        -- Retorna uma mensagem de sucesso
+        RETURN 'Você se moveu para o ' || p_direcao || ' e agora está no chunk ' || p_novo_chunk || '.';
+    END IF;
+END;
+$mover_jogador$ LANGUAGE plpgsql;
+
 
