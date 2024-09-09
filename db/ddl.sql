@@ -165,15 +165,18 @@ CREATE TABLE Jogador (
     vida INT NOT NULL,
     nivel INT NOT NULL,
     exp INT NOT NULL,
-    cabeca VARCHAR(30),
-    peito VARCHAR(30),
-    pernas VARCHAR(30),
-    pes VARCHAR(30),
+    cabeca INT,
+    peito INT,
+    pernas INT,
+    pes INT,
     numero_chunk INT NOT NULL,
     nome_mapa VARCHAR(30) NOT NULL,
     missao INT,
+    casa_chunk INT,
+    pts_armadura INT DEFAULT 0,
     FOREIGN KEY (numero_chunk, nome_mapa) REFERENCES Chunk(numero, nome_mapa),
-    FOREIGN KEY (missao) REFERENCES Missao(id_missao)
+    FOREIGN KEY (missao) REFERENCES Missao(id_missao),
+    FOREIGN KEY (casa_chunk, nome_mapa) REFERENCES Chunk(numero, nome_mapa)
 );
 
 -- Tabela Inventário
@@ -183,6 +186,14 @@ CREATE TABLE Inventario (
     FOREIGN KEY (id_inventario) REFERENCES Jogador(id_jogador),
     FOREIGN KEY (id_inst_item) REFERENCES InstanciaItem(id_inst_item)
 );
+
+-- Adicionar as chaves estrangeiras na tabela Jogador para cabeca, peito, pernas e pes
+ALTER TABLE Jogador
+ADD FOREIGN KEY (cabeca) REFERENCES Inventario(id_inst_item),
+ADD FOREIGN KEY (peito) REFERENCES Inventario(id_inst_item),
+ADD FOREIGN KEY (pernas) REFERENCES Inventario(id_inst_item),
+ADD FOREIGN KEY (pes) REFERENCES Inventario(id_inst_item);
+
 
 -- Tabela Mob
 CREATE TABLE Mob (
