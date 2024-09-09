@@ -16218,10 +16218,14 @@ VALUES
         ('Machado de Ferro', 250),
         ('Pá de Ferro', 251),
         ('Madeira', NULL),
-        ('Capacete de Ferro', NULL),
-        ('Peitoral de Ferro', NULL),
-        ('Calças de Ferro', NULL),
-        ('Botas de Ferro', NULL);
+        ('Barras de Ferro', null),
+        ('Barras de Ferro', null),
+        ('Barras de Ferro', null),
+        ('Peitoral de Ferro', 10),
+        ('Calças de Ferro', 10),
+        ('Botas de Ferro', 10),
+        ('Barras de Ferro', null),
+        ('Barras de Ferro', null);
 
 -- Tabela Inventario
 INSERT INTO Inventario (id_inst_item, id_inventario)
@@ -16257,11 +16261,15 @@ VALUES
         (29, 1),
         (30, 1),
         (31, 1),
-        (32, 1);
+        (32, 1),
+        (33, 1),
+        (34, 1),
+        (35, 1),
+        (36, 1);
 
 -- Adicionando armadura no jogador 1 (remover esse trecho depois)
 UPDATE Jogador
-SET cabeca = 29, peito = 30, pernas = 31, pes = 32
+SET pernas = 33, pes = 34
 WHERE id_jogador = 1;
 
 -- Inserindo Mobs

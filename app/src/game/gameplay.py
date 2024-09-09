@@ -3,7 +3,7 @@ from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bio
 from colorama import Fore
 from ..game.combat import atacar_mob
 from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item, construir_construcao, utilizar_construcao
-from ..game.player_actions import visualizar_inventario, comer, utilizar_item, ver_construcoes
+from ..game.player_actions import visualizar_inventario, comer, utilizar_item, ver_construcoes, equipar_item
 
 # Função principal do jogo
 def jogar(connection, cursor, nomeUser):

@@ -393,3 +393,97 @@ def ver_construcoes(cursor, nomeUser):
             print("Essa construção não possui uma receita.")
     
     input(f"{Fore.CYAN}\nPressione Enter para voltar...{Style.RESET_ALL}")
+
+def equipar_item(connection, cursor, nomeUser, nome_item):
+    """
+    Função para equipar um item de armadura. Verifica se o item está no inventário,
+    se é uma armadura e equipa o item na posição correta (cabeça, peito, pernas, pés).
+    """
+    # Verificar se o item está no inventário do jogador
+    cursor.execute("""
+        SELECT InstanciaItem.id_inst_item
+        FROM Inventario
+        JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+        JOIN Jogador ON Inventario.id_inventario = Jogador.id_jogador
+        WHERE Jogador.nome = %s AND InstanciaItem.nome_item = %s;
+    """, (nomeUser, nome_item))
+
+    item_inventario = cursor.fetchone()
+
+    if not item_inventario:
+        mostrar_texto_gradualmente(f"Você não possui {nome_item} no inventário.", Fore.RED)
+        time.sleep(2)
+        return
+    
+    id_inst_item = item_inventario[0]
+
+    # Verificar se o item está na tabela ArmaduraDuravel
+    cursor.execute("""
+        SELECT 1
+        FROM ArmaduraDuravel
+        WHERE nome_item = %s;
+    """, (nome_item,))
+    
+    armadura_duravel = cursor.fetchone()
+
+    if not armadura_duravel:
+        mostrar_texto_gradualmente(f"{nome_item} não é uma peça de armadura.", Fore.RED)
+        time.sleep(2)
+        return
+
+    # Verificar se o jogador já tem um item equipado na posição
+    cursor.execute("""
+        SELECT cabeca, peito, pernas, pes
+        FROM Jogador
+        WHERE nome = %s;
+    """, (nomeUser,))
+    
+    jogador_equipamento = cursor.fetchone()
+    cabeca, peito, pernas, pes = jogador_equipamento
+
+    # Definir qual slot o item deve ser equipado
+    slot = None
+    if nome_item.lower().startswith('capacete'):
+        if cabeca is not None:
+            mostrar_texto_gradualmente("Você já tem um capacete equipado.", Fore.RED)
+            time.sleep(2)
+            return
+        slot = 'cabeca'
+    elif nome_item.lower().startswith('peitoral') or nome_item.lower().startswith('túnica'):
+        if peito is not None:
+            mostrar_texto_gradualmente("Você já tem um peitoral equipado.", Fore.RED)
+            time.sleep(2)
+            return
+        slot = 'peito'
+    elif nome_item.lower().startswith('calças'):
+        if pernas is not None:
+            mostrar_texto_gradualmente("Você já tem calças equipadas.", Fore.RED)
+            time.sleep(2)
+            return
+        slot = 'pernas'
+    elif nome_item.lower().startswith('botas'):
+        if pes is not None:
+            mostrar_texto_gradualmente("Você já tem botas equipadas.", Fore.RED)
+            time.sleep(2)
+            return
+        slot = 'pes'
+   
+
+    # Equipar o item na posição correspondente
+    cursor.execute(f"""
+        UPDATE Jogador
+        SET {slot} = %s
+        WHERE nome = %s;
+    """, (id_inst_item, nomeUser))
+
+    connection.commit()
+    slot_nomes = {
+        'cabeca': 'Cabeça',
+        'peito': 'Peito',
+        'pernas': 'Pernas',
+        'pes': 'Pés'
+    }
+
+    # Exibir a mensagem com o slot formatado
+    mostrar_texto_gradualmente(f"Você equipou {nome_item} no(a) {slot_nomes[slot]}.", Fore.GREEN)
+    time.sleep(2)
