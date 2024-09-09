@@ -187,7 +187,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             equipar_item(connection, cursor, nomeUser, nome_item)
             break
 
-        if acao == "atacar_mob" and len(parametros) > 1:
+        if acao == "atacar_mob" and len(parametros) > 1: # Feito
             limpar_tela()
 
             # Percorrer os parâmetros ao contrário para identificar a ferramenta primeiro
