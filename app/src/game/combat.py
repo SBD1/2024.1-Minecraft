@@ -7,21 +7,22 @@ import time
 def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta):
     """
     Permite ao jogador atacar um mob utilizando uma ferramenta ou arma do inventário.
+    Lida com mobs pacíficos e agressivos.
     """
 
     # Variáveis chave para o ataque
     DURABILIDADE_PERDIDA = 1  # Quantidade de durabilidade perdida por ataque
 
-    # Verificar se o mob está no mesmo chunk que o jogador e obter suas informações de dano e vida
+    # Verificar se o mob está no mesmo chunk que o jogador e obter suas informações
     cursor.execute("""
-        SELECT InstanciaMob.vida_atual, Agressivo.pts_dano 
+        SELECT InstanciaMob.vida_atual, Mob.tipo_mob 
         FROM InstanciaMob 
-        JOIN Agressivo ON InstanciaMob.nome_mob = Agressivo.nome_mob
+        JOIN Mob ON InstanciaMob.nome_mob = Mob.nome
         WHERE InstanciaMob.nome_mob = %s 
         AND InstanciaMob.numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s)
         AND InstanciaMob.nome_mapa = (SELECT nome_mapa FROM Jogador WHERE nome = %s);
     """, (nomeMob, nomeUser, nomeUser))
-    
+
     mob_data = cursor.fetchone()
 
     if not mob_data:
@@ -29,7 +30,7 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta):
         time.sleep(2)
         return
 
-    vida_mob_atual, dano_mob = mob_data
+    vida_mob_atual, tipo_mob = mob_data
 
     # Verificar se o jogador possui a ferramenta para atacar e sua durabilidade
     cursor.execute("""
@@ -43,7 +44,7 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta):
             AND id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
         );
     """, (nomeFerramenta, nomeUser))
-    
+
     ferramenta = cursor.fetchone()
 
     if not ferramenta or ferramenta[1] <= 0:
@@ -113,35 +114,44 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta):
                 time.sleep(1.5)
 
     else:
-        mostrar_texto_gradualmente(f"{nomeMob} ainda está vivo e ataca de volta!", Fore.RED)
-        time.sleep(1.5)
-
-        # Mob ataca de volta, aplicar dano ao jogador com base no `pts_dano` da tabela `Agressivo`
-        cursor.execute("""
-            UPDATE Jogador 
-            SET vida = vida - %s 
-            WHERE nome = %s;
-        """, (dano_mob, nomeUser))
-
-        # Verificar a vida do jogador
-        cursor.execute("""
-            SELECT vida 
-            FROM Jogador 
-            WHERE nome = %s;
-        """, (nomeUser,))
-        vida_jogador = cursor.fetchone()[0]
-
-        if vida_jogador <= 0:
-            mostrar_texto_gradualmente(f"{nomeMob} derrotou você!", Fore.RED)
-            time.sleep(2)
-
-            # Remover o jogador do jogo
-            cursor.execute("""
-                DELETE FROM Jogador WHERE nome = %s;
-            """, (nomeUser,))
-        else:
-            mostrar_texto_gradualmente(f"Você sofreu {dano_mob} de dano. Sua vida agora é {vida_jogador}.", Fore.YELLOW)
+        # Se o mob for agressivo, ele ataca de volta
+        if tipo_mob == 'agressivo':
+            mostrar_texto_gradualmente(f"{nomeMob} ainda está vivo e ataca de volta!", Fore.RED)
             time.sleep(1.5)
+
+            # Mob ataca de volta, aplicar dano ao jogador com base no `pts_dano` da tabela `Agressivo`
+            cursor.execute("""
+                SELECT pts_dano 
+                FROM Agressivo 
+                WHERE nome_mob = %s;
+            """, (nomeMob,))
+            dano_mob = cursor.fetchone()[0]
+
+            cursor.execute("""
+                UPDATE Jogador 
+                SET vida = vida - %s 
+                WHERE nome = %s;
+            """, (dano_mob, nomeUser))
+
+            # Verificar a vida do jogador
+            cursor.execute("""
+                SELECT vida 
+                FROM Jogador 
+                WHERE nome = %s;
+            """, (nomeUser,))
+            vida_jogador = cursor.fetchone()[0]
+
+            if vida_jogador <= 0:
+                mostrar_texto_gradualmente(f"{nomeMob} derrotou você!", Fore.RED)
+                time.sleep(2)
+
+                # Remover o jogador do jogo
+                cursor.execute("""
+                    DELETE FROM Jogador WHERE nome = %s;
+                """, (nomeUser,))
+            else:
+                mostrar_texto_gradualmente(f"Você sofreu {dano_mob} de dano. Sua vida agora é {vida_jogador}.", Fore.YELLOW)
+                time.sleep(1.5)
 
     # Verificar se a ferramenta quebrou
     if nova_durabilidade <= 0:
@@ -152,10 +162,11 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta):
             DELETE FROM Inventario 
             WHERE id_inst_item = %s;
         """, (id_inst_item_ferramenta,))
-        
+
         cursor.execute("""
             DELETE FROM InstanciaItem 
             WHERE id_inst_item = %s;
         """, (id_inst_item_ferramenta,))
 
     connection.commit()
+

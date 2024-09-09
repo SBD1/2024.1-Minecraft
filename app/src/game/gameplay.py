@@ -192,10 +192,12 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             equipar_item(connection, cursor, nomeUser, nome_item)
             break
 
-        elif acao == "atacar_mob" and len(parametros) == 2:
+        if acao == "atacar_mob" and len(parametros) > 1:
             limpar_tela()
-            nome_mob = formatar_nome_item(' '.join(parametros))
-            nome_ferramenta = formatar_nome_item(parametros[1])
+
+            nome_ferramenta = formatar_nome_item(parametros[-2] + " " + parametros[-1])            
+            nome_mob = formatar_nome_item(' '.join(parametros[:-2]))
+
             atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta)
             break
 
