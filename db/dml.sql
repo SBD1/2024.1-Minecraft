@@ -16575,7 +16575,7 @@ BEGIN
         END IF;
 
         -- Pilhador (spawn em Planície, Montanha e Deserto)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha',  'Deserto') THEN
+        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Deserto') THEN
             rand_num := random() * 100;
             IF rand_num <= 10.00 THEN
                 CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, 'Superfície', NULL);
