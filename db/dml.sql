@@ -16225,7 +16225,17 @@ VALUES
         ('Calças de Ferro', 10),
         ('Botas de Ferro', 10),
         ('Barras de Ferro', null),
-        ('Barras de Ferro', null);
+        ('Barras de Ferro', null),
+        ('Obsidiana', null),
+        ('Obsidiana', null),
+        ('Obsidiana', null),
+        ('Obsidiana', null),
+        ('Obsidiana', null),
+        ('Obsidiana', null),
+        ('Obsidiana', null),
+        ('Obsidiana', null),
+        ('Obsidiana', null),
+        ('Obsidiana', null);
 
 -- Tabela Inventario
 INSERT INTO Inventario (id_inst_item, id_inventario)
@@ -16265,7 +16275,17 @@ VALUES
         (33, 1),
         (34, 1),
         (35, 1),
-        (36, 1);
+        (36, 1),
+        (37, 1),
+        (38, 1),
+        (39, 1),
+        (40, 1),
+        (41, 1),
+        (42, 1),
+        (43, 1),
+        (44, 1),
+        (45, 1),
+        (46, 1);
 
 -- Inserindo Mobs
 

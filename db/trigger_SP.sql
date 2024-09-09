@@ -70,12 +70,13 @@ BEGIN
         RAISE EXCEPTION 'Tipo de item desconhecido: %. Deve ser "craftavel", "alimento" ou "material".', p_tipo_item;
     END IF;
 END
-$inserir_item$ LANGUAGE plpgsql;
+$inserir_item$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --- TRIGGER E STORED PROCEDURE PARA DELETAR ITEM
 
 CREATE OR REPLACE FUNCTION deletar_item()
-RETURNS trigger AS $deletar_item$
+RETURNS trigger 
+AS $deletar_item$
 BEGIN
 
 	IF (OLD.tipo_item = 'craftavel') THEN
@@ -91,8 +92,7 @@ BEGIN
 	RETURN OLD;
 	
 END;
-
-$deletar_item$ LANGUAGE plpgsql;
+$deletar_item$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER deletar_item
 BEFORE DELETE ON Item
@@ -101,7 +101,8 @@ FOR EACH ROW EXECUTE PROCEDURE deletar_item();
 --- TRIGGER E STORED PROCEDURE PARA DELETAR ITEM CRAFTAVEL
 
 CREATE OR REPLACE FUNCTION deletar_item_craftavel()
-RETURNS trigger AS $deletar_item_craftavel$
+RETURNS trigger 
+AS $deletar_item_craftavel$
 BEGIN
 
 	IF (OLD.tipo_craftavel = 'funcional') THEN
@@ -126,8 +127,7 @@ BEGIN
 	RETURN OLD;
 	
 END;
-
-$deletar_item_craftavel$ LANGUAGE plpgsql;
+$deletar_item_craftavel$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER deletar_item_craftavel
 BEFORE DELETE ON Craftavel
@@ -136,7 +136,8 @@ FOR EACH ROW EXECUTE PROCEDURE deletar_item_craftavel();
 --- TRIGGER E STORED PROCEDURE PARA IMPEDIR DE ATUALIZAR O TIPO DA TABELA ITEM
 
 CREATE OR REPLACE FUNCTION prevencao_update_tipo_item()
-RETURNS trigger AS $prevencao_update_tipo_item$
+RETURNS trigger 
+AS $prevencao_update_tipo_item$
 BEGIN
 
 	IF (OLD.tipo_item <> NEW.tipo_item) THEN
@@ -146,8 +147,7 @@ BEGIN
 	RETURN NEW;
 	
 END;
-
-$prevencao_update_tipo_item$ LANGUAGE plpgsql;
+$prevencao_update_tipo_item$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER prevencao_update_tipo_item
 BEFORE UPDATE ON Item
@@ -156,7 +156,8 @@ FOR EACH ROW EXECUTE PROCEDURE prevencao_update_tipo_item();
 --- TRIGGER E STORED PROCEDURE PARA IMPEDIR DE ATUALIZAR O TIPO DA TABELA CRAFTAVEL
 
 CREATE OR REPLACE FUNCTION prevencao_update_tipo_item_craftavel()
-RETURNS trigger AS $prevencao_update_tipo_item_craftavel$
+RETURNS trigger 
+AS $prevencao_update_tipo_item_craftavel$
 BEGIN
 
 	IF (OLD.tipo_craftavel <> NEW.tipo_craftavel) THEN
@@ -166,8 +167,7 @@ BEGIN
 	RETURN NEW;
 	
 END;
-
-$prevencao_update_tipo_item_craftavel$ LANGUAGE plpgsql;
+$prevencao_update_tipo_item_craftavel$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER prevencao_update_tipo_item_craftavel
 BEFORE UPDATE ON Craftavel
@@ -199,7 +199,7 @@ CREATE OR REPLACE PROCEDURE inserir_mob(
 	p_pts_dano INT DEFAULT NULL,
 	p_vida_max INT DEFAULT NULL,
 	p_tipo_pacifico tipo_pacifico DEFAULT NULL
-) 
+)
 AS $inserir_mob$
 BEGIN
 	INSERT INTO Mob(nome, tipo_mob)
@@ -228,12 +228,13 @@ BEGIN
 		RAISE EXCEPTION 'Tipo de mob desconhecido: %. Deve ser "pacifico" ou "agressivo".', p_tipo_mob;
 	END IF;
 END
-$inserir_mob$ LANGUAGE plpgsql;
+$inserir_mob$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --- TRIGGER E STORED PROCEDURE PARA DELETAR MOB
 
 CREATE OR REPLACE FUNCTION deletar_mob()
-RETURNS trigger AS $deletar_mob$
+RETURNS trigger 
+AS $deletar_mob$
 BEGIN
 
 	IF (OLD.tipo_mob = 'pacifico') THEN
@@ -249,8 +250,7 @@ BEGIN
 	RETURN OLD;
 	
 END;
-
-$deletar_mob$ LANGUAGE plpgsql;
+$deletar_mob$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER deletar_mob
 BEFORE DELETE ON Mob
@@ -259,7 +259,8 @@ FOR EACH ROW EXECUTE PROCEDURE deletar_mob();
 --- TRIGGER E STORED PROCEDURE PARA DELETAR MOB PACIFICO
 
 CREATE OR REPLACE FUNCTION deletar_mob_pacifico()
-RETURNS trigger AS $deletar_mob_pacifico$
+RETURNS trigger 
+AS $deletar_mob_pacifico$
 BEGIN
 
 	IF (OLD.tipo_mob = 'NPC') THEN
@@ -276,8 +277,7 @@ BEGIN
 	RETURN OLD;
 	
 END;
-
-$deletar_mob_pacifico$ LANGUAGE plpgsql;
+$deletar_mob_pacifico$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER deletar_mob_pacifico
 BEFORE DELETE ON Pacifico
@@ -286,7 +286,8 @@ FOR EACH ROW EXECUTE PROCEDURE deletar_mob_pacifico();
 --- TRIGGER E STORED PROCEDURE PARA IMPEDIR DE ATUALIZAR O TIPO DA TABELA MOB
 
 CREATE OR REPLACE FUNCTION prevencao_update_tipo_mob()
-RETURNS trigger AS $prevencao_update_tipo_mob$
+RETURNS trigger 
+AS $prevencao_update_tipo_mob$
 BEGIN
 
 	IF (OLD.tipo_mob <> NEW.tipo_mob) THEN
@@ -296,8 +297,7 @@ BEGIN
 	RETURN NEW;
 	
 END;
-
-$prevencao_update_tipo_mob$ LANGUAGE plpgsql;
+$prevencao_update_tipo_mob$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER prevencao_update_tipo_mob
 BEFORE UPDATE ON Mob
@@ -306,7 +306,8 @@ FOR EACH ROW EXECUTE PROCEDURE prevencao_update_tipo_mob();
 --- TRIGGER E STORED PROCEDURE PARA IMPEDIR DE ATUALIZAR O TIPO DA TABELA PACIFICO
 
 CREATE OR REPLACE FUNCTION prevencao_update_tipo_pacifico()
-RETURNS trigger AS $prevencao_update_tipo_pacifico$
+RETURNS trigger 
+AS $prevencao_update_tipo_pacifico$
 BEGIN
 
 	IF (OLD.tipo_pacifico <> NEW.tipo_pacifico) THEN
@@ -316,8 +317,7 @@ BEGIN
 	RETURN NEW;
 	
 END;
-
-$prevencao_update_tipo_pacifico$ LANGUAGE plpgsql;
+$prevencao_update_tipo_pacifico$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER prevencao_update_tipo_pacifico
 BEFORE UPDATE ON Pacifico
@@ -325,7 +325,8 @@ FOR EACH ROW EXECUTE PROCEDURE prevencao_update_tipo_pacifico();
 
 --- CHECAR EXISTÊNCIA NA TABELA PACIFICO
 
-CREATE OR REPLACE FUNCTION check_existe_pacifico() RETURNS trigger AS $check_existe_pacifico$
+CREATE OR REPLACE FUNCTION check_existe_pacifico() RETURNS trigger 
+AS $check_existe_pacifico$
 BEGIN
 	PERFORM * FROM Pacifico WHERE nome_mob = NEW.nome_mob;
 	IF FOUND THEN
@@ -334,7 +335,7 @@ BEGIN
 	
 	RETURN NEW;
 END;
-$check_existe_pacifico$ LANGUAGE plpgsql;
+$check_existe_pacifico$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER check_existe_pacifico
 BEFORE INSERT ON Agressivo
@@ -342,7 +343,8 @@ FOR EACH ROW EXECUTE PROCEDURE check_existe_pacifico();
 
 --- CHECAR EXISTÊNCIA NA TABELA AGRESSIVO
 
-CREATE OR REPLACE FUNCTION check_existe_agressivo() RETURNS trigger AS $check_existe_agressivo$
+CREATE OR REPLACE FUNCTION check_existe_agressivo() RETURNS trigger 
+AS $check_existe_agressivo$
 BEGIN
 	PERFORM * FROM Agressivo WHERE nome_mob = NEW.nome_mob;
 	IF FOUND THEN
@@ -351,7 +353,7 @@ BEGIN
 	
 	RETURN NEW;
 END;
-$check_existe_agressivo$ LANGUAGE plpgsql;
+$check_existe_agressivo$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE OR REPLACE TRIGGER check_existe_agressivo
 BEFORE INSERT ON Pacifico
@@ -404,7 +406,7 @@ BEGIN
 		RETURN NEW;
     END;
 END;
-$checar_vida_mob$ LANGUAGE plpgsql;
+$checar_vida_mob$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE TRIGGER checar_vida_mob
 BEFORE INSERT OR UPDATE ON InstanciaMob
@@ -424,14 +426,13 @@ CREATE OR REPLACE PROCEDURE inserir_inst_mob(
     nome_mapa VARCHAR,
     id_estrutura INT
 )
-LANGUAGE plpgsql
 AS $$
 BEGIN
     -- Inserir o mob na tabela InstanciaMob
     INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
     VALUES (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura);
 END;
-$$;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --- INSERIR INSTÂNCIA DE ESTRUTURA
 
@@ -442,7 +443,6 @@ CREATE OR REPLACE PROCEDURE inserir_inst_estrutura(
     nome_mapa VARCHAR,
     OUT nova_estrutura_id INT
 )
-LANGUAGE plpgsql
 AS $$
 BEGIN
     -- Inserir a estrutura na tabela InstanciaEstrutura
@@ -450,7 +450,7 @@ BEGIN
     VALUES (nome_estrutura, nome_bioma, numero_chunk, nome_mapa)
     RETURNING id_inst_estrutura INTO nova_estrutura_id;
 END;
-$$;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --- INSERIR INSTÂNCIA DE FONTE
 
@@ -460,13 +460,13 @@ CREATE OR REPLACE PROCEDURE inserir_inst_fonte(
     numero_chunk INT, 
     nome_mapa VARCHAR
 )
-LANGUAGE plpgsql AS $$
+AS $$
 BEGIN
     -- Inserir uma instância de fonte no chunk
     INSERT INTO InstanciaFonte (nome_fonte, qtd_atual, numero_chunk, nome_mapa)
     VALUES (nome_fonte, qtd_atual, numero_chunk, nome_mapa);
 END;
-$$;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --- INSERIR INSTÂNCIA DE CONSTRUÍVEL
 
@@ -475,21 +475,22 @@ CREATE OR REPLACE PROCEDURE inserir_inst_construivel(
     numero_chunk INT,
     nome_mapa VARCHAR
 )
-LANGUAGE plpgsql AS
+AS
 $$
 BEGIN
     -- Inserir instância do construível
     INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
     VALUES (nome_construivel, numero_chunk, nome_mapa);
 END;
-$$;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --------------------------------------------------------------------------------------------------------
 ------------------------------------ PROCEDURES PARA A GAMEPLAY  ---------------------------------------
 --------------------------------------------------------------------------------------------------------
 
 --- SPAWN DE MOBS AGRESSIVOS NA SUPERFÍCIE AO ANOITECER
-CREATE OR REPLACE PROCEDURE spawn_mobs_agressivos() LANGUAGE plpgsql AS $$
+CREATE OR REPLACE PROCEDURE spawn_mobs_agressivos() 
+AS $$
 DECLARE
     chunk_rec RECORD;
     rand_num FLOAT;
@@ -558,20 +559,22 @@ BEGIN
 
     END LOOP;
 END;
-$$;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --- DESPAWN DE MOBS AGRESSIVOS NA SUPERFÍCIE AO AMANHECER, APENAS MOBS FORA DE ESTRUTURAS
-CREATE OR REPLACE PROCEDURE despawn_mobs_agressivos() LANGUAGE plpgsql AS $$
+CREATE OR REPLACE PROCEDURE despawn_mobs_agressivos() 
+AS $$
 BEGIN
     DELETE FROM InstanciaMob
     WHERE nome_mob IN ('Zumbi', 'Esqueleto', 'Aranha', 'Enderman', 'Creeper', 'Bruxa', 'Saqueador')
     AND nome_mapa = 'Superfície'
     AND id_estrutura IS NULL;
 END;
-$$;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- ATUALIZAÇÃO DO CICLO DO DIA
-CREATE OR REPLACE PROCEDURE atualizar_ciclo_dia() LANGUAGE plpgsql AS 
+CREATE OR REPLACE PROCEDURE atualizar_ciclo_dia() 
+AS 
 $$
 DECLARE
     hora_atual ciclo_dia;  -- Declara uma variável para armazenar o valor atual da hora
@@ -596,7 +599,7 @@ BEGIN
         CALL  despawn_mobs_agressivos();
     END IF;
 END;
-$$;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --- FUNCTION PARA MOVER JOGADOR
 
@@ -644,12 +647,13 @@ BEGIN
         RETURN 'Não é possível ir para ' || p_direcao || '.';
     END IF;
 END;
-$mover_jogador$ LANGUAGE plpgsql;
+$mover_jogador$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --- TRIGGER/STORED PROCEDURE PARA NÃO PERMITIR INSERIR VALOR NULO NO CHUNK DO JOGADOR
 
 CREATE OR REPLACE FUNCTION verificar_chunk_jogador()
-RETURNS TRIGGER AS $verificar_chunk_jogador$
+RETURNS TRIGGER 
+AS $verificar_chunk_jogador$
 BEGIN
 
     IF NEW.numero_chunk IS NULL THEN
@@ -658,7 +662,7 @@ BEGIN
 
     RETURN NEW;
 END;
-$verificar_chunk_jogador$ LANGUAGE plpgsql;
+$verificar_chunk_jogador$ LANGUAGE plpgsql SECURITY DEFINER;
 
 CREATE TRIGGER verificar_chunk_jogador
 BEFORE UPDATE ON Jogador
@@ -696,7 +700,7 @@ BEGIN
         SELECT numero_chunk FROM Jogador WHERE nome = p_nomeUser
     );
 END;
-$ver_mob$ LANGUAGE plpgsql;
+$ver_mob$ LANGUAGE plpgsql SECURITY DEFINER;
 
 --- FUNCTION PARA CRAFTAR ITENS
 
@@ -715,6 +719,7 @@ DECLARE
     v_qtd_necessaria INT;
     v_qtd_no_inventario INT;
     v_id_inst_item INT;
+    v_durabilidade_total INT;
     v_item_removido INT;
     v_itens_remover RECORD;
 BEGIN
@@ -797,9 +802,23 @@ BEGIN
         END LOOP;
     END LOOP;
 
+    -- Verificar se o item a ser craftado tem durabilidade (FerramentaDuravel ou ArmaduraDuravel)
+    IF EXISTS (SELECT 1 FROM FerramentaDuravel WHERE nome_item = p_nomeItem) THEN
+        -- Se for ferramenta durável, pegar a durabilidade total
+        SELECT durabilidade_total INTO v_durabilidade_total FROM FerramentaDuravel WHERE nome_item = p_nomeItem;
+    ELSIF EXISTS (SELECT 1 FROM ArmaduraDuravel WHERE nome_item = p_nomeItem) THEN
+        -- Se for armadura durável, pegar a durabilidade total
+        SELECT durabilidade_total INTO v_durabilidade_total FROM ArmaduraDuravel WHERE nome_item = p_nomeItem;
+    ELSE
+        -- Caso o item não tenha durabilidade, definir como NULL
+        v_durabilidade_total := NULL;
+    END IF;
+
     -- Criar e adicionar o novo item craftado ao inventário do jogador
     FOR i IN 1..v_quantidade_saida LOOP
-        INSERT INTO InstanciaItem (nome_item) VALUES (p_nomeItem) RETURNING id_inst_item INTO v_id_inst_item;
+        INSERT INTO InstanciaItem (nome_item, durabilidade_atual) 
+        VALUES (p_nomeItem, v_durabilidade_total) 
+        RETURNING id_inst_item INTO v_id_inst_item;
 
         INSERT INTO Inventario (id_inst_item, id_inventario)
         VALUES (v_id_inst_item, v_id_jogador);
@@ -808,4 +827,120 @@ BEGIN
     -- Retorna mensagem de sucesso
     RETURN 'Item ' || p_nomeItem || ' craftado com sucesso e adicionado ao inventário.';
 END;
-$craftar_item$ LANGUAGE plpgsql;
+$craftar_item$ LANGUAGE plpgsql SECURITY DEFINER;
+
+
+--- FUNCTION PARA CONSTRUIR CONSTRUÇÃO
+
+CREATE OR REPLACE FUNCTION construir_construcao(nome_jogador VARCHAR, nome_construcao VARCHAR)
+RETURNS TEXT AS $construir_construcao$
+DECLARE
+    chunk_atual INT;
+    mapa_atual VARCHAR(30);
+    construcao_existente RECORD;
+    receita_itens RECORD;
+    quantidade_no_inventario INT;
+    novo_portal_chunk_nether INT;
+    v_qtd_remover INT;
+    v_id_inst_item INT;
+BEGIN
+    -- 1. Obter a posição atual do jogador (chunk atual e mapa)
+    SELECT Jogador.numero_chunk, Jogador.nome_mapa
+    INTO chunk_atual, mapa_atual
+    FROM Jogador
+    WHERE Jogador.nome = nome_jogador;
+
+    -- Verifica se o jogador foi encontrado
+    IF NOT FOUND THEN
+        RETURN 'Jogador não encontrado.';
+    END IF;
+
+    -- 2. Verificar se a construção já existe no chunk
+    SELECT 1
+    INTO construcao_existente
+    FROM InstanciaConstruivel
+    WHERE nome_construivel = nome_construcao
+      AND numero_chunk = chunk_atual
+      AND nome_mapa = mapa_atual;
+
+    -- Se a construção já existir, lançar uma exceção
+    IF FOUND THEN
+        RETURN 'Já existe ' || nome_construcao || ' nesse chunk.';
+    END IF;
+
+    -- 3. Verificar se o nome da construção está presente na tabela Construivel
+    IF nome_construcao = 'Portal do Nether' THEN
+        -- Inserir "Portal do Nether" na tabela Construivel se não estiver lá
+        IF NOT EXISTS (SELECT 1 FROM Construivel WHERE nome = 'Portal do Nether') THEN
+            INSERT INTO Construivel (nome, descricao) VALUES ('Portal do Nether', 'Um portal para o Nether.');
+        END IF;
+    END IF;
+
+    -- 4. Obter a receita da construção
+    FOR receita_itens IN
+        SELECT item, quantidade
+        FROM ReceitaConstruivel
+        WHERE nome_construivel = nome_construcao
+    LOOP
+        -- 5. Verificar se o jogador tem os itens necessários
+        SELECT COUNT(*) INTO quantidade_no_inventario
+        FROM Inventario
+        JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
+        WHERE InstanciaItem.nome_item = receita_itens.item
+          AND Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = nome_jogador);
+
+        -- Se o jogador não tiver o item ou quantidade insuficiente
+        IF quantidade_no_inventario < receita_itens.quantidade THEN
+            RETURN 'Você não possui itens suficientes para construir ' || nome_construcao || '.';
+        END IF;
+    END LOOP;
+
+    -- 5. Inserir a nova construção no chunk
+    INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
+    VALUES (nome_construcao, chunk_atual, mapa_atual);
+
+    -- 6. Se for um "Portal do Nether", criar um portal correspondente no Nether
+    IF nome_construcao = 'Portal do Nether' THEN
+        -- Gerar um chunk aleatório no mapa "Nether"
+        INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
+        VALUES ('Portal do Nether', (SELECT FLOOR(random() * 900) + 1), 'Nether')
+        RETURNING numero_chunk INTO novo_portal_chunk_nether;
+
+        -- Garantir que o chunk no Nether existe na tabela Chunk
+        INSERT INTO Chunk (numero, nome_bioma, nome_mapa)
+        VALUES (novo_portal_chunk_nether, 'BiomaDesconhecido', 'Nether')
+        ON CONFLICT DO NOTHING;
+    END IF;
+
+    -- 7. Remover os itens usados do inventário de acordo com a quantidade exata necessária
+    FOR receita_itens IN
+        SELECT item, quantidade
+        FROM ReceitaConstruivel
+        WHERE nome_construivel = nome_construcao
+    LOOP
+        v_qtd_remover := receita_itens.quantidade;
+
+        -- Remover exatamente a quantidade necessária de cada item
+        FOR i IN 1..v_qtd_remover LOOP
+            -- Encontrar o id_inst_item para o item específico e removê-lo
+            SELECT id_inst_item INTO v_id_inst_item
+            FROM InstanciaItem
+            WHERE nome_item = receita_itens.item
+              AND id_inst_item IN (SELECT id_inst_item FROM Inventario WHERE id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = nome_jogador))
+            LIMIT 1;
+
+            -- Remover do inventário e da instância
+            DELETE FROM Inventario WHERE id_inst_item = v_id_inst_item;
+            DELETE FROM InstanciaItem WHERE id_inst_item = v_id_inst_item;
+        END LOOP;
+    END LOOP;
+
+    -- Retornar sucesso para a construção (após a remoção dos itens)
+    IF nome_construcao = 'Portal do Nether' THEN
+        RETURN 'Um novo portal foi criado no Nether, no chunk ' || novo_portal_chunk_nether || '.';
+    ELSE
+        RETURN 'Você construiu ' || nome_construcao || ' com sucesso!';
+    END IF;
+
+END;
+$construir_construcao$ LANGUAGE plpgsql SECURITY DEFINER;

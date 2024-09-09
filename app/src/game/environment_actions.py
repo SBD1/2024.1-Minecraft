@@ -209,105 +209,20 @@ def craftar_item(connection, cursor, nomeUser, nomeItem):
     time.sleep(2)
 
 # Comando: Construir Construção
-def construir_construcao(connection, cursor, nomeUser, nome_construcao):
-    # Obter a posição atual do jogador (chunk atual)
-    cursor.execute("""
-        SELECT Jogador.numero_chunk, Jogador.nome_mapa
-        FROM Jogador
-        WHERE Jogador.nome = %s
-    """, (nomeUser,))
+def construir_construcao(connection, cursor, nomeUser, nomeConstrucao):
+    # Executa a função SQL que construímos
+    cursor.execute("SELECT construir_construcao(%s, %s);", (nomeUser, nomeConstrucao))
     
-    jogador_data = cursor.fetchone()
+    # Captura a mensagem retornada pela função SQL
+    mensagem = cursor.fetchone()[0]
     
-    if not jogador_data:
-        mostrar_texto_gradualmente("Jogador não encontrado.", Fore.RED)
-        return
-    
-    chunkAtual, mapaAtual = jogador_data
-    
-    # Verificar se o chunk já possui a construção
-    cursor.execute("""
-        SELECT 1
-        FROM InstanciaConstruivel
-        WHERE nome_construivel = %s AND numero_chunk = %s AND nome_mapa = %s
-    """, (nome_construcao, chunkAtual, mapaAtual))
-    
-    construcao_existente = cursor.fetchone()
-    
-    if construcao_existente:
-        mostrar_texto_gradualmente(f"Já existe {nome_construcao} nesse chunk.", Fore.RED)
-        return
-    
-    # Obter a receita da construção
-    cursor.execute("""
-        SELECT item, quantidade
-        FROM ReceitaConstruivel
-        WHERE nome_construivel = %s
-    """, (nome_construcao,))
-    
-    receita = cursor.fetchall()
-    
-    if not receita:
-        mostrar_texto_gradualmente(f"A construção {nome_construcao} não possui uma receita válida.", Fore.RED)
-        return
-    
-    # Obter os itens do inventário do jogador
-    cursor.execute("""
-        SELECT InstanciaItem.nome_item, COUNT(InstanciaItem.id_inst_item) AS quantidade
-        FROM Inventario
-        JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
-        WHERE Inventario.id_inventario = (SELECT id_jogador FROM Jogador WHERE nome = %s)
-        GROUP BY InstanciaItem.nome_item
-    """, (nomeUser,))
-    
-    inventario_jogador = cursor.fetchall()
-    inventario_dict = {item[0]: item[1] for item in inventario_jogador}
-    
-    # Verificar se o jogador tem os itens necessários
-    for item, quantidade_necessaria in receita:
-        if item not in inventario_dict or inventario_dict[item] < quantidade_necessaria:
-            mostrar_texto_gradualmente(f"Você não possui itens suficientes para construir {nome_construcao}.", Fore.RED)
-            return
-    
-    # Se o jogador tiver os itens, criar a construção no chunk atual
-    cursor.execute("""
-        INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
-        VALUES (%s, %s, %s)
-    """, (nome_construcao, chunkAtual, mapaAtual))
-    
-    mostrar_texto_gradualmente(f"Você construiu {nome_construcao}!", Fore.GREEN)
-
-    # Se for um Portal do Nether, criar também um portal correspondente no Nether
-    if nome_construcao == 'Portal do Nether':
-        # Gerar uma nova posição aleatória no Nether para o portal
-        cursor.execute("""
-            INSERT INTO InstanciaConstruivel (nome_construivel, numero_chunk, nome_mapa)
-            VALUES ('Portal do Nether', (SELECT FLOOR(random() * 900) + 1), 'Nether')
-            RETURNING numero_chunk
-        """)
-        novo_portal_chunk_nether = cursor.fetchone()[0]
-        mostrar_texto_gradualmente(f"Um novo portal foi criado no Nether, no chunk {novo_portal_chunk_nether}.", Fore.MAGENTA)
-
-    # Remover os itens usados do inventário e da tabela InstanciaItem
-    for item, quantidade_necessaria in receita:
-        cursor.execute("""
-            SELECT InstanciaItem.id_inst_item
-            FROM Inventario
-            JOIN InstanciaItem ON Inventario.id_inst_item = InstanciaItem.id_inst_item
-            WHERE InstanciaItem.nome_item = %s AND Inventario.id_inventario = (
-                SELECT id_jogador FROM Jogador WHERE nome = %s
-            )
-            LIMIT %s
-        """, (item, nomeUser, quantidade_necessaria))
-        
-        instancias_para_remover = cursor.fetchall()
-        
-        for instancia in instancias_para_remover:
-            id_inst_item = instancia[0]
-            cursor.execute("DELETE FROM Inventario WHERE id_inst_item = %s", (id_inst_item,))
-            cursor.execute("DELETE FROM InstanciaItem WHERE id_inst_item = %s", (id_inst_item,))
-
+    # Confirma a transação no banco de dados
     connection.commit()
+
+    # Exibe a mensagem retornada pela função SQL
+    mostrar_texto_gradualmente(mensagem, Fore.GREEN)
+    time.sleep(2)
+
 
 # Comando: Utilizar Construção
 def utilizar_construcao(connection, cursor, nomeUser, nome_construcao):
@@ -433,6 +348,10 @@ def usar_portal_do_nether(connection, cursor, nomeUser):
             except (ValueError, IndexError):
                 mostrar_texto_gradualmente("Entrada inválida. Tente novamente.", Fore.RED)
                 return
+            
+            # PRINT REMOVER
+            print(destino_chunk)
+            time.sleep(5)
             
             # Teleportar o jogador para o Nether, para o portal escolhido
             cursor.execute("""
