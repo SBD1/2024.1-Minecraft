@@ -488,35 +488,41 @@ CREATE OR REPLACE FUNCTION mover_jogador(
 ) RETURNS TEXT
 AS $mover_jogador$
 BEGIN
-    -- Verifica se a direção é "baixo"
-    IF p_direcao = 'baixo' THEN
-        -- Atualiza o nome_mapa para "Cavernas"
-        UPDATE Jogador
-        SET nome_mapa = 'Cavernas'
-        WHERE nome = p_nomeUser;
+    IF p_novo_chunk IS NOT NULL THEN
+        -- Verifica se a direção é "baixo"
+        IF p_direcao = 'baixo' THEN
+            -- Atualiza o nome_mapa para "Cavernas"
+            UPDATE Jogador
+            SET nome_mapa = 'Cavernas'
+            WHERE nome = p_nomeUser;
 
-        -- Retorna uma mensagem de sucesso
-        RETURN 'Você se desceu para as Cavernas e agora está no chunk ' || p_novo_chunk || '.';
+            -- Retorna uma mensagem de sucesso
+            RETURN 'Você se desceu para as Cavernas e agora está no chunk ' || p_novo_chunk || '.';
 
-    -- Verifica se a direção é "cima"
-    ELSIF p_direcao = 'cima' THEN
-        -- Atualiza o nome_mapa para "Superfície"
-        UPDATE Jogador
-        SET nome_mapa = 'Superfície'
-        WHERE nome = p_nomeUser;
+        -- Verifica se a direção é "cima"
+        ELSIF p_direcao = 'cima' THEN
+            -- Atualiza o nome_mapa para "Superfície"
+            UPDATE Jogador
+            SET nome_mapa = 'Superfície'
+            WHERE nome = p_nomeUser;
 
-        -- Retorna uma mensagem de sucesso
-        RETURN 'Você retornou para a Superfície e agora está no chunk ' || p_novo_chunk || '.';
+            -- Retorna uma mensagem de sucesso
+            RETURN 'Você retornou para a Superfície e agora está no chunk ' || p_novo_chunk || '.';
 
-    -- Caso contrário, atualiza o chunk
+        -- Caso contrário, atualiza o chunk
+        ELSE
+            -- Atualiza o numero_chunk
+            UPDATE Jogador
+            SET numero_chunk = p_novo_chunk
+            WHERE nome = p_nomeUser;
+
+            -- Retorna uma mensagem de sucesso
+            RETURN 'Você se moveu para o ' || p_direcao || ' e agora está no chunk ' || p_novo_chunk || '.';
+            
+        END IF;
+
     ELSE
-        -- Atualiza o numero_chunk
-        UPDATE Jogador
-        SET numero_chunk = p_novo_chunk
-        WHERE nome = p_nomeUser;
-
-        -- Retorna uma mensagem de sucesso
-        RETURN 'Você se moveu para o ' || p_direcao || ' e agora está no chunk ' || p_novo_chunk || '.';
+        RETURN 'Não é possível ir para ' || p_direcao || '.';
     END IF;
 END;
 $mover_jogador$ LANGUAGE plpgsql;
@@ -526,12 +532,11 @@ $mover_jogador$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION verificar_chunk_jogador()
 RETURNS TRIGGER AS $verificar_chunk_jogador$
 BEGIN
-    -- Verifica se o campo chunk é NULL
+
     IF NEW.numero_chunk IS NULL THEN
         RAISE EXCEPTION 'O campo "numero_chunk" não pode ser NULL.';
     END IF;
 
-    -- Se passar pela verificação, permite a inserção ou atualização
     RETURN NEW;
 END;
 $verificar_chunk_jogador$ LANGUAGE plpgsql;
@@ -540,6 +545,39 @@ CREATE TRIGGER verificar_chunk_jogador
 BEFORE UPDATE ON Jogador
 FOR EACH ROW
 EXECUTE FUNCTION verificar_chunk_jogador();
+
+--- FUNCTION PARA VER MOBS
+
+CREATE OR REPLACE FUNCTION ver_mob(
+    p_nomeUser VARCHAR(30),
+    p_nomeMob VARCHAR(30)
+) 
+RETURNS TABLE (
+    nome_mob VARCHAR(30),
+    tipo_mob tipo_mob,
+    vida_max INT,
+    vida_atual INT,
+    pts_dano INT
+)
+AS $ver_mob$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        Mob.nome AS nome_mob, 
+        Mob.tipo_mob, 
+        COALESCE(Agressivo.vida_max, Pacifico.vida_max) AS vida_max,  -- Seleciona a vida_max de Agressivo ou Pacifico
+        InstanciaMob.vida_atual, 
+        Agressivo.pts_dano  -- Pega pts_dano apenas para mobs agressivos
+    FROM InstanciaMob
+    JOIN Mob ON InstanciaMob.nome_mob = Mob.nome
+    LEFT JOIN Agressivo ON Mob.nome = Agressivo.nome_mob
+    LEFT JOIN Pacifico ON Mob.nome = Pacifico.nome_mob
+    WHERE InstanciaMob.nome_mob = p_nomeMob
+    AND InstanciaMob.numero_chunk = (
+        SELECT numero_chunk FROM Jogador WHERE nome = p_nomeUser
+    );
+END;
+$ver_mob$ LANGUAGE plpgsql;
 
 --- FUNCTION PARA CRAFTAR ITENS
 

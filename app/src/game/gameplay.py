@@ -140,10 +140,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             direcao = parametros[0]
             if direcao in movimentos:
                 limpar_tela()
-                novo_chunk = movimentos.get(direcao)
-                cursor.execute("SELECT mover_jogador(%s, %s, %s);", (nomeUser, direcao, novo_chunk))
-                connection.commit()
-                # mover_jogador(connection, cursor, nomeUser, direcao, movimentos) FORNECER MENSAGEM
+                mover_jogador(connection, cursor, nomeUser, direcao, movimentos)
                 break
             else:
                 mostrar_texto_gradualmente("Direção inválida ou indisponível!", Fore.RED)
@@ -172,7 +169,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             utilizar_item(connection, cursor, nomeUser, nomeItem)
             break
 
-        elif acao == "minerar_fonte" and parametros:
+        elif acao == "minerar_fonte" and parametros: # Feito
             limpar_tela()
             nome_fonte = formatar_nome_item(' '.join(parametros))
             minerar_fonte(connection, cursor, nomeUser, nome_fonte)
@@ -333,24 +330,12 @@ def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
 
     novo_chunk = movimentos.get(direcao)
     
-    if novo_chunk:
-        if direcao == 'baixo':
-            cursor.execute("UPDATE jogador SET nome_mapa = 'Cavernas' WHERE nome = %s;", (nomeUser,))
-            mostrar_texto_gradualmente(f"Você se desceu para as Cavernas e agora está no chunk {novo_chunk}.", Fore.GREEN)
-            time.sleep(2)
+    cursor.execute("SELECT mover_jogador(%s, %s, %s);", (nomeUser, direcao, novo_chunk))
+    mensagem = cursor.fetchone()[0]  # Captura o valor TEXT retornado pela função
+    connection.commit()
 
-        elif direcao == 'cima':
-            cursor.execute("UPDATE jogador SET nome_mapa = 'Superfície' WHERE nome = %s;", (nomeUser,))
-            mostrar_texto_gradualmente(f"Você retornou para a Superfície e agora está no chunk {novo_chunk}.", Fore.GREEN)
-            time.sleep(2)
-
-        else:
-            cursor.execute("UPDATE jogador SET numero_chunk = %s WHERE nome = %s;", (novo_chunk, nomeUser))
-            mostrar_texto_gradualmente(f"Você se moveu para o {direcao.capitalize()} e agora está no chunk {novo_chunk}.", Fore.GREEN)
-            time.sleep(2)
-        connection.commit()
-    else:
-        mostrar_texto_gradualmente(f"Não é possível ir para {direcao.capitalize()}.", Fore.RED)
+    mostrar_texto_gradualmente(mensagem, Fore.GREEN)
+    time.sleep(2)
 
 
 def exibir_ajuda():

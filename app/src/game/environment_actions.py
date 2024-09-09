@@ -8,21 +8,9 @@ def ver_mob(connection, cursor, nomeUser, nomeMob):
     """
     Permite ao jogador visualizar os atributos de um mob presente no mesmo chunk.
     """
-    # Verificar se o mob está no mesmo chunk que o jogador
     cursor.execute("""
-        SELECT 
-            Mob.nome, 
-            Mob.tipo_mob, 
-            COALESCE(Agressivo.vida_max, Pacifico.vida_max) AS vida_max,  -- Pega a vida_max de Agressivo ou Pacifico
-            InstanciaMob.vida_atual, 
-            Agressivo.pts_dano 
-        FROM InstanciaMob
-        JOIN Mob ON InstanciaMob.nome_mob = Mob.nome
-        LEFT JOIN Agressivo ON Mob.nome = Agressivo.nome_mob
-        LEFT JOIN Pacifico ON Mob.nome = Pacifico.nome_mob  -- Inclui o join com a tabela Pacifico
-        WHERE InstanciaMob.nome_mob = %s
-        AND InstanciaMob.numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s);
-    """, (nomeMob, nomeUser))
+        SELECT * FROM ver_mob(%s, %s);
+    """, (nomeUser, nomeMob))
 
     mob_info = cursor.fetchone()
     
@@ -40,6 +28,7 @@ def ver_mob(connection, cursor, nomeUser, nomeMob):
     else:
         mostrar_texto_gradualmente(f"Não há um mob chamado {nomeMob} por aqui...", Fore.RED)
         time.sleep(2)
+
 
 # Comando: Minerar Fonte
 def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
@@ -83,7 +72,7 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
         SELECT FerramentaMineraFonte.nome_ferramenta 
         FROM FerramentaMineraFonte 
         WHERE FerramentaMineraFonte.nome_fonte = %s 
-        ORDER BY nome_ferramenta IS NULL, nome_ferramenta ASC LIMIT 1;
+        LIMIT 1;
     """, (nomeFonte,))
     
     ferramenta_minima = cursor.fetchone()
