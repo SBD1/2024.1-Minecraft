@@ -178,8 +178,6 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
         elif acao == "craftar_item" and parametros: # Feito
             limpar_tela()
             nome_item = formatar_nome_item(' '.join(parametros))
-            cursor.execute("SELECT craftar_item(%s, %s);", (nomeUser, nome_item))
-            connection.commit()
             craftar_item(connection, cursor, nomeUser, nome_item)
             break
 

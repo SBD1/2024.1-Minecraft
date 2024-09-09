@@ -690,4 +690,3 @@ BEGIN
     RETURN 'Item ' || p_nomeItem || ' craftado com sucesso e adicionado ao inventário.';
 END;
 $craftar_item$ LANGUAGE plpgsql;
-
