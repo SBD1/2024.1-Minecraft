@@ -297,12 +297,13 @@ def mostrar_mapa(cursor, nomeUser):
                 bioma = bioma_data[0] if bioma_data else "Desconhecido"
                 
                 # Verifica se é o chunk atual do jogador
-                if chunk_id == chunkAtual:
-                    print(f"{Back.RED}  {Style.RESET_ALL}", end="")
-                elif bioma in bioma_cores:
-                    print(f"{bioma_cores[bioma][0]}  {Style.RESET_ALL}", end="") 
+                if bioma in bioma_cores:
+                    if chunk_id == chunkAtual:
+                        print(f"{Back.RED}  {Style.RESET_ALL}", end="")
+                    else:
+                        print(f"{bioma_cores[bioma][0]}  {Style.RESET_ALL}", end="")
                 else:
-                    print(f"{Back.BLACK}  {Style.RESET_ALL}", end="")  # Fora dos limites ou desconhecido em preto
+                    print(f"{Back.BLACK}  {Style.RESET_ALL}", end="") # Fora dos limites ou desconhecido em preto
             else:
                 print(f"{Back.BLACK}  {Style.RESET_ALL}", end="")  # Fora dos limites, em preto
         

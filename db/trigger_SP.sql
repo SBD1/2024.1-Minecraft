@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------------------------------
--------------------------------- Generalização/Especialização dos itens --------------------------------
+-------------------------------- GENERALIZAÇÃO/ESPECIALIZAÇÃO DE ITENS ---------------------------------
 --------------------------------------------------------------------------------------------------------
 
 --- REMOVE A PERMISSÃO DE INSERIR DIRETAMENTE NAS TABELAS
@@ -174,7 +174,7 @@ BEFORE UPDATE ON Craftavel
 FOR EACH ROW EXECUTE PROCEDURE prevencao_update_tipo_item_craftavel();
 
 --------------------------------------------------------------------------------------------------------
--------------------------------- Generalização/Especialização dos mobs --------------------------------
+-------------------------------- GENERALIZAÇÃO/ESPECIALIZAÇÃO DE MOBS ----------------------------------
 --------------------------------------------------------------------------------------------------------
 
 --- REMOVE A PERMISSÃO DE INSERIR DIRETAMENTE NAS TABELAS
@@ -358,6 +358,7 @@ BEFORE INSERT ON Pacifico
 FOR EACH ROW EXECUTE PROCEDURE check_existe_agressivo();
 
 --- CHECAR INSERÇÃO DA VIDA DO MOB NA TABELA 
+
 CREATE OR REPLACE FUNCTION checar_vida_mob() RETURNS trigger 
 AS $checar_vida_mob$
 BEGIN
@@ -410,9 +411,29 @@ BEFORE INSERT OR UPDATE ON InstanciaMob
 FOR EACH ROW
 EXECUTE FUNCTION checar_vida_mob();
 
+--------------------------------------------------------------------------------------------------------
+---------------------------------- MANIPULAÇÃO DE TABELAS INSTÂNCIA ------------------------------------
+--------------------------------------------------------------------------------------------------------
 
+--- INSERIR INSTÂNCIA DE MOB
 
--- ANALISAR COM BRUNO DEPOIS
+CREATE OR REPLACE PROCEDURE inserir_inst_mob(
+    nome_mob VARCHAR,
+    vida_atual INT,
+    numero_chunk INT,
+    nome_mapa VARCHAR,
+    id_estrutura INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Inserir o mob na tabela InstanciaMob
+    INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
+    VALUES (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura);
+END;
+$$;
+
+--- INSERIR INSTÂNCIA DE ESTRUTURA
 
 CREATE OR REPLACE PROCEDURE inserir_inst_estrutura(
     nome_estrutura VARCHAR,
@@ -431,21 +452,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE inserir_inst_mob(
-    nome_mob VARCHAR,
-    vida_atual INT,
-    numero_chunk INT,
-    nome_mapa VARCHAR,
-    id_estrutura INT
-)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    -- Inserir o mob na tabela InstanciaMob
-    INSERT INTO InstanciaMob (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura)
-    VALUES (nome_mob, vida_atual, numero_chunk, nome_mapa, id_estrutura);
-END;
-$$;
+--- INSERIR INSTÂNCIA DE FONTE
 
 CREATE OR REPLACE PROCEDURE inserir_inst_fonte(
     nome_fonte VARCHAR, 
@@ -460,6 +467,8 @@ BEGIN
     VALUES (nome_fonte, qtd_atual, numero_chunk, nome_mapa);
 END;
 $$;
+
+--- INSERIR INSTÂNCIA DE CONSTRUÍVEL
 
 CREATE OR REPLACE PROCEDURE inserir_inst_construivel(
     nome_construivel VARCHAR,
@@ -478,6 +487,116 @@ $$;
 --------------------------------------------------------------------------------------------------------
 ------------------------------------ PROCEDURES PARA A GAMEPLAY  ---------------------------------------
 --------------------------------------------------------------------------------------------------------
+
+--- SPAWN DE MOBS AGRESSIVOS NA SUPERFÍCIE AO ANOITECER
+CREATE OR REPLACE PROCEDURE spawn_mobs_agressivos() LANGUAGE plpgsql AS $$
+DECLARE
+    chunk_rec RECORD;
+    rand_num FLOAT;
+BEGIN
+    -- Iterando por todos os chunks no mapa "Superfície" para spawnar mobs agressivos à noite
+    FOR chunk_rec IN 
+        SELECT numero, nome_bioma 
+        FROM Chunk
+        WHERE nome_mapa = 'Superfície'
+    LOOP
+        -- Zumbi (spawn em Planície, Floresta, Pântano e Deserto)
+        IF chunk_rec.nome_bioma IN ('Planície', 'Floresta', 'Pântano', 'Deserto') THEN
+            rand_num := random() * 100;
+            IF rand_num <= 70.00 THEN
+                CALL inserir_inst_mob('Zumbi', 20, chunk_rec.numero, 'Superfície', NULL);
+            END IF;
+        END IF;
+
+        -- Esqueleto (spawn em Planície, Montanha, Floresta e Deserto)
+        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Floresta', 'Deserto') THEN
+            rand_num := random() * 100;
+            IF rand_num <= 60.00 THEN
+                CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, 'Superfície', NULL);
+            END IF;
+        END IF;
+
+        -- Aranha (spawn em Floresta, Pântano e Deserto)
+        IF chunk_rec.nome_bioma IN ('Floresta', 'Pântano', 'Deserto') THEN
+            rand_num := random() * 100;
+            IF rand_num <= 50.00 THEN
+                CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, 'Superfície', NULL);
+            END IF;
+        END IF;
+
+        -- Enderman (spawn em Planície, Deserto)
+        IF chunk_rec.nome_bioma IN ('Planície', 'Deserto') THEN
+            rand_num := random() * 100;
+            IF rand_num <= 10.00 THEN
+                CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, 'Superfície', NULL);
+            END IF;
+        END IF;
+
+        -- Creeper (spawn em Floresta, Planície e Deserto)
+        IF chunk_rec.nome_bioma IN ('Floresta', 'Planície', 'Deserto') THEN
+            rand_num := random() * 100;
+            IF rand_num <= 30.00 THEN
+                CALL inserir_inst_mob('Creeper', 20, chunk_rec.numero, 'Superfície', NULL);
+            END IF;
+        END IF;
+
+        -- Bruxa (spawn em Pântano)
+        IF chunk_rec.nome_bioma = 'Pântano' THEN
+            rand_num := random() * 100;
+            IF rand_num <= 7.00 THEN
+                CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, 'Superfície', NULL);
+            END IF;
+        END IF;
+
+        -- Saqueador (spawn em Planície, Montanha e Deserto)
+        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Deserto') THEN
+            rand_num := random() * 100;
+            IF rand_num <= 10.00 THEN
+                CALL inserir_inst_mob('Saqueador', 24, chunk_rec.numero, 'Superfície', NULL);
+            END IF;
+        END IF;
+
+    END LOOP;
+END;
+$$;
+
+--- DESPAWN DE MOBS AGRESSIVOS NA SUPERFÍCIE AO AMANHECER, APENAS MOBS FORA DE ESTRUTURAS
+CREATE OR REPLACE PROCEDURE despawn_mobs_agressivos() LANGUAGE plpgsql AS $$
+BEGIN
+    DELETE FROM InstanciaMob
+    WHERE nome_mob IN ('Zumbi', 'Esqueleto', 'Aranha', 'Enderman', 'Creeper', 'Bruxa', 'Saqueador')
+    AND nome_mapa = 'Superfície'
+    AND id_estrutura IS NULL;
+END;
+$$;
+
+-- ATUALIZAÇÃO DO CICLO DO DIA
+CREATE OR REPLACE PROCEDURE atualizar_ciclo_dia() LANGUAGE plpgsql AS 
+$$
+DECLARE
+    hora_atual ciclo_dia;  -- Declara uma variável para armazenar o valor atual da hora
+BEGIN
+    -- Atualiza o ciclo do dia apenas para o mapa 'Superficie'
+    UPDATE Mapa
+    SET hora = CASE
+        WHEN hora = 'dia' THEN 'tarde'::ciclo_dia
+        WHEN hora = 'tarde' THEN 'noite'::ciclo_dia
+        WHEN hora = 'noite' THEN 'dia'::ciclo_dia
+        ELSE 'dia'::ciclo_dia
+    END
+    WHERE nome = 'Superfície'
+    RETURNING hora INTO hora_atual;  -- Armazena a hora atualizada na variável
+
+    -- Verifica o novo ciclo do dia e executa as ações apropriadas
+    IF hora_atual = 'noite' THEN
+        -- Se for noite, spawna mobs agressivos
+        CALL  spawn_mobs_agressivos();
+    ELSIF hora_atual = 'dia' THEN
+        -- Se for dia, remove mobs agressivos
+        CALL  despawn_mobs_agressivos();
+    END IF;
+END;
+$$;
 
 --- FUNCTION PARA MOVER JOGADOR
 

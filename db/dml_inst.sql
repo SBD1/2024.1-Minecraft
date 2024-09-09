@@ -108,8 +108,8 @@ BEGIN
                     CALL inserir_inst_estrutura('Posto Avançado', chunk_rec.nome_bioma, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     -- Chamar stored procedure para inserir mobs no Posto Avançado
-                    CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
-                    CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Saqueador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
+                    CALL inserir_inst_mob('Saqueador', 24, chunk_rec.numero, chunk_rec.nome_mapa, nova_estrutura_id);
 
                     CONTINUE;
                 END IF;

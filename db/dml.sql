@@ -35,7 +35,7 @@ VALUES
 -- Inserindo Chunks do mapa Superfície
 INSERT INTO Chunk (numero, nome_bioma, nome_mapa) 
 VALUES  
--- Inserindo Chunks do mapa Superfície
+    -- Inserindo Chunks do mapa Superfície
         (1, 'Planície', 'Superfície'),
         (2, 'Deserto', 'Superfície'),
         (3, 'Deserto', 'Superfície'),
@@ -10037,7 +10037,7 @@ VALUES
         (9999, 'Planície', 'Superfície'),
         (10000, 'Planície', 'Superfície'),
 
--- Inserindo Chunks do mapa Cavernas
+    -- Inserindo Chunks do mapa Cavernas
         (2, 'Caverna', 'Cavernas'),
         (3, 'Caverna', 'Cavernas'),
         (6, 'Caverna', 'Cavernas'),
@@ -15017,7 +15017,7 @@ VALUES
         (9999, 'Caverna', 'Cavernas'),
         (10000, 'Caverna', 'Cavernas'),
 
--- Inserindo Chunks do mapa Nether
+    -- Inserindo Chunks do mapa Nether
         (1, 'Floresta distorcida', 'Nether'),
         (2, 'Descampado', 'Nether'),
         (3, 'Descampado', 'Nether'),
@@ -15919,7 +15919,7 @@ VALUES
         (899, 'Floresta distorcida', 'Nether'),
         (900, 'Descampado', 'Nether'),
 
--- Inserindo Chunks do mapa Fim
+    -- Inserindo Chunks do mapa Fim
         (35, 'Ilha do fim', 'Fim'),
         (36, 'Ilha do fim', 'Fim'),
         (44, 'Ilha do fim', 'Fim'),
@@ -16276,26 +16276,27 @@ VALUES
         CALL inserir_mob('Urso', 'agressivo', FALSE, 20, 30);
 
     -- Agressivos (impulsivo = TRUE)
-        CALL inserir_mob('Creeper', 'agressivo', TRUE, 50, 20);
-        CALL inserir_mob('Zumbi', 'agressivo', TRUE, 15, 25);
-        CALL inserir_mob('Aranha', 'agressivo', TRUE, 10, 16);
-        CALL inserir_mob('Esqueleto', 'agressivo', TRUE, 10, 20);
-        CALL inserir_mob('Bruxa', 'agressivo', TRUE, 12, 26);
-        CALL inserir_mob('Guardião', 'agressivo', TRUE, 30, 30);
-        CALL inserir_mob('Pilhador', 'agressivo', TRUE, 20, 24);
+        CALL inserir_mob('Creeper', 'agressivo', TRUE, 20, 20);
+        CALL inserir_mob('Zumbi', 'agressivo', TRUE, 3, 25);
+        CALL inserir_mob('Aranha', 'agressivo', TRUE, 2, 16);
+        CALL inserir_mob('Esqueleto', 'agressivo', TRUE, 3, 20);
+        CALL inserir_mob('Bruxa', 'agressivo', TRUE, 5, 26);
+        CALL inserir_mob('Guardião', 'agressivo', TRUE, 6, 30);
+        CALL inserir_mob('Saqueador', 'agressivo', TRUE, 5, 24);
 
     -- Nether (impulsivo = TRUE)
-        CALL inserir_mob('Piglin Zumbi', 'agressivo', FALSE, 10, 20);
-        CALL inserir_mob('Piglin', 'agressivo', FALSE, 16, 16);
-        CALL inserir_mob('Hoglin', 'agressivo', TRUE, 25, 40);
-        CALL inserir_mob('Ghast', 'agressivo', TRUE, 50, 10);
-        CALL inserir_mob('Esqueleto Wither', 'agressivo', TRUE, 40, 20);
-        CALL inserir_mob('Blaze', 'agressivo', TRUE, 20, 20);
+        CALL inserir_mob('Piglin Zumbi', 'agressivo', FALSE, 8, 20);
+        CALL inserir_mob('Piglin', 'agressivo', FALSE, 6, 16);
+        CALL inserir_mob('Hoglin', 'agressivo', TRUE, 10, 40);
+        CALL inserir_mob('Ghast', 'agressivo', TRUE, 10, 10);
+        CALL inserir_mob('Esqueleto Wither', 'agressivo', TRUE, 9, 20);
+        CALL inserir_mob('Blaze', 'agressivo', TRUE, 6, 20);
 
     -- Bosses (impulsivo = TRUE)
-        CALL inserir_mob('Dragão Ender', 'agressivo', TRUE, 100, 200);
-        CALL inserir_mob('Wither', 'agressivo', TRUE, 50, 300);
-        CALL inserir_mob('Warden', 'agressivo', TRUE, 80, 500);
+        CALL inserir_mob('Dragão Ender', 'agressivo', TRUE, 7, 200);
+        CALL inserir_mob('Wither', 'agressivo', TRUE, 5, 300);
+        CALL inserir_mob('Warden', 'agressivo', TRUE, 12, 500);
+        CALL inserir_mob('Herobrine', 'agressivo', TRUE, 999, 999);
 
 -- Tabela Estrutura
 INSERT INTO Estrutura (nome, probabilidade)
@@ -16337,9 +16338,9 @@ VALUES
         ('Esqueleto', 'Osso', 75.00, 1),
         ('Esqueleto', 'Flecha', 80.00, 2),
         ('Esqueleto', 'Arco', 10.00, 1),
-        ('Pilhador', 'Arco', 10.00, 1),
-        ('Pilhador', 'Flecha', 60.00, 2),
-        ('Pilhador', 'Bússola', 10.0, 1),
+        ('Saqueador', 'Arco', 10.00, 1),
+        ('Saqueador', 'Flecha', 60.00, 2),
+        ('Saqueador', 'Bússola', 10.0, 1),
 
     -- Pacíficos
         ('Galinha', 'Pena', 70.00, 1), 
@@ -16524,115 +16525,6 @@ VALUES
         ('Machado de Diamante', 'Campo de Cana de Açúcar'),
         ('Machado de Netherita', 'Campo de Cana de Açúcar');
 
--- Spawnar mobs agressivos em cada chunk
-CREATE OR REPLACE PROCEDURE spawn_mobs_agressivos() LANGUAGE plpgsql AS $$
-DECLARE
-    chunk_rec RECORD;
-    rand_num FLOAT;
-BEGIN
-    -- Iterando por todos os chunks no mapa "Superfície" para spawnar mobs agressivos à noite
-    FOR chunk_rec IN 
-        SELECT numero, nome_bioma 
-        FROM Chunk
-        WHERE nome_mapa = 'Superfície'
-    LOOP
-        -- Zumbi (spawn em Planície, Floresta, Pântano e Deserto)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Floresta', 'Pântano', 'Deserto') THEN
-            rand_num := random() * 100;
-            IF rand_num <= 70.00 THEN
-                CALL inserir_inst_mob('Zumbi', 20, chunk_rec.numero, 'Superfície', NULL);
-            END IF;
-        END IF;
-
-        -- Esqueleto (spawn em Planície, Montanha, Floresta e Deserto)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Floresta', 'Deserto') THEN
-            rand_num := random() * 100;
-            IF rand_num <= 60.00 THEN
-                CALL inserir_inst_mob('Esqueleto', 20, chunk_rec.numero, 'Superfície', NULL);
-            END IF;
-        END IF;
-
-        -- Aranha (spawn em Floresta, Pântano e Deserto)
-        IF chunk_rec.nome_bioma IN ('Floresta', 'Pântano', 'Deserto') THEN
-            rand_num := random() * 100;
-            IF rand_num <= 50.00 THEN
-                CALL inserir_inst_mob('Aranha', 16, chunk_rec.numero, 'Superfície', NULL);
-            END IF;
-        END IF;
-
-        -- Enderman (spawn em Planície, Deserto)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Deserto') THEN
-            rand_num := random() * 100;
-            IF rand_num <= 10.00 THEN
-                CALL inserir_inst_mob('Enderman', 40, chunk_rec.numero, 'Superfície', NULL);
-            END IF;
-        END IF;
-
-        -- Creeper (spawn em Floresta, Planície e Deserto)
-        IF chunk_rec.nome_bioma IN ('Floresta', 'Planície', 'Deserto') THEN
-            rand_num := random() * 100;
-            IF rand_num <= 30.00 THEN
-                CALL inserir_inst_mob('Creeper', 20, chunk_rec.numero, 'Superfície', NULL);
-            END IF;
-        END IF;
-
-        -- Bruxa (spawn em Pântano)
-        IF chunk_rec.nome_bioma = 'Pântano' THEN
-            rand_num := random() * 100;
-            IF rand_num <= 7.00 THEN
-                CALL inserir_inst_mob('Bruxa', 26, chunk_rec.numero, 'Superfície', NULL);
-            END IF;
-        END IF;
-
-        -- Pilhador (spawn em Planície, Montanha e Deserto)
-        IF chunk_rec.nome_bioma IN ('Planície', 'Montanha', 'Deserto') THEN
-            rand_num := random() * 100;
-            IF rand_num <= 10.00 THEN
-                CALL inserir_inst_mob('Pilhador', 24, chunk_rec.numero, 'Superfície', NULL);
-            END IF;
-        END IF;
-
-    END LOOP;
-END;
-$$;
-
--- Remover mobs da Superfície quando ficar de dia, apenas mobs que não estão em estruturas 
-CREATE OR REPLACE PROCEDURE despawn_mobs_agressivos() LANGUAGE plpgsql AS $$
-BEGIN
-    DELETE FROM InstanciaMob
-    WHERE nome_mob IN ('Zumbi', 'Esqueleto', 'Aranha', 'Enderman', 'Creeper', 'Bruxa', 'Pilhador')
-    AND nome_mapa = 'Superfície'
-    AND id_estrutura IS NULL;
-END;
-$$;
-
--- Criação da stored procedure para atualizar a hora
-CREATE OR REPLACE PROCEDURE atualizar_ciclo_dia() LANGUAGE plpgsql AS 
-$$
-DECLARE
-    hora_atual ciclo_dia;  -- Declara uma variável para armazenar o valor atual da hora
-BEGIN
-    -- Atualiza o ciclo do dia apenas para o mapa 'Superficie'
-    UPDATE Mapa
-    SET hora = CASE
-        WHEN hora = 'dia' THEN 'tarde'::ciclo_dia
-        WHEN hora = 'tarde' THEN 'noite'::ciclo_dia
-        WHEN hora = 'noite' THEN 'dia'::ciclo_dia
-        ELSE 'dia'::ciclo_dia
-    END
-    WHERE nome = 'Superfície'
-    RETURNING hora INTO hora_atual;  -- Armazena a hora atualizada na variável
-
-    -- Verifica o novo ciclo do dia e executa as ações apropriadas
-    IF hora_atual = 'noite' THEN
-        -- Se for noite, spawna mobs agressivos
-        CALL  spawn_mobs_agressivos();
-    ELSIF hora_atual = 'dia' THEN
-        -- Se for dia, remove mobs agressivos
-        CALL  despawn_mobs_agressivos();
-    END IF;
-END;
-$$;
 
 -- Agendamento da stored procedure para rodar a cada 10 minutos
 SELECT cron.schedule(
