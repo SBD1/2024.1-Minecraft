@@ -16194,7 +16194,6 @@ VALUES
         ('Pedregulho', null),
         ('Pedregulho', null),
         ('Maçã', NULL),
-        ('Maçã', NULL),
         ('Mapa', NULL),
         ('Olho do Ender', NULL),
         ('Bússola', NULL),
@@ -16210,17 +16209,13 @@ VALUES
         ('Obsidiana', null),
         ('Obsidiana', null),
         ('Isqueiro', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Isqueiro', null);
+        ('Picareta de Ferro', 251),
+        ('Espada de Ferro', 250),
+        ('Machado de Ferro', 250),
+        ('Pá de Ferro', 251),
+        ('Barras de Ferro', NULL),
+        ('Barras de Ferro', NULL),
+        ('Barras de Ferro', NULL);
 
 -- Tabela Inventario
 INSERT INTO Inventario (id_inst_item, id_inventario)
@@ -16250,12 +16245,7 @@ VALUES
         (23, 1),
         (24, 1),
         (25, 1),
-        (26, 1),
-        (27, 1),
-        (28, 1),
-        (29, 1),
-        (30, 1),
-        (31, 1);
+        (26, 1);
         
 -- Inserindo Mobs
 
