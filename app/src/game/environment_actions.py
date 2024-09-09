@@ -72,7 +72,7 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
         SELECT FerramentaMineraFonte.nome_ferramenta 
         FROM FerramentaMineraFonte 
         WHERE FerramentaMineraFonte.nome_fonte = %s 
-        ORDER BY nome_ferramenta IS NULL, nome_ferramenta ASC LIMIT 1;
+        LIMIT 1;
     """, (nomeFonte,))
     
     ferramenta_minima = cursor.fetchone()

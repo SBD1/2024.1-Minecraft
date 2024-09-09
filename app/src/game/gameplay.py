@@ -172,7 +172,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             utilizar_item(connection, cursor, nomeUser, nomeItem)
             break
 
-        elif acao == "minerar_fonte" and parametros:
+        elif acao == "minerar_fonte" and parametros: # Feito
             limpar_tela()
             nome_fonte = formatar_nome_item(' '.join(parametros))
             minerar_fonte(connection, cursor, nomeUser, nome_fonte)
