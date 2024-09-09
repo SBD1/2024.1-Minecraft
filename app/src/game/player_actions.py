@@ -4,7 +4,7 @@ from ..game.environment_actions import craftar_item
 import time
 
 # Função: Visualizar Inventário com suporte a comandos
-def visualizar_inventario(cursor, nomeUser):
+def visualizar_inventario(connection, cursor, nomeUser):
     """
     Exibe os itens no inventário do jogador e permite executar ações relacionadas ao inventário,
     como comer, utilizar ou equipar itens.
@@ -69,11 +69,11 @@ def visualizar_inventario(cursor, nomeUser):
         print(f"{Fore.YELLOW}-------------------------------")
         
         # Processar o comando dentro do inventário
-        if not processar_comando_inventario(cursor, nomeUser):
+        if not processar_comando_inventario(connection, cursor, nomeUser):
             break
 
 # Função para processar comandos dentro do inventário
-def processar_comando_inventario(cursor, nomeUser):
+def processar_comando_inventario(connection, cursor, nomeUser):
     """
     Processa os comandos específicos dentro do inventário, como comer, utilizar item, equipar item.
     """
@@ -86,25 +86,25 @@ def processar_comando_inventario(cursor, nomeUser):
         if acao == "comer" and parametros:
             limpar_tela()
             nomeItem = formatar_nome_item(' '.join(parametros))
-            comer(cursor, nomeUser, nomeItem)
+            comer(connection, cursor, nomeUser, nomeItem)
             return True
 
         elif acao == "utilizar_item" and parametros:
             limpar_tela()
             nomeItem = formatar_nome_item(' '.join(parametros))
-            utilizar_item(cursor, nomeUser, nomeItem)
+            utilizar_item(connection, cursor, nomeUser, nomeItem)
             return True
 
         elif acao == "craftar_item" and parametros:
             limpar_tela()
             nome_item = formatar_nome_item(' '.join(parametros))
-            craftar_item(cursor, nomeUser, nome_item)
+            craftar_item(connection, cursor, nomeUser, nome_item)
             return True
 
         elif acao == "equipar_item" and parametros:
             limpar_tela()
             nomeItem = formatar_nome_item(' '.join(parametros))
-            equipar_item(cursor, nomeUser, nomeItem)
+            equipar_item(connection, cursor, nomeUser, nomeItem)
             return True
 
         elif acao == "ajuda":
@@ -136,7 +136,7 @@ def exibir_ajuda_inventario():
     input(f"{Fore.CYAN}Pressione Enter para continuar...{Fore.RESET}")
 
 # Comando: Comer Item (alimento)
-def comer(cursor, nomeUser, nomeItem):
+def comer(connection, cursor, nomeUser, nomeItem):
     """
     Permite ao jogador consumir um alimento do inventário, recuperando fome e removendo o item do inventário e da tabela de InstanciaItem.
     """
@@ -176,10 +176,12 @@ def comer(cursor, nomeUser, nomeItem):
 
             # Atualiza a fome do jogador
             cursor.execute("UPDATE Jogador SET fome = %s WHERE nome = %s;", (nova_fome, nomeUser))
+            
 
             # Remove o item do inventário e da tabela de instância
             cursor.execute("DELETE FROM Inventario WHERE id_inst_item = %s;", (id_inst_item,))
             cursor.execute("DELETE FROM InstanciaItem WHERE id_inst_item = %s;", (id_inst_item,))
+            connection.commit()
 
             if nova_fome == 20:
                 mostrar_texto_gradualmente(f"Você comeu {nomeItem} e agora está completamente cheio!", Fore.LIGHTGREEN_EX)
@@ -193,7 +195,7 @@ def comer(cursor, nomeUser, nomeItem):
     time.sleep(2)
 
 # Comando: Utilizar Item (funcional)
-def utilizar_item(cursor, nomeUser, nomeItem):
+def utilizar_item(connection, cursor, nomeUser, nomeItem):
     """
     Permite ao jogador utilizar um item funcional do inventário.
     Verifica se o item é funcional, se sim, executa a funcionalidade específica.
