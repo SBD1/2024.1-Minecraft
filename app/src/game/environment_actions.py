@@ -110,7 +110,7 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
         ferramenta = cursor.fetchone()
 
         if not ferramenta:
-            mostrar_texto_gradualmente(f"Você precisa de uma {ferramenta_minima} ou melhor para minerar {nomeFonte}.", Fore.RED)
+            mostrar_texto_gradualmente(f"Você precisa de um(a) {ferramenta_minima} ou melhor para minerar {nomeFonte}.", Fore.RED)
             time.sleep(2)
             return
 
