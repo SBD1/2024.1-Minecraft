@@ -504,3 +504,56 @@ BEGIN
     END LOOP;
 END
 $$;
+
+-- Portal do Fim
+DO
+$$
+DECLARE
+    chunk_fortaleza INT; -- Declaração da variável para armazenar o número do chunk da fortaleza
+    rand_num FLOAT;
+BEGIN
+    -- Tentar encontrar um chunk com a estrutura "Fortaleza do Fim" no bioma "Fortaleza"
+    SELECT numero INTO chunk_fortaleza
+    FROM Chunk
+    WHERE nome_bioma = 'Fortaleza' AND EXISTS (
+        SELECT 1 FROM InstanciaEstrutura 
+        WHERE nome_estrutura = 'Fortaleza do Fim' 
+        AND Chunk.numero = InstanciaEstrutura.numero_chunk
+    )
+    LIMIT 1;
+
+    -- Se encontrar, insere o portal do fim nesse chunk
+    IF chunk_fortaleza IS NOT NULL THEN
+        CALL inserir_inst_construivel('Portal do Fim', chunk_fortaleza, 'Cavernas');
+    ELSE
+        -- Se não encontrar uma fortaleza, insere o portal em qualquer chunk de bioma "Fortaleza"
+        SELECT numero INTO chunk_fortaleza
+        FROM Chunk
+        WHERE nome_bioma = 'Fortaleza'
+        LIMIT 1;
+
+        CALL inserir_inst_construivel('Portal do Fim', chunk_fortaleza, 'Cavernas');
+    END IF;
+END
+$$;
+
+--  Dragão do Fim
+
+DO
+$$
+DECLARE
+    chunk_ilha_fim INT; -- Variável para armazenar o número do chunk da Ilha do Fim
+BEGIN
+    -- Selecionar um chunk aleatório do bioma "Ilha do Fim" no mapa "Fim"
+    SELECT numero INTO chunk_ilha_fim
+    FROM Chunk
+    WHERE nome_bioma = 'Ilha do fim' AND nome_mapa = 'Fim'
+    ORDER BY random() -- Escolher aleatoriamente
+    LIMIT 1;
+
+    -- Inserir o Dragão do Fim no chunk selecionado
+    IF chunk_ilha_fim IS NOT NULL THEN
+        CALL inserir_inst_mob('Dragão Ender', 200, chunk_ilha_fim, 'Fim', NULL);
+    END IF;
+END
+$$;

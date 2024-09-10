@@ -21,3 +21,5 @@ Autores: [Arthur Carneiro Trindade](https://github.com/trindadea), [Bruno Ricard
 | `1.0`  | 22/07/2024 | [Versão inicial do MRel](./versoes/MREL/versao_1.0.png) | [Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) | [Arthur Carneiro Trindade](https://github.com/trindadea)<br>[Bruno Ricardo de Menezes](https://github.com/EhOBruno) |
 | `1.1`  | 22/07/2024 | [Atualização da versão 1.0 do MREL](./versoes/MREL/versao_1.1.png) | [Arthur Carneiro Trindade](https://github.com/trindadea) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno)<br>[Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
 | `2.0`  | 14/08/2024 | [Atualização da versão 1.1 do MREL](./versoes/MREL/versao_2.0.png) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno)| [Arthur Carneiro Trindade](https://github.com/trindadea)<br>[Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
+| `3.0`  | 09/09/2024 | [Versão final](./versoes/MREL/versao_2.0.png) | [Bruno Ricardo de Menezes](https://github.com/EhOBruno)| [Arthur Carneiro Trindade](https://github.com/trindadea)<br>[Miguel Moreira da Silva de Oliveira](https://github.com/EhOMiguel) |
+

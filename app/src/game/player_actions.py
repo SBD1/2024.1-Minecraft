@@ -5,7 +5,7 @@ from ..game.environment_actions import craftar_item, ver_mob
 import time
 from ..game.combat import atacar_mob
 
-# Função: Visualizar Inventário com suporte a comandos
+# Ação: Visualizar Inventário com suporte a comandos
 def visualizar_inventario(connection, cursor, nomeUser):
     """
     Exibe os itens no inventário do jogador e permite executar ações relacionadas ao inventário,
@@ -94,7 +94,7 @@ def visualizar_inventario(connection, cursor, nomeUser):
         if not processar_comando_inventario(connection, cursor, nomeUser):
             break
 
-# Função para processar comandos dentro do inventário
+# Ação para processar comandos dentro do inventário
 def processar_comando_inventario(connection, cursor, nomeUser):
     """
     Processa os comandos específicos dentro do inventário, como comer, utilizar item, equipar item.
@@ -147,7 +147,7 @@ def processar_comando_inventario(connection, cursor, nomeUser):
             # Comando inválido, continuar no loop
             mostrar_texto_gradualmente("Comando inválido! Tente novamente.", Fore.RED)
 
-# Função para exibir ajuda específica do inventário
+# Ação: Exibir ajuda específica dentro do inventário
 def exibir_ajuda_inventario():
     """
     Exibe os comandos disponíveis para o jogador dentro do inventário.
@@ -163,7 +163,7 @@ def exibir_ajuda_inventario():
 
     input(f"{Fore.CYAN}Pressione Enter para continuar...{Fore.RESET}")
 
-# Comando: Comer Item (alimento)
+# Ação: Comer Item (alimento)
 def comer(connection, cursor, nomeUser, nomeItem):
     """
     Permite ao jogador consumir um alimento do inventário, recuperando fome e removendo o item do inventário e da tabela de InstanciaItem.
@@ -222,7 +222,7 @@ def comer(connection, cursor, nomeUser, nomeItem):
 
     time.sleep(2)
 
-# Comando: Utilizar Item (funcional)
+# Ação: Utilizar Item (funcional)
 def utilizar_item(connection, cursor, nomeUser, nomeItem):
     """
     Permite ao jogador utilizar um item funcional do inventário.
@@ -253,15 +253,16 @@ def utilizar_item(connection, cursor, nomeUser, nomeItem):
         if tipo_item == 'craftavel':
             if nomeItem in ["Mapa", "Bússola", "Olho do Ender"]:
                 # Implementar funcionalidades específicas para itens funcionais
-                if nomeItem == "Mapa":
-                    mostrar_texto_gradualmente(f"Você abriu o {nomeItem} para visualizar a região.", Fore.YELLOW)
+                if nomeItem == "Mapa": # Feito 
+                    mostrar_texto_gradualmente(f"Você abre o {nomeItem} e visualizar a região.", Fore.YELLOW)
                     mostrar_mapa(cursor, nomeUser)
                     input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
                     return
                 elif nomeItem == "Bússola":
                     mostrar_texto_gradualmente(f"Você usou a {nomeItem} para encontrar a direção.", Fore.YELLOW)
-                elif nomeItem == "Olho do Ender":
-                    mostrar_texto_gradualmente(f"Você usou o {nomeItem} para localizar uma fortaleza.", Fore.YELLOW)
+                elif nomeItem == "Olho do Ender": # Feito
+                    mostrar_texto_gradualmente(f"Você joga o {nomeItem} para o alto", Fore.YELLOW)
+                    jogar_olho_do_ender(cursor, nomeUser)
             else:
                 mostrar_texto_gradualmente(f"O item {nomeItem} não tem uma função utilizável.", Fore.RED)
         else:
@@ -271,77 +272,7 @@ def utilizar_item(connection, cursor, nomeUser, nomeItem):
 
     time.sleep(2)
 
-# Função para mostrar o mapa ao redor do jogador
-def mostrar_mapa(cursor, nomeUser):
-    # Definição das cores para cada bioma da superfície
-    bioma_cores = {
-        'Lago': (Back.BLUE, Fore.BLUE),
-        'Deserto': (Back.YELLOW, Fore.YELLOW),
-        'Planície': (Back.LIGHTGREEN_EX, Fore.LIGHTGREEN_EX),
-        'Floresta': (Back.GREEN, Fore.GREEN),
-        'Selva': (Back.LIGHTBLACK_EX, Fore.LIGHTBLACK_EX),
-        'Pântano': (Back.MAGENTA, Fore.MAGENTA),
-        'Montanha': (Back.LIGHTWHITE_EX, Fore.LIGHTWHITE_EX),
-        'Neve': (Back.WHITE, Fore.WHITE),
-    }
-
-    # Obter a posição atual do jogador (chunk atual e mapa atual)
-    cursor.execute("""
-        SELECT Jogador.numero_chunk, Jogador.nome_mapa
-        FROM Jogador
-        WHERE Jogador.nome = %s
-    """, (nomeUser,))
-    
-    jogador_data = cursor.fetchone()
-    chunkAtual, mapaAtual = jogador_data
-    
-    # Apenas mostrar o mapa da Superfície
-    if mapaAtual != 'Superfície':
-        print(f"{Fore.RED}Este mapa só pode ser exibido na Superfície.{Style.RESET_ALL}")
-        return
-    
-    # Calcular a posição X e Y do chunk atual
-    chunk_x = (chunkAtual - 1) % 100
-    chunk_y = (chunkAtual - 1) // 100
-    
-    # Mostrar o mapa ao redor do jogador (15x15 chunks)
-    for dy in range(-15, 14):
-        for dx in range(-15, 14):
-            # Calcular a posição do chunk ao redor do jogador
-            mapa_x = chunk_x + dx
-            mapa_y = chunk_y + dy
-            
-            if 0 <= mapa_x < 100 and 0 <= mapa_y < 100:
-                chunk_id = mapa_y * 100 + mapa_x + 1
-                
-                # Consultar o bioma do chunk
-                cursor.execute("""
-                    SELECT nome_bioma
-                    FROM Chunk
-                    WHERE numero = %s AND nome_mapa = 'Superfície'
-                """, (chunk_id,))
-                
-                bioma_data = cursor.fetchone()
-                bioma = bioma_data[0] if bioma_data else "Desconhecido"
-                
-                # Verifica se é o chunk atual do jogador
-                if bioma in bioma_cores:
-                    if chunk_id == chunkAtual:
-                        print(f"{Back.RED}  {Style.RESET_ALL}", end="")
-                    else:
-                        print(f"{bioma_cores[bioma][0]}  {Style.RESET_ALL}", end="")
-                else:
-                    print(f"{Back.BLACK}  {Style.RESET_ALL}", end="") # Fora dos limites ou desconhecido em preto
-            else:
-                print(f"{Back.BLACK}  {Style.RESET_ALL}", end="")  # Fora dos limites, em preto
-        
-        print()  # Quebra de linha a cada linha do mapa
-
-    print(f"{Fore.CYAN}Legenda:{Style.RESET_ALL}")
-    for bioma, (back_color, fore_color) in bioma_cores.items():
-        print(f"{fore_color}■ {bioma}{Style.RESET_ALL}")
-
-# Função para mostrar as construções disponíveis e suas receitas
+# Ação: Mostrar as construções disponíveis e suas receitas
 def ver_construcoes(cursor, nomeUser):
     # Seleciona todas as construções da tabela Construivel
     cursor.execute("""
@@ -403,6 +334,7 @@ def ver_construcoes(cursor, nomeUser):
     
     input(f"{Fore.CYAN}\nPressione Enter para voltar...{Style.RESET_ALL}")
 
+# Ação: Equipar armadura específica
 def equipar_armadura(connection, cursor, nomeUser, nome_item):
     """
     Função para equipar um item de armadura. Verifica se o item está no inventário,
@@ -499,6 +431,7 @@ def equipar_armadura(connection, cursor, nomeUser, nome_item):
     mostrar_texto_gradualmente(f"Você equipou {nome_item} no(a) {slot_nomes[slot]}.", Fore.GREEN)
     time.sleep(2)
 
+# Ação: Remover armadura do corpo
 def remover_armadura(connection, cursor, nomeUser, slot):
     """
     Remove uma peça de armadura do jogador, se houver uma equipada na parte especificada,
@@ -551,6 +484,145 @@ def remover_armadura(connection, cursor, nomeUser, slot):
     
     mostrar_texto_gradualmente(f"Você removeu a armadura de {slot_nomes[slot]}.", Fore.GREEN)
     time.sleep(2)
+
+# --- Funções auxiliares ---
+
+# Mostrar o mapa ao redor do jogador
+def mostrar_mapa(cursor, nomeUser):
+    # Definição das cores para cada bioma da superfície
+    bioma_cores = {
+        'Lago': (Back.BLUE, Fore.BLUE),
+        'Deserto': (Back.YELLOW, Fore.YELLOW),
+        'Planície': (Back.LIGHTGREEN_EX, Fore.LIGHTGREEN_EX),
+        'Floresta': (Back.GREEN, Fore.GREEN),
+        'Selva': (Back.LIGHTBLACK_EX, Fore.LIGHTBLACK_EX),
+        'Pântano': (Back.MAGENTA, Fore.MAGENTA),
+        'Montanha': (Back.LIGHTWHITE_EX, Fore.LIGHTWHITE_EX),
+        'Neve': (Back.WHITE, Fore.WHITE),
+    }
+
+    # Obter a posição atual do jogador (chunk atual e mapa atual)
+    cursor.execute("""
+        SELECT Jogador.numero_chunk, Jogador.nome_mapa
+        FROM Jogador
+        WHERE Jogador.nome = %s
+    """, (nomeUser,))
+    
+    jogador_data = cursor.fetchone()
+    chunkAtual, mapaAtual = jogador_data
+    
+    # Apenas mostrar o mapa da Superfície
+    if mapaAtual != 'Superfície':
+        print(f"{Fore.RED}Este mapa só pode ser exibido na Superfície.{Style.RESET_ALL}")
+        return
+    
+    # Calcular a posição X e Y do chunk atual
+    chunk_x = (chunkAtual - 1) % 100
+    chunk_y = (chunkAtual - 1) // 100
+    
+    # Mostrar o mapa ao redor do jogador (15x15 chunks)
+    for dy in range(-15, 14):
+        for dx in range(-15, 14):
+            # Calcular a posição do chunk ao redor do jogador
+            mapa_x = chunk_x + dx
+            mapa_y = chunk_y + dy
+            
+            if 0 <= mapa_x < 100 and 0 <= mapa_y < 100:
+                chunk_id = mapa_y * 100 + mapa_x + 1
+                
+                # Consultar o bioma do chunk
+                cursor.execute("""
+                    SELECT nome_bioma
+                    FROM Chunk
+                    WHERE numero = %s AND nome_mapa = 'Superfície'
+                """, (chunk_id,))
+                
+                bioma_data = cursor.fetchone()
+                bioma = bioma_data[0] if bioma_data else "Desconhecido"
+                
+                # Verifica se é o chunk atual do jogador
+                if bioma in bioma_cores:
+                    if chunk_id == chunkAtual:
+                        print(f"{Back.RED}  {Style.RESET_ALL}", end="")
+                    else:
+                        print(f"{bioma_cores[bioma][0]}  {Style.RESET_ALL}", end="")
+                else:
+                    print(f"{Back.BLACK}  {Style.RESET_ALL}", end="") # Fora dos limites ou desconhecido em preto
+            else:
+                print(f"{Back.BLACK}  {Style.RESET_ALL}", end="")  # Fora dos limites, em preto
+        
+        print()  # Quebra de linha a cada linha do mapa
+
+    print(f"{Fore.CYAN}Legenda:{Style.RESET_ALL}")
+    for bioma, (back_color, fore_color) in bioma_cores.items():
+        print(f"{fore_color}■ {bioma}{Style.RESET_ALL}")
+
+# Mostrar o a direção do Portal do Fim
+def jogar_olho_do_ender(cursor, nomeUser):
+    """
+    Função para usar o Olho do Ender e localizar a fortaleza do portal do fim.
+    Indica a direção (norte, sul, leste, oeste) ou se está diretamente no chunk do portal.
+    """
+    # Verificar se o jogador está na Superfície
+    cursor.execute("""
+        SELECT numero_chunk, nome_mapa
+        FROM Jogador
+        WHERE nome = %s;
+    """, (nomeUser,))
+    
+    jogador_data = cursor.fetchone()
+    if jogador_data is None:
+        mostrar_texto_gradualmente("Jogador não encontrado.", Fore.RED)
+        time.sleep(2)
+        return
+    
+    numero_chunk, nome_mapa = jogador_data
+
+    if nome_mapa != 'Superfície':
+        mostrar_texto_gradualmente("O Olho do Ender cai no chão sem efeito... Talvez ele não deva ser utilizado aqui.", Fore.RED)
+        time.sleep(2)
+        return
+
+    # Consultar o chunk da Fortaleza do Fim (Portal do Fim)
+    cursor.execute("""
+        SELECT numero_chunk
+        FROM InstanciaConstruivel
+        WHERE nome_construivel = 'Portal do Fim';
+    """)
+    
+    portal_fim_data = cursor.fetchone()
+    if portal_fim_data is None:
+        mostrar_texto_gradualmente("Nenhuma Fortaleza do Fim foi encontrada.", Fore.RED)
+        time.sleep(2)
+        return
+    
+    portal_chunk = portal_fim_data[0]
+
+    # Calcular a direção para onde o Olho do Ender foi
+    if portal_chunk == numero_chunk:
+        mostrar_texto_gradualmente("O Olho do Ender começa a descer, e parece atraído para o chão! Você está bem em cima do Portal do Fim!", Fore.GREEN)
+        time.sleep(2)
+    else:
+        portal_x = (portal_chunk - 1) % 100
+        portal_y = (portal_chunk - 1) // 100
+        jogador_x = (numero_chunk - 1) % 100
+        jogador_y = (numero_chunk - 1) // 100
+        
+        if jogador_y > portal_y:
+            mostrar_texto_gradualmente("O Olho do Ender flutua na direção norte...", Fore.YELLOW)
+            time.sleep(2)
+        elif jogador_y < portal_y:
+            mostrar_texto_gradualmente("O Olho do Ender flutua na direção sul...", Fore.YELLOW)
+            time.sleep(2)
+        elif jogador_x < portal_x:
+            mostrar_texto_gradualmente("O Olho do Ender flutua na direção leste...", Fore.YELLOW)
+            time.sleep(2)
+        elif jogador_x > portal_x:
+            mostrar_texto_gradualmente("O Olho do Ender flutua na direção oeste...", Fore.YELLOW)
+            time.sleep(2)
+
+
+
 
 
 # Comando: Explorar estrutura
