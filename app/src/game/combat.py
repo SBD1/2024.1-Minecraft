@@ -17,7 +17,7 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
     # Verificar se o mob está no mesmo chunk e na mesma estrutura (se aplicável)
     if estaEmEstrutura:
         cursor.execute("""
-            SELECT InstanciaMob.vida_atual, Mob.tipo_mob
+            SELECT InstanciaMob.id_inst_mob, InstanciaMob.vida_atual, Mob.tipo_mob
             FROM InstanciaMob
             JOIN Mob ON InstanciaMob.nome_mob = Mob.nome
             WHERE InstanciaMob.nome_mob = %s
@@ -28,16 +28,18 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
                 FROM InstanciaEstrutura
                 WHERE InstanciaEstrutura.numero_chunk = InstanciaMob.numero_chunk
                 AND InstanciaEstrutura.nome_mapa = InstanciaMob.nome_mapa
-            );
+            )
+            LIMIT 1;  -- Seleciona apenas o primeiro mob encontrado
         """, (nomeMob, nomeUser, nomeUser))
     else:
         cursor.execute("""
-            SELECT InstanciaMob.vida_atual, Mob.tipo_mob
+            SELECT InstanciaMob.id_inst_mob, InstanciaMob.vida_atual, Mob.tipo_mob
             FROM InstanciaMob
             JOIN Mob ON InstanciaMob.nome_mob = Mob.nome
             WHERE InstanciaMob.nome_mob = %s
             AND InstanciaMob.numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s)
-            AND InstanciaMob.nome_mapa = (SELECT nome_mapa FROM Jogador WHERE nome = %s);
+            AND InstanciaMob.nome_mapa = (SELECT nome_mapa FROM Jogador WHERE nome = %s)
+            LIMIT 1;  -- Seleciona apenas o primeiro mob encontrado
         """, (nomeMob, nomeUser, nomeUser))
 
     mob_data = cursor.fetchone()
@@ -47,7 +49,7 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
         time.sleep(2)
         return
 
-    vida_mob_atual, tipo_mob = mob_data
+    id_inst_mob, vida_mob_atual, tipo_mob = mob_data
 
     # Verificar se o jogador possui a ferramenta para atacar e sua durabilidade
     cursor.execute("""
@@ -76,9 +78,8 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
     cursor.execute("""
         UPDATE InstanciaMob 
         SET vida_atual = %s 
-        WHERE nome_mob = %s 
-        AND numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s);
-    """, (nova_vida_mob, nomeMob, nomeUser))
+        WHERE id_inst_mob = %s;
+    """, (nova_vida_mob, id_inst_mob))
 
     # Reduzir a durabilidade da ferramenta
     nova_durabilidade_ferramenta = durabilidade_atual - DURABILIDADE_PERDIDA_FERRAMENTA
@@ -103,9 +104,8 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
         # Remover o mob morto da instância
         cursor.execute("""
             DELETE FROM InstanciaMob 
-            WHERE nome_mob = %s 
-            AND numero_chunk = (SELECT numero_chunk FROM Jogador WHERE nome = %s);
-        """, (nomeMob, nomeUser))
+            WHERE id_inst_mob = %s;
+        """, (id_inst_mob,))
 
         # Verificar e aplicar drops do mob
         cursor.execute("""
@@ -239,10 +239,27 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
                 mostrar_texto_gradualmente(f"{nomeMob} derrotou você!", Fore.RED)
                 time.sleep(2)
 
-                # Remover o jogador do jogo
+                # Reviver o jogador em sua casa
                 cursor.execute("""
-                    DELETE FROM Jogador WHERE nome = %s;
+                    SELECT casa_chunk FROM Jogador WHERE nome = %s;
                 """, (nomeUser,))
+                casa_chunk = cursor.fetchone()[0]
+
+                # Atualiza o jogador para sua casa e restaura a vida e fome ao máximo
+                cursor.execute("""
+                    UPDATE Jogador
+                    SET numero_chunk = %s,
+                        vida = 20,
+                        fome = 20
+                    WHERE nome = %s;
+                """, (casa_chunk, nomeUser))
+                connection.commit()
+
+                mostrar_texto_gradualmente(f"Você desmaiou e foi resgatado em sua casa. Sua vida e fome foram restauradas.", Fore.GREEN)
+                time.sleep(2)
+                return "morreu"
+
+                
             else:
                 mostrar_texto_gradualmente(f"Sua vida agora é {vida_jogador}.", Fore.YELLOW)
                 time.sleep(1.5)
@@ -264,3 +281,4 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
 
     connection.commit()
     input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
+

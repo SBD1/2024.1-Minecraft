@@ -768,7 +768,7 @@ def processar_comando_estrutura(connection, cursor, nomeUser, nome_estrutura):
             limpar_tela()
             nome_ferramenta = formatar_nome_item(' '.join(parametros[1:]))
             nome_mob = formatar_nome_item(parametros[0])
-            atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta, estaEmEstrutura=True)
+            if atacar_mob(connection, cursor, nomeUser, nome_mob, nome_ferramenta, estaEmEstrutura=True) == "morreu": return False
             return True
 
         elif acao == "ver_construcoes":

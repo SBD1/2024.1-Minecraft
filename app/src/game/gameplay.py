@@ -442,7 +442,7 @@ def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
     elif nova_fome > 0:
         mostrar_texto_gradualmente(f"Você sente uma fome crescente... cada passo é mais difícil. Comida é urgente!", Fore.RED)
 
-    time.sleep(2)
+    time.sleep(4)
 
 
 def exibir_ajuda():
