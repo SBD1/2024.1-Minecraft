@@ -42,7 +42,9 @@ nav:
     - DDL: modulo_2/ddl.md
     - DML: modulo_2/dml.md
     - DQL: modulo_2/dql.md
-  # - Módulo 3 - Transactions, Triggers e Stored Procedures:
+  - Módulo 3 - Transactions, Triggers e Stored Procedures:
+    - dml_inst: modulo_3/dml_inst.md
+    - tigger_sp: modulo_3/tigger_sp.md
 
 extra_css:
   - css/custom.css
