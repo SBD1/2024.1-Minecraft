@@ -29,7 +29,6 @@ def ver_mob(connection, cursor, nomeUser, nomeMob):
         mostrar_texto_gradualmente(f"Não há um mob chamado {nomeMob} por aqui...", Fore.RED)
         time.sleep(2)
 
-
 # Comando: Minerar Fonte
 def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
     """
@@ -192,7 +191,6 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
 
     connection.commit()
 
-
 # Comando: Craftar Item
 def craftar_item(connection, cursor, nomeUser, nomeItem):
 
@@ -217,7 +215,6 @@ def construir_construcao(connection, cursor, nomeUser, nomeConstrucao):
     # Exibe a mensagem retornada pela função SQL
     mostrar_texto_gradualmente(mensagem, Fore.GREEN)
     time.sleep(2)
-
 
 # Comando: Utilizar Construção
 def utilizar_construcao(connection, cursor, nomeUser, nome_construcao):
@@ -252,9 +249,8 @@ def utilizar_construcao(connection, cursor, nomeUser, nome_construcao):
         return
     
     # Funções específicas para cada construção
-    if nome_construcao == 'Casa':
-        mostrar_texto_gradualmente("Você se joga na cama, exausto, e sente sua vida e fome voltarem ao normal. Que lar aconchegante!", Fore.GREEN)
-        # Recuperar vida e fome do jogador
+    if nome_construcao == 'Casa': # Feito
+        utilizar_casa(connection, cursor, nomeUser)
     
     elif nome_construcao == 'Armazém':
         mostrar_texto_gradualmente("Bem-vindo ao armazém, onde todos os seus itens encontram um lar temporário... ou permanente, quem sabe?", Fore.YELLOW)
@@ -272,29 +268,27 @@ def utilizar_construcao(connection, cursor, nomeUser, nome_construcao):
         mostrar_texto_gradualmente("O calor da fornalha esquenta o ar enquanto você assa alimentos ou funde minérios com maestria!", Fore.YELLOW)
         # Implementar a lógica de fundir minérios ou assar alimentos
 
-    elif nome_construcao == 'Biblioteca':
-        mostrar_texto_gradualmente("Entre as estantes empoeiradas, você descobre novas receitas!", Fore.BLUE)
-        # Desbloquear novas receitas para o jogador
+    elif nome_construcao == 'Biblioteca': # Feito
+        # Revela todas as receitas para o jogador
+        utilizar_biblioteca(cursor)
 
-    elif nome_construcao == 'Portal do Nether':
+    elif nome_construcao == 'Portal do Nether': # Feito
+        # Teleporta o jogador para a dimensão do Nether
         usar_portal_do_nether(connection, cursor, nomeUser)
 
-    elif nome_construcao == 'Portal de Viagem':
-        cursor.execute("""
-            UPDATE Jogador
-            SET numero_chunk = (SELECT FLOOR(random() * 10000) + 1)  -- Exemplo: teletransporta para um chunk aleatório
-            WHERE nome = %s
-        """, (nomeUser,))
-        connection.commit()
-        # Implementar a lógica de teletransporte do jogador para um local distante aleatório
-        mostrar_texto_gradualmente("Você atravessa o portal e, num piscar de olhos, está em um lugar completamente diferente!", Fore.MAGENTA)
-        time.sleep(2)
+    elif nome_construcao == 'Portal de Viagem': # Feito
+        # Teleporta jogador para a um outro Portal de Viagem na Superfície
+        utilizar_portal_de_viagem(connection, cursor, nomeUser)
+
+    elif nome_construcao == 'Portal do Fim': # Feito
+        # Teleporta o jogador para a dimensão do Fim
+        usar_portal_do_fim(connection, cursor, nomeUser)
 
     else:
         mostrar_texto_gradualmente(f"Construção desconhecida ou não implementada: {nome_construcao}.", Fore.RED)
 
-# ---
-# Função auxiliar para utilizar o portal do Nether
+# --- Funções auxiliares ---
+
 def usar_portal_do_nether(connection, cursor, nomeUser):
     """
     Função para utilizar o Portal do Nether. Se o jogador estiver na Superfície, permite escolher um portal no Nether e viajar.
@@ -400,4 +394,201 @@ def usar_portal_do_nether(connection, cursor, nomeUser):
             time.sleep(2)
     else:
         mostrar_texto_gradualmente("Você não está em um mapa onde pode usar um portal do Nether.", Fore.RED)
+        time.sleep(2)
+
+def utilizar_casa(connection, cursor, nomeUser):
+    """
+    Função que restaura a vida e fome do jogador ao máximo e define o chunk atual como sua casa.
+    """
+    # Obter o chunk e o mapa atuais do jogador
+    cursor.execute("""
+        SELECT numero_chunk, nome_mapa
+        FROM Jogador
+        WHERE nome = %s;
+    """, (nomeUser,))
+    
+    jogador_data = cursor.fetchone()
+    
+    if not jogador_data:
+        mostrar_texto_gradualmente(f"Jogador {nomeUser} não encontrado!", Fore.RED)
+        time.sleep(2)
+        return
+    
+    numero_chunk, nome_mapa = jogador_data
+
+    # Restaurar a vida e fome do jogador
+    cursor.execute("""
+        UPDATE Jogador
+        SET vida = 20, fome = 20, casa_chunk = %s
+        WHERE nome = %s;
+    """, (numero_chunk, nomeUser))
+
+    connection.commit()
+
+    # Mensagem de feedback
+    mostrar_texto_gradualmente("Você se joga na cama, exausto, e sente sua vida e fome voltarem ao normal. Que lar aconchegante!", Fore.GREEN)
+    time.sleep(2)
+
+def utilizar_portal_de_viagem(connection, cursor, nomeUser):
+    """
+    Função que lista todos os portais de viagem na Superfície e permite ao jogador escolher um para viajar.
+    """
+    # Obter a posição atual do jogador
+    cursor.execute("""
+        SELECT numero_chunk, nome_mapa
+        FROM Jogador
+        WHERE nome = %s;
+    """, (nomeUser,))
+    
+    jogador_data = cursor.fetchone()
+    
+    if not jogador_data:
+        mostrar_texto_gradualmente(f"Jogador {nomeUser} não encontrado.", Fore.RED)
+        time.sleep(2)
+        return
+    
+    numero_chunk, nome_mapa = jogador_data
+
+    # Verificar se o jogador está na superfície
+    if nome_mapa != 'Superfície':
+        mostrar_texto_gradualmente("Os portais de viagem só funcionam na superfície.", Fore.RED)
+        time.sleep(2)
+        return
+
+    # Buscar todos os portais de viagem na superfície
+    cursor.execute("""
+        SELECT numero_chunk
+        FROM InstanciaConstruivel
+        WHERE nome_construivel = 'Portal de Viagem' AND nome_mapa = 'Superfície';
+    """)
+    
+    portais_superficie = cursor.fetchall()
+    
+    if not portais_superficie:
+        mostrar_texto_gradualmente("Não há portais de viagem disponíveis na superfície.", Fore.RED)
+        time.sleep(2)
+        return
+
+    # Exibir a lista de portais disponíveis
+    mostrar_texto_gradualmente("Portais de Viagem disponíveis na Superfície:", Fore.CYAN)
+    time.sleep(2)
+    
+    for i, portal in enumerate(portais_superficie):
+        print(f"{i + 1}. Portal no chunk {portal[0]}")
+    
+    # Perguntar ao jogador qual portal deseja usar
+    try:
+        escolha_portal = int(input("Escolha o número do portal para onde deseja viajar: ")) - 1
+        if escolha_portal < 0 or escolha_portal >= len(portais_superficie):
+            mostrar_texto_gradualmente("Escolha inválida.", Fore.RED)
+            time.sleep(2)
+            return
+        destino_chunk = portais_superficie[escolha_portal][0]
+    except (ValueError, IndexError):
+        mostrar_texto_gradualmente("Entrada inválida. Tente novamente.", Fore.RED)
+        time.sleep(2)
+        return
+
+    # Teleportar o jogador para o portal escolhido
+    cursor.execute("""
+        UPDATE Jogador
+        SET numero_chunk = %s
+        WHERE nome = %s;
+    """, (destino_chunk, nomeUser))
+    
+    connection.commit()
+
+    # Exibir a mensagem de sucesso
+    mostrar_texto_gradualmente("Você atravessa o portal e, num piscar de olhos, está em um lugar completamente diferente!", Fore.MAGENTA)
+    time.sleep(2)
+
+def utilizar_biblioteca(cursor):
+    """
+    Exibe todas as receitas de itens disponíveis no jogo.
+    """
+    # Mostrar mensagem ao usar a biblioteca
+    mostrar_texto_gradualmente("Entre as estantes empoeiradas, você descobre novas receitas!", Fore.BLUE)
+    time.sleep(2)
+
+    # Consultar todas as receitas na tabela ReceitaItem
+    cursor.execute("""
+        SELECT nome_item, item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8, item_9, quantidade
+        FROM ReceitaItem;
+    """)
+    
+    receitas = cursor.fetchall()
+
+    # Exibir cada receita no formato solicitado
+    for receita in receitas:
+        nome_item = receita[0]
+        quantidade = receita[10]
+        ingredientes = receita[1:10]  # Pegando os itens da receita
+        
+        print(f"{Fore.GREEN}Item: {nome_item}{Style.RESET_ALL}")
+        print(f"Receita:")
+        
+        ingredientes_contados = {}
+        # Contar a quantidade de cada ingrediente
+        for ingrediente in ingredientes:
+            if ingrediente:
+                if ingrediente in ingredientes_contados:
+                    ingredientes_contados[ingrediente] += 1
+                else:
+                    ingredientes_contados[ingrediente] = 1
+        
+        # Exibir os ingredientes com suas quantidades
+        for ingrediente, qtd in ingredientes_contados.items():
+            print(f"   - {qtd}x {ingrediente}")
+
+        print(f"{Fore.YELLOW}Quantidade produzida: {quantidade}{Style.RESET_ALL}")
+        print(f"{Fore.CYAN}-------------------------------{Style.RESET_ALL}")
+
+    input(f"{Fore.CYAN}\nPressione Enter para voltar...{Style.RESET_ALL}")
+
+def usar_portal_do_fim(connection, cursor, nomeUser):
+    """
+    Teleporta o jogador para um chunk aleatório de bioma 'Ilha do Fim' no mapa 'Fim' após confirmação.
+    """
+    # Descrever o portal com um ar de fim de jogo
+    mostrar_texto_gradualmente("Você encara o Portal do Fim, irradiando uma aura enigmática e poderosa.", Fore.MAGENTA)
+    time.sleep(1)
+    mostrar_texto_gradualmente("Dentro dele, fragmentos de estrelas parecem brilhar, como se o próprio universo o estivesse observando.", Fore.MAGENTA)
+    time.sleep(1)
+    mostrar_texto_gradualmente("Será esse o Fim?", Fore.MAGENTA)
+    time.sleep(2)
+    
+    # Perguntar se o jogador tem certeza
+    resposta = input("Deseja atravessar o Portal do Fim? (s/n): ").strip().lower()
+    if resposta != 's':
+        mostrar_texto_gradualmente("Você decide esperar um pouco mais... O Fim pode esperar.", Fore.YELLOW)
+        time.sleep(2)
+        return
+    
+    # Teleportar o jogador para um chunk aleatório do bioma 'Ilha do Fim' no mapa 'Fim'
+    cursor.execute("""
+        SELECT numero
+        FROM Chunk
+        WHERE nome_mapa = 'Fim' AND nome_bioma = 'Ilha do Fim'
+        ORDER BY random()
+        LIMIT 1;
+    """)
+    
+    chunk_fim = cursor.fetchone()
+    
+    if chunk_fim:
+        novo_chunk = chunk_fim[0]
+        cursor.execute("""
+            UPDATE Jogador
+            SET nome_mapa = 'Fim', numero_chunk = %s
+            WHERE nome = %s;
+        """, (novo_chunk, nomeUser))
+        
+        connection.commit()
+        
+        mostrar_texto_gradualmente("Com um profundo suspiro, você atravessa o portal...", Fore.MAGENTA)
+        time.sleep(1)
+        mostrar_texto_gradualmente("Ao seu redor, o vazio se estende e o Fim se revela diante de você...,", Fore.MAGENTA)
+        time.sleep(2)
+    else:
+        mostrar_texto_gradualmente("Parece que o Portal do Fim está inativo... Tente novamente mais tarde.", Fore.RED)
         time.sleep(2)

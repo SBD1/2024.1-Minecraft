@@ -163,7 +163,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             comer(connection, cursor, nomeUser, nomeItem)
             break
 
-        elif acao == "utilizar_item" and parametros:  # Apenas Mapa
+        elif acao == "utilizar_item" and parametros:  # Parcialmente feito
             limpar_tela()
             nomeItem = formatar_nome_item(' '.join(parametros))
             utilizar_item(connection, cursor, nomeUser, nomeItem)
@@ -181,13 +181,13 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             craftar_item(connection, cursor, nomeUser, nome_item)
             break
 
-        elif acao == "equipar_armadura" and parametros:
+        elif acao == "equipar_armadura" and parametros: # Feito
             limpar_tela()
             nome_item = formatar_nome_item(' '.join(parametros))
             equipar_armadura(connection, cursor, nomeUser, nome_item)
             break
 
-        elif acao == "remover_armadura" and parametros:
+        elif acao == "remover_armadura" and parametros: # Feito
             limpar_tela()
             slot = ' '.join(parametros).lower()
             remover_armadura(connection, cursor, nomeUser, slot)
@@ -239,13 +239,13 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
             construir_construcao(connection, cursor, nomeUser, nome_construcao)
             break
 
-        elif acao == "utilizar_construcao" and parametros: # Apenas Portal do Nether
+        elif acao == "utilizar_construcao" and parametros: # Parcialmente feito
             limpar_tela()
             nome_construcao = formatar_nome_item(' '.join(parametros))
             utilizar_construcao(connection, cursor, nomeUser, nome_construcao)
             break
 
-        elif acao == "explorar_estrutura" and parametros:
+        elif acao == "explorar_estrutura" and parametros: # Feito
             limpar_tela()
             nome_estrutura = formatar_nome_item(parametros[0])
             explorar_estrutura(connection, cursor, nomeUser, nome_estrutura)

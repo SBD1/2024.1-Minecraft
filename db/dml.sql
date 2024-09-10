@@ -16129,7 +16129,8 @@ VALUES
     ('Fornalha', 'O coração quente da sua casa, onde você pode assar batatas ou fundir ferro, o que vier primeiro. Essencial para cozinhar alimentos e processar minérios.'),
     ('Biblioteca', 'Um cantinho tranquilo repleto de conhecimento. A biblioteca desbloqueia as receitas dos itens disponíveis.'),
     ('Portal do Nether', 'Um portal para o inferno. Literalmente. Transporta você para o Nether, entre por sua conta e risco.'),
-    ('Portal de Viagem', 'Como um Enderman, este portal permite teleportar-se magicamente. Use-o para explorar novas áreas. Cuidado com os destinos inesperados!');
+    ('Portal de Viagem', 'Como um Enderman, este portal permite teleportar-se magicamente. Use-o para explorar novas áreas. Cuidado com os destinos inesperados!'),
+    ('Portal do Fim', 'O destino final da sua jornada. Este portal irradia mistério e poder. Só os mais corajosos atravessam, será o fim, ou o início de algo maior?');
 
 -- Tabela Receita Construivel
 INSERT INTO ReceitaConstruivel (nome_construivel, item, quantidade)
@@ -16226,16 +16227,20 @@ VALUES
         ('Botas de Ferro', 10),
         ('Barras de Ferro', null),
         ('Barras de Ferro', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null),
-        ('Obsidiana', null);
+        ('Porta', null),
+        ('Cama', null),
+        ('Vidro', null),
+        ('Vidro', null),
+        ('Vidro', null),
+        ('Vidro', null),
+        ('Madeira', null),
+        ('Madeira', null),
+        ('Madeira', null),
+        ('Madeira', null),
+        ('Madeira', null),
+        ('Madeira', null),
+        ('Madeira', null),
+        ('Madeira', null);
 
 -- Tabela Inventario
 INSERT INTO Inventario (id_inst_item, id_inventario)
@@ -16285,7 +16290,11 @@ VALUES
         (43, 1),
         (44, 1),
         (45, 1),
-        (46, 1);
+        (46, 1),
+        (47, 1),
+        (48, 1),
+        (49, 1),
+        (50, 1);
 
 -- Inserindo Mobs
 

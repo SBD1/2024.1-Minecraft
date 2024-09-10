@@ -504,3 +504,35 @@ BEGIN
     END LOOP;
 END
 $$;
+
+-- Portal do Fim
+DO
+$$
+DECLARE
+    chunk_fortaleza INT; -- Declaração da variável para armazenar o número do chunk da fortaleza
+    rand_num FLOAT;
+BEGIN
+    -- Tentar encontrar um chunk com a estrutura "Fortaleza do Fim" no bioma "Fortaleza"
+    SELECT numero INTO chunk_fortaleza
+    FROM Chunk
+    WHERE nome_bioma = 'Fortaleza' AND EXISTS (
+        SELECT 1 FROM InstanciaEstrutura 
+        WHERE nome_estrutura = 'Fortaleza do Fim' 
+        AND Chunk.numero = InstanciaEstrutura.numero_chunk
+    )
+    LIMIT 1;
+
+    -- Se encontrar, insere o portal do fim nesse chunk
+    IF chunk_fortaleza IS NOT NULL THEN
+        CALL inserir_inst_construivel('Portal do Fim', chunk_fortaleza, 'Cavernas');
+    ELSE
+        -- Se não encontrar uma fortaleza, insere o portal em qualquer chunk de bioma "Fortaleza"
+        SELECT numero INTO chunk_fortaleza
+        FROM Chunk
+        WHERE nome_bioma = 'Fortaleza'
+        LIMIT 1;
+
+        CALL inserir_inst_construivel('Portal do Fim', chunk_fortaleza, 'Cavernas');
+    END IF;
+END
+$$;
