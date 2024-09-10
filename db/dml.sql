@@ -16335,7 +16335,7 @@ VALUES
         CALL inserir_mob('Dragão Ender', 'agressivo', TRUE, 7, 200);
         CALL inserir_mob('Wither', 'agressivo', TRUE, 5, 300);
         CALL inserir_mob('Warden', 'agressivo', TRUE, 12, 500);
-        CALL inserir_mob('Herobrine', 'agressivo', TRUE, 999, 999);
+        -- CALL inserir_mob('Herobrine', 'agressivo', TRUE, 999, 999);
 
 -- Tabela Estrutura
 INSERT INTO Estrutura (nome, probabilidade)
