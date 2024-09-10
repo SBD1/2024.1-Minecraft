@@ -225,7 +225,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
         elif acao == "falar" and parametros:
             limpar_tela()
             nome_aldeao = formatar_nome_item(' '.join(parametros))
-            falar_aldeao(connection, cursor, nomeUser, nome_aldeao) # Placeholder para quando a função estiver pronta
+            # falar_aldeao(connection, cursor, nomeUser, nome_aldeao) # Placeholder para quando a função estiver pronta
             break
 
         elif acao == "ver_construcoes": # Feito
@@ -392,17 +392,24 @@ def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
         
         # Verifica se o jogador morreu
         if nova_vida <= 0:
-            # Buscar o `casa_chunk` do jogador
-            cursor.execute("SELECT casa_chunk FROM Jogador WHERE nome = %s;", (nomeUser,))
-            casa_chunk = cursor.fetchone()[0]
+            # Buscar o `casa_chunk` e o mapa atual do jogador
+            cursor.execute("SELECT casa_chunk, nome_mapa FROM Jogador WHERE nome = %s;", (nomeUser,))
+            jogador_data = cursor.fetchone()
+            casa_chunk, mapa_atual = jogador_data
 
             if casa_chunk is not None:
+                # Verificar se o jogador está em um mapa diferente da superfície
+                if mapa_atual != "Superfície":
+                    novo_mapa = "Superfície"
+                else:
+                    novo_mapa = mapa_atual  # Se já estiver na superfície, mantém o mapa
+
                 # Ressuscitar o jogador na casa, com vida e fome máximas
                 cursor.execute("""
                     UPDATE Jogador
-                    SET numero_chunk = %s, fome = 20, vida = 20
+                    SET numero_chunk = %s, nome_mapa = %s, fome = 20, vida = 20
                     WHERE nome = %s;
-                """, (casa_chunk, nomeUser))
+                """, (casa_chunk, novo_mapa, nomeUser))
                 connection.commit()
 
                 mostrar_texto_gradualmente(f"Você desmaiou de fome... mas acordou milagrosamente em sua casa!", Fore.GREEN)
@@ -412,6 +419,7 @@ def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
                 time.sleep(2)
 
             return  # Encerrar o movimento se o jogador morrer e ressuscitar
+
 
     else:
         # Se a fome for maior que 0, recuperar 1 de vida (até o máximo de 20)

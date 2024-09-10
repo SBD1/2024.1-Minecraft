@@ -241,25 +241,33 @@ def atacar_mob(connection, cursor, nomeUser, nomeMob, nomeFerramenta, estaEmEstr
 
                 # Reviver o jogador em sua casa
                 cursor.execute("""
-                    SELECT casa_chunk FROM Jogador WHERE nome = %s;
+                    SELECT casa_chunk, nome_mapa FROM Jogador WHERE nome = %s;
                 """, (nomeUser,))
-                casa_chunk = cursor.fetchone()[0]
+                jogador_data = cursor.fetchone()
+                casa_chunk, mapa_atual = jogador_data
 
-                # Atualiza o jogador para sua casa e restaura a vida e fome ao máximo
+                # Verificar se o jogador está em um mapa que não seja a superfície
+                if mapa_atual != "Superfície":
+                    novo_mapa = "Superfície"
+                else:
+                    novo_mapa = mapa_atual 
+
+                # Atualiza o jogador para sua casa, coloca no mapa da superfície e restaura a vida e fome ao máximo
                 cursor.execute("""
                     UPDATE Jogador
                     SET numero_chunk = %s,
+                        nome_mapa = %s,
                         vida = 20,
                         fome = 20
                     WHERE nome = %s;
-                """, (casa_chunk, nomeUser))
+                """, (casa_chunk, novo_mapa, nomeUser))
+
                 connection.commit()
 
                 mostrar_texto_gradualmente(f"Você desmaiou e foi resgatado em sua casa. Sua vida e fome foram restauradas.", Fore.GREEN)
                 time.sleep(2)
                 return "morreu"
 
-                
             else:
                 mostrar_texto_gradualmente(f"Sua vida agora é {vida_jogador}.", Fore.YELLOW)
                 time.sleep(1.5)
