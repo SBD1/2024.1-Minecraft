@@ -67,7 +67,7 @@ A jornada culmina na busca pelo Ender Dragon, o chefe final do jogo, localizado 
 - Módulo 3
     - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_3/dml_inst/" target="_blank">dml_inst</a>
     - <a href="https://sbd1.github.io/2024.1-Minecraft/modulo_3/tigger_sp/" target="_blank">tigger_sp</a>
-    - <a href="" target="_blank">Apresentação do Módulo 3</a>
+    - <a href="https://youtu.be/A-Yp4WM3u9A" target="_blank">Apresentação do Módulo 3</a>
  
 # <img src="gitpages/docs/assets/images/encant.png" alt="Ícone do Minecraft" width="30" style="margin-bottom: -7px;"> Como Rodar o Jogo
 
