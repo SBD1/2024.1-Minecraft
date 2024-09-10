@@ -352,7 +352,9 @@ def calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual):
 def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
     """
     Move o jogador para um novo chunk com base na direção escolhida,
-    reduz a fome em 1 pontos e, se a fome for zero, tira 1 de vida.
+    reduz a fome em 1 ponto e, se a fome for zero, tira 1 de vida.
+    Se a fome for maior que 0, recupera 1 ponto de vida até o máximo de 20.
+    Se o jogador morrer, ele ressuscita em casa, com fome e vida no máximo.
     """
 
     novo_chunk = movimentos.get(direcao)
@@ -362,7 +364,7 @@ def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
     mensagem = cursor.fetchone()[0]  # Captura o valor TEXT retornado pela função
     connection.commit()
 
-    # Reduzir a fome do jogador em 1 pontos, garantindo que não fique menor que 0
+    # Reduzir a fome do jogador em 1 ponto, garantindo que não fique menor que 0
     cursor.execute("""
         UPDATE Jogador
         SET fome = GREATEST(fome - 1, 0)  -- GREATEST garante que o valor nunca seja menor que 0
@@ -390,10 +392,41 @@ def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
         
         # Verifica se o jogador morreu
         if nova_vida <= 0:
-            mostrar_texto_gradualmente(f"Você desmaiou de fome e não resistiu... Você morreu!", Fore.RED)
-            # Aqui você pode colocar a lógica para remover o jogador ou encerrar o jogo, se necessário
-            connection.commit()
-            return  # Encerrar o movimento se o jogador morrer
+            # Buscar o `casa_chunk` do jogador
+            cursor.execute("SELECT casa_chunk FROM Jogador WHERE nome = %s;", (nomeUser,))
+            casa_chunk = cursor.fetchone()[0]
+
+            if casa_chunk is not None:
+                # Ressuscitar o jogador na casa, com vida e fome máximas
+                cursor.execute("""
+                    UPDATE Jogador
+                    SET numero_chunk = %s, fome = 20, vida = 20
+                    WHERE nome = %s;
+                """, (casa_chunk, nomeUser))
+                connection.commit()
+
+                mostrar_texto_gradualmente(f"Você desmaiou de fome... mas acordou milagrosamente em sua casa!", Fore.GREEN)
+                time.sleep(2)
+            else:
+                mostrar_texto_gradualmente(f"Você morreu e não possui uma casa definida!", Fore.RED)
+                time.sleep(2)
+
+            return  # Encerrar o movimento se o jogador morrer e ressuscitar
+
+    else:
+        # Se a fome for maior que 0, recuperar 1 de vida (até o máximo de 20)
+        if vida_atual < 20:
+            cursor.execute("""
+                UPDATE Jogador
+                SET vida = LEAST(vida + 1, 20)  -- LEAST garante que o valor máximo seja 20
+                WHERE nome = %s
+                RETURNING vida;
+            """, (nomeUser,))
+            
+            nova_vida = cursor.fetchone()[0]
+
+            # Mostrar mensagem de recuperação de vida
+            mostrar_texto_gradualmente(f"Você recuperou energia após a caminhada. Sua vida agora é {nova_vida}.", Fore.GREEN)
 
     connection.commit()
 
@@ -401,6 +434,7 @@ def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
     mostrar_texto_gradualmente(mensagem, Fore.GREEN)
     time.sleep(1.5)
     
+    # Mensagens dependendo do nível de fome
     if nova_fome > 10:
         mostrar_texto_gradualmente(f"Você andou mais um pouco, sentindo-se revigorado!", Fore.YELLOW)
     elif nova_fome > 5:
