@@ -349,10 +349,6 @@ def usar_portal_do_nether(connection, cursor, nomeUser):
                 mostrar_texto_gradualmente("Entrada inválida. Tente novamente.", Fore.RED)
                 return
             
-            # PRINT REMOVER
-            print(destino_chunk)
-            time.sleep(5)
-            
             # Teleportar o jogador para o Nether, para o portal escolhido
             cursor.execute("""
                 UPDATE Jogador
