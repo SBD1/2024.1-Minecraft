@@ -162,6 +162,10 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
 
         durabilidade_atual = cursor.fetchone()[0]
         
+        # Informar sobre a perda de durabilidade
+        mostrar_texto_gradualmente(f"Sua {ferramenta_nome} perdeu {DURABILIDADE_PERDIDA} ponto(s) de durabilidade. Durabilidade atual: {durabilidade_atual}.", Fore.LIGHTBLUE_EX)
+        time.sleep(2)
+        
         if durabilidade_atual <= 0:
             # Remover ferramenta quebrada do inventário e tabela InstanciaItem
             cursor.execute("""
@@ -190,6 +194,7 @@ def minerar_fonte(connection, cursor, nomeUser, nomeFonte):
         time.sleep(3)
 
     connection.commit()
+    input(f"{Fore.CYAN}Pressione Enter para continuar o jogo...{Fore.RESET}")
 
 # Comando: Craftar Item
 def craftar_item(connection, cursor, nomeUser, nomeItem):
@@ -568,7 +573,7 @@ def usar_portal_do_fim(connection, cursor, nomeUser):
     cursor.execute("""
         SELECT numero
         FROM Chunk
-        WHERE nome_mapa = 'Fim' AND nome_bioma = 'Ilha do Fim'
+        WHERE nome_mapa = 'Fim' AND nome_bioma = 'Ilha do fim'
         ORDER BY random()
         LIMIT 1;
     """)

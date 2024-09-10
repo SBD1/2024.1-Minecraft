@@ -3,7 +3,7 @@ from ..utils.helpers import mostrar_texto_gradualmente, limpar_tela, mostrar_bio
 from colorama import Fore
 from ..game.combat import atacar_mob
 from ..game.environment_actions import ver_mob, minerar_fonte, craftar_item, construir_construcao, utilizar_construcao
-from ..game.player_actions import visualizar_inventario, comer, utilizar_item, ver_construcoes, equipar_armadura, remover_armadura
+from ..game.player_actions import visualizar_inventario, comer, utilizar_item, ver_construcoes, equipar_armadura, remover_armadura, explorar_estrutura
 
 # Função principal do jogo
 def jogar(connection, cursor, nomeUser):
@@ -225,7 +225,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
         elif acao == "falar" and parametros:
             limpar_tela()
             nome_aldeao = formatar_nome_item(' '.join(parametros))
-            falar_aldeao(connection, cursor, nomeUser, nome_aldeao) # Placeholder para quando a função estiver pronta
+            # falar_aldeao(connection, cursor, nomeUser, nome_aldeao) # Placeholder para quando a função estiver pronta
             break
 
         elif acao == "ver_construcoes": # Feito
@@ -247,7 +247,7 @@ def processar_comando(connection, cursor, nomeUser, movimentos):
 
         elif acao == "explorar_estrutura" and parametros: # Feito
             limpar_tela()
-            nome_estrutura = formatar_nome_item(parametros[0])
+            nome_estrutura = formatar_nome_item(' '.join(parametros))
             explorar_estrutura(connection, cursor, nomeUser, nome_estrutura)
             break
 
@@ -351,17 +351,106 @@ def calcular_movimentos_possiveis(cursor, chunkAtual, mapaAtual):
 # Função para mover o jogador
 def mover_jogador(connection, cursor, nomeUser, direcao, movimentos):
     """
-    Move o jogador para um novo chunk com base na direção escolhida.
+    Move o jogador para um novo chunk com base na direção escolhida,
+    reduz a fome em 1 ponto e, se a fome for zero, tira 1 de vida.
+    Se a fome for maior que 0, recupera 1 ponto de vida até o máximo de 20.
+    Se o jogador morrer, ele ressuscita em casa, com fome e vida no máximo.
     """
 
     novo_chunk = movimentos.get(direcao)
     
+    # Mover o jogador para o novo chunk
     cursor.execute("SELECT mover_jogador(%s, %s, %s);", (nomeUser, direcao, novo_chunk))
     mensagem = cursor.fetchone()[0]  # Captura o valor TEXT retornado pela função
     connection.commit()
 
+    # Reduzir a fome do jogador em 1 ponto, garantindo que não fique menor que 0
+    cursor.execute("""
+        UPDATE Jogador
+        SET fome = GREATEST(fome - 1, 0)  -- GREATEST garante que o valor nunca seja menor que 0
+        WHERE nome = %s
+        RETURNING fome, vida;
+    """, (nomeUser,))
+    
+    jogador_status = cursor.fetchone()
+    nova_fome = jogador_status[0]  # Nova fome após a redução
+    vida_atual = jogador_status[1]  # Vida atual do jogador
+
+    # Se a fome for 0, reduzir 1 de vida
+    if nova_fome == 0:
+        cursor.execute("""
+            UPDATE Jogador
+            SET vida = GREATEST(vida - 1, 0)  -- Reduz a vida e garante que não fique abaixo de 0
+            WHERE nome = %s
+            RETURNING vida;
+        """, (nomeUser,))
+        
+        nova_vida = cursor.fetchone()[0]
+
+        # Mensagem de fome zero e vida sendo reduzida
+        mostrar_texto_gradualmente(f"Você está morrendo de fome... Cada passo rouba sua energia vital. Sua vida agora é {nova_vida}.", Fore.RED)
+        
+        # Verifica se o jogador morreu
+        if nova_vida <= 0:
+            # Buscar o `casa_chunk` e o mapa atual do jogador
+            cursor.execute("SELECT casa_chunk, nome_mapa FROM Jogador WHERE nome = %s;", (nomeUser,))
+            jogador_data = cursor.fetchone()
+            casa_chunk, mapa_atual = jogador_data
+
+            if casa_chunk is not None:
+                # Verificar se o jogador está em um mapa diferente da superfície
+                if mapa_atual != "Superfície":
+                    novo_mapa = "Superfície"
+                else:
+                    novo_mapa = mapa_atual  # Se já estiver na superfície, mantém o mapa
+
+                # Ressuscitar o jogador na casa, com vida e fome máximas
+                cursor.execute("""
+                    UPDATE Jogador
+                    SET numero_chunk = %s, nome_mapa = %s, fome = 20, vida = 20
+                    WHERE nome = %s;
+                """, (casa_chunk, novo_mapa, nomeUser))
+                connection.commit()
+
+                mostrar_texto_gradualmente(f"Você desmaiou de fome... mas acordou milagrosamente em sua casa!", Fore.GREEN)
+                time.sleep(2)
+            else:
+                mostrar_texto_gradualmente(f"Você morreu e não possui uma casa definida!", Fore.RED)
+                time.sleep(2)
+
+            return  # Encerrar o movimento se o jogador morrer e ressuscitar
+
+
+    else:
+        # Se a fome for maior que 0, recuperar 1 de vida (até o máximo de 20)
+        if vida_atual < 20:
+            cursor.execute("""
+                UPDATE Jogador
+                SET vida = LEAST(vida + 1, 20)  -- LEAST garante que o valor máximo seja 20
+                WHERE nome = %s
+                RETURNING vida;
+            """, (nomeUser,))
+            
+            nova_vida = cursor.fetchone()[0]
+
+            # Mostrar mensagem de recuperação de vida
+            mostrar_texto_gradualmente(f"Você recuperou energia após a caminhada. Sua vida agora é {nova_vida}.", Fore.GREEN)
+
+    connection.commit()
+
+    # Mostrar a mensagem de movimento e a nova fome do jogador
     mostrar_texto_gradualmente(mensagem, Fore.GREEN)
-    time.sleep(2)
+    time.sleep(1.5)
+    
+    # Mensagens dependendo do nível de fome
+    if nova_fome > 10:
+        mostrar_texto_gradualmente(f"Você andou mais um pouco, sentindo-se revigorado!", Fore.YELLOW)
+    elif nova_fome > 5:
+        mostrar_texto_gradualmente(f"Após a caminhada, seu estômago começa a roncar... Talvez seja hora de comer algo.", Fore.YELLOW)
+    elif nova_fome > 0:
+        mostrar_texto_gradualmente(f"Você sente uma fome crescente... cada passo é mais difícil. Comida é urgente!", Fore.RED)
+
+    time.sleep(4)
 
 
 def exibir_ajuda():
@@ -381,7 +470,7 @@ def exibir_ajuda():
     print(f"{Fore.YELLOW}equipar_armadura <nomeItem>{Fore.RESET}: para equipar uma armadura")
     print(f"{Fore.YELLOW}remover_armadura <parteCorpo>{Fore.RESET}: para remover uma armadura")
     print(f"{Fore.YELLOW}atacar_mob <nomeMob> <nomeFerramenta>{Fore.RESET}: para atacar um mob com uma ferramenta")
-    print(f"{Fore.YELLOW}falar <NomeAldeão>{Fore.RESET}: para interagir com um Aldeão")
+    # print(f"{Fore.YELLOW}falar <NomeAldeão>{Fore.RESET}: para interagir com um Aldeão")
     print(f"{Fore.YELLOW}ver_construcoes{Fore.RESET}: para ver construcoes e suas receitas")
     print(f"{Fore.YELLOW}construir <NomeConstrucao>{Fore.RESET}: para construir uma estrutura")
     print(f"{Fore.YELLOW}utilizar_construcao <NomeConstrucao>{Fore.RESET}: para utilizar uma estrutura construída")

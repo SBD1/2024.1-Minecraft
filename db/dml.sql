@@ -16568,6 +16568,6 @@ VALUES
 -- Agendamento da stored procedure para rodar a cada 10 minutos
 SELECT cron.schedule(
     'atualizar_ciclo_dia_job',
-    '*/1 * * * *',
+    '*/10 * * * *',
     $$ CALL atualizar_ciclo_dia(); $$
 );

@@ -536,3 +536,24 @@ BEGIN
     END IF;
 END
 $$;
+
+--  Dragão do Fim
+
+DO
+$$
+DECLARE
+    chunk_ilha_fim INT; -- Variável para armazenar o número do chunk da Ilha do Fim
+BEGIN
+    -- Selecionar um chunk aleatório do bioma "Ilha do Fim" no mapa "Fim"
+    SELECT numero INTO chunk_ilha_fim
+    FROM Chunk
+    WHERE nome_bioma = 'Ilha do fim' AND nome_mapa = 'Fim'
+    ORDER BY random() -- Escolher aleatoriamente
+    LIMIT 1;
+
+    -- Inserir o Dragão do Fim no chunk selecionado
+    IF chunk_ilha_fim IS NOT NULL THEN
+        CALL inserir_inst_mob('Dragão Ender', 200, chunk_ilha_fim, 'Fim', NULL);
+    END IF;
+END
+$$;
