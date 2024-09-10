@@ -1,0 +1,1932 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../modeloRelacional/">
+      
+      
+        <link rel="next" href="../../modulo_2/algebra_relacional/">
+      
+      
+      <link rel="icon" href="../../assets/icons/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+    
+    
+      
+        <title>Dicionário de Dados - Minecraft</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dicionario-de-dados" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Minecraft" class="md-header__button md-logo" aria-label="Minecraft" data-md-component="logo">
+      
+  <img src="../../assets/icons/favicon.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Minecraft
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Dicionário de Dados
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="Modo Escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo Escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="light-green"  aria-label="Modo Claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo Claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 2c-1.05 0-2.05.16-3 .46 4.06 1.27 7 5.04 7 9.54s-2.94 8.27-7 9.54c.95.3 1.95.46 3 .46a10 10 0 0 0 10-10A10 10 0 0 0 9 2"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SBD1/2024.1-Minecraft" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    2024.1-Minecraft
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Minecraft" class="md-nav__button md-logo" aria-label="Minecraft" data-md-component="logo">
+      
+  <img src="../../assets/icons/favicon.svg" alt="logo">
+
+    </a>
+    Minecraft
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SBD1/2024.1-Minecraft" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    2024.1-Minecraft
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apresentacoes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Apresentações
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Módulo 1 - Modelagem
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Módulo 1 - Modelagem
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../der/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Diagrama Entidade-Relacionamento
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modeloRelacional/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modelo Relacional
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Dicionário de Dados
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Dicionário de Dados
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introdução
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Módulo 2 - SQL
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Módulo 2 - SQL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../modulo_2/algebra_relacional/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Álgebra Relacional
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../modulo_2/ddl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DDL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../modulo_2/dml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DML
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../modulo_2/dql/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Módulo 3 - Transactions, Triggers e Stored Procedures
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Módulo 3 - Transactions, Triggers e Stored Procedures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../modulo_3/dml_inst/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    dml_inst
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../modulo_3/tigger_sp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    tigger_sp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introdução
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="dicionario-de-dados">Dicionário de dados</h1>
+<h2 id="introducao">Introdução</h2>
+<p>O Dicionário de Dados é uma descrição detalhada dos elementos que compõem o banco de dados, fornecendo informações sobre cada atributo e suas características. Ele serve como uma referência centralizada para desenvolvedores, administradores e usuários, garantindo uma compreensão clara dos dados armazenados e de como devem ser utilizados.</p>
+<p>O dicionário de dados desse projeto inclui as seguintes colunas:</p>
+<ul>
+<li><strong>Nome:</strong> O nome do atributo no banco de dados.</li>
+<li><strong>Descrição:</strong> Uma descrição detalhada do que o atributo ou entidade representa e sua função no contexto do jogo.</li>
+<li><strong>Tipo de Dado:</strong> O tipo de dado que o atributo armazenará, como inteiro, texto, data, etc.</li>
+<li><strong>Tamanho:</strong> O comprimento máximo ou a capacidade do dado.</li>
+<li><strong>Restrições de Domínio:</strong> As regras e restrições que limitam os valores que o atributo pode assumir, como valores possíveis, valores obrigatórios, ou restrições de unicidade.</li>
+</ul>
+<p>A seguir, apresentamos o dicionário de dados completo.</p>
+<h1 id="dicionario-de-dados_1">Dicionário de Dados</h1>
+<h1 id="dicionario-de-dados_2">Dicionário de Dados</h1>
+<h2 id="tabelas-entidade">Tabelas Entidade</h2>
+<h3 id="mapa"><a href="#mapa">Mapa</a></h3>
+<p>A entidade <a href="#mapa">Mapa</a> descreve o mundo do MUD. Essa entidade é identificada pelo seu nome, além disso, ela possui um atributo hora, representando o ciclo de dia e noite dentro do jogo.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome</td>
+<td style="text-align: center;">Nome único que identifica o mapa.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">hora</td>
+<td style="text-align: center;">Representa o ciclo de dia e noite no jogo.</td>
+<td style="text-align: center;">ciclo_dia</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="chunk"><a href="#chunk">Chunk</a></h3>
+<p>A entidade <a href="#chunk">Chunk</a> representa os blocos que compõem o <a href="#mapa">mapa</a>. O mapa é estruturado como uma matriz, onde cada chunk corresponde a uma célula. Chunks são identificados por um número sequencial, que varia de 0 até o tamanho total do mapa, numerados da esquerda superior para a direita inferior. Além disso, cada chunk está associado a um <a href="#bioma">bioma</a> específico e possui um identificador que o vincula ao nome do <a href="#mapa">mapa</a> ao qual pertence. A entidade Chunk é uma das entidades centrais do jogo pois serve como ponto de interseção entre várias outras entidades, estabelecendo conexões importantes dentro da estrutura do jogo.</p>
+<ul>
+<li><strong>Observação</strong>: Essa tabela possui chave estrangeira para a entidade <a href="#mapa">Mapa</a> e <a href="#bioma">Bioma</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">numero</td>
+<td style="text-align: center;">Número sequencial que identifica o chunk.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_bioma</td>
+<td style="text-align: center;">Nome do bioma ao qual o chunk pertence.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_mapa</td>
+<td style="text-align: center;">Nome do mapa ao qual o chunk pertence.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">PRIMARY KEY</td>
+<td style="text-align: center;">(numero, nome_mapa)</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<h3 id="construivel"><a href="#construivel">Construível</a></h3>
+<p>A entidade <a href="#construivel">Construível</a> descreve estruturas construíveis pelo <a href="#jogador">jogador</a>. Essas estruturas são identificadas por um nome específico, possuem uma receita de construção própria e desempenham uma funcionalidade particular dentro do jogo.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome</td>
+<td style="text-align: center;">Nome único que identifica o construível.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">descricao</td>
+<td style="text-align: center;">Receita da construção.</td>
+<td style="text-align: center;">TEXT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="item"><a href="#item">Item</a></h3>
+<p>A entidade <a href="#item">Item</a> descreve todos os itens disponíveis no jogo. Todos os itens podem ser identificados pelo seu nome único, e cada item pode ser especializado em <a href="#material">Material</a>, <a href="#craftavel">Craftável</a> e <a href="#alimento">Alimento</a>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome</td>
+<td style="text-align: center;">Nome único que identifica o item.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">tipo_item</td>
+<td style="text-align: center;">Tipo de especialização do item</td>
+<td style="text-align: center;">tipo_item</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="alimento"><a href="#alimento">Alimento</a></h3>
+<p>A entidade <a href="#alimento">Alimento</a> refere-se aos itens consumíveis do jogo, que restauram pontos de fome do <a href="#jogador">jogador</a> ao serem ingeridos. Esses itens podem ser obtidos por meio de drops de <a href="#mob">mobs</a> ou pela exploração de <a href="#fonte">fontes</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_item</td>
+<td style="text-align: center;">Nome do item que é um alimento.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY, FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">pts_fome</td>
+<td style="text-align: center;">Indica quantos pontos de fome do jogador o alimento restaura.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="craftavel"><a href="#craftavel">Craftável</a></h3>
+<p>A entidade <a href="#craftavel">Craftável</a> descreve os itens que podem ser fabricados pelo <a href="#jogador">jogador</a> dentro do jogo. Esses itens possuem receitas específicas de fabricação e podem ser especializados em <a href="#funcional">Funcional</a>, <a href="#ferramenta-duravel">Ferramenta Durável</a> e <a href="#armadura-duravel">Armadura Durável</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_item</td>
+<td style="text-align: center;">Nome do item que é craftável.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY, FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">tipo_craftavel</td>
+<td style="text-align: center;">Tipo de especialização do item craftável.</td>
+<td style="text-align: center;">tipo_craftavel</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="funcional"><a href="#funcional">Funcional</a></h3>
+<p>A entidade <a href="#funcional">Funcional</a> representa os itens que desempenham uma funcionalidade específica. Cada item funcional possui uma função distinta e única.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#craftavel">Craftável</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_item</td>
+<td style="text-align: center;">Nome do item que é funcional.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY, FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">funcao</td>
+<td style="text-align: center;">Descreve a função específica do item.</td>
+<td style="text-align: center;">TEXT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ferramenta-duravel"><a href="#ferramenta-duravel">Ferramenta Durável</a></h3>
+<p>A entidade <a href="#ferramenta-duravel">Ferramenta Durável</a> representa os itens que os <a href="#jogador">jogadores</a> utilizam para executar diversas ações, como minerar <a href="#fonte">recursos</a> e atacar <a href="#mob">mobs</a>. As ferramentas têm uma durabilidade limitada e causam uma quantidade específica de dano quando usadas contra mobs.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#craftavel">Craftável</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_item</td>
+<td style="text-align: center;">Nome do item que é uma ferramenta.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY, FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">durabilidade_total</td>
+<td style="text-align: center;">Durabilidade total da ferramenta.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">pts_dano</td>
+<td style="text-align: center;">Pontos de dano que a ferramenta causa em mobs.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="armadura-duravel"><a href="#armadura-duravel">Armadura Durável</a></h3>
+<p>A entidade <a href="#armadura-duravel">Armadura Durável</a> representa os itens que os <a href="#jogador">jogadores</a> podem equipar para aumentar sua resistência a danos causados por <a href="#ferramenta-duravel">ferramentas</a> e <a href="#mob">mobs</a>. Assim como as ferramentas, as armaduras possuem durabilidade limitada e oferecem uma quantidade definida de pontos de armadura.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#craftavel">Craftável</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_item</td>
+<td style="text-align: center;">Nome do item que é uma armadura durável.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY, FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">pts_armadura</td>
+<td style="text-align: center;">Pontos de armadura que o item fornece ao jogador.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">durabilidade_total</td>
+<td style="text-align: center;">Durabilidade total da armadura.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="estrutura"><a href="#estrutura">Estrutura</a></h3>
+<p>A entidade <a href="#estrutura">Estrutura</a> descreve as estruturas pré-geradas no <a href="#mapa">mapa</a> do jogo. Cada <a href="#chunk">chunk</a> pode abrigar uma dessas estruturas de acordo com a sua probabilidade, que podem ser exploradas pelo jogador em busca de recompensas.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome</td>
+<td style="text-align: center;">Nome único que identifica a estrutura.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">probabilidade</td>
+<td style="text-align: center;">Probabilidade de a estrutura ser gerada em um chunk.</td>
+<td style="text-align: center;">DECIMAL(5,2)</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fonte"><a href="#fonte">Fonte</a></h3>
+<p>A entidade <a href="#fonte">Fonte</a> descreve as fontes naturais de recursos dentro do jogo. Cada fonte fornece uma quantidade máxima de <a href="#item">itens</a> específicos que podem ser minerados pelo <a href="#jogador">jogador</a> utilizando <a href="#ferramenta-duravel">ferramentas</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para a entidade <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome</td>
+<td style="text-align: center;">Nome único que identifica a fonte.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">qtd_max</td>
+<td style="text-align: center;">Quantidade máxima de itens que a fonte pode fornecer.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_item_drop</td>
+<td style="text-align: center;">Nome do item que pode ser extraído desta fonte.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bioma"><a href="#bioma">Bioma</a></h3>
+<p>A entidade <a href="#bioma">Bioma</a> descreve os diferentes biomas presentes no jogo, identificados por um nome único. O bioma determina as características específicas de cada <a href="#chunk">chunk</a> no <a href="#mapa">mapa</a>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome</td>
+<td style="text-align: center;">Nome único que identifica o bioma.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+</tbody>
+</table>
+<h3 id="inventario"><a href="#inventario">Inventário</a></h3>
+<p>A entidade <a href="#inventario">Inventário</a> representa o inventário do <a href="#jogador">jogador</a>. A tabela Inventário atua como uma tabela intermediária que resulta da relação entre jogador e item. Sendo uma entidade fraca, o inventário é identificado exclusivamente pelo ID do jogador que possui os itens nele contidos.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#jogador">Jogador</a> e <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">id_inventario</td>
+<td style="text-align: center;">Identificador referenciando o jogador que possui o item.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">id_inst_item</td>
+<td style="text-align: center;">Identificador da instância de item possuído pelo jogador.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY, UNIQUE</td>
+</tr>
+</tbody>
+</table>
+<h3 id="jogador"><a href="#jogador">Jogador</a></h3>
+<p>A entidade <a href="#jogador">Jogador</a> representa o personagem principal do jogo. Cada instância de Jogador possui um identificador único, além de diversos atributos que o caracterizam. O jogador conta com quatro atributos específicos para equipar itens de <a href="#armadura-duravel">armadura</a>. Além disso, o jogador possui chaves estrangeiras que indicam o <a href="#chunk">chunk</a> em que ele se encontra no momento e a <a href="#missao">missão</a> que está realizando.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#chunk">Chunk</a>, <a href="#missao">Missão</a> e <a href="#armadura-duravel">Armadura</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">id_jogador</td>
+<td style="text-align: center;">Identificador único do jogador.</td>
+<td style="text-align: center;">SERIAL</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome</td>
+<td style="text-align: center;">Nome do jogador.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">fome</td>
+<td style="text-align: center;">Quantidade de pontos de fome que o jogador possui em determinado instante.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">vida</td>
+<td style="text-align: center;">Quantidade de pontos de vida que o jogador possui em determinado instante.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nivel</td>
+<td style="text-align: center;">Nível que o jogador está em determinado instante.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">exp</td>
+<td style="text-align: center;">Quantidade de experiência que um jogador tem em determinado instante. Essa experiência poderá ser utilizada para reparar as ferramentas.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">cabeca</td>
+<td style="text-align: center;">Identificador da armadura equipada na cabeça.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">peito</td>
+<td style="text-align: center;">Identificador da armadura equipada no peito.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">pernas</td>
+<td style="text-align: center;">Identificador da armadura equipada nas pernas.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">pes</td>
+<td style="text-align: center;">Identificador da armadura equipada nos pés.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">numero_chunk</td>
+<td style="text-align: center;">Identificador do chunk onde o jogador está localizado.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">missao</td>
+<td style="text-align: center;">Identificador da missão atual do jogador.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY</td>
+</tr>
+</tbody>
+</table>
+<h3 id="missao"><a href="#missao">Missão</a></h3>
+<p>A entidade <a href="#missao">Missão</a> armazena a lista de missões disponíveis no jogo, que auxiliam o <a href="#jogador">jogador</a> na exploração do mundo. Cada missão é identificada por um ID único e segue uma sequência específica de missões. As missões incluem uma descrição, um objetivo, e oferecem experiência e recompensas para o jogador. As missões sequenciais são desbloqueadas e apresentadas ao jogador por meio de uma interface ao interagir com um <a href="#npc">NPC</a>, embora o NPC atue apenas como uma interface, sem qualquer relação direta com a missão em si.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para a entidade <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">id_missao</td>
+<td style="text-align: center;">Identificador único da missão.</td>
+<td style="text-align: center;">SERIAL</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome</td>
+<td style="text-align: center;">Nome da missão.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">descricao</td>
+<td style="text-align: center;">Descrição detalhada da missão.</td>
+<td style="text-align: center;">TEXT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">objetivo</td>
+<td style="text-align: center;">Objetivo que deve ser cumprido pelo jogador para completar a missão.</td>
+<td style="text-align: center;">TEXT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">exp</td>
+<td style="text-align: center;">Quantidade de experiência oferecida pela conclusão da missão.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">recompensa</td>
+<td style="text-align: center;">Recompensa fornecida ao completar a missão.</td>
+<td style="text-align: center;">TEXT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_item</td>
+<td style="text-align: center;">Identificador do item fornecido como recompensa.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mob"><a href="#mob">Mob</a></h3>
+<p>A entidade <a href="#mob">Mob</a> representa todas as entidades vivas no jogo, como inimigos e NPCs. Cada mob possui um nome único, uma vida máxima e uma probabilidade de spawn. Além disso, os mobs podem ser especializados como <a href="#agressivo">Agressivos</a> ou <a href="#pacifico">Pacíficos</a>, dependendo de seu comportamento no jogo.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome</td>
+<td style="text-align: center;">Nome único que identifica o mob.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">tipo_mob</td>
+<td style="text-align: center;">Tipo de especialização do mob.</td>
+<td style="text-align: center;">tipo_mob</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agressivo"><a href="#agressivo">Agressivo</a></h3>
+<p>A entidade <a href="#agressivo">Agressivo</a> modela os mobs com comportamento agressivo ou neutro. Mobs agressivos possuem pontos de dano que reduzem a vida do <a href="#jogador">jogador</a> quando o atacam. Esses mobs podem ser impulsivos, atacando o jogador sempre que o encontram, ou podem adotar um comportamento reativo, atacando apenas se forem provocados.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#mob">Mob</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_mob</td>
+<td style="text-align: center;">Nome do mob que é agressivo.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY, FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">impulsivo</td>
+<td style="text-align: center;">Determina o comportamento impulsivo do mob.</td>
+<td style="text-align: center;">BOOLEAN</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">pts_dano</td>
+<td style="text-align: center;">Declara a quantidade de dano que o mob causa ao jogador.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pacifico"><a href="#pacifico">Pacífico</a></h3>
+<p>A entidade <a href="#pacifico">Pacífico</a> modela os mobs com comportamento pacífico. Mobs pacíficos nunca atacam o <a href="#jogador">jogador</a> e podem ser especializados como <a href="#npc">NPC</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#mob">Mob</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_mob</td>
+<td style="text-align: center;">Nome do mob que é pacífico.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY, FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">vida_max</td>
+<td style="text-align: center;">Vida máxima do mob pacífico.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">tipo_pacifico</td>
+<td style="text-align: center;">Tipo de especialização do mob pacífico</td>
+<td style="text-align: center;">tipo_pacifico</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="npc"><a href="#npc">NPC</a></h3>
+<p>A entidade <a href="#npc">NPC</a> modela os mobs pacíficos conhecidos como Aldeões. Os Aldeões são os únicos mobs no jogo que podem oferecer <a href="#missao">missões</a>, auxiliando o jogador a progredir no fluxo do jogo.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade é uma especialização da entidade <a href="#pacifico">Pacífico</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_pacifico</td>
+<td style="text-align: center;">Nome do mob pacífico que é um NPC.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">PRIMARY KEY, FOREIGN KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_proprio</td>
+<td style="text-align: center;">Nome próprio do NPC (específico para cada instância).</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tabelas-instancia">Tabelas Instância</h2>
+<h3 id="instancia-construivel"><a href="#instancia-construivel">Instância Construível</a></h3>
+<p>A entidade <a href="#instancia-construivel">Instância Construível</a> representa as diferentes ocorrências da entidade <a href="#construivel">Construível</a> dentro do <a href="#mapa">mapa</a>. Cada instância é identificada por um ID único, permitindo distinguir entre as diversas construções presentes no jogo.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#construivel">Construível</a> e <a href="#chunk">Chunk</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">id_inst_construivel</td>
+<td style="text-align: center;">Identificador único da instância de construível.</td>
+<td style="text-align: center;">SERIAL</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_construivel</td>
+<td style="text-align: center;">Nome do construível associado a esta instância.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">numero_chunk</td>
+<td style="text-align: center;">Número do chunk onde esta instância está localizada.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_mapa</td>
+<td style="text-align: center;">Nome do mapa onde a instância está localizada.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="instancia-item"><a href="#instancia-item">Instância Item</a></h3>
+<p>A entidade <a href="#instancia-item">Instância Item</a> representa as ocorrências específicas de itens no jogo. Cada instância possui um identificador único e uma durabilidade atual. As instâncias de item podem estar armazenadas no <a href="#inventario">inventário</a> de um <a href="#jogador">jogador</a> ou situadas no chão de algum <a href="#chunk">chunk</a>.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#item">Item</a> e <a href="#inventario">Inventário</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">id_inst_item</td>
+<td style="text-align: center;">Identificador único da instância de item.</td>
+<td style="text-align: center;">SERIAL</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_item</td>
+<td style="text-align: center;">Nome do item associado a esta instância.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">durabilidade_atual</td>
+<td style="text-align: center;">Durabilidade atual do item.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="instancia-estrutura"><a href="#instancia-estrutura">Instância Estrutura</a></h3>
+<p>A entidade <a href="#instancia-estrutura">Instância Estrutura</a> representa as ocorrências de estruturas pré-geradas no jogo. Cada instância possui um identificador único e o nome da <a href="#estrutura">estrutura</a> que representa, além de estar vinculada ao <a href="#bioma">bioma</a> e ao <a href="#chunk">chunk</a> em que está localizada.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#estrutura">Estrutura</a>, <a href="#bioma">Bioma</a> e <a href="#chunk">Chunk</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">id_inst_estrutura</td>
+<td style="text-align: center;">Identificador único da instância da estrutura.</td>
+<td style="text-align: center;">SERIAL</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_estrutura</td>
+<td style="text-align: center;">Nome da estrutura associada a esta instância.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_bioma</td>
+<td style="text-align: center;">Identificador do bioma onde a estrutura está localizada.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">numero_chunk</td>
+<td style="text-align: center;">Número do chunk onde a estrutura está localizada.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_mapa</td>
+<td style="text-align: center;">Nome do mapa onde a estrutura está localizada.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="instancia-fonte"><a href="#instancia-fonte">Instância Fonte</a></h3>
+<p>A entidade <a href="#instancia-fonte">Instância Fonte</a> representa as ocorrências de fontes naturais de recursos no jogo. Cada instância possui um identificador único, o nome da <a href="#fonte">fonte</a> que representa e a quantidade atual de recursos disponíveis. Além disso, cada instância está vinculada a um <a href="#chunk">chunk</a> específico onde a fonte está localizada e ao <a href="#item">material</a> que ela fornece.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#fonte">Fonte</a>, <a href="#item">Item</a> e <a href="#chunk">Chunk</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">id_inst_fonte</td>
+<td style="text-align: center;">Identificador único da instância da fonte.</td>
+<td style="text-align: center;">SERIAL</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_fonte</td>
+<td style="text-align: center;">Nome da fonte associada a esta instância.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">qtd_atual</td>
+<td style="text-align: center;">Quantidade atual de recursos disponíveis na fonte.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">numero_chunk</td>
+<td style="text-align: center;">Número do chunk onde a fonte está localizada.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_mapa</td>
+<td style="text-align: center;">Nome do mapa onde a fonte está localizada.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_item_drop</td>
+<td style="text-align: center;">Nome do item que pode ser extraído desta fonte.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="instancia-mob"><a href="#instancia-mob">Instância Mob</a></h3>
+<p>A entidade <a href="#instancia-mob">Instância Mob</a> representa as ocorrências de mobs no jogo. Cada instância possui um identificador único, o nome do <a href="#mob">mob</a> que representa e a vida atual do mob. As instâncias de mob também estão associadas a um <a href="#chunk">chunk</a> específico e, opcionalmente, a uma <a href="#estrutura">estrutura</a> em que o mob pode estar presente.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#mob">Mob</a>, <a href="#chunk">Chunk</a> e <a href="#estrutura">Estrutura</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">id_inst_mob</td>
+<td style="text-align: center;">Identificador único da instância do mob.</td>
+<td style="text-align: center;">SERIAL</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">PRIMARY KEY</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_mob</td>
+<td style="text-align: center;">Nome do mob associado a esta instância.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">vida_atual</td>
+<td style="text-align: center;">Vida atual do mob nesta instância.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">numero_chunk</td>
+<td style="text-align: center;">Número do chunk onde o mob está localizado.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_mapa</td>
+<td style="text-align: center;">Nome do mapa onde o mob está localizado.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">id_estrutura</td>
+<td style="text-align: center;">Identificador da instância de estrutura onde o mob pode estar, se aplicável.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">FOREIGN KEY</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tabelas-intermediarias">Tabelas Intermediárias</h2>
+<h3 id="mob-dropa-item"><a href="#mob-dropa-item">Mob Dropa Item</a></h3>
+<p>A tabela <a href="#mob-dropa-item">Mob Dropa Item</a> modela os itens que podem ser dropados por cada <a href="#mob">mob</a>. Cada <a href="#item">item</a> possui uma probabilidade de ser dropado pelo mob quando ele é abatido.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#mob">Mob</a> e <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_mob</td>
+<td style="text-align: center;">Nome único do mob que pode dropar o item.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_item</td>
+<td style="text-align: center;">Nome do item que pode ser dropado pelo mob.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">probabilidade</td>
+<td style="text-align: center;">Probabilidade de o item ser dropado pelo mob.</td>
+<td style="text-align: center;">DECIMAL(5,2)</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">quantidade</td>
+<td style="text-align: center;">Quantidade do item que pode ser dropado.</td>
+<td style="text-align: center;">INT</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">DEFAULT 1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="estrutura-fornece-item"><a href="#estrutura-fornece-item">Estrutura Fornece Item</a></h3>
+<p>A tabela <a href="#estrutura-fornece-item">Estrutura Fornece Item</a> modela os itens que podem ser obtidos explorando cada <a href="#estrutura">estrutura</a>. Cada <a href="#item">item</a> possui uma probabilidade de ser encontrado dentro de uma estrutura explorada.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#estrutura">Estrutura</a> e <a href="#item">Item</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_estrutura</td>
+<td style="text-align: center;">Nome único da estrutura que fornece o item.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_item</td>
+<td style="text-align: center;">Nome do item obtido pela estrutura.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">probabilidade</td>
+<td style="text-align: center;">Probabilidade de o item ser encontrado dentro da estrutura.</td>
+<td style="text-align: center;">DECIMAL(5,2)</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ferramenta-minera-instancia-de-fonte"><a href="#ferramenta-mienera-inst-fonte">Ferramenta Minera Instância de Fonte</a></h3>
+<p>A tabela <a href="#ferramenta-mienera-inst-fonte">Ferramenta Minera Instância de Fonte</a> define quais ferramentas são capazes de minerar cada <a href="#fonte">fonte</a>. Cada fonte pode ser minerada por uma ou mais ferramentas diferentes, dependendo da sua finalidade.</p>
+<ul>
+<li><strong>Observação</strong>: Essa entidade possui chave estrangeira para as entidades <a href="#ferramenta-duravel">Ferramenta Durável</a> e <a href="#fonte">Fonte</a>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nome</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Tipo de Dado</th>
+<th style="text-align: center;">Tamanho</th>
+<th style="text-align: center;">Restrições de domínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">nome_ferramenta</td>
+<td style="text-align: center;">Nome da ferramenta utilizada para minerar a fonte.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+<tr>
+<td style="text-align: center;">nome_fonte</td>
+<td style="text-align: center;">Nome único da fonte que está sendo minerada.</td>
+<td style="text-align: center;">VARCHAR</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">FOREIGN KEY, NOT NULL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="historico-de-versoes">Histórico de versões</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Versão</th>
+<th style="text-align: center;">Data</th>
+<th style="text-align: center;">Descrição</th>
+<th style="text-align: center;">Autor</th>
+<th style="text-align: center;">Revisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>1.0</code></td>
+<td style="text-align: center;">22/07/2024</td>
+<td style="text-align: center;">Criação do Dicionário de Dados</td>
+<td style="text-align: center;"><a href="https://github.com/EhOBruno">Bruno Ricardo de Menezes</a></td>
+<td style="text-align: center;"><a href="https://github.com/trindadea">Arthur Carneiro Trindade</a><br><a href="https://github.com/EhOMiguel">Miguel Moreira da Silva de Oliveira</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>1.1</code></td>
+<td style="text-align: center;">22/07/2024</td>
+<td style="text-align: center;">Primeira versão do Dicionário de Dados finalizada</td>
+<td style="text-align: center;"><a href="https://github.com/EhOBruno">Bruno Ricardo de Menezes</a><br><a href="https://github.com/trindadea">Arthur Carneiro Trindade</a></td>
+<td style="text-align: center;"><a href="https://github.com/EhOMiguel">Miguel Moreira da Silva de Oliveira</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>2.0</code></td>
+<td style="text-align: center;">16/08/2024</td>
+<td style="text-align: center;">Segunda versão do Dicionário de Dados finalizada</td>
+<td style="text-align: center;"><a href="https://github.com/trindadea">Arthur Carneiro Trindade</a></td>
+<td style="text-align: center;"><a href="https://github.com/EhOBruno">Bruno Ricardo de Menezes</a><br><a href="https://github.com/EhOMiguel">Miguel Moreira da Silva de Oliveira</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>3.0</code></td>
+<td style="text-align: center;">09/09/2024</td>
+<td style="text-align: center;">Versão final do Dicionário de Dados</td>
+<td style="text-align: center;"><a href="https://github.com/EhOBruno">Bruno Ricardo de Menezes</a><br><a href="https://github.com/trindadea">Arthur Carneiro Trindade</a></td>
+<td style="text-align: center;"><a href="https://github.com/EhOMiguel">Miguel Moreira da Silva de Oliveira</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+        <script src="../../js/custom.js"></script>
+      
+    
+  </body>
+</html>

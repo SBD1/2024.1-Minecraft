@@ -1,0 +1,30 @@
+.container-equipe {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-shadow: 0px 0px 1px 1px rgb(0 0 0 / 10%);
+}
+
+.container-equipe:hover {
+    background-color: rgba(0, 128, 0, 0.05);
+}
+
+.membro-equipe {
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    max-width: 200px;
+}
+
+.membro-equipe img {
+    width: 150px;
+    border-radius: 50%;
+}
+.nome{
+    font-size: 16px;
+    margin: 0;
+}
+.matricula {
+    font-size: 12px;
+}
